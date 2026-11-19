@@ -1,0 +1,49 @@
+{
+  "project": "Brainroot Living Garden Hero V4",
+  "art_direction": "Illustrated environmental storytelling, rich-but-uncluttered garden, existing Brainroot original mascots and Be Vietnam Pro typography.",
+  "background_original": "AI-generated one-piece 1672x941 background; text, CTAs, navigation and mascots NOT baked into the image.",
+  "layers": [
+    {
+      "file": "depth-01-sky.webp",
+      "type": "soft horizontal-mask reconstruction",
+      "parallax_scale": 0.12
+    },
+    {
+      "file": "depth-02-hills.webp",
+      "type": "soft horizontal-mask reconstruction",
+      "parallax_scale": 0.3
+    },
+    {
+      "file": "depth-03-foreground.webp",
+      "type": "soft horizontal-mask reconstruction",
+      "parallax_scale": 0.55
+    },
+    {
+      "file": "brainie.webp",
+      "type": "official user-supplied raster mascot image",
+      "animation": "whole-character float"
+    },
+    {
+      "file": "rootie.webp",
+      "type": "official user-supplied raster mascot image",
+      "animation": "whole-character float"
+    },
+    {
+      "file": "floating-leaf-peach.svg",
+      "type": "editable decorative vector",
+      "animation": "floating"
+    },
+    {
+      "file": "floating-leaf-sage.svg",
+      "type": "editable decorative vector",
+      "animation": "floating"
+    }
+  ],
+  "fallback": "hero-garden-v4.webp",
+  "limitations": [
+    "Three background layers are approximated by transparent horizontal masks, not true object-layer illustration.",
+    "Subtle (3–12 px) parallax only. Large moves expose gaps or repeated scenery.",
+    "Mascots are whole raster illustrations within Canva-export SVG; not independent limb rigs.",
+    "No original Be Vietnam Pro font binaries bundled. Web demo loads it from Google Fonts when online; system fallback otherwise."
+  ]
+}

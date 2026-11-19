@@ -1,0 +1,259 @@
+{
+  "desktop": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "heroHeight": 900,
+    "ctaText": "Khám phá thế giới Brainroot\n↗",
+    "ctaRect": [
+      574.6875,
+      473.171875,
+      290.609375,
+      59
+    ],
+    "h1Rect": [
+      511.296875,
+      249,
+      417.40625,
+      113.890625
+    ],
+    "mascots": [
+      [
+        205.09542846679688,
+        556.2810668945312,
+        273.80914306640625,
+        282.2034912109375
+      ],
+      [
+        975.67919921875,
+        552.60302734375,
+        259.0478515625,
+        276.2626953125
+      ]
+    ],
+    "font": "\"Be Vietnam Pro\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "loadedImages": [
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/svg+xml;base64,PH",
+        "ok": true
+      },
+      {
+        "src": "data:image/svg+xml;base64,PH",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      }
+    ],
+    "errors": []
+  },
+  "mobile": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "heroHeight": 844,
+    "ctaText": "Khám phá thế giới Brainroot\n↗",
+    "ctaRect": [
+      75.109375,
+      429,
+      239.78125,
+      57
+    ],
+    "h1Rect": [
+      73.078125,
+      264.25,
+      243.84375,
+      73.125
+    ],
+    "mascots": [
+      [
+        5.443750381469727,
+        595.5902099609375,
+        156.78436279296875,
+        161.585205078125
+      ],
+      [
+        239.7325897216797,
+        594.0723266601562,
+        144.5660858154297,
+        154.1678466796875
+      ]
+    ],
+    "font": "\"Be Vietnam Pro\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "loadedImages": [
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/svg+xml;base64,PH",
+        "ok": true
+      },
+      {
+        "src": "data:image/svg+xml;base64,PH",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      }
+    ],
+    "errors": []
+  },
+  "small": {
+    "scrollWidth": 320,
+    "clientWidth": 320,
+    "heroHeight": 760,
+    "ctaText": "Khám phá thế giới Brainroot\n↗",
+    "ctaRect": [
+      40.109375,
+      414.71875,
+      239.78125,
+      57
+    ],
+    "h1Rect": [
+      45.375,
+      258.1875,
+      229.25,
+      68.75
+    ],
+    "mascots": [
+      [
+        4.4013895988464355,
+        547.02294921875,
+        130.38473510742188,
+        134.3759765625
+      ],
+      [
+        191.25967407226562,
+        541.0006713867188,
+        124.29315185546875,
+        132.5455322265625
+      ]
+    ],
+    "font": "\"Be Vietnam Pro\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "loadedImages": [
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/svg+xml;base64,PH",
+        "ok": true
+      },
+      {
+        "src": "data:image/svg+xml;base64,PH",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      }
+    ],
+    "errors": []
+  },
+  "reduced_motion": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "heroHeight": 900,
+    "ctaText": "Khám phá thế giới Brainroot\n↗",
+    "ctaRect": [
+      574.6875,
+      473.171875,
+      290.609375,
+      59
+    ],
+    "h1Rect": [
+      511.296875,
+      249,
+      417.40625,
+      113.890625
+    ],
+    "mascots": [
+      [
+        205.09542846679688,
+        556.2810668945312,
+        273.80914306640625,
+        282.2034912109375
+      ],
+      [
+        975.67919921875,
+        552.60302734375,
+        259.0478515625,
+        276.2626953125
+      ]
+    ],
+    "font": "\"Be Vietnam Pro\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "loadedImages": [
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/svg+xml;base64,PH",
+        "ok": true
+      },
+      {
+        "src": "data:image/svg+xml;base64,PH",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      },
+      {
+        "src": "data:image/webp;base64,UklGR",
+        "ok": true
+      }
+    ],
+    "errors": []
+  },
+  "keyboard_first_focused": "skip-link"
+}
