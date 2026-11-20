@@ -1,12 +1,23 @@
+import { useEffect, useState } from 'react';
 import { HERO_CONTENT } from '../../data/landing';
 import { HeroBackground } from './HeroBackground';
 import { MascotLayer } from './MascotLayer';
 import { PrimaryCTA } from './PrimaryCTA';
 
 export function HeroSection() {
+  const [motionPaused, setMotionPaused] = useState(() => document.hidden);
+
+  useEffect(() => {
+    const syncVisibility = () => setMotionPaused(document.hidden);
+    document.addEventListener('visibilitychange', syncVisibility);
+    syncVisibility();
+    return () => document.removeEventListener('visibilitychange', syncVisibility);
+  }, []);
+
   return (
     <section
       className="hero"
+      data-motion-paused={motionPaused ? '' : undefined}
       aria-label={HERO_CONTENT.heroAriaLabel}
     >
       <HeroBackground />

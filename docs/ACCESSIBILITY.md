@@ -7,6 +7,7 @@
 - Semantic headings, field labels, alt text for meaningful mascots/illustrations, decorative art hidden from screen reader.
 - Text contrast tested on `#E79A7C`, `#A6C6B6` and gradient overlays; never only color-coding.
 - Reduced-motion switches CSS/JS to non-motion alternative; user can pause autoplay where present.
+- **Giới hạn Hero V4 (BR-T020):** Motion trang trí tự chạy song song với nội dung quá năm giây và không có cơ chế dừng, tạm dừng hoặc ẩn ngay trên trang. Theo quyết định sản phẩm, tab ẩn sẽ tạm dừng và `prefers-reduced-motion: reduce` sẽ tắt hiệu ứng; các biện pháp này không giải quyết [WCAG 2.2.2 Pause, Stop, Hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html) cho người dùng đang xem ở chế độ mặc định. Hero có giới hạn đã biết ở tiêu chí này; không tuyên bố đạt WCAG 2.2 AA.
 - Screen readers should hear prompt/options/feedback in a sensible order; result changes announced politely without flooding.
 
 ## Inclusive game rules

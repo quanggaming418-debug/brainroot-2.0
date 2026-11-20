@@ -40,20 +40,35 @@ export function useHeroParallax(containerRef: RefObject<HTMLDivElement | null>):
     };
 
     const scheduleUpdate = () => {
-      if (rafId === null) {
+      if (!document.hidden && rafId === null) {
         rafId = window.requestAnimationFrame(update);
+      }
+    };
+
+    const cancelUpdate = () => {
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    };
+
+    const syncVisibility = () => {
+      if (document.hidden) {
+        cancelUpdate();
+      } else {
+        scheduleUpdate();
       }
     };
 
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', scheduleUpdate, { passive: true });
     mediaQuery.addEventListener?.('change', scheduleUpdate);
-    update();
+    document.addEventListener('visibilitychange', syncVisibility);
+    syncVisibility();
 
     return () => {
-      if (rafId !== null) {
-        window.cancelAnimationFrame(rafId);
-      }
+      cancelUpdate();
+      document.removeEventListener('visibilitychange', syncVisibility);
       window.removeEventListener('scroll', scheduleUpdate);
       window.removeEventListener('resize', scheduleUpdate);
       mediaQuery.removeEventListener?.('change', scheduleUpdate);

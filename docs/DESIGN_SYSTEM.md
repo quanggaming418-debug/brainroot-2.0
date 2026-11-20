@@ -32,6 +32,7 @@
 
 ## Motion system
 - Hero: 1 chủ điểm visual, staggered reveal, parallax nhẹ; không ép phải 3D.
+- **Hero V4 — quyết định sản phẩm 20/11/2026 (BR-T020):** Brainie, Rootie và lá trang trí tự chuyển động nhẹ, lệch pha và lặp liên tục khi tab hiển thị. Tab ẩn tạm dừng chuyển động và tác vụ parallax; quay lại tab thì tiếp tục. Chế độ `prefers-reduced-motion: reduce` tắt chuyển động không thiết yếu. Quyết định không bổ sung điều khiển motion trên giao diện; xem giới hạn tại [ACCESSIBILITY.md](ACCESSIBILITY.md).
 - Game: motion có ý nghĩa trạng thái (flip/reveal/choice/result); game vẫn dùng được khi tắt animation.
 - Cấm: auto-scrolling liên tục, chớp/nhấp nháy, hover-only functionality, scroll-jacking, video nền không thể tạm dừng.
 - Tôn trọng `prefers-reduced-motion`; chỉ thêm Three.js/R3F cho scene có giá trị trải nghiệm rõ, lazy load và static fallback.

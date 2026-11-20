@@ -1,11 +1,11 @@
 # PROJECT_STATE — Read before every agent run
 
-- **Updated:** 2026-11-20 (Codex hoàn tất sửa và xác minh độc lập BR-T003.)
-- **Phase:** BR-T003 — `DONE` theo tiêu chí nghiệm thu cục bộ. Bản sửa chưa commit.
+- **Updated:** 2026-11-20 (BR-T020 khôi phục chuyển động nền Hero V4 theo quyết định sản phẩm.)
+- **Phase:** BR-T003 đã merge vào `main`. BR-T020 đang chờ review.
 - **Current release:** R0 proposed (scope BR-T003 approved; remaining R0 tasks pending).
-- **Current active Task ID:** Không có. `BR-T004` đang chờ giao riêng.
-- **Last verified build:** PASS — `npm run typecheck`, `npm run build`, `npx --yes tsx --test tests/br-t003.test.ts` (5/5), `npm audit` (0 lỗ hổng). Playwright Chromium trên bản build PASS ở 1440×900, 390×844, 320×740, có kiểm tra focus, motion, tương phản chữ và 0 lỗi console. Xem `logs/CODEX_LOG.md`.
-- **Repository branch / HEAD:** `codex/br-t003-remediation` / `275f5ed4d64811c079540135ef42abc4d447b634`. Bản sửa nằm trong working tree, **NOT COMMITTED**.
+- **Current active Task ID:** `BR-T020` (`IN_REVIEW`). `BR-T004` đang chờ giao riêng.
+- **Last verified build:** PASS — `npm run typecheck`, `npm run build`, `npx --yes tsx --test tests/br-t003.test.ts` (5/5). Xem kết quả Chromium và runtime ở `logs/CODEX_LOG.md`.
+- **Repository branch / base:** `codex/hero-ambient-motion` / `a2db00a8d4672304beb7c35d59726e36b1e4a2c6` (BR-T003, đã merge vào `main`).
 - **Deployment URL:** NOT CREATED for Brainroot 2.0.
 - **Hero reference:** `reference/hero-v4/`; **asset copies:** `public/assets/hero-v4/`.
 
@@ -32,4 +32,4 @@
 - Existing Brainroot survey totals and old website functional descriptions are not independently verified from raw data.
 
 ## Immediate next action
-Owner xem diff bản sửa BR-T003 và quyết định commit. BR-T004 cần được giao riêng. Giải quyết quyền xuất bản artwork theo BR-T002 trước khi đưa artwork lên bản công khai.
+Owner review PR BR-T020, bao gồm giới hạn WCAG 2.2.2 tại `docs/ACCESSIBILITY.md`. BR-T004 cần được giao riêng. Giải quyết quyền xuất bản artwork theo BR-T002 trước khi đưa artwork lên bản công khai.
