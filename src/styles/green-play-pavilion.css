@@ -1,0 +1,37 @@
+/* VIS-006: backdrop is static, text is semantic HTML; no motion needed. */
+.green-play-pavilion {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: min(35vw, 560px);
+  overflow: hidden;
+  background: #f8f3e9;
+}
+.green-play-pavilion__visual { position: absolute; inset: 0; display: block; z-index: -1; }
+.green-play-pavilion__visual img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center center; }
+.green-play-pavilion__copy {
+  width: min(100% - 40px, 760px);
+  min-height: min(35vw, 560px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 48px 12px 62px;
+  transform: translateX(-7%);
+  color: #263b31;
+  font-family: var(--font-sans, 'Be Vietnam Pro', system-ui, sans-serif);
+}
+.green-play-pavilion__eyebrow { margin: 0 0 10px; font-size: 14px; font-weight: 800; letter-spacing: .1em; }
+.green-play-pavilion h1 { margin: 0; font-size: clamp(48px, 5.6vw, 82px); font-weight: 900; line-height: 1.12; }
+.green-play-pavilion__subtitle { margin: 22px 0 0; font-size: clamp(17px, 1.7vw, 23px); line-height: 1.5; font-weight: 500; }
+@media (max-width: 767px) {
+  .green-play-pavilion { min-height: 0; display: flex; flex-direction: column; }
+  .green-play-pavilion__visual { position: relative; inset: auto; width: 100%; aspect-ratio: 828 / 460; z-index: 0; }
+  .green-play-pavilion__visual img { object-fit: cover; object-position: 52% center; }
+  .green-play-pavilion__copy { width: 100%; min-height: 0; padding: 22px 20px 30px; background: #f8f3e9; transform: none; }
+  .green-play-pavilion__eyebrow { font-size: 12px; margin-bottom: 8px; }
+  .green-play-pavilion h1 { font-size: clamp(36px, 10vw, 48px); }
+  .green-play-pavilion__subtitle { font-size: 16px; margin-top: 9px; }
+}

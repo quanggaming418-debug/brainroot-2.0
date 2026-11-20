@@ -1,11 +1,11 @@
 # PROJECT_STATE — Read before every agent run
 
-- **Updated:** 2026-11-20 (`BR-T021` đóng **`DONE`** sau khi Product Owner phê duyệt GATE A/B/C trên commit `0a735d189885`; `BR-T020` hiệu chỉnh thành **`DONE`** theo PR #2 đã merge; tạo tác vụ kế tiếp **`BR-T022`** — Wave 1A Visual Asset Production & Verification; đã xóa file Master Prompt dư chưa sử dụng trong `public/assets/aistudio/`.)
-- **Phase:** M0 (`BR-T021`) **`DONE`** → Chuẩn bị vào **M1A (`BR-T022` — `TODO`)**. Phê duyệt GATE A/B/C chỉ áp dụng cho đặc tả thiết kế, không thay thế duyệt artwork hoàn chỉnh (**GATE D1** & **GATE D2**). Mã nguồn `src/`, `package.json` giữ nguyên nền `BR-T003` + `BR-T020` (không sửa React code, chưa cài dependency, chưa sinh ảnh).
+- **Updated:** 2026-11-20 (Intake kỹ thuật VIS-006/VIS-008, kiểm kê mascot nội bộ và đồng bộ BR-GAME-001.)
+- **Phase:** M1A — BR-T022 `IN_PROGRESS`. D2 file PASS cho VIS-006/VIS-008; chưa gắn vào app. Chờ duyệt D1 và các asset Wave 1A còn lại.
 - **Current release:** R0 proposed (`BR-T003`, `BR-T020` PR #2, `BR-T021` `DONE`; lộ trình ưu tiên MVP giáo dục: `BR-T022 Wave 1A (GATE D1+D2)` → xác minh component anatomy/states → `M2 BR-T004` → `M3 BR-T006`, với `BR-T005` chạy song song).
-- **Current active Task ID:** `BR-T021` (`DONE` — closeout chờ Codex commit/PR) · Tác vụ kế tiếp: **`BR-T022`** (`TODO`). `BR-T004` chưa bắt đầu (chờ `BR-T022` đạt GATE D1+D2 và xác minh chi tiết component anatomy/states).
-- **Last verified build:** Xem phiên Codex gần nhất (`BR-T020` PASS: `typecheck`, `build`, unit 5/5, Playwright Chromium 1440/390/320). Phiên closeout `BR-T021` chỉ cập nhật tài liệu quản trị và xóa file prompt dư không có tham chiếu trong `public/assets/aistudio/` (code build/test: `NOT RUN`).
-- **Repository branch / base:** Product Owner xác nhận `BR-T020` đã merge qua **PR #2** và duyệt `BR-T021` trên commit `0a735d189885`. Tuy nhiên, workspace Google AI Studio **không có thư mục `.git`** (`git status`/`git log` trả lỗi `not a git repository`), nên chưa thể tự xác minh Git history, chưa thể commit/push/tạo PR từ container này (**`NOT COMMITTED`**). Cần Codex (có Git CLI) xác minh `main` commit `0a735d189885`, cập nhật `logs/CODEX_LOG.md`, commit lên nhánh riêng và mở PR nhắm vào `main`.
+- **Current active Task ID:** BR-T022 `IN_PROGRESS`. BR-T023 là đề xuất prototype (`TODO`), BR-T004/006 giữ phạm vi.
+- **Last verified build:** PASS — typecheck, build, unit 5/5; chi tiết browser và QA asset trong `logs/CODEX_LOG.md`.
+- **Repository branch / base:** `codex/br-t022-asset-docs-intake` từ bản `origin/main` cục bộ `99eb20b24793b4d3e6386bfab1ef668c1833992e`.
 - **Deployment URL:** NOT CREATED for Brainroot 2.0.
 - **Hero reference:** `reference/hero-v4/`; **asset copies:** `public/assets/hero-v4/`.
 
@@ -32,6 +32,7 @@
 - Existing Brainroot survey totals and old website functional descriptions are not independently verified from raw data.
 
 ## Immediate next action
-1. Đồng bộ các tệp closeout `BR-T021` sang môi trường Codex có `.git` để xác minh `main` commit `0a735d189885` & PR #2, bổ sung `logs/CODEX_LOG.md`, rà soát diff, commit & push lên nhánh riêng và mở PR nhắm vào `main` (không tự merge).
-2. Khởi chạy song song **`BR-T005`** (đội nội dung duyệt ≥5 mục Fact–Act kèm nguồn) để không chặn `BR-T006`.
-3. Sau khi PR closeout được duyệt/merge → triển khai **`BR-T022` — Wave 1A Visual Asset Production & Verification** (vượt qua **cả 2 cổng tách biệt: GATE D1 Artistic Quality & GATE D2 Technical Integration Readiness**) và **xác minh chi tiết component anatomy/states** trước khi mở `BR-T004` (Game Library với React Router). Giải quyết quyền xuất bản thương mại theo `BR-T002` trước public release.
+
+1. Owner review intake, xác nhận D1 VIS-006/VIS-008 và quyền phát hành. Tiếp tục các asset Wave 1A còn lại và anatomy/states trước BR-T004.
+2. Sau khi duyệt S0, giao AI Studio `BR-T023` Slice A theo `planning/BR_GAME_001_EXECUTION_CHECKLIST.md`. OQ-08 còn mở. Prototype 3D và backend chưa được xây dựng.
+3. Giữ R0 ưu tiên một game giáo dục end-to-end. Tiếp tục BR-T005 và chốt OQ-01 theo lộ trình hiện hành.
