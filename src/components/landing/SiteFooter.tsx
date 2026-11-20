@@ -1,3 +1,4 @@
+import { publicUrl } from '../../utils/publicUrl';
 import { Link } from 'react-router-dom';
 import { FOOTER_CONTENT } from '../../data/landing';
 import { BotanicalDivider } from '../garden/GardenPrimitives';
@@ -16,7 +17,7 @@ export function SiteFooter() {
           <div className="site-footer__col site-footer__col--brand">
             <Link className="site-footer__logo" to="/">
               <img
-                src="/assets/aistudio/brainie_1a0fca92.webp"
+                src={publicUrl('/assets/aistudio/brainie_1a0fca92.webp')}
                 alt="Brainroot Logo"
                 className="brand__mascot-img"
               />

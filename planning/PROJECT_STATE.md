@@ -6,7 +6,7 @@
 - **Current active Task ID:** Master Integrated Website Build (`BR-T004` + `BR-T006` + `BR-T007` + `BR-T011` + nâng cấp 3D `BR-T023`) → `IN_REVIEW` (Google AI Studio → Codex review & đối chiếu PR #5).
 - **Last verified build:** 2026-11-20: `npm run typecheck` **PASS (0 lỗi toàn repo)**, `npx --yes tsx --test tests/*.test.ts` **PASS (24/24)**, `npm run build` (`vite build`) **PASS**, Playwright Chromium headless **PASS** trên `1440×900`, `1280×800`, `768×1024`, `390×844`, `320×740`, zoom 200% (`720×450`), `prefers-reduced-motion`, hard reload sâu, E2E Fact–Act đủ 3 thẻ + replay, E2E bàn gỗ 3D Three.js + phím mũi tên + 5×3 explorer, E2E Green Quest + Green Learn (0 lỗi console/pageerror, 0 ảnh vỡ, 0 tràn ngang). `npm run lint`: **`NOT RUN`** (`package.json` chưa có script `lint`).
 - **Repository branch / base:** Workspace AI Studio không có `.git` (`NOT COMMITTED`). Lưu ý **chồng lấn cần Codex đối chiếu với PR #5 (`codex/br-t023-slice-b-qa`)** trên các tệp `src/features/oanquan/prototypeOnlyModel.ts` (đã sửa lỗi `TS6133` biến `x` → `_x` và thêm interface `OAnQuanRuleset`) và `src/features/oanquan/OAnQuan3DPrototype.tsx`. Chưa có deploy.
-- **Deployment URL:** NOT CREATED for Brainroot 2.0.
+- **Deployment URL:** Mục tiêu [GitHub Pages](https://quanggaming418-debug.github.io/brainroot-2.0/). BR-T024 IN_REVIEW, cấu hình trên nhánh riêng. Chưa deploy ở thời điểm kiểm tra, URL trả HTTP 404; chờ merge, Actions và smoke test trực tiếp.
 - **Hero reference:** `reference/hero-v4/`; **asset copies:** `public/assets/hero-v4/` & `public/assets/green-play/`.
 
 ## Established context
@@ -29,4 +29,4 @@
 ## Immediate next action
 1. Codex rà soát diff toàn bộ bản Master Integrated Build trên nhánh Git, đối chiếu và hòa giải chồng lấn với **PR #5** (`src/features/oanquan/prototypeOnlyModel.ts`, `src/features/oanquan/OAnQuan3DPrototype.tsx`), chạy kiểm thử độc lập (`typecheck`, `build`, unit 24/24, axe/Playwright) và mở PR review.
 2. Đội nội dung thực hiện **`BR-T005`** để thay `INTERNAL_DEMO_FIXTURES` bằng `APPROVED_PUBLIC_CARDS` có nguồn xác minh, chốt `OQ-08` cho luật Ô ăn quan xanh, và cung cấp kênh liên hệ chính thức cho `/connect` & `/about`.
-3. Product Owner xác minh quyền phát hành thương mại (`BR-T002`) và cấu hình SPA fallback rewrite về `/index.html` trước khi deploy công khai.
+3. Product Owner review PR BR-T024 và quyền phát hành (`BR-T002`). Sau merge kiểm tra job `github-pages` và URL thật. Cấu hình fallback Pages đã chuẩn bị.

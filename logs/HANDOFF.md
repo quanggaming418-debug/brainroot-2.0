@@ -1,5 +1,11 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 — BR-T024 · GitHub Pages
+
+- Nhánh `codex/github-pages-r0` từ R0 `db8b354`. Pages source đã là GitHub Actions; target trả 404 trước PR.
+- Review quyền phát hành artwork và bản R0 trước merge. Sau merge, xác minh job `github-pages` cho commit main, HTTP 200 ở trang chủ và refresh deep link có asset đúng base.
+- PR #5 QA Three.js/R0 và nội dung chưa duyệt vẫn theo dõi ở task riêng.
+
 ## 2026-11-20 (18:45) — Master Integrated Website Build (R0) · Google AI Studio → Codex & Product Owner
 
 - **Trạng thái:** **`IN_REVIEW`** (`NOT COMMITTED` vì container AI Studio không có `.git`). Bảo toàn lịch sử trước đó; không tự đánh `DONE` cho `BR-T005` (`BLOCKED`), `BR-T002` (`BLOCKED` cho thương mại) hay các `OQ-01..13` (`OPEN`).

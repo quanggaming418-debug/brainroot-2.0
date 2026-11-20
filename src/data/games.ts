@@ -1,3 +1,4 @@
+import { publicUrl } from '../utils/publicUrl';
 export interface GameSpecItem {
   readonly label: string;
   readonly value: string;
@@ -79,7 +80,7 @@ export const GREEN_PLAY_PRODUCTS: readonly GameProductSummary[] = [
     secondaryCtaTo: '/games/fact-act',
     mediaLayout: 'media-left',
     media: {
-      desktopSrc: '/assets/hero-v4/fact-act-deck.webp',
+      desktopSrc: publicUrl('/assets/hero-v4/fact-act-deck.webp'),
       width: 1024,
       height: 1024,
       alt: 'Bộ thẻ bài vật lý Fact–Act của Brainroot với thiết kế minh họa môi trường tông màu ấm và xanh lá',
@@ -103,8 +104,8 @@ export const GREEN_PLAY_PRODUCTS: readonly GameProductSummary[] = [
     ctaLabel: 'Khám phá bàn 3D & 5 chủ đề',
     mediaLayout: 'media-right',
     media: {
-      desktopSrc: '/assets/green-play/vis-008-o-an-quan-concept.webp',
-      mobileSrc: '/assets/green-play/vis-008-o-an-quan-concept-sm.webp',
+      desktopSrc: publicUrl('/assets/green-play/vis-008-o-an-quan-concept.webp'),
+      mobileSrc: publicUrl('/assets/green-play/vis-008-o-an-quan-concept-sm.webp'),
       width: 1080,
       height: 720,
       alt: 'Minh họa khái niệm bàn chơi Ô ăn quan xanh trên mặt bàn gỗ ấm cùng các viên sỏi và yếu tố thiên nhiên',

@@ -1,3 +1,4 @@
+import { publicUrl } from '../utils/publicUrl';
 import { Link } from 'react-router-dom';
 
 export function NotFoundPage() {
@@ -6,13 +7,13 @@ export function NotFoundPage() {
       <div className="not-found__card">
         <div className="not-found__leaves" aria-hidden="true">
           <img
-            src="/assets/hero-v4/floating-leaf-sage.svg"
+            src={publicUrl('/assets/hero-v4/floating-leaf-sage.svg')}
             alt=""
             width={40}
             height={40}
           />
           <img
-            src="/assets/hero-v4/floating-leaf-peach.svg"
+            src={publicUrl('/assets/hero-v4/floating-leaf-peach.svg')}
             alt=""
             width={34}
             height={34}

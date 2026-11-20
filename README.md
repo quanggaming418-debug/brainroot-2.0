@@ -16,6 +16,16 @@ npm run dev
 
 Kiểm tra bằng `npm run typecheck`, `npm run build` và `npx --yes tsx --test tests/br-t003.test.ts`.
 
+Mở `http://localhost:5173/brainroot-2.0/` khi chạy Vite với cổng mặc định.
+
+## GitHub Pages
+
+Workflow `.github/workflows/deploy.yml` kiểm tra build trên PR và triển khai `dist/` sau khi có push vào `main`. Có thể chạy thủ công từ **Actions** với ref `main`. **Settings → Pages → Source** cần chọn **GitHub Actions**. URL đích là [Brainroot 2.0](https://quanggaming418-debug.github.io/brainroot-2.0/).
+
+Vite và BrowserRouter dùng cùng base path. Khi tải trực tiếp một route con, GitHub Pages trả `404.html`, trang này đưa trình duyệt về entry HTML và ứng dụng khôi phục route, query và hash trước khi mount. Không dùng dữ liệu thẻ hạn chế, bí mật hoặc dữ liệu thực tư trong `public/` hay mã frontend. Duyệt quyền phát hành artwork (`BR-T002`) và phạm vi nội dung R0 trước khi merge PR deploy.
+
+Sau khi merge, xác nhận job deploy trong môi trường `github-pages` thành công và kiểm tra URL thực, bao gồm refresh route `/brainroot-2.0/games/fact-act`. Kết quả build cục bộ chỉ xác nhận cấu hình build.
+
 ---
 
 # Brainroot 2.0 — Product & AI Engineering Handbook

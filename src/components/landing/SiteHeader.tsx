@@ -1,3 +1,4 @@
+import { publicUrl } from '../../utils/publicUrl';
 import {
   useEffect,
   useRef,
@@ -89,7 +90,7 @@ export function SiteHeader({
           aria-label={HERO_CONTENT.brandAriaLabel}
         >
           <img
-            src="/assets/aistudio/brainie_1a0fca92.webp"
+            src={publicUrl('/assets/aistudio/brainie_1a0fca92.webp')}
             alt="Brainroot Logo"
             className="brand__mascot-img"
           />
@@ -105,7 +106,7 @@ export function SiteHeader({
           onClick={handleRouteClick}
         >
           <img
-            src="/assets/aistudio/brainie_1a0fca92.webp"
+            src={publicUrl('/assets/aistudio/brainie_1a0fca92.webp')}
             alt="Brainroot Logo"
             className="brand__mascot-img"
           />
