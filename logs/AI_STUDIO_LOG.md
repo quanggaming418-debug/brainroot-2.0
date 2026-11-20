@@ -61,3 +61,28 @@
 - **Git commit SHA:** `NOT COMMITTED` (workspace không có `.git`).
 - **What remains / next task:** Owner duyệt GATE A/B/C → chuyển sang sản xuất & kiểm duyệt tài sản Wave 1A (**GATE D**), sau đó mới triển khai M1 hoặc `BR-T004`.
 - **Owner approval required:** Có — Phê duyệt GATE A, GATE B, GATE C và chiến lược router trước khi mở triển khai tiếp theo.
+
+## Session: 2026-11-20 11:15+07:00 — Google AI Studio — BR-T021 (Rev 1.1 Design Review Refinement)
+
+- **Task & goal:** Tiếp thu 7 quyết định Design Review của Product Owner cho `BR-T021` và cập nhật đồng bộ 4 tài liệu thiết kế lõi (`UX_UI_MASTER_BLUEPRINT.md`, `UX_UI_STORYBOARD.md`, `VISUAL_ASSET_REGISTER.md`, `UX_UI_CHECKLIST.md`) lên Rev 1.1, chuẩn bị sạch để đồng bộ lên GitHub trước khi Owner/Reviewer đóng **GATE A, GATE B, GATE C**. Tuyệt đối không sửa mã nguồn ứng dụng, không cài dependency, không sinh ảnh, không khởi chạy `BR-T004`.
+- **Status before → after:** `IN_REVIEW` (Rev 1.0) → `IN_REVIEW` (Rev 1.1; GATE A/B/C vẫn mở, chờ sync GitHub và kiểm tra Markdown).
+- **Read context:** 4 tài liệu lõi `BR-T021` (Rev 1.0), `planning/TASKS.md`, `planning/PROJECT_STATE.md`, `logs/AI_STUDIO_LOG.md`, `logs/WORK_LOG.md`, `logs/HANDOFF.md`, phản hồi Design Review của Product Owner.
+- **Files changed:**
+  - `docs/UX_UI_MASTER_BLUEPRINT.md` — Cập nhật Rev 1.1: đồng bộ hệ minh họa 4 vùng (Wave 1A nhẹ đồng bộ thay thẻ Unicode phẳng → Wave 1B toàn cảnh); đề xuất **React Router** cho `BR-T004` kèm route map, Back/Forward, khôi phục cuộn & focus, fallback `*`, yêu cầu SPA hosting fallback và điều hướng neo trang chủ/trang con (chưa cài dependency); phân tầng ngân sách ảnh Tier A–D theo kích thước/vai trò/biến thể desktop–mobile/lazy-load/đo LCP–CLS thay cho giới hạn cứng 70–120 KB; tái cân bằng roadmap MVP-first (`Wave 1A` → `M2 BR-T004` → `M3 BR-T006` với `BR-T005` song song, không để Wave 1B chặn MVP).
+  - `docs/UX_UI_STORYBOARD.md` — Cập nhật Rev 1.1: bổ sung đặc tả chuyển cảnh 3 trạng thái `H01 → H02 → H03` (trước khi rời Hero / trong đoạn chuyển vườn / khi vào 4 vùng khám phá) giải thích rõ phối cảnh, tầng tán lá cutout, ánh sáng 35° trái-trên, căn trục lối đá 50%, liên tục màu sắc cho cả desktop và mobile; đồng bộ lộ trình hình ảnh 4 vùng Wave 1A (`VIS-002` + `VIS-003A..005A`) → Wave 1B (`VIS-003B..005B`).
+  - `planning/VISUAL_ASSET_REGISTER.md` — Cập nhật Rev 1.1: phân loại tường minh 6 nhóm kiến trúc tài sản sẵn sàng cho chuyển động (`Flattened background illustration`, `Transparent foreground cutout`, `Independent animated object`, `Reusable SVG decoration`, `Actual product artwork`, `HTML/UI layer`); tách rõ danh sách đối tượng chuyển động độc lập vs lớp tĩnh; bảo toàn Brainie/Rootie gốc; bổ sung `VIS-003A..005A` (Wave 1A đồng bộ), `VIS-003B..005B` (Wave 1B) và phân tầng ngân sách Tier A–D.
+  - `planning/UX_UI_CHECKLIST.md` — Cập nhật Rev 1.1: nâng cấp ma trận nghiệm thu 8 chiều độc lập (`UX`, `UI`, `Asset Avail`, `Asset Integ`, `Interact`, `A11y`, `Resp`, `Browser QA`) cho 17 hạng mục (`UX-001..017`: `PASS` 2/17, `IN_REVIEW` 2/17, `IN_PROGRESS` 1/17, `AWAITING_ASSETS` 6/17, `NOT_STARTED` 3/17, `BLOCKED` 3/17), đính kèm bằng chứng & giới hạn đã biết, và cập nhật `BRAINROOT UX/UI CHECKPOINT`.
+  - `planning/TASKS.md`, `planning/PROJECT_STATE.md`, `logs/AI_STUDIO_LOG.md`, `logs/WORK_LOG.md`, `logs/HANDOFF.md` — Ghi nhận bản Rev 1.1 chờ sync GitHub & duyệt GATE A/B/C.
+- **User-visible behavior changed:** Không có (phiên chỉ sửa tài liệu thiết kế & quản trị; mã nguồn ứng dụng, `package.json`, `public/` giữ nguyên 100%).
+- **Tests actually executed:**
+  - `npm run typecheck`, `npm run build`, `npm run lint`, unit tests, Playwright: `NOT RUN` (không có thay đổi mã nguồn ứng dụng trong phiên này).
+  - Git CLI (`git status` / `git commit`): không khả dụng do workspace AI Studio không có `.git`.
+- **Acceptance criteria:** Đáp ứng đầy đủ 7 yêu cầu Design Review trong 4 tài liệu lõi; giữ trạng thái trung thực (GATE A/B/C chưa đóng, không đánh `PASS` khi chưa có bằng chứng kiểm thử); giữ nguyên mã ứng dụng & không cài dependency.
+- **Bugs / tradeoffs / risk:**
+  - Cần đồng bộ thủ công/qua GitHub sync để Owner & Reviewer xem trực tiếp diff Markdown trước khi chốt GATE A/B/C.
+  - Rủi ro trùng lặp trạng thái `BR-T020` (`IN_REVIEW` trong file quản trị cũ vs xác nhận đã merge `main`) vẫn cần đối chiếu khi đồng bộ GitHub.
+  - Wave 1A bổ sung 3 minh họa nhẹ đồng bộ (`VIS-003A..005A`) giúp xóa bỏ chênh lệch thẩm mỹ với `VIS-002` mà không làm chậm `BR-T004`/`BR-T006`.
+- **Git commit SHA:** `NOT COMMITTED` (workspace AI Studio không có thư mục `.git`; sẵn sàng đồng bộ lên GitHub).
+- **What remains / next task:** Sau khi đồng bộ GitHub và Owner/Reviewer đóng GATE A/B/C → khởi động **Wave 1A Asset Production & Verification (GATE D)** (song song để đội nội dung chạy `BR-T005`), nhằm mở khóa trực tiếp **`BR-T004` (Game Library)** và nối tiếp sang **`BR-T006` (Playable Loop)**.
+- **Owner approval required:** Có — Kiểm tra Markdown sau sync GitHub để đóng chính thức **GATE A, GATE B, GATE C** và duyệt phương án **React Router** cho `BR-T004`.
+

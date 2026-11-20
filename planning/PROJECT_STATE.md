@@ -1,11 +1,11 @@
 # PROJECT_STATE — Read before every agent run
 
-- **Updated:** 2026-11-20 (BR-T021 hoàn tất gói đặc tả UX/UI Master Blueprint, Storyboard H01–H06, Visual Asset Register & Checklist; chờ Owner duyệt GATE A/B/C.)
-- **Phase:** M0 — Master Design Blueprint (`BR-T021` `IN_REVIEW`). Mã nguồn `src/` giữ nguyên nền `BR-T003` + `BR-T020` (không chỉnh code trong `BR-T021`).
-- **Current release:** R0 proposed (scope BR-T003 & BR-T020 đã triển khai; M1/M2 chờ duyệt GATE A/B/C).
-- **Current active Task ID:** `BR-T021` (`IN_REVIEW`). `BR-T004` chưa bắt đầu (chờ duyệt GATE A/B/C/D).
-- **Last verified build:** Xem phiên Codex gần nhất (`BR-T020` PASS: `typecheck`, `build`, unit 5/5, Playwright Chromium 1440/390/320). Phiên `BR-T021` chỉ tạo/cập nhật tài liệu Markdown, không thay đổi mã nguồn ứng dụng (build/test: NOT RUN trong phiên này).
-- **Repository branch / base:** Không xác minh được bằng Git CLI (workspace AI Studio không có `.git`). **Lưu ý sai lệch:** Product Owner xác nhận `BR-T003` và `BR-T020` đã merge vào `main`, nhưng `planning/TASKS.md` và `logs/HANDOFF.md` đồng bộ trước phiên vẫn ghi `BR-T020` ở `IN_REVIEW` trên nhánh `codex/hero-ambient-motion`; cần đối chiếu khi sync GitHub. Thay đổi `BR-T021` đang ở trạng thái **NOT COMMITTED**.
+- **Updated:** 2026-11-20 (`BR-T021` Rev 1.1 hoàn tất điều chỉnh sau Design Review — 4 vùng minh họa đồng bộ Wave 1A/1B, chuyển cảnh 3 trạng thái H01→H02→H03, phân loại 6 nhóm tài sản animation-ready, roadmap MVP-first, đặc tả React Router cho `BR-T004`, ngân sách ảnh theo Tier A–D và checklist 8 chiều; chờ sync GitHub & kiểm tra để đóng GATE A/B/C.)
+- **Phase:** M0 — Master Design Blueprint (`BR-T021` Rev 1.1 `IN_REVIEW`; GATE A, GATE B, GATE C vẫn đang MỞ). Mã nguồn `src/`, `package.json`, `public/` giữ nguyên nền `BR-T003` + `BR-T020` (không chỉnh code, chưa cài dependency, chưa sinh ảnh).
+- **Current release:** R0 proposed (phạm vi `BR-T003` & `BR-T020` đã triển khai; roadmap tái cân bằng ưu tiên MVP giáo dục: `Wave 1A` → `M2 BR-T004` → `M3 BR-T006` với `BR-T005` chạy song song, không để Wave 1B chặn MVP).
+- **Current active Task ID:** `BR-T021` (`IN_REVIEW` — Rev 1.1). `BR-T004` chưa bắt đầu (chờ đóng GATE A/B/C và duyệt cài `react-router-dom`).
+- **Last verified build:** Xem phiên Codex gần nhất (`BR-T020` PASS: `typecheck`, `build`, unit 5/5, Playwright Chromium 1440/390/320). Các phiên `BR-T021` (Rev 1.0 & Rev 1.1) chỉ cập nhật tài liệu Markdown, không chạm mã ứng dụng (code build/test: `NOT RUN`).
+- **Repository branch / base:** Không xác minh được bằng Git CLI (workspace AI Studio không có `.git`). **Lưu ý sai lệch:** Product Owner xác nhận `BR-T003` và `BR-T020` đã merge vào `main`, nhưng `planning/TASKS.md` và `logs/HANDOFF.md` trước phiên vẫn ghi `BR-T020` ở `IN_REVIEW` trên nhánh `codex/hero-ambient-motion`; cần đối chiếu khi sync GitHub. Toàn bộ thay đổi `BR-T021` Rev 1.1 đang ở trạng thái **NOT COMMITTED**.
 - **Deployment URL:** NOT CREATED for Brainroot 2.0.
 - **Hero reference:** `reference/hero-v4/`; **asset copies:** `public/assets/hero-v4/`.
 
@@ -32,6 +32,6 @@
 - Existing Brainroot survey totals and old website functional descriptions are not independently verified from raw data.
 
 ## Immediate next action
-1. Product Owner duyệt **GATE A** (IA), **GATE B** (Storyboard H01–H06) và **GATE C** (Visual Asset Register & Wave 1A) từ `BR-T021`.
-2. Đồng bộ trạng thái merge thực tế của `BR-T020` trên `main` khi sync GitHub.
-3. Sau khi duyệt GATE A/B/C, triển khai sản xuất & kiểm duyệt tài sản Wave 1A (**GATE D**) trước khi vào M1 hoặc `BR-T004`. Giải quyết quyền xuất bản artwork theo `BR-T002` trước khi đưa artwork lên bản công khai.
+1. Đồng bộ các tài liệu `BR-T021` (Rev 1.1) lên GitHub để Product Owner & Reviewer kiểm tra trực tiếp Markdown trước khi đóng **GATE A** (IA & React Router spec), **GATE B** (Storyboard 3 trạng thái chuyển cảnh & 4 vùng đồng bộ) và **GATE C** (Visual Asset Register 6 nhóm animation-ready & Wave 1A/1B).
+2. Đối chiếu trạng thái merge thực tế của `BR-T020` trên `main` khi sync GitHub và chạy song song **`BR-T005`** (đội nội dung duyệt >=5 mục Fact–Act kèm nguồn).
+3. Sau khi đóng GATE A/B/C → thực hiện **Wave 1A Asset Production & Verification (GATE D)** để mở khóa trực tiếp **`BR-T004` (Game Library với React Router)** và nối tiếp sang **`BR-T006` (Playable Loop)**, không để Wave 1B trang chủ chặn MVP giáo dục. Giải quyết quyền xuất bản thương mại theo `BR-T002` trước khi public release.

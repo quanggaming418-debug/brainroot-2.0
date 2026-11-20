@@ -1,5 +1,19 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 (Rev 1.1) — BR-T021 · Google AI Studio → Product Owner & Reviewer (GitHub Sync)
+
+- **Trạng thái:** `IN_REVIEW` (M0 — Master Design Blueprint Rev 1.1; **GATE A, GATE B, GATE C vẫn đang MỞ** chờ đồng bộ GitHub và kiểm tra trực tiếp Markdown).
+- **7 điểm điều chỉnh Design Review đã tích hợp (chỉ tài liệu, không sửa mã ứng dụng, không cài dependency, không sinh ảnh):**
+  1. **Đồng bộ minh họa 4 vùng (`docs/UX_UI_MASTER_BLUEPRINT.md`, `docs/UX_UI_STORYBOARD.md`, `planning/VISUAL_ASSET_REGISTER.md`):** Wave 1A loại bỏ thẻ icon Unicode phẳng ở Quest/Learn/Connect bằng bộ minh họa vector-organic nhẹ đồng bộ (`VIS-003A..005A`) đi cùng `VIS-002`; Wave 1B nâng cấp lên tranh toàn cảnh (`VIS-003B..005B`).
+  2. **Chuyển cảnh 3 trạng thái `H01 → H02 → H03` (`docs/UX_UI_STORYBOARD.md`):** Đặc tả rõ 3 trạng thái (*Trước khi rời Hero* / *Trong đoạn chuyển vườn* / *Khi bước vào 4 vùng*) cùng phối cảnh, cutout tán lá `VIS-009`, ánh sáng 35° trái-trên, căn trục lối đá 50%, liên tục màu sắc cho desktop & mobile (không dựa vào 1 đường cắt SVG đơn lẻ).
+  3. **Tài sản sẵn sàng cho chuyển động (`planning/VISUAL_ASSET_REGISTER.md`):** Phân loại rõ 6 nhóm (`Flattened background illustration`, `Transparent foreground cutout`, `Independent animated object`, `Reusable SVG decoration`, `Actual product artwork`, `HTML/UI layer`), tách danh sách vật thể chuyển động độc lập và bảo toàn tuyệt đối Brainie/Rootie gốc.
+  4. **Tái cân bằng lộ trình ưu tiên MVP giáo dục (`docs/UX_UI_MASTER_BLUEPRINT.md`):** `Wave 1A` → `M2 (BR-T004 Game Library)` → `M3 (BR-T006 Playable Loop)` không bị chặn bởi toàn bộ tranh trang chủ Wave 1B (`M1B`); `BR-T005` chạy song song cùng đội nội dung.
+  5. **Đề xuất React Router cho `BR-T004` (`docs/UX_UI_MASTER_BLUEPRINT.md`):** Đặc tả đầy đủ bảng route, Back/Forward, khôi phục cuộn & focus, trang fallback `*`, yêu cầu SPA hosting fallback và điều hướng neo trang chủ/trang con (chưa cài `react-router-dom`).
+  6. **Ngân sách hiệu năng ảnh theo tầng (`docs/UX_UI_MASTER_BLUEPRINT.md`, `planning/VISUAL_ASSET_REGISTER.md`):** Bỏ giới hạn cứng 70–120 KB; áp dụng Tier A–D theo kích thước hiển thị, tầm quan trọng, biến thể desktop/mobile, chất lượng nén, lazy-loading và đo thực tế LCP/CLS ở GATE F.
+  7. **Checklist nghiệm thu 8 chiều độc lập (`planning/UX_UI_CHECKLIST.md`):** 17 hạng mục (`UX-001..017`) tách riêng 8 chiều (`UX`, `UI`, `Asset Avail`, `Asset Integ`, `Interact`, `A11y`, `Resp`, `Browser QA`) kèm bằng chứng và giới hạn đã biết (`PASS` 2/17, `IN_REVIEW` 2/17, `IN_PROGRESS` 1/17, `AWAITING_ASSETS` 6/17, `NOT_STARTED` 3/17, `BLOCKED` 3/17).
+- **Trạng thái Git & kiểm thử:** `NOT COMMITTED` (workspace AI Studio không có `.git`; cần đồng bộ lên GitHub để kiểm tra diff). Mã nguồn `src/` giữ nguyên 100%; `typecheck`/`build`/`lint`/unit/Playwright `NOT RUN` trong phiên tài liệu này. Lưu ý đối chiếu trạng thái merge của `BR-T020` khi sync GitHub.
+- **Bước tiếp theo đề xuất sau khi đóng GATE A/B/C:** Khởi động **Wave 1A Asset Production & Verification (GATE D)** (ưu tiên `VIS-006`, `VIS-008`, `VIS-009` + `VIS-002` & `VIS-003A..005A`, tận dụng `VIS-007` sẵn có) song song với **`BR-T005`** (đội nội dung duyệt >=5 mục Fact–Act), để mở khóa trực tiếp **`BR-T004` (Game Library)** rồi tới **`BR-T006` (Playable Loop)**.
+
 ## 2026-11-20 — BR-T021 · Google AI Studio → Product Owner & Codex
 
 - **Trạng thái:** `IN_REVIEW` (M0 — Master Design Blueprint; dừng tại cổng phê duyệt **GATE A, GATE B, GATE C**).

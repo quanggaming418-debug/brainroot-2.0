@@ -25,7 +25,7 @@
 | BR-T018 | P3 | TODO | unassigned | knowledgebase approved | Brainroot Buddy bounded FAQ/RAG + source + refusal |
 | BR-T019 | P3 | TODO | unassigned | content maturity | Eco Discovery/Word Quest game design + rights review |
 | BR-T020 | P1 | IN_REVIEW | Codex | BR-T003 | Hero Ambient Motion Restoration (BR-FR-001, BR-FR-006). Mascot/lá lặp lệch pha, tab ẩn tạm dừng, reduced motion tắt hiệu ứng, giữ layout và focus. Xem kiểm thử 30 giây/3 phút, responsive, runtime, typecheck và build tại `logs/CODEX_LOG.md`. Giới hạn WCAG 2.2.2 ghi tại `docs/ACCESSIBILITY.md`. |
-| BR-T021 | P0 | IN_REVIEW | Google AI Studio | BR-T003, BR-T020 | UX/UI Master Blueprint, Storyboard H01–H06, Visual Asset Register & Persistent Checklist (`docs/UX_UI_MASTER_BLUEPRINT.md`, `docs/UX_UI_STORYBOARD.md`, `planning/VISUAL_ASSET_REGISTER.md`, `planning/UX_UI_CHECKLIST.md`). Chờ Owner duyệt GATE A/B/C; chưa chỉnh mã nguồn hay sinh ảnh. |
+| BR-T021 | P0 | IN_REVIEW | Google AI Studio | BR-T003, BR-T020 | Rev 1.1 sau Design Review (`docs/UX_UI_MASTER_BLUEPRINT.md`, `docs/UX_UI_STORYBOARD.md`, `planning/VISUAL_ASSET_REGISTER.md`, `planning/UX_UI_CHECKLIST.md`): đồng bộ minh họa 4 vùng Wave 1A/1B, chuyển cảnh 3 trạng thái H01→H02→H03, phân loại tài sản 6 nhóm animation-ready, tái cân bằng roadmap MVP-first (`BR-T004`→`BR-T006` không bị chặn bởi Wave 1B, `BR-T005` song song), đề xuất React Router cho `BR-T004`, ngân sách ảnh theo Tier A–D và ma trận kiểm soát 8 chiều. NOT COMMITTED; chờ sync GitHub & Owner/Reviewer duyệt trước khi đóng GATE A/B/C. |
 
 ## Working rules
 - Khi bắt đầu, chuyển `TODO` → `IN_PROGRESS` kèm agent; ghi trong log. Không tự giao thêm nhiều task cùng lúc.
