@@ -1,3 +1,4 @@
+import { publicUrl } from '../utils/publicUrl';
 import { Link } from 'react-router-dom';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { EmptyUnavailableState } from '../components/common/EmptyUnavailableState';
@@ -26,7 +27,7 @@ export function FactActDetailPage() {
             <div className="gp-detail-hero__cutout-box">
               <img
                 className="game-showcase__cutout-leaf game-showcase__cutout-leaf--sage"
-                src="/assets/hero-v4/floating-leaf-sage.svg"
+                src={publicUrl('/assets/hero-v4/floating-leaf-sage.svg')}
                 alt=""
                 aria-hidden="true"
                 width={44}
@@ -34,7 +35,7 @@ export function FactActDetailPage() {
               />
               <img
                 className="game-showcase__cutout-leaf game-showcase__cutout-leaf--peach"
-                src="/assets/hero-v4/floating-leaf-peach.svg"
+                src={publicUrl('/assets/hero-v4/floating-leaf-peach.svg')}
                 alt=""
                 aria-hidden="true"
                 width={36}
@@ -42,7 +43,7 @@ export function FactActDetailPage() {
               />
               <img
                 className="gp-detail-hero__cutout-img"
-                src="/assets/hero-v4/fact-act-deck.webp"
+                src={publicUrl('/assets/hero-v4/fact-act-deck.webp')}
                 width={1024}
                 height={1024}
                 alt="Bộ thẻ bài vật lý Fact–Act của Brainroot"

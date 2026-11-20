@@ -12,6 +12,7 @@ export const ROUTE_TITLES: Readonly<Record<string, string>> = {
   '/learn': 'Green Learn — 5 chủ đề kỹ năng xanh | Brainroot',
   '/connect': 'Green Connect — Kết nối cộng đồng giáo dục | Brainroot',
   '/about': 'Về Brainroot — From Brainrot to Brainroot',
+  '/screenshots': 'Ảnh chụp giao diện | Brainroot',
 };
 
 export const NOT_FOUND_TITLE = 'Không tìm thấy trang | Brainroot';

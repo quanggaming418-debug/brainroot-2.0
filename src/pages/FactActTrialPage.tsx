@@ -1,3 +1,4 @@
+import { publicUrl } from '../utils/publicUrl';
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
@@ -180,7 +181,7 @@ export function FactActTrialPage() {
 
                 <div className="trial-intro-visual" aria-hidden="true">
                   <img
-                    src="/assets/hero-v4/fact-act-deck.webp"
+                    src={publicUrl('/assets/hero-v4/fact-act-deck.webp')}
                     alt=""
                     width={420}
                     height={420}

@@ -30,7 +30,8 @@ async function main() {
   const page = await browser.newPage();
   await page.setViewport({ width: 1920, height: 1080 });
 
-  const baseUrl = 'http://localhost:3000';
+  const baseUrl = (process.env.BRAINROOT_CAPTURE_URL ?? 'http://localhost:3000/brainroot-2.0/')
+    .replace(/\/$/, '');
 
   for (const r of ROUTES) {
     const url = `${baseUrl}${r.path}`;

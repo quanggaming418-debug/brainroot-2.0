@@ -1,3 +1,4 @@
+import { publicUrl } from '../utils/publicUrl';
 export interface NavItem {
   readonly label: string;
   readonly href: `/${string}` | `#${string}`;
@@ -66,15 +67,15 @@ export const HERO_CONTENT = {
   primaryCtaLabel: 'Khám phá thế giới Brainroot',
   primaryCtaHref: '#worlds',
   scrollHintLabel: 'Cuộn xuống khám phá',
-  fallbackSceneSrc: '/assets/hero-v4/hero-garden-v4.webp',
+  fallbackSceneSrc: publicUrl('/assets/hero-v4/hero-garden-v4.webp'),
 } as const;
 
 export const HERO_DEPTH_LAYERS: readonly DepthLayerConfig[] = [
-  { id: 'sky', src: '/assets/hero-v4/depth-01-sky.webp', strength: 0.11 },
-  { id: 'hills', src: '/assets/hero-v4/depth-02-hills.webp', strength: 0.28 },
+  { id: 'sky', src: publicUrl('/assets/hero-v4/depth-01-sky.webp'), strength: 0.11 },
+  { id: 'hills', src: publicUrl('/assets/hero-v4/depth-02-hills.webp'), strength: 0.28 },
   {
     id: 'foreground',
-    src: '/assets/hero-v4/depth-03-foreground.webp',
+    src: publicUrl('/assets/hero-v4/depth-03-foreground.webp'),
     strength: 0.52,
   },
 ];
@@ -83,13 +84,13 @@ export const HERO_MASCOTS: readonly MascotAssetConfig[] = [
   {
     id: 'brainie',
     name: 'Brainie',
-    src: '/assets/hero-v4/brainie.webp',
+    src: publicUrl('/assets/hero-v4/brainie.webp'),
     className: 'mascot mascot--brainie',
   },
   {
     id: 'rootie',
     name: 'Rootie',
-    src: '/assets/hero-v4/rootie.webp',
+    src: publicUrl('/assets/hero-v4/rootie.webp'),
     className: 'mascot mascot--rootie',
   },
 ];
@@ -97,12 +98,12 @@ export const HERO_MASCOTS: readonly MascotAssetConfig[] = [
 export const HERO_LEAVES: readonly LeafAssetConfig[] = [
   {
     id: 'leaf-sage',
-    src: '/assets/hero-v4/floating-leaf-sage.svg',
+    src: publicUrl('/assets/hero-v4/floating-leaf-sage.svg'),
     className: 'leaf leaf--one',
   },
   {
     id: 'leaf-peach',
-    src: '/assets/hero-v4/floating-leaf-peach.svg',
+    src: publicUrl('/assets/hero-v4/floating-leaf-peach.svg'),
     className: 'leaf leaf--two',
   },
 ];
@@ -190,7 +191,7 @@ export const FEATURED_GREEN_PLAY = {
       primaryActionTo: '/games/fact-act/play',
       secondaryActionLabel: 'Xem chi tiết bộ thẻ',
       secondaryActionTo: '/games/fact-act',
-      imageSrc: '/assets/hero-v4/fact-act-deck.webp',
+      imageSrc: publicUrl('/assets/hero-v4/fact-act-deck.webp'),
       imageAlt: 'Bộ thẻ bài vật lý Fact–Act của Brainroot',
     },
     {
@@ -204,7 +205,7 @@ export const FEATURED_GREEN_PLAY = {
       primaryActionTo: '/games/o-an-quan-xanh',
       secondaryActionLabel: 'Mở toàn màn hình sandbox 3D',
       secondaryActionTo: '/?preview=oanquan3d',
-      imageSrc: '/assets/green-play/vis-008-o-an-quan-concept.webp',
+      imageSrc: publicUrl('/assets/green-play/vis-008-o-an-quan-concept.webp'),
       imageAlt: 'Minh họa định hướng nghệ thuật bàn gỗ Ô ăn quan xanh',
       disclosure: 'Minh họa định hướng nghệ thuật · Bản 3D tương tác ở chế độ thử nghiệm.',
     },

@@ -1,3 +1,4 @@
+import { publicUrl } from '../utils/publicUrl';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -40,7 +41,7 @@ export const ScreenshotsGalleryPage: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {SCREENSHOTS.map((item, index) => {
-            const imgUrl = `/screenshots-16-9/${item.filename}`;
+            const imgUrl = publicUrl(`/screenshots-16-9/${item.filename}`);
             return (
               <div
                 key={item.filename}
@@ -112,7 +113,7 @@ export const ScreenshotsGalleryPage: React.FC = () => {
             {SCREENSHOTS.map(s => (
               <a
                 key={s.filename}
-                href={`/screenshots-16-9/${s.filename}`}
+                href={publicUrl(`/screenshots-16-9/${s.filename}`)}
                 download={s.filename}
                 className="px-3 py-1.5 bg-white border border-[#A6C6B6] rounded-lg text-xs font-medium text-[#263B31] hover:bg-[#F8F3E9]"
               >

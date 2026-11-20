@@ -1,3 +1,4 @@
+import { publicUrl } from '../../utils/publicUrl';
 import { Link } from 'react-router-dom';
 import type { GameProductSummary } from '../../data/games';
 import { ProductStatusLabel } from '../common/ProductStatusLabel';
@@ -24,7 +25,7 @@ export function GameProductShowcase({ product }: GameProductShowcaseProps) {
           <div className="game-showcase__cutout-stage">
             <img
               className="game-showcase__cutout-leaf game-showcase__cutout-leaf--sage"
-              src="/assets/hero-v4/floating-leaf-sage.svg"
+              src={publicUrl('/assets/hero-v4/floating-leaf-sage.svg')}
               alt=""
               aria-hidden="true"
               width={44}
@@ -33,7 +34,7 @@ export function GameProductShowcase({ product }: GameProductShowcaseProps) {
             />
             <img
               className="game-showcase__cutout-leaf game-showcase__cutout-leaf--peach"
-              src="/assets/hero-v4/floating-leaf-peach.svg"
+              src={publicUrl('/assets/hero-v4/floating-leaf-peach.svg')}
               alt=""
               aria-hidden="true"
               width={36}

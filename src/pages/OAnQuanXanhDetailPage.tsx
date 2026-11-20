@@ -1,3 +1,4 @@
+import { publicUrl } from '../utils/publicUrl';
 import { useState } from 'react';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { EmptyUnavailableState } from '../components/common/EmptyUnavailableState';
@@ -235,11 +236,11 @@ export function OAnQuanXanhDetailPage() {
               <picture className="game-showcase__picture">
                 <source
                   media="(max-width: 767px)"
-                  srcSet="/assets/green-play/vis-008-o-an-quan-concept-sm.webp"
+                  srcSet={publicUrl('/assets/green-play/vis-008-o-an-quan-concept-sm.webp')}
                 />
                 <img
                   className="game-showcase__concept-image"
-                  src="/assets/green-play/vis-008-o-an-quan-concept.webp"
+                  src={publicUrl('/assets/green-play/vis-008-o-an-quan-concept.webp')}
                   width={1080}
                   height={720}
                   alt="Minh họa khái niệm bàn chơi Ô ăn quan xanh với mặt bàn gỗ ấm và các viên sỏi sinh thái"

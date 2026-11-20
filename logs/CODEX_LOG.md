@@ -67,3 +67,18 @@
 - **Git:** Nhánh codex/br-t022-asset-docs-intake, nền 99eb20b24793b4d3e6386bfab1ef668c1833992e. Commit intake chứa mục log này.
 - **What remains / next task:** Owner review intake và D1 riêng; duyệt S0 trước khi giao AI Studio BR-T023 Slice A.
 - **Owner approval required:** D1, quyền phát hành, phạm vi S0 và merge.
+
+## Session: 2026-11-20 — Codex — BR-T024
+
+- **Task & goal:** Chuẩn bị triển khai R0 lên GitHub Pages tại /brainroot-2.0/ (BR-FR-001/002/006).
+- **Status before → after:** Cấu hình chưa có → IN_REVIEW. Deploy công khai chờ merge và kiểm tra live.
+- **Read context:** AGENTS, ba rule .agents, README, PROJECT_STATE, ROADMAP, TASKS, HANDOFF và ACCESS_CONTROL. So sánh workspace sạch và các refs với origin/main db8b354. Cấu hình deploy được mô tả chưa có trong các refs kiểm tra; giữ bản R0 mới nhất và không gộp PR #5.
+- **Files changed:** Vite base, BrowserRouter, helper URL và các ảnh/gallery/capture, fallback HTML và phục hồi location, workflow, npm lockfile, regression tests và hồ sơ task.
+- **User-visible behavior changed:** Build dùng subpath, giữ route/hash và sandbox preview. Tải trực tiếp route con qua 404.html, khôi phục path/query/hash trước khi React mount.
+- **Tests actually executed:** `npm ci` PASS với PUPPETEER_SKIP_DOWNLOAD=true; `npm run typecheck` PASS; `npm run build` PASS (90 modules, cảnh báo chunk chính ~980 KB); `npx --yes tsx --test tests/*.test.ts` PASS 26/26; lint NOT RUN, không có script.
+- **Browser:** PASS Chromium 1440×900/390×844/320×740 trên server tĩnh mô phỏng Pages (HTTP 404 thật → 200, không dùng Vite rewrite), 12 URL gồm route 404 và 3D preview. Deep-link reload giữ query/hash/focus. Navigation, Back/Forward desktop, CTA hash và link về từ sandbox PASS. Tất cả ảnh hiển thị giải mã, CSS/JS đúng base, không có lỗi JS hay request asset lỗi.
+- **Artifact review:** Kiểm kê dist, duyệt gallery và ảnh dư AI Studio, đối chiếu nguồn Fact–Act và tìm mẫu API key/private key/service role. Không phát hiện payload thẻ trả phí, key hoặc dữ liệu cá nhân trong phạm vi rà soát. Ba fixture minh họa đã gắn nhãn vẫn hiện diện; không phải thẻ BR-T005 đã duyệt. BR-T002/quyền phát hành vẫn cần owner xác nhận.
+- **Acceptance criteria:** Build và static browser QA PASS. Bản deploy thực NOT RUN tại thời điểm commit, chờ merge. API Pages đã cấu hình source workflow; trước PR có 0 workflow/run và URL thật trả 404.
+- **Git:** codex/github-pages-r0, base db8b354. Commit chứa mục log này. Không merge trực tiếp.
+- **What remains / next task:** Sau khi owner review và merge, xác nhận run cho SHA main, trạng thái environment github-pages và tải URL thật.
+- **Owner approval required:** Review/merge và quyền công bố artwork.

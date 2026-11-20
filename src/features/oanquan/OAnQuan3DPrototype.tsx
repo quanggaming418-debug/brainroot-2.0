@@ -1,3 +1,4 @@
+import { publicUrl } from '../../utils/publicUrl';
 import '../oanquan/oanquan-standalone.css';
 import { OAnQuanTabletopExperience } from './OAnQuanTabletopExperience';
 
@@ -18,10 +19,10 @@ export default function OAnQuan3DPrototype() {
           </h1>
         </div>
         <div className="oq-standalone-actions">
-          <a className="gp-button gp-button--secondary" href="/games/o-an-quan-xanh">
+          <a className="gp-button gp-button--secondary" href={publicUrl('/games/o-an-quan-xanh')}>
             ← Về trang Ô ăn quan xanh
           </a>
-          <a className="gp-text-link" href="/games">
+          <a className="gp-text-link" href={publicUrl('/games')}>
             Thư viện Green Play
           </a>
         </div>

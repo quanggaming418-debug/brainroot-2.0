@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brainroot — Đang mở trang</title>
+    <script>
+      const base = '/brainroot-2.0/';
+      const { pathname, search, hash } = window.location;
+      if (pathname.startsWith(base) && pathname !== base && pathname !== base + '404.html') {
+        const target = pathname + search + hash;
+        window.location.replace(base + '?' + new URLSearchParams({ __br_path: target }));
+      }
+    </script>
+  </head>
+  <body>
+    <p>Không tìm thấy trang. <a href="/brainroot-2.0/">Về Brainroot</a>.</p>
+  </body>
+</html>
