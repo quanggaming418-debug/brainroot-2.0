@@ -1,7 +1,10 @@
-# Technical Architecture — Proposed, not implemented
+# Technical Architecture — Active Frontend Baseline & Future Proposals
 
-## Proposed baseline stack
-- Next.js + TypeScript + Tailwind design tokens; React component model and SSR/SSG as appropriate.
+## Active frontend baseline (confirmed in BR-T003)
+- **React 19 + TypeScript + Vite 7 + modular standard CSS** (`src/styles/tokens.css`, `base.css`, `landing.css`).
+- *Note:* The earlier proposal of Next.js + Tailwind CSS is **superseded** by the existing Vite + React + CSS repository baseline. Do not migrate to Next.js or add Tailwind unless explicitly approved in a future ADR.
+
+## Proposed backend / future stack (not implemented in R0 shell)
 - Postgres (e.g. Supabase) **only when** auth/progress/realtime is required. For R0 use approved JSON/TS content plus minimal hosting if enough.
 - Auth options (Supabase Auth or comparable) remain *proposed*. Validate session management, privacy for minors, RLS and server-side role guards before launching accounts.
 - Realtime room: Supabase Realtime / WebSocket service as warranted in R2; fallback to in-person host-controlled demo where necessary. Avoid building websockets before the requirement is approved.

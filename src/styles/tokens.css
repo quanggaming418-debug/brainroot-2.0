@@ -1,0 +1,66 @@
+:root {
+  /* Approved Brainroot Brand Palette */
+  --color-peach: #e79a7c;
+  --color-peach-hover: #e18d6c;
+  --color-sage: #a6c6b6;
+  --color-ivory: #f8f3e9;
+  --color-ink: #263b31;
+  --color-headline: #63894c;
+  --color-paper: #ffffff;
+  --color-danger: #a82a35;
+
+  /* Supporting readable tones (WCAG AA checked against warm ivory & card fills) */
+  --color-forest: #2d563f;
+  --color-forest-deep: #244a35;
+  --color-ink-secondary: #3f5542;
+  --color-ink-muted: #465d49;
+  --color-brand-mark: #265a3b;
+  --color-brand-symbol: #6a8e4b;
+  --color-brand-period: #d86e4b;
+  --color-focus-ring: #174e42;
+
+  /* Ecosystem card surfaces */
+  --surface-play: #f4d0ba;
+  --surface-quest: #dbe9dd;
+  --surface-learn: #fff7e9;
+  --surface-connect: #e8ecdb;
+  --surface-border: rgba(38, 59, 49, 0.08);
+  --surface-divider: #dde2d5;
+
+  /* Typography */
+  --font-sans: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Spacing scale (4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Radii */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-card: 26px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-nav: 0 12px 32px rgba(65, 79, 49, 0.08);
+  --shadow-cta: 0 8px 0 rgba(190, 121, 83, 0.1), 0 12px 31px rgba(162, 101, 63, 0.18);
+  --shadow-cta-hover: 0 13px 30px rgba(162, 101, 63, 0.24);
+  --shadow-card: 0 8px 24px rgba(56, 70, 48, 0.055);
+  --shadow-card-hover: 0 14px 32px rgba(56, 70, 48, 0.09);
+
+  /* Layout */
+  --container-header: 1450px;
+  --container-worlds: 1180px;
+  --container-about: 820px;
+
+  /* Motion */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 180ms;
+  --duration-base: 240ms;
+  --duration-enter: 620ms;
+}

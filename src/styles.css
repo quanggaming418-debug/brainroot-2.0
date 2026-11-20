@@ -1,2 +1,3 @@
-:root{font-family:"Be Vietnam Pro",system-ui,sans-serif;color:#263B31;background:#F8F3E9}
-*{box-sizing:border-box}body{margin:0}.bootstrap{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;gap:.5rem}.bootstrap h1{color:#63894C;font-size:clamp(2.5rem,8vw,5rem);margin:.5rem 0}.bootstrap p{margin:.25rem 0;line-height:1.8;max-width:55ch}.eyebrow{font-size:.8rem;letter-spacing:.12em;color:#597B59;font-weight:700}
+@import './styles/tokens.css';
+@import './styles/base.css';
+@import './styles/landing.css';
