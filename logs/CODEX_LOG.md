@@ -48,3 +48,22 @@
 - **Git:** Nhánh `codex/hero-ambient-motion`, commit nền `a2db00a8d4672304beb7c35d59726e36b1e4a2c6`. Commit thay đổi là commit chứa mục log này.
 - **What remains / next task:** Review PR BR-T020. BR-T004 chờ giao riêng.
 - **Owner approval required:** Merge cần phê duyệt riêng.
+
+## Session: 2026-11-20 11:41+07:00 — Codex — BR-T022
+
+- **Task & goal:** Intake VIS-006/VIS-008, kiểm kê chín pose nội bộ và đồng bộ tài liệu BR-GAME-001; liên quan BR-FR-001/002/003/006.
+- **Status before → after:** BR-T022 TODO → IN_PROGRESS; BR-T023 đăng ký TODO. BR-T004/006 giữ phạm vi.
+- **Read context:** AGENTS, README, TASKS, PROJECT_STATE, VISUAL_ASSET_REGISTER, UX_UI_CHECKLIST, HANDOFF, GAME_SPEC, PRD, OPEN_QUESTIONS, ROADMAP và bốn kit.
+- **Files changed:** Bốn WebP + hai manifest trong public/assets/green-play; GreenPlayPavilionBanner.tsx và CSS riêng; đặc tả và checklist BR-GAME-001; VISUAL_ASSET_REGISTER, UX_UI_CHECKLIST, TASKS, PROJECT_STATE, CODEX_LOG, HANDOFF.
+- **User-visible behavior changed:** Trang chủ tiếp tục là ứng dụng hiện hành. Banner chỉ có mã nguồn để chuẩn bị BR-T004. VIS-008 lưu để review khái niệm.
+- **Tests actually executed:**
+  - QA file bằng Pillow 12.1.1: PASS 4/4 WebP (định dạng, kích thước, byte, SHA-256, alpha, decode) và 2/2 bản sao preview byte-identical. PASS 9/9 cặp PNG/WebP và 1 contact sheet; tên/nhãn khớp manifest và README. Alpha PNG/WebP giống từng pixel (0–254). Contact sheet đủ biểu cảm, không thấy lỗi lớn ở kích thước xem. Kiểm tra viền trên nền UI thật: NOT RUN.
+  - `npm run typecheck`: PASS. `npm run build`: PASS (Vite 7.3.8, 41 modules). `npx --yes tsx --test tests/br-t003.test.ts`: PASS 5/5. Lint và script test/E2E package: NOT RUN, không có script.
+  - Playwright Chromium với script tạm `browser-vite.cjs`: PASS ở 1440×900/390×844/320×740 cho hai HTML preview độc lập (decode, overflow), banner React + CSS trong harness Vite riêng (import, source responsive, selector không áp lên H1 bên ngoài), và trang chủ production build (overflow, asset decode, keyboard CTA/focus, 0 lỗi console). Bốn URL WebP trên build giải mã được; màn hình Game Library đã tích hợp asset: NOT RUN vì chưa có.
+  - Git diff: PASS, không thay đổi Hero V4/route/dependency; 4 WebP mới, không lặp Fact–Act hoặc pavilion preview; không thêm PNG nguồn, mascot, ZIP hoặc kết quả preview vào Git. Build không có pose mới.
+- **Acceptance criteria:** PASS cho intake file, kiểm kê local, tài liệu và xác minh kỹ thuật nêu trên; Product Owner chưa xác nhận D1 artwork cuối VIS-006/VIS-008; production screen chưa kiểm thử.
+- **Bugs / tradeoffs / risk:** BR-T002 và D1 còn mở, Wave 1A chưa đủ. OQ-08 chưa duyệt; chưa có prototype hoặc multiplayer.
+- **Remote audit:** Fetch lại sau xác thực đã xác nhận origin/main đúng 99eb20b. Không phát hiện tên hoặc blob trùng 19 ảnh mascot kit tại các đầu nhánh origin đã fetch. Kiểm tra này không bao quát các nhánh đã xóa hoặc lịch sử ngoài các đầu nhánh đó.
+- **Git:** Nhánh codex/br-t022-asset-docs-intake, nền 99eb20b24793b4d3e6386bfab1ef668c1833992e. Commit intake chứa mục log này.
+- **What remains / next task:** Owner review intake và D1 riêng; duyệt S0 trước khi giao AI Studio BR-T023 Slice A.
+- **Owner approval required:** D1, quyền phát hành, phạm vi S0 và merge.

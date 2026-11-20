@@ -1,5 +1,12 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 — BR-T022 · Codex → Product Owner / AI Studio
+
+- **Trạng thái:** BR-T022 `IN_PROGRESS`. Nhánh `codex/br-t022-asset-docs-intake` chứa intake VIS-006/VIS-008 và tài liệu BR-GAME-001. Xem kết quả QA ở CODEX_LOG.
+- **Cổng kiểm duyệt:** Xác nhận D1 artwork cuối cho VIS-006, duyệt D1 VIS-008, xác minh quyền phát hành. D2 file PASS; banner thử riêng, chưa mount. Màn hình tích hợp chưa có. Hoàn thành các asset Wave 1A còn lại và anatomy/states trước BR-T004.
+- **Mascot:** 9 pose chỉ được kiểm kê; nguồn và WebP prototype giữ local/internal chờ BR-T002.
+- **Tiếp theo:** BR-T023 `TODO`. Sau khi owner duyệt S0, giao AI Studio dựng Slice A trong preview nội bộ. Dùng đặc tả và checklist BR-GAME-001, bàn giao diff và test cho Codex. OQ-08 vẫn mở; engine chính thức và multiplayer thuộc slice sau.
+
 ## 2026-11-20 (Closeout) — BR-T021 → BR-T022 · Google AI Studio → Codex & Product Owner
 
 - **Trạng thái nhiệm vụ sau closeout:**

@@ -1,0 +1,52 @@
+{
+  "asset_id": "VIS-008",
+  "asset_name": "Ô ăn quan xanh — conceptual board illustration",
+  "filename": "vis-008-o-an-quan-concept.webp",
+  "category": "Flattened background illustration (concept object / whole-frame only)",
+  "authoring": "AI-generated original illustration based on approved written visual brief; no original team mascot or product artwork was uploaded for generation",
+  "grounding": "Team project Ô ăn quan xanh question-card PDF: five topical themes and three question levels. Board layout and tokens are conceptual only, NOT official rules or approved digital board.",
+  "approved_use": "internal prototype only until product owner artistic approval and rights review",
+  "ui_disclosure": "Minh họa khái niệm — luật bản số đang chuẩn hóa",
+  "source_file": "source/vis-008-o-an-quan-concept-source.png (source kit only; not shipped)",
+  "assets": [
+    {
+      "file": "vis-008-o-an-quan-concept.webp",
+      "width": 1080,
+      "height": 720,
+      "bytes": 174602,
+      "sha256": "820b3b1b78df1518cc7172007fca60d454b13164ea2f112405d9b128e74f530b",
+      "quality": 84,
+      "alpha": false
+    },
+    {
+      "file": "vis-008-o-an-quan-concept-sm.webp",
+      "width": 720,
+      "height": 480,
+      "bytes": 84834,
+      "sha256": "253bb4a852a33aeb477630ffaf746f820c2233391693e44a54adbdbb569e2661",
+      "quality": 82,
+      "alpha": false
+    }
+  ],
+  "render": {
+    "aspect_ratio": "3:2",
+    "text_inside_image": false,
+    "mascots_inside_image": false,
+    "product_card_faces_inside_image": false,
+    "animated_layers": false,
+    "fit": "contain",
+    "object_position": "center"
+  },
+  "design_status": {
+    "gate_d1": "IN_REVIEW - creative concept selected by assistant, needs product owner approval",
+    "gate_d2_static_asset_checks": "PASS - format, dimensions, byte size, decode and SHA-256",
+    "gate_d2_repo_integration": "Asset staged for review; not wired into React",
+    "game_rules": "NOT APPROVED"
+  },
+  "known_limitations": [
+    "Scene is a single flattened illustration; no independent movable pebbles/pits.",
+    "No product-accurate board or official playing rule is implied.",
+    "Browser standalone checks do not establish production LCP, license or application integration."
+  ],
+  "created_utc": "2026-11-20T04:09:07+00:00"
+}

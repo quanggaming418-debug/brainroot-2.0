@@ -3,6 +3,11 @@
 **Cập nhật gần nhất:** 2026-11-20 (`BR-T021` `DONE` — Product Owner duyệt GATE A/B/C trên commit `0a735d189885`; mở tác vụ kế tiếp `BR-T022`)  
 **Trạng thái quy chuẩn:** `NOT_STARTED` | `DESIGNING` | `AWAITING_ASSETS` | `READY_FOR_BUILD` | `IN_PROGRESS` | `IN_REVIEW` | `PASS` | `BLOCKED`
 
+### Kết quả intake BR-T022 — 20/11/2026
+
+- UX-007 / UX-009 tiếp tục `AWAITING_ASSETS`. VIS-006 và VIS-008 đã qua QA file, có preview độc lập. Banner VIS-006 đã thử riêng bằng React, chưa mount. VIS-008 chờ D1 chính thức, VIS-006 cần xác nhận D1 artwork cuối và quyền phát hành; VIS-009 và các asset Wave 1A khác vẫn chờ.
+- Hồ sơ bản build và D2 file nằm trong `logs/CODEX_LOG.md`. D2 tích hợp và production QA cho màn hình có asset: `NOT RUN`. 9 pose chỉ có kiểm kê nội bộ và chưa duyệt BR-T002.
+
 ## Quy tắc nghiệm thu bắt buộc (8 Chiều đánh giá độc lập)
 Một hạng mục **KHÔNG BAO GIỜ được đánh `PASS`** chỉ vì mã nguồn React đã tồn tại hoặc một agent tự tuyên bố xong. Trạng thái tổng thể chỉ chuyển `PASS` khi **toàn bộ các chiều áp dụng** dưới đây đều đạt kèm bằng chứng kiểm chứng:
 1. **`UX`** — Hoàn chỉnh luồng, trạng thái trung thực, không link chết, không tường đăng nhập cho khách.
@@ -58,7 +63,7 @@ Một hạng mục **KHÔNG BAO GIỜ được đánh `PASS`** chỉ vì mã ngu
 
 - **Date:** 2026-11-20
 - **Git branch and commit:** Phê duyệt GATE A/B/C dựa trên commit `0a735d189885` (PR #2 đã merge cho `BR-T020` theo xác nhận Product Owner). Lưu ý: workspace Google AI Studio không có `.git`, nên thay đổi closeout này đang ở trạng thái `NOT COMMITTED` và cần Codex xác minh commit `main`, commit lên nhánh riêng và mở PR nhắm vào `main`.
-- **Current Task ID:** `BR-T021` → **`DONE`** (2026-11-20, GATE A/B/C approved); `BR-T020` → **`DONE`** (PR #2 merged); tác vụ kế tiếp là **`BR-T022`** (`TODO`).
+- **Current Task ID:** `BR-T021` → **`DONE`** (2026-11-20, GATE A/B/C approved); `BR-T020` → **`DONE`** (PR #2 merged); **`BR-T022`** đang `IN_PROGRESS`.
 - **Current milestone:** M0 hoàn tất → chuẩn bị vào **M1A (`BR-T022` — Wave 1A Visual Asset Production & Verification)**.
 - **Completed and verified:** `UX-001` (`BR-T003`), `UX-002` (`BR-T020`, PR #2), `UX-003` & `UX-004` (`BR-T021` design specs GATE A/B/C, commit `0a735d189885`).
 - **Implemented but not verified:** Dọn file prompt dư `public/assets/aistudio/Paste_November_20__2026_-_9_24AM_7af48852` (đã grep xác nhận không có tham chiếu) và cập nhật hồ sơ closeout; chưa có thay đổi React code.

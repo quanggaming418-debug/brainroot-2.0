@@ -1,0 +1,31 @@
+{
+  "id": "VIS-006",
+  "name": "Green Play Pavilion Backdrop",
+  "revision": "desktop-selected-v2.1",
+  "production_status": "D2 file QA passed; banner prepared but not mounted",
+  "source": "approved Brainroot VIS-006 concept; AI generated background; not official mascot/product artwork",
+  "artwork_layers": "Flattened background (L0/L1); no independently animated objects",
+  "files": [
+    {
+      "path": "/assets/green-play/vis-006-pavilion-desktop.webp",
+      "width": 1600,
+      "height": 560,
+      "bytes": 213798,
+      "sha256": "5fcdedefe18bc4a9afb15c354114d385245101866fbe3c5cb75a97b394b5e5ff"
+    },
+    {
+      "path": "/assets/green-play/vis-006-pavilion-mobile.webp",
+      "width": 828,
+      "height": 460,
+      "bytes": 94956,
+      "sha256": "577f1eeaf7c52a5f65fa062a7914a35d3e0a248c572bd8dd837e8234ca2b28ec"
+    }
+  ],
+  "mobile_strategy": "desktop-first: selected crop from same painting, HTML copy below image at <=767px",
+  "gates": {
+    "D1": "V2.1 concept selected per kit handoff; final artwork approval not independently confirmed",
+    "D2_asset": "image decode/dimension/export validation ready",
+    "D2_site_integration": "pending integration into React app, PR QA and browser regressions"
+  },
+  "rights": "Verify licensing/approval for generated visual before public release; official supplied assets remain separate"
+}
