@@ -1,5 +1,18 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 (18:45) — Master Integrated Website Build (R0) · Google AI Studio → Codex & Product Owner
+
+- **Trạng thái:** **`IN_REVIEW`** (`NOT COMMITTED` vì container AI Studio không có `.git`). Bảo toàn lịch sử trước đó; không tự đánh `DONE` cho `BR-T005` (`BLOCKED`), `BR-T002` (`BLOCKED` cho thương mại) hay các `OQ-01..13` (`OPEN`).
+- **Tóm tắt phạm vi đã dựng & xác minh thực tế:**
+  - **10 tuyến thống nhất không liên kết chết:** `/`, `/games`, `/games/fact-act`, `/games/fact-act/play`, `/games/o-an-quan-xanh`, `/quest`, `/learn`, `/connect`, `/about`, `*` (và bảo toàn `/?preview=oanquan3d`).
+  - **Trang chủ H01–H06 liền mạch:** Giữ nguyên Hero V4 (`H01`), thêm dải chuyển vườn đá bước chân `H02`, 4 minh họa đồng bộ cho 4 khu vực ở `H03` (xóa hoàn toàn thẻ icon Unicode phẳng), khối nổi bật Green Play `H04`, hành trình 5 bước sinh trưởng `H05`, chân trang sinh thái `H06`.
+  - **Fact–Act Trial (`/games/fact-act/play`):** Máy trạng thái hữu hạn đầy đủ (`idle → fact → action → feedback → reflection → complete` + chơi lại), chạy trên 3 tình huống `INTERNAL_DEMO_FIXTURES` tách biệt khỏi `APPROVED_PUBLIC_CARDS = []` với bảng minh bạch `BR-T005`, không lộ thẻ trả phí, không bịa trích dẫn/URL.
+  - **Ô ăn quan xanh 3D Three.js (`/games/o-an-quan-xanh` & `/?preview=oanquan3d`):** Bàn gỗ sồi mật ong có 12 hốc khoét 3D thật trên lòng gỗ óc chó, sỏi tròn đa sắc, render theo nhu cầu (`requestRender()`), `isSoftwareGl` guard, hop animation 320ms (tắt khi `prefers-reduced-motion`), điều khiển mũi tên bàn phím, dự phòng WebGL mất ngữ cảnh, gắn cùng bảng khám phá 5 chủ đề × 3 cấp độ (không gán tùy tiện ô vào chủ đề vì `OQ-08` vẫn mở) và tách riêng `VIS-008` làm tài liệu đối chiếu nghệ thuật.
+  - **Green Quest Lite (`/quest`), Green Learn Lite (`/learn`), Green Connect (`/connect`), About (`/about`):** Có tương tác thực tế cục bộ/đọc 5 chủ đề và bảng minh bạch trung thực (0 email/MXH/số liệu bịa).
+- **Cảnh báo xung đột PR #5 cho Codex:** Phiên này đã sửa `src/features/oanquan/prototypeOnlyModel.ts` (sửa lỗi `TS6133` dòng 24 `x → _x` và bổ sung `OAnQuanRuleset`/`SANDBOX_RULESET` giữ nguyên toàn bộ export cũ cho `tests/br-t023.test.ts`) và thay `OAnQuan3DPrototype.tsx` sang bọc `OAnQuanTabletopExperience`. Khi đồng bộ Git, Codex cần đối chiếu kỹ với nhánh PR #5 (`codex/br-t023-slice-b-qa`) để giữ lại mọi bản sửa QA/fallback của PR #5.
+- **Kiểm thử đã chạy thực tế:** `npm run typecheck` **PASS (0 lỗi)** · `npx --yes tsx --test tests/*.test.ts` **PASS (24/24)** · `npm run build` **PASS** · Playwright Chromium (`1440×900`, `1280×800`, `768×1024`, `390×844`, `320×740`, zoom 200%, reduced motion, hard reload, E2E Fact–Act/3D/Quest/Learn) **PASS (0 lỗi console, 0 ảnh vỡ, 0 tràn ngang)** · `npm run lint`: **`NOT RUN`** (chưa có script `lint`).
+- **Bước tiếp theo cho Codex & Đội nội dung:** (1) Codex rà soát diff, hòa giải PR #5, chạy kiểm thử độc lập + axe-core và mở PR review; (2) Đội nội dung chạy `BR-T005` để duyệt >=5 thẻ Fact–Act công khai + nguồn 5 chủ đề Green Learn + chốt `OQ-08` & kênh liên hệ chính thức; (3) Owner chốt quyền phát hành thương mại `BR-T002` và cấu hình SPA rewrite trước deploy.
+
 ## 2026-11-20 — BR-T004 · Google AI Studio → Codex & Product Owner
 
 - **Trạng thái:** `BR-T004` → **`IN_REVIEW`** (Green Play UI/UX + React Router). Chưa tự đóng `DONE`; chờ Codex kiểm chứng độc lập trên nhánh Git và mở PR review. Workspace AI Studio không có `.git` (`NOT COMMITTED`).

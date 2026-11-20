@@ -9,6 +9,8 @@ interface GameProductShowcaseProps {
 export function GameProductShowcase({ product }: GameProductShowcaseProps) {
   const isMediaRight = product.mediaLayout === 'media-right';
   const headingId = `game-showcase-${product.id}`;
+  const primaryTo =
+    product.id === 'fact-act' ? '/games/fact-act/play' : product.slug;
 
   return (
     <article
@@ -45,7 +47,7 @@ export function GameProductShowcase({ product }: GameProductShowcaseProps) {
               height={product.media.height}
               alt={product.media.alt}
               loading="eager"
-              decoding="async"
+              decoding="sync"
             />
           </div>
         ) : (
@@ -64,7 +66,7 @@ export function GameProductShowcase({ product }: GameProductShowcaseProps) {
                 height={product.media.height}
                 alt={product.media.alt}
                 loading="eager"
-                decoding="async"
+                decoding="sync"
               />
             </picture>
           </div>
@@ -106,13 +108,18 @@ export function GameProductShowcase({ product }: GameProductShowcaseProps) {
                 ? 'gp-button--primary'
                 : 'gp-button--forest'
             }`}
-            to={product.slug}
+            to={primaryTo}
           >
             <span>{product.ctaLabel}</span>
             <span className="gp-button__arrow" aria-hidden="true">
               →
             </span>
           </Link>
+          {product.secondaryCtaLabel && product.secondaryCtaTo ? (
+            <Link className="gp-text-link" to={product.secondaryCtaTo}>
+              {product.secondaryCtaLabel}
+            </Link>
+          ) : null}
         </div>
       </div>
     </article>

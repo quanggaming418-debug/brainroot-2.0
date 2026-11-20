@@ -72,7 +72,13 @@ test('all navigation links target valid routes or in-page section IDs', () => {
     ABOUT_CONTENT.id,
     ...ECOSYSTEM_AREAS.map((area) => area.id),
   ]);
-  const validRoutes = new Set<string>(['/games']);
+  const validRoutes = new Set<string>([
+    '/games',
+    '/quest',
+    '/learn',
+    '/connect',
+    '/about',
+  ]);
 
   for (const item of NAV_ITEMS) {
     if (item.href.startsWith('/')) {

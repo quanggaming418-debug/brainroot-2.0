@@ -140,13 +140,15 @@ test('Green Play product catalog preserves approved asset paths and required VIS
   );
 });
 
-test('Fact-Act detail models Fact -> Act -> Reflection honestly without fake play routes', () => {
+test('Fact-Act detail models Fact -> Act -> Reflection honestly and links to live internal trial', () => {
   assert.deepEqual(
     FACT_ACT_DETAIL.learningSteps.map((s) => s.code),
     ['FACT', 'ACT', 'REFLECTION'],
   );
   assert.equal(FACT_ACT_DETAIL.comparisonColumns.length, 2);
-  assert.equal(FACT_ACT_DETAIL.unavailableNotice.primaryActionTo, '/games');
+  assert.equal(FACT_ACT_DETAIL.trialCtaTo, '/games/fact-act/play');
+  assert.equal(FACT_ACT_DETAIL.unavailableNotice.primaryActionTo, '/games/fact-act/play');
+  assert.equal(FACT_ACT_DETAIL.unavailableNotice.secondaryActionTo, '/games');
 });
 
 test('O an quan xanh detail documents exact 5 topics, 3 levels, and clearly labeled internal 3D sandbox link', () => {

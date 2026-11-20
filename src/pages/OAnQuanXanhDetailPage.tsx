@@ -1,9 +1,22 @@
+import { useState } from 'react';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { EmptyUnavailableState } from '../components/common/EmptyUnavailableState';
 import { ProductStatusLabel } from '../components/common/ProductStatusLabel';
 import { O_AN_QUAN_DETAIL } from '../data/games';
+import { OAnQuanTabletopExperience } from '../features/oanquan/OAnQuanTabletopExperience';
 
 export function OAnQuanXanhDetailPage() {
+  const [selectedTopicId, setSelectedTopicId] = useState<string>(
+    O_AN_QUAN_DETAIL.topics[0].id,
+  );
+  const [selectedLevelIdx, setSelectedLevelIdx] = useState<number>(0);
+
+  const activeTopic =
+    O_AN_QUAN_DETAIL.topics.find((t) => t.id === selectedTopicId) ??
+    O_AN_QUAN_DETAIL.topics[0];
+  const activeLevel =
+    O_AN_QUAN_DETAIL.levels[selectedLevelIdx] ?? O_AN_QUAN_DETAIL.levels[0];
+
   return (
     <div className="gp-page gp-detail-page">
       <div className="gp-breadcrumb-bar">
@@ -17,11 +30,11 @@ export function OAnQuanXanhDetailPage() {
       </div>
 
       <section
-        className="gp-detail-hero"
+        className="gp-detail-hero oq-hero"
         aria-labelledby="o-an-quan-page-title"
       >
-        <div className="gp-container gp-detail-hero__grid gp-detail-hero__grid--media-right">
-          <div className="gp-detail-hero__content">
+        <div className="gp-container">
+          <div className="oq-hero__header">
             <p className="gp-eyebrow">{O_AN_QUAN_DETAIL.eyebrow}</p>
             <h1 className="gp-detail-hero__title" id="o-an-quan-page-title">
               {O_AN_QUAN_DETAIL.title}
@@ -33,43 +46,90 @@ export function OAnQuanXanhDetailPage() {
             <p className="gp-detail-hero__tagline">
               {O_AN_QUAN_DETAIL.tagline}
             </p>
-            <p className="gp-detail-hero__overview">
+            <p className="gp-detail-hero__overview oq-hero__overview">
               {O_AN_QUAN_DETAIL.overview}
             </p>
-
-            <dl className="game-specs">
-              {O_AN_QUAN_DETAIL.specs.map((spec) => (
-                <div className="game-specs__row" key={spec.label}>
-                  <dt className="game-specs__label">{spec.label}</dt>
-                  <dd className="game-specs__value">{spec.value}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
 
-          <figure className="gp-detail-hero__stage gp-detail-hero__stage--concept">
-            <div className="gp-detail-hero__concept-frame">
-              <picture className="game-showcase__picture">
-                <source
-                  media="(max-width: 767px)"
-                  srcSet="/assets/green-play/vis-008-o-an-quan-concept-sm.webp"
-                />
-                <img
-                  className="game-showcase__concept-image"
-                  src="/assets/green-play/vis-008-o-an-quan-concept.webp"
-                  width={1080}
-                  height={720}
-                  alt="Minh họa khái niệm bàn chơi Ô ăn quan xanh với mặt bàn gỗ ấm và các viên sỏi sinh thái"
-                  loading="eager"
-                  fetchPriority="high"
-                  decoding="async"
-                />
-              </picture>
+          <div className="oq-hero__workspace">
+            <div className="oq-hero__board-col">
+              <OAnQuanTabletopExperience mode="embedded" />
             </div>
-            <figcaption className="gp-detail-hero__caption gp-detail-hero__caption--disclosure">
-              {O_AN_QUAN_DETAIL.disclosure}
-            </figcaption>
-          </figure>
+
+            <aside
+              className="oq-explorer"
+              aria-labelledby="oq-explorer-heading"
+            >
+              <p className="gp-eyebrow">KHÁM PHÁ NỘI DUNG GIÁO DỤC</p>
+              <h2 className="oq-explorer__heading" id="oq-explorer-heading">
+                5 chủ đề × 3 cấp độ học tập
+              </h2>
+              <p className="oq-explorer__note">
+                Chạm chọn chủ đề và cấp độ để xem định hướng tình huống học tập.
+                Các ô trên bàn 3D chưa gán cố định theo chủ đề vì luật chính thức
+                (OQ-08) đang được chuẩn hóa.
+              </p>
+
+              <div
+                className="oq-explorer__topic-tabs"
+                role="tablist"
+                aria-label="Chọn chủ đề môi trường"
+              >
+                {O_AN_QUAN_DETAIL.topics.map((topic) => {
+                  const isActive = topic.id === activeTopic.id;
+                  return (
+                    <button
+                      key={topic.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      className={`oq-pill-tab${isActive ? ' is-active' : ''}`}
+                      onClick={() => setSelectedTopicId(topic.id)}
+                    >
+                      {topic.title}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div
+                className="oq-explorer__level-tabs"
+                role="tablist"
+                aria-label="Chọn cấp độ năng lực"
+              >
+                {O_AN_QUAN_DETAIL.levels.map((level, idx) => {
+                  const isActive = idx === selectedLevelIdx;
+                  return (
+                    <button
+                      key={level.title}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      className={`oq-level-tab${isActive ? ' is-active' : ''}`}
+                      onClick={() => setSelectedLevelIdx(idx)}
+                    >
+                      <span>{level.levelNumber}</span>
+                      <strong>{level.title}</strong>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="oq-explorer__panel" role="tabpanel" aria-live="polite">
+                <p className="oq-explorer__panel-tag">
+                  {activeTopic.title} · {activeLevel.levelNumber}: {activeLevel.title}
+                </p>
+                <p className="oq-explorer__panel-desc">{activeTopic.description}</p>
+                <p className="oq-explorer__panel-focus">
+                  <strong>Trọng tâm chủ đề:</strong> {activeTopic.exampleFocus}
+                </p>
+                <p className="oq-explorer__panel-prompt">
+                  <strong>Mục tiêu cấp độ:</strong> {activeLevel.focus}{' '}
+                  {activeLevel.classroomPrompt}
+                </p>
+              </div>
+            </aside>
+          </div>
         </div>
       </section>
 
@@ -144,6 +204,59 @@ export function OAnQuanXanhDetailPage() {
 
       <section
         className="gp-section gp-section--tinted"
+        aria-labelledby="o-an-quan-concept-ref-heading"
+      >
+        <div className="gp-container oq-concept-ref">
+          <div className="oq-concept-ref__copy">
+            <p className="gp-eyebrow">TÀI LIỆU ĐỊNH HƯỚNG NGHỆ THUẬT (VIS-008)</p>
+            <h2
+              className="gp-section-heading"
+              id="o-an-quan-concept-ref-heading"
+            >
+              Đối chiếu bản minh họa ý tưởng ban đầu và bản gỗ 3D hiện tại
+            </h2>
+            <p className="gp-section-summary">
+              Hình minh họa bên cạnh là bản định hướng thị giác ban đầu giúp nhóm
+              xác định tông gỗ ấm, các viên sỏi tròn và ánh sáng khu vườn cho bàn
+              3D ở phía trên — không phải ảnh chụp của bản chơi chính thức.
+            </p>
+            <dl className="game-specs">
+              {O_AN_QUAN_DETAIL.specs.map((spec) => (
+                <div className="game-specs__row" key={spec.label}>
+                  <dt className="game-specs__label">{spec.label}</dt>
+                  <dd className="game-specs__value">{spec.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          <figure className="gp-detail-hero__stage gp-detail-hero__stage--concept">
+            <div className="gp-detail-hero__concept-frame">
+              <picture className="game-showcase__picture">
+                <source
+                  media="(max-width: 767px)"
+                  srcSet="/assets/green-play/vis-008-o-an-quan-concept-sm.webp"
+                />
+                <img
+                  className="game-showcase__concept-image"
+                  src="/assets/green-play/vis-008-o-an-quan-concept.webp"
+                  width={1080}
+                  height={720}
+                  alt="Minh họa khái niệm bàn chơi Ô ăn quan xanh với mặt bàn gỗ ấm và các viên sỏi sinh thái"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            <figcaption className="gp-detail-hero__caption gp-detail-hero__caption--disclosure">
+              {O_AN_QUAN_DETAIL.disclosure}
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section
+        className="gp-section"
         aria-labelledby="o-an-quan-roadmap-heading"
       >
         <div className="gp-container">
@@ -181,7 +294,7 @@ export function OAnQuanXanhDetailPage() {
       <section className="gp-section gp-section--compact">
         <div className="gp-container gp-stack-gap">
           <EmptyUnavailableState
-            statusTag="TRẠNG THÁI BẢN SỐ"
+            statusTag="TRẠNG THÁI LUẬT BẢN SỐ · OQ-08"
             heading={O_AN_QUAN_DETAIL.unavailableNotice.heading}
             description={O_AN_QUAN_DETAIL.unavailableNotice.description}
             primaryActionLabel={

@@ -1,39 +1,32 @@
 # PROJECT_STATE — Read before every agent run
 
-- **Updated:** 2026-11-20 (Triển khai `BR-T004` Green Play UI/UX — React Router + `/games`, `/games/fact-act`, `/games/o-an-quan-xanh`, `*` ở trạng thái `IN_REVIEW`, `NOT COMMITTED`.)
-- **Phase:** M2 — `BR-T004` `IN_REVIEW` (triển khai cục bộ chờ Codex QA/review & PR); `BR-T022` `IN_PROGRESS` (D2 file PASS cho VIS-006/VIS-008, còn chờ duyệt D1 & các asset Wave 1A còn lại); `BR-T023` `IN_PROGRESS` (sandbox 3D tách biệt `/?preview=oanquan3d`, bảo toàn nguyên vẹn).
-- **Current release:** R0 proposed (`BR-T003` `DONE`, `BR-T020` `DONE` PR #2, `BR-T021` `DONE`, `BR-T004` `IN_REVIEW`; tiếp theo: Codex review/merge `BR-T004` + hoàn tất PR #5 sandbox + `BR-T005` duyệt nội dung mẫu → `M3 BR-T006`).
-- **Current active Task ID:** `BR-T004` `IN_REVIEW` (Google AI Studio → Codex review); `BR-T022` & `BR-T023` giữ nguyên `IN_PROGRESS`.
-- **Last verified build:** `BR-T004` (2026-11-20): `npx --yes tsx --test tests/br-t003.test.ts tests/br-t004.test.ts tests/br-t023.test.ts` PASS (17/17), `npx vite build` PASS, Playwright Chromium 1440/1280/390/320 + zoom 200% + reduced-motion + hard reload + Back/Forward + Escape PASS (0 lỗi console/pageerror). `npm run typecheck` báo 0 lỗi ở mã `BR-T004` nhưng vẫn thoát mã 2 do 1 lỗi `TS6133` có sẵn tại `src/features/oanquan/prototypeOnlyModel.ts:24` (không chỉnh sửa để bảo toàn PR #5). `npm run lint`: `NOT RUN` (chưa có script `lint`).
-- **Repository branch / base:** Workspace AI Studio không có `.git` (`NOT COMMITTED`); PR #3 & PR #4 đã merge theo xác nhận chủ dự án, PR #5 (QA sandbox 3D) giữ nguyên không ghi đè. Chưa có deploy.
+- **Updated:** 2026-11-20 (Master Integrated Website Build — thống nhất thị giác H01–H06, đủ 10 tuyến R0, vòng chơi thử mẫu nội bộ Fact–Act `/games/fact-act/play`, bàn gỗ 3D Three.js Ô ăn quan xanh tích hợp tại `/games/o-an-quan-xanh` & `/?preview=oanquan3d`, Green Quest Lite `/quest`, Green Learn Lite `/learn`, Green Connect `/connect`, About `/about`; trạng thái `IN_REVIEW`, `NOT COMMITTED`.)
+- **Phase:** R0 Integrated MVP (`IN_REVIEW` chờ Codex QA/PR và đồng bộ PR #5); `BR-T005` vẫn `BLOCKED` (chờ đội nội dung duyệt thẻ mẫu công khai + nguồn tham khảo); `BR-T002` vẫn `BLOCKED` cho phát hành thương mại; `OQ-01..OQ-13` vẫn `OPEN`.
+- **Current release:** R0 Integrated Candidate (`BR-T003` `DONE`, `BR-T020` `DONE` PR #2, `BR-T021` `DONE`, `BR-T004`/`BR-T006`/`BR-T007`/`BR-T011` ở trạng thái `IN_REVIEW` chờ Codex review & duyệt nội dung `BR-T005`).
+- **Current active Task ID:** Master Integrated Website Build (`BR-T004` + `BR-T006` + `BR-T007` + `BR-T011` + nâng cấp 3D `BR-T023`) → `IN_REVIEW` (Google AI Studio → Codex review & đối chiếu PR #5).
+- **Last verified build:** 2026-11-20: `npm run typecheck` **PASS (0 lỗi toàn repo)**, `npx --yes tsx --test tests/*.test.ts` **PASS (24/24)**, `npm run build` (`vite build`) **PASS**, Playwright Chromium headless **PASS** trên `1440×900`, `1280×800`, `768×1024`, `390×844`, `320×740`, zoom 200% (`720×450`), `prefers-reduced-motion`, hard reload sâu, E2E Fact–Act đủ 3 thẻ + replay, E2E bàn gỗ 3D Three.js + phím mũi tên + 5×3 explorer, E2E Green Quest + Green Learn (0 lỗi console/pageerror, 0 ảnh vỡ, 0 tràn ngang). `npm run lint`: **`NOT RUN`** (`package.json` chưa có script `lint`).
+- **Repository branch / base:** Workspace AI Studio không có `.git` (`NOT COMMITTED`). Lưu ý **chồng lấn cần Codex đối chiếu với PR #5 (`codex/br-t023-slice-b-qa`)** trên các tệp `src/features/oanquan/prototypeOnlyModel.ts` (đã sửa lỗi `TS6133` biến `x` → `_x` và thêm interface `OAnQuanRuleset`) và `src/features/oanquan/OAnQuan3DPrototype.tsx`. Chưa có deploy.
 - **Deployment URL:** NOT CREATED for Brainroot 2.0.
 - **Hero reference:** `reference/hero-v4/`; **asset copies:** `public/assets/hero-v4/` & `public/assets/green-play/`.
 
 ## Established context
 - Rebuild website from zero; do **not** reuse old web code as project base.
-- Established frontend stack: **React 19 + TypeScript + Vite 7 + React Router (`react-router-dom`) + modular standard CSS** (supersedes earlier Next.js/Tailwind proposal in `docs/TECHNICAL_ARCHITECTURE.md`).
-- Brainroot mission/slogan fixed; signature colors `#E79A7C`, `#A6C6B6`, `#F8F3E9`, `#263B31`, `#63894C` with Be Vietnam Pro typography; original Brainie/Rootie/Fact–Act cutouts in `public/assets/hero-v4/` và VIS-006/VIS-008 trong `public/assets/green-play/` hiện dùng cho phát triển/prototype nội bộ (duyệt D1 cuối cùng & bản quyền thương mại vẫn mở theo `BR-T002` / `BR-T022`).
-- Ecosystem comprises **4 introductory areas**: Green Play (đã có thư viện `/games` & trang chi tiết ở mức `IN_REVIEW`), Green Quest, Green Learn, Green Connect (vẫn ở mức giới thiệu khái niệm, chưa mở tính năng).
-- Users include general public + school/college + teacher/CLB, first pilot ULIS/Hà Nội.
-- Need public access + guest trial; only protect paid features at server level.
-- Accessibility and environmental source provenance are core requirements.
-- Workflow: Google AI Studio Build Mode (UI) + Codex (QA and implementation); GitHub repository is canonical source of truth; see `docs/AI_STUDIO_CODEX_WORKFLOW.md`.
-- Six Canva-export SVGs from `brainroot.zip` inspected, with three mascot/pose assets and two card showcase assets. See `docs/ASSET_AUDIT.md`.
+- Established frontend stack: **React 19 + TypeScript + Vite 7 + React Router (`react-router-dom`) + Three.js (`three`) + modular standard CSS** (không cài Tailwind CSS).
+- Brainroot mission/slogan fixed; signature colors `#E79A7C`, `#A6C6B6`, `#F8F3E9`, `#263B31`, `#63894C` with Be Vietnam Pro typography; original Brainie/Rootie/Fact–Act cutouts in `public/assets/hero-v4/` và VIS-006/VIS-008 trong `public/assets/green-play/` hiện dùng cho phát triển/prototype nội bộ (`BR-T002` / D1 vẫn mở cho phát hành thương mại).
+- Unified 10-route R0 experience: `/`, `/games`, `/games/fact-act`, `/games/fact-act/play`, `/games/o-an-quan-xanh`, `/quest`, `/learn`, `/connect`, `/about`, `*` (plus preserved `/?preview=oanquan3d`).
+- Users include general public + school/college + teacher/CLB, first pilot ULIS/Hà Nội; 100% public guest exploration without mandatory login.
+- Strict educational truthfulness: `APPROVED_PUBLIC_CARDS = []` pending `BR-T005`; internal demo fixtures (`Fact–Act`) and draft reference cards (`Green Learn`) are explicitly labeled and separated; zero fabricated citations, URLs, stats, emails, or official Ô ăn quan rules (`OQ-08` remains `OPEN`).
 
 ## Decisions still proposed, awaiting owner approval
-- Exact P0 playable game (choose one) and full long-term PRD signoff (`BR-T001` only approved for BR-T003 scope; `BR-T004` được giao dựng UI/UX thư viện Green Play).
-- Commercial licensing and final publication rights for Brainie/Rootie, Fact–Act deck, VIS-006/VIS-008 and Canva-origin assets (`BR-T002` remains `BLOCKED` for commercial release; D1 artwork cuối vẫn chờ chốt).
-- Auth provider/DB, paid activation product packages, release scope, how many members and time budget.
-- R2 improvement candidate: Green Arena Lite — NOT a claim of completed future work.
+- Full long-term PRD & official R0 game choice (`BR-T001` / `OQ-01`).
+- Commercial licensing and final publication rights for Brainie/Rootie, Fact–Act deck, VIS-006/VIS-008 (`BR-T002` remains `BLOCKED` for commercial release).
+- Content approval (`BR-T005`): >=5 verified Fact–Act public sample cards + verified sources for Green Learn 5 topics + official Ô ăn quan xanh digital rules (`OQ-08`) + official contact channels for `/connect` & `/about`.
 
 ## Do NOT claim
-- No completed playable game engine (`BR-T006`), no verified sample card content (`BR-T005`), and no public pilot in this rebuild.
-- `BR-T004` đang ở trạng thái `IN_REVIEW` (cần Codex kiểm chứng độc lập trên nhánh Git và chốt `DONE`); chưa có SPA hosting deploy thực tế.
-- No completed paid auth, realtime rooms, AQI feed, chatbot, e-commerce or full WCAG 2.2 AA certification.
-- Existing Brainroot survey totals and old website functional descriptions are not independently verified from raw data.
+- No team-approved public Fact–Act sample cards (`BR-T005` vẫn `BLOCKED`), no official Ô ăn quan xanh rules (`OQ-08` vẫn `OPEN`), and no public pilot or production deploy yet.
+- No completed paid auth, realtime multiplayer rooms, AQI feed, chatbot, e-commerce, or full WCAG 2.2 AA certification.
 
 ## Immediate next action
-
-1. Codex rà soát diff `BR-T004` trên nhánh riêng (kèm merge/rebase sau PR #5 để `npm run typecheck` sạch toàn repo), chạy kiểm thử độc lập (`typecheck`, `build`, unit 17/17, axe/Playwright) và mở PR review cho `BR-T004`.
-2. Product Owner chốt duyệt D1 cuối cùng cho `VIS-006`/`VIS-008` và bản quyền phát hành (`BR-T002`); tiếp tục các asset Wave 1A còn lại (`BR-T022`).
-3. Đội nội dung chạy song song `BR-T005` (duyệt >=5 thẻ mẫu Fact–Act kèm nguồn) và chốt `OQ-01`/`OQ-08` để mở khóa `BR-T006` (playable loop).
+1. Codex rà soát diff toàn bộ bản Master Integrated Build trên nhánh Git, đối chiếu và hòa giải chồng lấn với **PR #5** (`src/features/oanquan/prototypeOnlyModel.ts`, `src/features/oanquan/OAnQuan3DPrototype.tsx`), chạy kiểm thử độc lập (`typecheck`, `build`, unit 24/24, axe/Playwright) và mở PR review.
+2. Đội nội dung thực hiện **`BR-T005`** để thay `INTERNAL_DEMO_FIXTURES` bằng `APPROVED_PUBLIC_CARDS` có nguồn xác minh, chốt `OQ-08` cho luật Ô ăn quan xanh, và cung cấp kênh liên hệ chính thức cho `/connect` & `/about`.
+3. Product Owner xác minh quyền phát hành thương mại (`BR-T002`) và cấu hình SPA fallback rewrite về `/index.html` trước khi deploy công khai.

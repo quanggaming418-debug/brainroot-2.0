@@ -4,8 +4,13 @@ import { SiteFooter } from './components/landing/SiteFooter';
 import { SiteHeader } from './components/landing/SiteHeader';
 import { RouteScrollAndFocus } from './components/routing/RouteScrollAndFocus';
 import { HERO_CONTENT } from './data/landing';
+import { AboutPage } from './pages/AboutPage';
 import { FactActDetailPage } from './pages/FactActDetailPage';
+import { FactActTrialPage } from './pages/FactActTrialPage';
 import { GameLibraryPage } from './pages/GameLibraryPage';
+import { GreenConnectPage } from './pages/GreenConnectPage';
+import { GreenLearnPage } from './pages/GreenLearnPage';
+import { GreenQuestPage } from './pages/GreenQuestPage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { OAnQuanXanhDetailPage } from './pages/OAnQuanXanhDetailPage';
@@ -36,10 +41,15 @@ function AppLayout() {
           <Route path="/" element={<HomePage />} />
           <Route path="/games" element={<GameLibraryPage />} />
           <Route path="/games/fact-act" element={<FactActDetailPage />} />
+          <Route path="/games/fact-act/play" element={<FactActTrialPage />} />
           <Route
             path="/games/o-an-quan-xanh"
             element={<OAnQuanXanhDetailPage />}
           />
+          <Route path="/quest" element={<GreenQuestPage />} />
+          <Route path="/learn" element={<GreenLearnPage />} />
+          <Route path="/connect" element={<GreenConnectPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

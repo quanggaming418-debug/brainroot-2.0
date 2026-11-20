@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { EmptyUnavailableState } from '../components/common/EmptyUnavailableState';
 import { ProductStatusLabel } from '../components/common/ProductStatusLabel';
@@ -68,6 +69,21 @@ export function FactActDetailPage() {
             <p className="gp-detail-hero__overview">
               {FACT_ACT_DETAIL.overview}
             </p>
+
+            <div className="gp-detail-hero__cta-row">
+              <Link
+                className="gp-button gp-button--primary"
+                to={FACT_ACT_DETAIL.trialCtaTo}
+              >
+                <span>{FACT_ACT_DETAIL.trialCtaLabel}</span>
+                <span className="gp-button__arrow" aria-hidden="true">
+                  →
+                </span>
+              </Link>
+              <Link className="gp-button gp-button--secondary" to="/games">
+                ← Thư viện Green Play
+              </Link>
+            </div>
 
             <dl className="game-specs">
               {FACT_ACT_DETAIL.specs.map((spec) => (
@@ -152,7 +168,7 @@ export function FactActDetailPage() {
       <section className="gp-section gp-section--compact">
         <div className="gp-container">
           <EmptyUnavailableState
-            statusTag="THÔNG BÁO BẢN CHƠI THỬ SỐ"
+            statusTag="MINH BẠCH NỘI DUNG · BR-T005"
             heading={FACT_ACT_DETAIL.unavailableNotice.heading}
             description={FACT_ACT_DETAIL.unavailableNotice.description}
             primaryActionLabel={
