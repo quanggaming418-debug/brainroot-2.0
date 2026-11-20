@@ -145,7 +145,12 @@ export function FactActTrialPage() {
               <div className="trial-intro-grid">
                 <div className="trial-intro-copy">
                   <p className="gp-eyebrow">GREEN PLAY · CHƠI THỬ TƯƠNG TÁC</p>
-                  <h1 className="trial-heading" id="fact-act-trial-heading">
+                  <h1
+                    className="trial-heading"
+                    id="fact-act-trial-heading"
+                    ref={stageHeadingRef}
+                    tabIndex={-1}
+                  >
                     {FACT_ACT_TRIAL_DISCLOSURE.heading}
                   </h1>
                   <p className="trial-lead">

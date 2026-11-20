@@ -1,5 +1,10 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 — BR-T008 · R0 Stabilization
+
+- Pages live ở main f61c844. Bản sửa focus Fact–Act và giữ canvas Three.js khi mất context nằm trên codex/r0-stabilization, chờ review.
+- Nhóm nội dung dùng `planning/FACT_ACT_CONTENT_INTAKE.md` cho BR-T005; OQ-01/03/08 và quyền phát hành artwork theo dõi riêng.
+
 ## 2026-11-20 — BR-T024 · GitHub Pages
 
 - Nhánh `codex/github-pages-r0` từ R0 `db8b354`. Pages source đã là GitHub Actions; target trả 404 trước PR.
