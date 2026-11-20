@@ -82,3 +82,13 @@
 - **Git:** codex/github-pages-r0, base db8b354. Commit chứa mục log này. Không merge trực tiếp.
 - **What remains / next task:** Sau khi owner review và merge, xác nhận run cho SHA main, trạng thái environment github-pages và tải URL thật.
 - **Owner approval required:** Review/merge và quyền công bố artwork.
+
+## Session: 2026-11-20 — Codex — BR-T022 · Garden asset intake
+
+- **Task & goal:** Nhập bốn WebP từ assets/ của brainroot_garden_assets_v1.zip phục vụ thiết kế homepage sau.
+- **Status before → after:** IN_PROGRESS → IN_PROGRESS; intake chờ review PR.
+- **Read context:** AGENTS, .agents/rules, TASKS, PROJECT_STATE, README, ROADMAP, HANDOFF và danh sách tệp/manifest ZIP.
+- **Files changed:** Bốn WebP trong public/assets/home/garden và ghi chú TASKS, PROJECT_STATE, CODEX_LOG, HANDOFF.
+- **Tests actually executed:** Python ZipFile + Pillow PASS 4/4 WebP 1120×747, alpha 0–255, góc trong suốt và byte giữ nguyên. npm run build PASS (gồm typecheck); bốn bản dist khớp SHA-256. Unit tests PASS 26/26. Browser UI NOT RUN, asset chưa được gắn vào UI.
+- **Acceptance criteria:** PASS intake đúng bốn file, không nhập master/preview/handoff code. Giữ nguyên UI, Hero, game, router và animation.
+- **Git / next task:** Nhánh codex/garden-webp-intake từ main f61c844. Bản commit này chờ review; giao AI Studio tích hợp sau.
