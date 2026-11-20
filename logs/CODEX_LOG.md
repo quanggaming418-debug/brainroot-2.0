@@ -30,3 +30,21 @@
 - **Git commit SHA:** Nhánh `codex/br-t003-remediation`, HEAD nền `275f5ed4d64811c079540135ef42abc4d447b634`. Bản sửa **NOT COMMITTED**.
 - **What remains / next task:** Owner xem diff và duyệt commit khi sẵn sàng. BR-T004 chờ giao riêng.
 - **Owner approval required:** Có cho commit, push, merge hoặc deploy theo phạm vi được cấp.
+
+## Session: 2026-11-20 08:57+07:00 — Codex — BR-T020
+
+- **Task & goal:** Hero Ambient Motion Restoration theo quyết định sản phẩm đã duyệt (BR-FR-001, BR-FR-006).
+- **Status before → after:** `TODO` → `IN_REVIEW`.
+- **Read context:** AGENTS, README, ROADMAP, TASKS, PROJECT_STATE, HANDOFF, PRD, DESIGN_SYSTEM, ACCESSIBILITY và quy tắc UI.
+- **Files changed:** `HeroSection.tsx`, `useHeroParallax.ts`, `landing.css`, DESIGN_SYSTEM, ACCESSIBILITY, TASKS, PROJECT_STATE, CODEX_LOG và HANDOFF.
+- **User-visible behavior changed:** Mascot và lá chuyển động lặp liền mạch, lệch pha. Khi tab ẩn, CSS dừng tại pha hiện tại và parallax hủy khung đã lên lịch. Reduced motion giữ chế độ tĩnh. Artwork, typography, bố cục, màu sắc và hành vi focus của BR-T003 được giữ.
+- **Tests actually executed:**
+  - `npm run typecheck`, `npm run build`: PASS. `npx --yes tsx --test tests/br-t003.test.ts`: PASS, 5/5. Lint: NOT RUN (không có script).
+  - `npm run preview -- --host 127.0.0.1 --port 4174 --strictPort` và `node ambient.cjs` (Playwright Chromium headless 153, script tạm): PASS ở 1440×900, 390×844 và 320×740. Không tràn ngang, ảnh giải mã, 0 lỗi console, CTA đích có focus. Bốn phần tử vẫn đổi transform sau 30 giây và 180 giây thời gian thực ở 1440×900 và 390×844.
+  - Mô phỏng `visibilitychange`: PASS ở ba viewport (pha giữ nguyên, 0 yêu cầu rAF parallax khi ẩn, tiếp tục khi hiện). Reduced motion: PASS, 0 animation và 3 transform parallax `none`. `node ambient-menu.cjs`: PASS cho keyboard, Escape và focus đích trên 390×844.
+  - Runtime smoke, 120 khoảng rAF ở mỗi viewport: 53,3 FPS / p95 33,3 ms ở 1440×900, 60 FPS / p95 16,7 ms ở 390×844, 60 FPS / p95 16,8 ms ở 320×740. 0 long task trong mỗi cửa sổ đo. Đây là số đo headless cục bộ, không đại diện cho thiết bị thật. Bằng chứng tạm ở `%TEMP%/brainroot-qa-68dc4280-fb9b-45c3-88f7-c981fd1b6561/ambient-results.txt`.
+- **Acceptance criteria:** PASS cho chuyển động sau 30 giây/3 phút, pha lệch, pause/resume theo visibility, reduced motion, responsive, focus, runtime smoke, typecheck và build. Giới hạn WCAG 2.2.2 đã ghi theo quyết định sản phẩm.
+- **Bugs / tradeoffs / risk:** Chuyển động tự chạy quá năm giây khi tab đang hiển thị và không có cơ chế điều khiển trong trang. Không tuyên bố đạt WCAG 2.2 AA.
+- **Git:** Nhánh `codex/hero-ambient-motion`, commit nền `a2db00a8d4672304beb7c35d59726e36b1e4a2c6`. Commit thay đổi là commit chứa mục log này.
+- **What remains / next task:** Review PR BR-T020. BR-T004 chờ giao riêng.
+- **Owner approval required:** Merge cần phê duyệt riêng.

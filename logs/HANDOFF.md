@@ -1,5 +1,12 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 — BR-T020 · Codex → Product owner
+
+- **Trạng thái:** `IN_REVIEW`, nhánh `codex/hero-ambient-motion`. PR nhắm vào `main`, chỉ để review.
+- **Phạm vi:** `HeroSection.tsx`, `useHeroParallax.ts`, `landing.css` và tài liệu quyết định motion. Xem kiểm thử trong `CODEX_LOG.md`.
+- **Điểm cần lưu ý khi review:** Quyết định dùng motion nền lặp liên tục ở chế độ mặc định có giới hạn WCAG 2.2.2, ghi trong `docs/ACCESSIBILITY.md`.
+- **Tiếp theo:** Review BR-T020. BR-T004 chờ giao riêng.
+
 ## 2026-11-20 — Codex → Product owner
 
 - **Task:** `BR-T003` — `DONE` theo kiểm thử độc lập cục bộ. `BR-T004` chờ giao riêng.

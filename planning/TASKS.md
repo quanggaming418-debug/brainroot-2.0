@@ -24,6 +24,7 @@
 | BR-T017 | P3 | TODO | unassigned | access model approval | Activation code/entitlement + security tests |
 | BR-T018 | P3 | TODO | unassigned | knowledgebase approved | Brainroot Buddy bounded FAQ/RAG + source + refusal |
 | BR-T019 | P3 | TODO | unassigned | content maturity | Eco Discovery/Word Quest game design + rights review |
+| BR-T020 | P1 | IN_REVIEW | Codex | BR-T003 | Hero Ambient Motion Restoration (BR-FR-001, BR-FR-006). Mascot/lá lặp lệch pha, tab ẩn tạm dừng, reduced motion tắt hiệu ứng, giữ layout và focus. Xem kiểm thử 30 giây/3 phút, responsive, runtime, typecheck và build tại `logs/CODEX_LOG.md`. Giới hạn WCAG 2.2.2 ghi tại `docs/ACCESSIBILITY.md`. |
 
 ## Working rules
 - Khi bắt đầu, chuyển `TODO` → `IN_PROGRESS` kèm agent; ghi trong log. Không tự giao thêm nhiều task cùng lúc.
