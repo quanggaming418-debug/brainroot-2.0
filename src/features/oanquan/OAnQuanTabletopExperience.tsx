@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  INITIAL_SANDBOX_COUNTS,
   PITS,
   SANDBOX_RULESET,
   pitDisplayLabel,
@@ -130,7 +129,7 @@ export function OAnQuanTabletopExperience({
   };
 
   const handleReset = () => {
-    setCounts(INITIAL_SANDBOX_COUNTS);
+    setCounts(ruleset.initialCounts);
     setSelected(1);
     setLiveStatus('Đã đặt lại số hạt minh họa ban đầu trên toàn bộ 12 ô.');
     rendererRef.current?.resetCamera();
@@ -173,19 +172,20 @@ export function OAnQuanTabletopExperience({
       </div>
 
       <div className="oq-tabletop__stage">
-        {fallbackReason ? (
+        {/* Keep the canvas attached so Three.js can receive context restoration. */}
+        <div
+          ref={mountRef}
+          className="oq-tabletop__canvas-mount"
+          data-testid="oanquan-three-mount"
+          style={{ visibility: fallbackReason ? 'hidden' : undefined }}
+        />
+        {fallbackReason && (
           <div className="oq-tabletop__fallback" role="status">
             <p className="oq-tabletop__fallback-title">
               Chế độ lưới ô dễ tiếp cận (dự phòng WebGL)
             </p>
             <p className="oq-tabletop__fallback-body">{fallbackReason}</p>
           </div>
-        ) : (
-          <div
-            ref={mountRef}
-            className="oq-tabletop__canvas-mount"
-            data-testid="oanquan-three-mount"
-          />
         )}
       </div>
 

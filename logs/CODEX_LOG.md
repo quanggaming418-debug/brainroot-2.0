@@ -82,3 +82,17 @@
 - **Git:** codex/github-pages-r0, base db8b354. Commit chứa mục log này. Không merge trực tiếp.
 - **What remains / next task:** Sau khi owner review và merge, xác nhận run cho SHA main, trạng thái environment github-pages và tải URL thật.
 - **Owner approval required:** Review/merge và quyền công bố artwork.
+
+## Session: 2026-11-20 — Codex — BR-T008
+
+- **Task & goal:** R0 Stabilization & Demo Readiness (BR-FR-001/002/003/004/006).
+- **Status before → after:** TODO → IN_REVIEW.
+- **Read context:** AGENTS, PROJECT_STATE, TASKS, README, ROADMAP, HANDOFF, CONTENT_GUIDELINES, GAME_SPEC và OPEN_QUESTIONS từ main f61c844.
+- **Files changed:** OAnQuanTabletopExperience.tsx, FactActTrialPage.tsx, checklist FACT_ACT_CONTENT_INTAKE.md và hồ sơ task.
+- **User-visible behavior changed:** Fact–Act chơi lại chuyển focus về tiêu đề. Giữ canvas Three.js trong DOM khi bật fallback để context có thể khôi phục; reset dùng cấu hình ruleset. Đối chiếu PR #5: lỗi TS6133 đã được main xử lý, layout cũ không áp dụng, không mang renderer WebGL cũ sang.
+- **Tests actually executed:** GET Pages HTTP 200 và GitHub Actions run 44693785652 thành công cho main f61c844. Chromium headless/SwiftShader với br-r0.cjs (live) và br-r0-fixed.cjs (production preview): PASS 1440/390/320, 11 URL, ảnh giải mã, không tràn ngang, không pageerror, CTA hash, Fact–Act ba tình huống/feedback/skip phản tư/kết quả/replay, Quest hoàn thành/lưu qua reload/reset, Learn chuyển chủ đề, bàn Three.js điều khiển phím/chuyển hạt/reset. Bản PR xác minh thêm focus sau replay và cùng canvas khôi phục sau WEBGL_lose_context trong Chromium desktop.
+- **Build:** npm run typecheck PASS; npm run build PASS (cảnh báo chunk ~980 KB); npx --yes tsx --test tests/*.test.ts PASS 26/26. Lint NOT RUN vì thiếu script; GPU vật lý, Safari và screen reader thật NOT RUN.
+- **Content:** Fact–Act 3 fixture demo, 0 thẻ public approved; Green Learn 5 draft; Green Quest tự ghi nhận cục bộ; Ô ăn quan sandbox, OQ-08 mở. Thẻ chính thức và nội dung/quyền đi kèm chờ BR-T005, BR-T002 và OQ-01/OQ-03.
+- **Git:** codex/r0-stabilization từ f61c844, commit chứa mục log. Chưa merge/deploy bản PR.
+- **What remains / next task:** Review PR, xác minh lại Pages sau merge, bàn giao nội dung Fact–Act đã duyệt.
+- **Owner approval required:** Merge và nội dung phát hành.
