@@ -259,16 +259,16 @@
   margin: 0 0 14px;
   font-size: clamp(26px, 3vw, 40px);
   font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1.22;
+  letter-spacing: -0.024em;
+  line-height: 1.24;
   color: var(--color-ink);
   text-wrap: balance;
 }
 
 .gp-section-summary {
   margin: 0;
-  font-size: 15.5px;
-  line-height: 1.75;
+  font-size: 16px;
+  line-height: 1.72;
   color: var(--color-ink-secondary);
   max-width: 66ch;
 }
@@ -514,25 +514,26 @@
 
 .game-showcase__title {
   margin: 0;
-  font-size: clamp(28px, 3vw, 38px);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1.15;
+  font-size: clamp(26px, 2.8vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.18;
   color: var(--color-ink);
+  text-wrap: balance;
 }
 
 .game-showcase__subtitle {
   margin: 0;
   font-size: 16px;
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1.52;
   color: var(--color-forest);
 }
 
 .game-showcase__description {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.75;
+  font-size: 15.5px;
+  line-height: 1.74;
   color: var(--color-ink-secondary);
 }
 
@@ -750,25 +751,26 @@
 
 .gp-detail-hero__title {
   margin: 0;
-  font-size: clamp(36px, 4.4vw, 56px);
-  font-weight: 900;
-  letter-spacing: -0.045em;
-  line-height: 1.1;
+  font-size: clamp(32px, 4vw, 50px);
+  font-weight: 800;
+  letter-spacing: -0.026em;
+  line-height: 1.15;
   color: var(--color-ink);
+  text-wrap: balance;
 }
 
 .gp-detail-hero__tagline {
   margin: 0;
   font-size: clamp(17px, 1.5vw, 20px);
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1.52;
   color: var(--color-forest);
 }
 
 .gp-detail-hero__overview {
   margin: 0;
-  font-size: 15.5px;
-  line-height: 1.8;
+  font-size: 16px;
+  line-height: 1.75;
   color: var(--color-ink-secondary);
 }
 

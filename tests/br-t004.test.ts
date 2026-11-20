@@ -31,11 +31,11 @@ test('route title resolution handles /, /games, product detail pages, trailing s
   );
   assert.equal(
     getRouteDocumentTitle('/games/fact-act'),
-    'Fact–Act — Trò chơi thẻ bài kỹ năng xanh | Brainroot',
+    'Brainroot - Truth or Dare — Trò chơi thẻ bài kỹ năng xanh | Brainroot',
   );
   assert.equal(
     getRouteDocumentTitle('/games/o-an-quan-xanh'),
-    'Ô ăn quan xanh — Trò chơi dân gian & kỹ năng xanh | Brainroot',
+    'Brainroot - Ô ăn quan xanh — Trò chơi dân gian & kỹ năng xanh | Brainroot',
   );
   assert.equal(getRouteDocumentTitle('/khong-ton-tai'), NOT_FOUND_TITLE);
 });
@@ -140,10 +140,11 @@ test('Green Play product catalog preserves approved asset paths and required VIS
   );
 });
 
-test('Fact-Act detail models Fact -> Act -> Reflection honestly and links to live internal trial', () => {
+test('Brainroot - Truth or Dare detail presents 3-step trial orientation honestly and links to web preview', () => {
+  assert.equal(FACT_ACT_DETAIL.title, 'Brainroot - Truth or Dare');
   assert.deepEqual(
     FACT_ACT_DETAIL.learningSteps.map((s) => s.code),
-    ['FACT', 'ACT', 'REFLECTION'],
+    ['TÌNH HUỐNG', 'HÀNH ĐỘNG', 'PHẢN TƯ'],
   );
   assert.equal(FACT_ACT_DETAIL.comparisonColumns.length, 2);
   assert.equal(FACT_ACT_DETAIL.trialCtaTo, '/games/fact-act/play');
@@ -151,7 +152,8 @@ test('Fact-Act detail models Fact -> Act -> Reflection honestly and links to liv
   assert.equal(FACT_ACT_DETAIL.unavailableNotice.secondaryActionTo, '/games');
 });
 
-test('O an quan xanh detail documents exact 5 topics, 3 levels, and clearly labeled internal 3D sandbox link', () => {
+test('Brainroot - O an quan xanh detail documents exact 5 topics, 3 levels, and clearly labeled fullscreen 3D link', () => {
+  assert.equal(O_AN_QUAN_DETAIL.title, 'Brainroot - Ô ăn quan xanh');
   assert.deepEqual(
     O_AN_QUAN_DETAIL.topics.map((topic) => topic.title),
     [
@@ -169,7 +171,7 @@ test('O an quan xanh detail documents exact 5 topics, 3 levels, and clearly labe
   );
 
   assert.equal(O_AN_QUAN_DETAIL.sandboxNotice.href, '/?preview=oanquan3d');
-  assert.match(O_AN_QUAN_DETAIL.sandboxNotice.heading, /Sandbox 3D/i);
+  assert.match(O_AN_QUAN_DETAIL.sandboxNotice.heading, /bàn gỗ 3D/i);
   assert.match(
     O_AN_QUAN_DETAIL.sandboxNotice.heading,
     /chưa phải bản chơi chính thức/i,

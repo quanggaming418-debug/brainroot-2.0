@@ -1,5 +1,26 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 (17:30) — Website Branding, Typography, Content & Footer Audit · Google AI Studio → Product Owner & Codex
+
+- **Trạng thái:** **`IN_REVIEW`** (`NOT COMMITTED` vì container AI Studio không có `.git`). Báo cáo kiểm toán đầy đủ lưu tại `docs/WEBSITE_BRANDING_TYPOGRAPHY_CONTENT_AUDIT.md`. Bảo toàn nguyên vẹn Hero V4, artwork mascot, 4 ảnh Four Garden Windows WebP, kỹ thuật 3D Three.js, FSM/localStorage, đường dẫn React Router và cấu hình GitHub Pages (`base: '/brainroot-2.0/'`).
+- **Tóm tắt chuẩn hóa đã hoàn tất:**
+  - **Thương hiệu & tên sản phẩm:** Đồng bộ 100% sang **Brainroot**, **Brainroot - Truth or Dare** và **Brainroot - Ô ăn quan xanh** trên toàn bộ 11 tuyến, `document.title`, breadcrumb, CTA, Footer và ALT ảnh (giữ nguyên 4 tên khu vực hệ sinh thái & giữ nguyên route `/games/fact-act`). Không tự bịa luật Truth or Dare, giữ mô tả trung lập và rõ ràng về luồng thử nghiệm sớm 3 bước *Tình huống → Hành động → Phản tư*.
+  - **Vệ sinh nội dung công khai:** Loại bỏ hoàn toàn `Brainroot 2.0`, `BR-T005`, `OQ-08`, `BR-T002`, `VIS-008`, `R0/R1`, `Lite`, `sandbox`, `mẫu nội bộ`, `Fact–Act` khỏi giao diện công khai; bảo toàn trung thực mọi trạng thái chờ duyệt và câu chú thích `Minh họa khái niệm — luật bản số đang chuẩn hóa.`.
+  - **Typography tiếng Việt:** Giữ `Be Vietnam Pro` (đúng định chuẩn dự án) và Hero V4; thêm `body { line-height: 1.6 }`, nới tracking tiêu đề ngoài Hero (`-0.024em`..`-0.026em`), hạ `h1` trang con từ `900 → 800`, bật `text-wrap: balance`.
+  - **Tối ưu Footer (không dùng `transform`/`scale`):** Giảm chiều cao Desktop `1440×900` từ `436px → 277px` (**`-36.5%`**) và Mobile `390×844` từ `817px → 494px` (**`-39.5%`**) nhờ tái cấu trúc 2 cột cân đối 4×4, thu gọn dải sóng/padding và gom dòng chân trang.
+- **Kiểm thử đã chạy thực tế:** `npx --yes tsx --test tests/*.test.ts` **PASS (28/28, gồm test #28 kiểm tra 0 rò rỉ chuỗi cấm)** · `npm run typecheck` **PASS (0 lỗi)** · `npm run build` **PASS** · Playwright Chromium (`1440×900` & `390×844`, 11 tuyến) **PASS (0 lỗi console, 0 ảnh vỡ, 0 tràn ngang, 0 chuỗi cấm)** · `npm run lint`: **`NOT RUN`** (`package.json` chưa có script `lint`).
+- **Bước tiếp theo:** (1) Product Owner duyệt `docs/WEBSITE_BRANDING_TYPOGRAPHY_CONTENT_AUDIT.md`, chốt thể lệ chính thức & thẻ 2 mặt **Brainroot - Truth or Dare**, hoàn tất `BR-T005` / `OQ-08` / kênh liên hệ chính thức / `BR-T002`; (2) Codex rà soát diff trên Git (đối chiếu PR #5 & `BR-T024`) và mở PR review.
+
+## 2026-11-21 (01:47) — BR-T022 Homepage V2 Final Visual Polish · Google AI Studio → Product Owner & Codex
+
+- **Trạng thái:** **`IN_REVIEW`** (`NOT COMMITTED` vì container AI Studio không có `.git`). Bảo toàn nguyên vẹn Hero V4, 4 asset WebP, bố cục 2×2 desktop / dọc mobile, router, game, các trang con và cấu hình GitHub Pages (`BR-T024`).
+- **Tóm tắt tinh chỉnh đã hoàn tất:**
+  - **Rút gọn nội dung & loại thuật ngữ nội bộ (`src/data/landing.ts`):** Rút gọn phụ đề (1 dòng), mô tả (2–3 dòng) và ghi chú (1 dòng) của 4 thẻ `ECOSYSTEM_AREAS`, thay `R0` và `BR-T005` trên trang chủ (kể cả chân trang) bằng cách diễn đạt tự nhiên, trung thực về trạng thái thử nghiệm / bản thảo đang kiểm duyệt (không tuyên bố nội dung chưa duyệt là chính thức). Chiều cao 4 thẻ desktop giảm đều còn `295px`.
+  - **Tối ưu khung hình minh họa & tải ảnh (`EcosystemSection.tsx`, `unified-world.css`):** Loại bỏ hình tròn/lá SVG mờ phía sau tranh, cân tỷ lệ chủ thể (`scale(1.07)` desktop, `16/10` + `scale(1.06)` mobile) trên nền ánh sáng mặt đất nhẹ, và chuyển 4 ảnh dưới Hero sang `loading="lazy"` + `decoding="async"`.
+  - **Khử đường kẻ ngang bất thường (`GardenPrimitives.tsx`, `unified-world.css`):** Tinh chỉnh đường lượn `gt-meadow-mist` để che kín hoàn toàn mép đáy thẳng của `.hero` mà vẫn chừa thoáng nút `Cuộn xuống khám phá`, đồng bộ nền `#f8f3e9` cho `#worlds` và thêm overlap `-1px/-2px` + `shapeRendering="geometricPrecision"` triệt tiêu vết nối SVG subpixel.
+- **Kiểm thử đã chạy thực tế:** `npx --yes tsx --test tests/*.test.ts` **PASS (27/27)** · `npm run typecheck` **PASS (0 lỗi)** · `npm run build` **PASS** · Playwright Chromium (`1440×900` & `390×844` + `prefers-reduced-motion`, 2 vòng) **PASS** (0 lỗi console, 0 tràn ngang, 4/4 ảnh WebP tải `loading="lazy"`/`decoding="async"` đủ `1120×747`, tab H05 & điều hướng `/games` hoạt động) · `npm run lint`: **`NOT RUN`**.
+- **Ảnh chụp trước/sau sẵn sàng đối chiếu:** `.aistudio/artifacts/computer_use/homepage-v2-before-{desktop-1440,mobile-390}.png` và `.aistudio/artifacts/computer_use/homepage-v2-after-{desktop-1440,mobile-390}.png` (đồng bộ cùng `homepage-v2-{desktop-1440,mobile-390}.png`).
+
 ## 2026-11-20 (23:45) — BR-T022 Homepage Visual Redesign V2 (Four Garden Windows) · Google AI Studio → Product Owner & Codex
 
 - **Trạng thái:** **`IN_REVIEW`** (`NOT COMMITTED` vì container AI Studio không có `.git`). Đã bảo toàn nguyên vẹn Hero V4 (`HeroSection.tsx`, `landing.css`) và cấu hình GitHub Pages (`BR-T024`: `vite.config.ts`, `publicUrl()`, `BrowserRouter basename`).

@@ -91,7 +91,7 @@ export function SiteHeader({
         >
           <img
             src={publicUrl('/assets/aistudio/brainie_1a0fca92.webp')}
-            alt="Brainroot Logo"
+            alt="Biểu trưng Brainroot"
             className="brand__mascot-img"
           />
           <span>
@@ -107,7 +107,7 @@ export function SiteHeader({
         >
           <img
             src={publicUrl('/assets/aistudio/brainie_1a0fca92.webp')}
-            alt="Brainroot Logo"
+            alt="Biểu trưng Brainroot"
             className="brand__mascot-img"
           />
           <span>

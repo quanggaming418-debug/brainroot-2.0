@@ -83,7 +83,7 @@ export function GreenQuestPage() {
       <section className="world-hero" aria-labelledby="quest-page-title">
         <div className="gp-container world-hero__grid">
           <div className="world-hero__copy">
-            <p className="gp-eyebrow">GREEN QUEST LITE · HÀNH ĐỘNG XANH KHỞI ĐẦU</p>
+            <p className="gp-eyebrow">GREEN QUEST · HÀNH ĐỘNG XANH KHỞI ĐẦU</p>
             <h1 className="gp-detail-hero__title" id="quest-page-title">
               {GREEN_QUEST_LITE_CHALLENGE.title}
             </h1>
@@ -210,7 +210,7 @@ export function GreenQuestPage() {
             <p>Muốn kết hợp hành động với trò chơi hoặc đọc sâu hơn?</p>
             <div className="world-next-strip__links">
               <Link className="gp-button gp-button--secondary" to="/games/fact-act/play">
-                Chơi thử Fact–Act →
+                Trải nghiệm thử Brainroot - Truth or Dare →
               </Link>
               <Link className="gp-text-link" to="/learn">
                 Đọc 5 chủ đề trong Green Learn

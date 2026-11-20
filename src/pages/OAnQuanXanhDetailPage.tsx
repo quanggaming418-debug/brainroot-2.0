@@ -67,8 +67,8 @@ export function OAnQuanXanhDetailPage() {
               </h2>
               <p className="oq-explorer__note">
                 Chạm chọn chủ đề và cấp độ để xem định hướng tình huống học tập.
-                Các ô trên bàn 3D chưa gán cố định theo chủ đề vì luật chính thức
-                (OQ-08) đang được chuẩn hóa.
+                Các ô trên bàn 3D chưa gán cố định theo chủ đề vì luật chơi chính thức
+                đang được chuẩn hóa.
               </p>
 
               <div
@@ -209,7 +209,7 @@ export function OAnQuanXanhDetailPage() {
       >
         <div className="gp-container oq-concept-ref">
           <div className="oq-concept-ref__copy">
-            <p className="gp-eyebrow">TÀI LIỆU ĐỊNH HƯỚNG NGHỆ THUẬT (VIS-008)</p>
+            <p className="gp-eyebrow">ĐỊNH HƯỚNG NGHỆ THUẬT</p>
             <h2
               className="gp-section-heading"
               id="o-an-quan-concept-ref-heading"
@@ -243,7 +243,7 @@ export function OAnQuanXanhDetailPage() {
                   src={publicUrl('/assets/green-play/vis-008-o-an-quan-concept.webp')}
                   width={1080}
                   height={720}
-                  alt="Minh họa khái niệm bàn chơi Ô ăn quan xanh với mặt bàn gỗ ấm và các viên sỏi sinh thái"
+                  alt="Minh họa khái niệm bàn chơi Brainroot - Ô ăn quan xanh với mặt bàn gỗ ấm và các viên sỏi sinh thái"
                   loading="lazy"
                   decoding="async"
                 />
@@ -295,7 +295,7 @@ export function OAnQuanXanhDetailPage() {
       <section className="gp-section gp-section--compact">
         <div className="gp-container gp-stack-gap">
           <EmptyUnavailableState
-            statusTag="TRẠNG THÁI LUẬT BẢN SỐ · OQ-08"
+            statusTag="TRẠNG THÁI LUẬT BẢN SỐ"
             heading={O_AN_QUAN_DETAIL.unavailableNotice.heading}
             description={O_AN_QUAN_DETAIL.unavailableNotice.description}
             primaryActionLabel={

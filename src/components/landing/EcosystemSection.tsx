@@ -46,32 +46,14 @@ export function EcosystemSection({
               >
                 <div className="garden-window-card__media">
                   <div className="garden-window-card__frame">
-                    <svg
-                      className="garden-window-card__backdrop-leaf"
-                      viewBox="0 0 180 120"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <circle cx="38" cy="30" r="28" fill="currentColor" opacity="0.16" />
-                      <path
-                        d="M126,18 C144,12 162,16 172,26 C158,34 140,34 126,18 Z"
-                        fill="currentColor"
-                        opacity="0.18"
-                      />
-                      <path
-                        d="M12,96 C46,84 122,102 172,88 L172,120 L12,120 Z"
-                        fill="currentColor"
-                        opacity="0.12"
-                      />
-                    </svg>
                     <img
                       className="garden-window-card__art"
                       src={area.imageSrc}
                       alt={area.imageAlt}
                       width={1120}
                       height={747}
-                      loading="eager"
-                      decoding="sync"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                 </div>

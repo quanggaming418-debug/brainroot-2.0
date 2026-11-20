@@ -26,15 +26,15 @@ export const GREEN_CONNECT_CONTENT = {
     {
       id: 'students',
       audience: 'Học sinh & Sinh viên',
-      title: 'Khám phá, chơi thử và thực hành thói quen xanh',
+      title: 'Khám phá, trải nghiệm thử và thực hành thói quen xanh',
       description:
-        'Tự do trải nghiệm vòng lặp Fact → Act → Phản tư, thử thách xanh nhỏ mỗi ngày và đọc 5 chủ đề kỹ năng xanh mà không cần đăng ký tài khoản.',
+        'Tự do trải nghiệm bản chơi thử tình huống xanh, thực hành thử thách nhỏ mỗi ngày và đọc 5 chủ đề kỹ năng xanh mà không cần đăng ký tài khoản.',
       howToStart: [
-        'Thử một vòng mẫu nội bộ của Fact–Act để làm quen cách nối kiến thức với hành động.',
-        'Thực hiện thử thách 1 ngày trong Green Quest Lite và tự ghi nhận phản tư cá nhân.',
-        'Rủ nhóm bạn trong lớp thảo luận lại một tình huống từ 5 chủ đề của Green Learn.',
+        'Mở bản trải nghiệm thử Brainroot - Truth or Dare để làm quen cách nối kiến thức với hành động đời thường.',
+        'Thực hiện thử thách 1 ngày trong Green Quest và tự ghi nhận dòng phản tư cá nhân.',
+        'Rủ nhóm bạn trong lớp cùng thảo luận một tình huống từ 5 chủ đề của Green Learn.',
       ],
-      suggestedRouteLabel: 'Chơi thử vòng mẫu Fact–Act',
+      suggestedRouteLabel: 'Trải nghiệm thử Brainroot - Truth or Dare',
       suggestedRouteTo: '/games/fact-act/play',
     },
     {
@@ -42,9 +42,9 @@ export const GREEN_CONNECT_CONTENT = {
       audience: 'Giáo viên & Điều phối viên',
       title: 'Gợi ý lồng ghép vào giờ sinh hoạt hoặc ngoại khóa',
       description:
-        'Sử dụng cấu trúc Fact → Act → Phản tư và khung 5 chủ đề môi trường làm chất liệu mở đầu cuộc trò chuyện kéo dài 10–15 phút trong lớp.',
+        'Sử dụng khung 5 chủ đề môi trường và các tình huống gần gũi làm chất liệu mở đầu cuộc trò chuyện kéo dài 10–15 phút trong lớp.',
       howToStart: [
-        'Mở trang giới thiệu Fact–Act hoặc Green Learn trực tiếp trên máy chiếu lớp học.',
+        'Mở trang giới thiệu Brainroot - Truth or Dare hoặc Green Learn trực tiếp trên máy chiếu lớp học.',
         'Chọn một tình huống gần với bối cảnh trường học để học sinh thảo luận nhóm nhỏ.',
         'Khuyến khích học sinh nêu rào cản thực tế thay vì chỉ tìm một đáp án lý thuyết.',
       ],
@@ -56,9 +56,9 @@ export const GREEN_CONNECT_CONTENT = {
       audience: 'Câu lạc bộ & Cộng đồng ULIS / Hà Nội',
       title: 'Phối hợp thử nghiệm sản phẩm giáo dục trực tiếp',
       description:
-        'Dự án hướng tới các buổi trải nghiệm trực tiếp bộ thẻ vật lý Fact–Act và góp ý hoàn thiện luật chơi bản số Ô ăn quan xanh cùng sinh viên và câu lạc bộ.',
+        'Dự án hướng tới các buổi trải nghiệm trực tiếp bộ thẻ vật lý Brainroot - Truth or Dare và góp ý hoàn thiện luật chơi bản số Brainroot - Ô ăn quan xanh cùng sinh viên và câu lạc bộ.',
       howToStart: [
-        'Khám phá thư viện Green Play và xem trước bàn gỗ 3D Ô ăn quan xanh ở chế độ sandbox.',
+        'Khám phá thư viện Green Play và trải nghiệm bàn gỗ 3D Brainroot - Ô ăn quan xanh ở chế độ thử nghiệm.',
         'Ghi chú lại góp ý về độ rõ ràng, trải nghiệm trên di động và tình huống học đường phù hợp.',
         'Theo dõi thông báo khi nhóm Brainroot công bố kênh liên hệ và lịch thử nghiệm chính thức.',
       ],
@@ -75,7 +75,7 @@ export const GREEN_CONNECT_CONTENT = {
 } as const;
 
 export const ABOUT_PAGE_CONTENT = {
-  eyebrow: 'VỀ DỰ ÁN BRAINROOT 2.0',
+  eyebrow: 'VỀ DỰ ÁN BRAINROOT',
   heading: 'From Brainrot to Brainroot',
   missionLabel: 'Sứ mệnh cốt lõi',
   missionText:
@@ -97,28 +97,28 @@ export const ABOUT_PAGE_CONTENT = {
     {
       title: 'Kết nối vật lý & trải nghiệm số (Phygital)',
       description:
-        'Trải nghiệm trực tuyến bổ trợ cho bộ thẻ vật lý Fact–Act và định hướng bàn chơi Ô ăn quan xanh, luôn tôn trọng giá trị sản phẩm gốc và không công khai nội dung bộ thẻ trả phí.',
+        'Trải nghiệm trực tuyến bổ trợ cho bộ thẻ vật lý Brainroot - Truth or Dare và định hướng bàn chơi Brainroot - Ô ăn quan xanh, luôn tôn trọng giá trị sản phẩm gốc và không công khai nội dung bộ thẻ vật lý.',
     },
   ],
-  transparencyHeading: 'Minh bạch trạng thái hiện tại của nền tảng R0',
+  transparencyHeading: 'Minh bạch trạng thái hoàn thiện của nền tảng Brainroot',
   transparencyItems: [
     {
-      label: 'Nội dung mẫu & học liệu (BR-T005)',
-      status: 'Đang chờ đội nội dung duyệt phát hành công khai',
+      label: 'Nội dung mẫu & học liệu giáo dục',
+      status: 'Đang kiểm duyệt nguồn tham khảo',
       detail:
-        'Vòng chơi thử Fact–Act và 5 thẻ kiến thức Green Learn hiện dùng dữ liệu mẫu nội bộ/bản thảo khung được gắn nhãn rõ ràng, không dùng số liệu hay nguồn chưa xác minh.',
+        'Bản trải nghiệm thử của Brainroot - Truth or Dare và 5 thẻ kiến thức Green Learn hiện dùng tình huống minh họa và bản thảo khung được gắn nhãn rõ ràng; nguồn tham khảo chính thức sẽ cập nhật sau khi kiểm duyệt.',
     },
     {
-      label: 'Luật chơi bản số Ô ăn quan xanh (OQ-08)',
+      label: 'Luật chơi bản số Brainroot - Ô ăn quan xanh',
       status: 'Đang chuẩn hóa',
       detail:
-        'Trang Ô ăn quan xanh cung cấp bàn gỗ 3D tương tác ở chế độ sandbox kỹ thuật và khung 5 chủ đề × 3 cấp độ; chưa áp đặt luật thi đấu hay phòng chơi trực tuyến.',
+        'Trang Brainroot - Ô ăn quan xanh cung cấp bàn gỗ 3D tương tác thử nghiệm và khung 5 chủ đề × 3 cấp độ; chưa áp đặt luật thi đấu hay phòng chơi trực tuyến.',
     },
     {
-      label: 'Tài sản hình ảnh & bản quyền thương mại (BR-T002)',
-      status: 'Dùng cho phát triển và thử nghiệm nội bộ',
+      label: 'Nhân vật & minh họa của dự án',
+      status: 'Đang dùng cho giai đoạn thử nghiệm',
       detail:
-        'Các nhân vật Brainie, Rootie và minh họa gốc của nhóm được giữ nguyên bản cho giai đoạn phát triển nội bộ; quyền phát hành thương mại tiếp tục được xác minh riêng.',
+        'Các nhân vật Brainie, Rootie và minh họa gốc của nhóm Brainroot được giữ nguyên bản trong giai đoạn thử nghiệm; các bước rà soát bản quyền phát hành tiếp tục được hoàn thiện.',
     },
     {
       label: 'Kênh liên hệ & cộng đồng chính thức',

@@ -19,7 +19,7 @@ export function SiteFooter() {
             <Link className="site-footer__logo" to="/">
               <img
                 src={publicUrl('/assets/aistudio/brainie_1a0fca92.webp')}
-                alt="Brainroot Logo"
+                alt="Biểu trưng Brainroot"
                 className="brand__mascot-img"
               />
               <span>
@@ -43,17 +43,17 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link className="site-footer__link" to="/games">
-                  Green Play — Thư viện trò chơi
+                  Green Play
                 </Link>
               </li>
               <li>
-                <Link className="site-footer__link" to="/games/fact-act/play">
-                  Chơi thử Fact–Act (mẫu nội bộ)
+                <Link className="site-footer__link" to="/quest">
+                  Green Quest
                 </Link>
               </li>
               <li>
-                <Link className="site-footer__link" to="/games/o-an-quan-xanh">
-                  Ô ăn quan xanh & bàn gỗ 3D
+                <Link className="site-footer__link" to="/learn">
+                  Green Learn
                 </Link>
               </li>
             </ul>
@@ -61,28 +61,28 @@ export function SiteFooter() {
 
           <nav
             className="site-footer__col site-footer__nav-group"
-            aria-label="Khám phá thêm"
+            aria-label="Sản phẩm và dự án Brainroot"
           >
-            <h2 className="site-footer__heading">Học & Kết nối</h2>
+            <h2 className="site-footer__heading">Sản phẩm & Dự án</h2>
             <ul className="site-footer__list">
               <li>
-                <Link className="site-footer__link" to="/quest">
-                  Green Quest — Thử thách khởi đầu
+                <Link className="site-footer__link" to="/games/fact-act">
+                  Brainroot - Truth or Dare
                 </Link>
               </li>
               <li>
-                <Link className="site-footer__link" to="/learn">
-                  Green Learn — 5 chủ đề kỹ năng xanh
+                <Link className="site-footer__link" to="/games/o-an-quan-xanh">
+                  Brainroot - Ô ăn quan xanh
                 </Link>
               </li>
               <li>
                 <Link className="site-footer__link" to="/connect">
-                  Green Connect — Tham gia cộng đồng
+                  Green Connect
                 </Link>
               </li>
               <li>
                 <Link className="site-footer__link" to="/about">
-                  Về Brainroot & minh bạch dự án
+                  Về Brainroot
                 </Link>
               </li>
             </ul>

@@ -12,15 +12,15 @@ export default function OAnQuan3DPrototype() {
       <header className="oq-standalone-header">
         <div>
           <p className="oq-standalone-eyebrow">
-            BRAINROOT 2.0 · SANDBOX 3D TOÀN MÀN HÌNH
+            BRAINROOT · BÀN GỖ 3D TOÀN MÀN HÌNH
           </p>
           <h1 className="oq-standalone-title">
-            Ô ăn quan xanh — Mặt bàn gỗ 3D thử nghiệm
+            Brainroot - Ô ăn quan xanh — Mặt bàn gỗ 3D thử nghiệm
           </h1>
         </div>
         <div className="oq-standalone-actions">
           <a className="gp-button gp-button--secondary" href={publicUrl('/games/o-an-quan-xanh')}>
-            ← Về trang Ô ăn quan xanh
+            ← Về trang Brainroot - Ô ăn quan xanh
           </a>
           <a className="gp-text-link" href={publicUrl('/games')}>
             Thư viện Green Play

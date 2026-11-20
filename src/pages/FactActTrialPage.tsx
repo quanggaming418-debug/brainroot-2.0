@@ -79,15 +79,15 @@ export function FactActTrialPage() {
           items={[
             { label: 'Trang chủ', to: '/' },
             { label: 'Green Play', to: '/games' },
-            { label: 'Fact–Act', to: '/games/fact-act' },
-            { label: 'Chơi thử mẫu nội bộ' },
+            { label: 'Brainroot - Truth or Dare', to: '/games/fact-act' },
+            { label: 'Trải nghiệm thử' },
           ]}
         />
       </div>
 
       <section className="trial-shell" aria-labelledby="fact-act-trial-heading">
         <div className="gp-container trial-container">
-          <aside className="trial-disclosure" role="note" aria-label="Thông báo dữ liệu mẫu nội bộ">
+          <aside className="trial-disclosure" role="note" aria-label="Thông báo về bản trải nghiệm thử">
             <span className="trial-disclosure__badge">
               {FACT_ACT_TRIAL_DISCLOSURE.badge}
             </span>
@@ -104,11 +104,11 @@ export function FactActTrialPage() {
               <LearningProgress
                 current={trialState.currentIndex + 1}
                 total={totalCards}
-                label={`Tình huống mẫu ${trialState.currentIndex + 1} / ${totalCards}`}
+                label={`Tình huống ${trialState.currentIndex + 1} / ${totalCards}`}
               />
-              <ol className="trial-phase-steps" aria-label="Các bước trong lượt chơi">
+              <ol className="trial-phase-steps" aria-label="Các bước trong lượt trải nghiệm">
                 <li className={trialState.step === 'fact' ? 'is-current' : 'is-done'}>
-                  1. Fact (Tình huống)
+                  1. Tình huống
                 </li>
                 <li
                   className={
@@ -120,7 +120,7 @@ export function FactActTrialPage() {
                         : ''
                   }
                 >
-                  2. Act (Hành động)
+                  2. Hành động
                 </li>
                 <li
                   className={
@@ -131,7 +131,7 @@ export function FactActTrialPage() {
                         : ''
                   }
                 >
-                  3. Phản hồi
+                  3. Góc nhìn gợi mở
                 </li>
                 <li className={trialState.step === 'reflection' ? 'is-current' : ''}>
                   4. Phản tư
@@ -144,21 +144,21 @@ export function FactActTrialPage() {
             {trialState.step === 'idle' ? (
               <div className="trial-intro-grid">
                 <div className="trial-intro-copy">
-                  <p className="gp-eyebrow">GREEN PLAY · CHƠI THỬ TƯƠNG TÁC</p>
+                  <p className="gp-eyebrow">GREEN PLAY · TRẢI NGHIỆM THỬ TƯƠNG TÁC</p>
                   <h1 className="trial-heading" id="fact-act-trial-heading">
                     {FACT_ACT_TRIAL_DISCLOSURE.heading}
                   </h1>
                   <p className="trial-lead">
-                    Đi qua {totalCards} tình huống học đường ngắn theo đúng chu trình{' '}
-                    <strong>Fact → Act → Phản hồi → Phản tư</strong>. Không cần đăng nhập,
-                    không tính điểm thắng thua áp lực.
+                    Đi qua {totalCards} tình huống học đường ngắn theo 3 bước{' '}
+                    <strong>Tình huống → Hành động → Phản tư</strong> để làm quen với chủ đề
+                    kỹ năng xanh. Không cần đăng nhập, không tính điểm thắng thua áp lực.
                   </p>
 
                   <ul className="trial-checklist">
-                    <li>Mỗi thẻ mất khoảng 1 phút đọc, chọn phương án và phản tư.</li>
-                    <li>Có thể bỏ qua phần ghi chú phản tư hoặc chơi lại bất cứ lúc nào.</li>
+                    <li>Mỗi tình huống mất khoảng 1 phút đọc, chọn phương án và phản tư.</li>
+                    <li>Có thể bỏ qua phần ghi chú phản tư hoặc trải nghiệm lại bất cứ lúc nào.</li>
                     <li>
-                      Chạy hoàn toàn trên dữ liệu minh họa nội bộ — không lộ thẻ vật lý trả phí.
+                      Sử dụng tình huống minh họa riêng cho bản web — không hiển thị nội dung bộ thẻ vật lý.
                     </li>
                   </ul>
 
@@ -168,13 +168,13 @@ export function FactActTrialPage() {
                       className="gp-button gp-button--primary"
                       onClick={handleStart}
                     >
-                      <span>Bắt đầu vòng chơi thử ({totalCards} thẻ mẫu)</span>
+                      <span>Bắt đầu trải nghiệm thử ({totalCards} tình huống)</span>
                       <span className="gp-button__arrow" aria-hidden="true">
                         →
                       </span>
                     </button>
                     <Link className="gp-button gp-button--secondary" to="/games/fact-act">
-                      ← Quay lại trang giới thiệu Fact–Act
+                      ← Về trang Brainroot - Truth or Dare
                     </Link>
                   </div>
                 </div>
@@ -195,7 +195,7 @@ export function FactActTrialPage() {
               <div className="trial-step-panel">
                 <div className="trial-card-meta">
                   <span className="trial-topic-pill">{currentCard.topic}</span>
-                  <span className="trial-phase-tag">BƯỚC 1 · FACT (SỰ THẬT / BỐI CẢNH)</span>
+                  <span className="trial-phase-tag">BƯỚC 1 · TÌNH HUỐNG</span>
                 </div>
 
                 <h1
@@ -210,7 +210,7 @@ export function FactActTrialPage() {
                 <p className="trial-card-prompt">{currentCard.prompt}</p>
 
                 <p className="trial-source-note">
-                  <strong>Trạng thái nguồn:</strong> {currentCard.sourceNote}
+                  <strong>Trạng thái biên tập:</strong> {currentCard.sourceNote}
                 </p>
 
                 <div className="trial-actions">
@@ -219,7 +219,7 @@ export function FactActTrialPage() {
                     className="gp-button gp-button--primary"
                     onClick={handleToAction}
                   >
-                    <span>Tiếp tục chọn hành động (Act)</span>
+                    <span>Tiếp tục chọn hành động</span>
                     <span className="gp-button__arrow" aria-hidden="true">
                       →
                     </span>
@@ -232,7 +232,7 @@ export function FactActTrialPage() {
               <div className="trial-step-panel">
                 <div className="trial-card-meta">
                   <span className="trial-topic-pill">{currentCard.topic}</span>
-                  <span className="trial-phase-tag">BƯỚC 2 · ACT (CHỌN HÀNH ĐỘNG)</span>
+                  <span className="trial-phase-tag">BƯỚC 2 · LỰA CHỌN HÀNH ĐỘNG</span>
                 </div>
 
                 <h1
@@ -270,7 +270,7 @@ export function FactActTrialPage() {
               <div className="trial-step-panel">
                 <div className="trial-card-meta">
                   <span className="trial-topic-pill">{currentCard.topic}</span>
-                  <span className="trial-phase-tag">BƯỚC 3 · PHẢN HỒI HÀNH ĐỘNG</span>
+                  <span className="trial-phase-tag">BƯỚC 3 · GÓC NHÌN GỢI MỞ</span>
                 </div>
 
                 <h1
@@ -392,14 +392,14 @@ export function FactActTrialPage() {
 
             {trialState.step === 'complete' ? (
               <div className="trial-step-panel trial-complete">
-                <p className="gp-eyebrow">HOÀN THÀNH VÒNG CHƠI THỬ MẪU</p>
+                <p className="gp-eyebrow">HOÀN THÀNH TRẢI NGHIỆM THỬ</p>
                 <h1
                   ref={stageHeadingRef}
                   tabIndex={-1}
                   className="trial-heading"
                   id="fact-act-trial-heading"
                 >
-                  Bạn đã hoàn tất {completedCount}/{totalCards} tình huống Fact → Act → Phản tư!
+                  Bạn đã hoàn tất {completedCount}/{totalCards} tình huống trải nghiệm!
                 </h1>
                 <p className="trial-lead">
                   Bạn đã chọn {recommendedCount}/{totalCards} hướng ưu tiên giảm tác động ngay từ
@@ -439,7 +439,7 @@ export function FactActTrialPage() {
                     className="gp-button gp-button--primary"
                     onClick={handleRestart}
                   >
-                    Chơi lại vòng mẫu từ đầu
+                    Trải nghiệm lại từ đầu
                   </button>
                   <Link className="gp-button gp-button--forest" to="/quest">
                     Thử 1 hành động thực tế ở Green Quest →

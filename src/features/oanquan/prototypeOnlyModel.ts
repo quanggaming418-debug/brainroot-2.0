@@ -72,7 +72,7 @@ export interface OAnQuanRuleset {
 
 export const SANDBOX_RULESET: OAnQuanRuleset = {
   id: 'internal-sandbox-demo',
-  name: 'Chế độ thử nghiệm bàn 3D (chưa phải luật chính thức — OQ-08 đang mở)',
+  name: 'Chế độ thử nghiệm bàn gỗ 3D (chưa phải luật chơi chính thức)',
   isOfficialRuleset: false,
   initialCounts: INITIAL_SANDBOX_COUNTS,
   canActOnPit: (counts, pitIndex) =>

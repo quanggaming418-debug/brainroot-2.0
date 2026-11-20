@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   APPROVED_PUBLIC_CARDS,
+  FACT_ACT_TRIAL_DISCLOSURE,
   INTERNAL_DEMO_FIXTURES,
   advanceFactToAction,
   advanceFeedbackToReflection,
@@ -22,8 +23,21 @@ import {
   skipGreenQuest,
   startGreenQuest,
 } from '../src/features/quest/greenQuestModel';
-import { GREEN_LEARN_TOPICS } from '../src/data/learn';
+import { GREEN_LEARN_INTRO, GREEN_LEARN_TOPICS } from '../src/data/learn';
 import { ABOUT_PAGE_CONTENT, GREEN_CONNECT_CONTENT } from '../src/data/connectAbout';
+import {
+  ABOUT_CONTENT,
+  ECOSYSTEM_AREAS,
+  FEATURED_GREEN_PLAY,
+  FOOTER_CONTENT,
+  LEARNING_JOURNEY_STAGES,
+} from '../src/data/landing';
+import {
+  FACT_ACT_DETAIL,
+  GREEN_PLAY_PRODUCTS,
+  O_AN_QUAN_DETAIL,
+  PHYGITAL_TRANSPARENCY,
+} from '../src/data/games';
 import { SANDBOX_RULESET } from '../src/features/oanquan/prototypeOnlyModel';
 import {
   NOT_FOUND_TITLE,
@@ -151,7 +165,10 @@ test('O An Quan SANDBOX_RULESET clearly flags non-official status and preserves 
 });
 
 test('All 10 unified R0 routes resolve accurate Vietnamese titles and active nav states', () => {
-  assert.match(getRouteDocumentTitle('/games/fact-act/play'), /Fact–Act/);
+  assert.match(
+    getRouteDocumentTitle('/games/fact-act/play'),
+    /Brainroot - Truth or Dare/,
+  );
   assert.match(getRouteDocumentTitle('/quest'), /Green Quest/);
   assert.match(getRouteDocumentTitle('/learn'), /Green Learn/);
   assert.match(getRouteDocumentTitle('/connect'), /Green Connect/);
@@ -164,4 +181,91 @@ test('All 10 unified R0 routes resolve accurate Vietnamese titles and active nav
   assert.equal(isNavItemActive('/connect', '/connect'), true);
   assert.equal(isNavItemActive('/about', '/about'), true);
   assert.equal(isNavItemActive('/quest', '/learn'), false);
+});
+
+test('Public copy exports contain zero internal task IDs, Brainroot 2.0, or internal jargon', () => {
+  const skippedKeys = new Set([
+    'id',
+    'slug',
+    'ctaTo',
+    'secondaryCtaTo',
+    'primaryActionTo',
+    'secondaryActionTo',
+    'trialCtaTo',
+    'suggestedRouteTo',
+    'href',
+    'imageSrc',
+    'desktopSrc',
+    'mobileSrc',
+    'sourceId',
+    'reviewStatus',
+    'variant',
+    'statusTone',
+    'mediaLayout',
+    'emphasis',
+  ]);
+
+  const collected: string[] = [];
+  const walk = (value: unknown, key?: string) => {
+    if (key && skippedKeys.has(key)) return;
+    if (typeof value === 'string') {
+      collected.push(value);
+      return;
+    }
+    if (Array.isArray(value)) {
+      for (const item of value) walk(item);
+      return;
+    }
+    if (value && typeof value === 'object') {
+      for (const [k, v] of Object.entries(value)) {
+        walk(v, k);
+      }
+    }
+  };
+
+  walk({
+    ECOSYSTEM_AREAS,
+    FEATURED_GREEN_PLAY,
+    LEARNING_JOURNEY_STAGES,
+    ABOUT_CONTENT,
+    FOOTER_CONTENT,
+    GREEN_PLAY_PRODUCTS,
+    PHYGITAL_TRANSPARENCY,
+    FACT_ACT_DETAIL,
+    O_AN_QUAN_DETAIL,
+    GREEN_LEARN_INTRO,
+    GREEN_LEARN_TOPICS,
+    GREEN_CONNECT_CONTENT,
+    ABOUT_PAGE_CONTENT,
+    FACT_ACT_TRIAL_DISCLOSURE,
+  });
+  collected.push(SANDBOX_RULESET.name);
+  for (const card of INTERNAL_DEMO_FIXTURES) {
+    collected.push(card.factHeading, card.prompt, card.actionPrompt, card.sourceNote, card.reflectionPrompt);
+  }
+
+  const publicStrings = collected.join('\n');
+
+  const forbiddenPatterns = [
+    /Brainroot 2\.0/i,
+    /\bBR-T\d+\b/i,
+    /\bOQ-\d+\b/i,
+    /\bVIS-\d+\b/i,
+    /\bR0\b/,
+    /\bR1\b/,
+    /\bLite\b/,
+    /\bsandbox\b/i,
+    /Fact[–-]Act/i,
+    /mẫu nội bộ/i,
+    /minh họa nội bộ/i,
+    /khung nội bộ/i,
+  ];
+
+  for (const pattern of forbiddenPatterns) {
+    assert.equal(
+      pattern.test(publicStrings),
+      false,
+      `Found forbidden internal term matching ${pattern} in public copy`,
+    );
+  }
 });

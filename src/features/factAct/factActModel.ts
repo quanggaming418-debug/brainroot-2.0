@@ -75,12 +75,12 @@ export interface FactActTrialState {
 }
 
 export const FACT_ACT_TRIAL_DISCLOSURE = {
-  badge: 'Dữ liệu mẫu thử nghiệm nội bộ · Chờ duyệt BR-T005',
-  heading: 'Chế độ thử nghiệm vòng lặp Fact → Act → Phản tư',
+  badge: 'Trải nghiệm thử nghiệm · Đang hoàn thiện thể lệ',
+  heading: 'Trải nghiệm thử Brainroot - Truth or Dare',
   summary:
-    'Bộ thẻ mẫu công khai chính thức (BR-T005) đang chờ nhóm nội dung Brainroot duyệt và gắn nguồn tham khảo. Các tình huống dưới đây là dữ liệu minh họa nội bộ tách biệt hoàn toàn với bộ thẻ vật lý trả phí, dùng để kiểm chứng trải nghiệm tương tác.',
+    'Bản chơi thử hiện tại minh họa trước một luồng tình huống học đường 3 bước (Tình huống → Hành động → Phản tư) để bạn làm quen với chủ đề kỹ năng xanh. Bộ thẻ công khai có nguồn tham khảo và thể lệ chính thức của Brainroot - Truth or Dare đang được đội ngũ Brainroot hoàn thiện.',
   noPaidContentNote:
-    'Không chứa nội dung từ bộ thẻ vật lý trả phí và không sử dụng số liệu hay đường dẫn bên ngoài chưa kiểm duyệt.',
+    'Mở tự do không cần đăng nhập, không hiển thị nội dung của bộ thẻ vật lý gốc và không dùng số liệu chưa kiểm duyệt.',
 } as const;
 
 /**
@@ -99,7 +99,7 @@ export const INTERNAL_DEMO_FIXTURES: readonly FactActCard[] = [
     kind: 'fact-act-pair',
     factHeading: 'Nhựa dùng một lần trong giờ nghỉ giữa tiết',
     prompt:
-      'Tình huống minh họa nội bộ: Trong một buổi sinh hoạt câu lạc bộ sinh viên, mỗi đồ uống mang đi thường đi kèm ly nhựa, nắp, ống hút và túi nilon chỉ dùng trong thời gian ngắn rồi bỏ đi, làm tăng nhanh lượng rác khó tái chế tại khu học tập.',
+      'Trong một buổi sinh hoạt câu lạc bộ sinh viên, mỗi đồ uống mang đi thường đi kèm ly nhựa, nắp, ống hút và túi nilon chỉ dùng trong thời gian ngắn rồi bỏ đi, làm tăng nhanh lượng rác khó tái chế tại khu học tập.',
     actionPrompt:
       'Nếu bạn là thành viên chuẩn bị cho buổi sinh hoạt tuần tới, hành động nào vừa khả thi vừa giảm phát sinh rác ngay từ đầu?',
     choices: [
@@ -130,7 +130,7 @@ export const INTERNAL_DEMO_FIXTURES: readonly FactActCard[] = [
     ],
     sourceId: 'INTERNAL-DEMO-FIXTURE-PENDING-BR-T005',
     sourceNote:
-      'Tình huống mẫu nội bộ dùng để kiểm thử luồng Fact → Act → Phản tư; chưa phải thẻ đã duyệt phát hành công khai.',
+      'Tình huống minh họa phục vụ trải nghiệm thử; bộ thẻ và nguồn tham khảo chính thức đang được đội ngũ nội dung hoàn thiện.',
     reflectionPrompt:
       'Điều gì thường khiến bạn hoặc nhóm bạn ngại mang theo bình nước cá nhân, và một cách nhắc nhỏ nhẹ nào có thể giúp thói quen này dễ hơn?',
     reflectionSuggestions: [
@@ -146,7 +146,7 @@ export const INTERNAL_DEMO_FIXTURES: readonly FactActCard[] = [
     kind: 'fact-act-pair',
     factHeading: 'Thiết bị điện vẫn chạy trong phòng học trống',
     prompt:
-      'Tình huống minh họa nội bộ: Sau khi kết thúc tiết học cuối buổi sáng, quạt trần, đèn và máy chiếu ở phòng học thường bị quên tắt trong lúc chờ ca học tiếp theo, gây lãng phí điện năng không cần thiết.',
+      'Sau khi kết thúc tiết học cuối buổi sáng, quạt trần, đèn và máy chiếu ở phòng học thường bị quên tắt trong lúc chờ ca học tiếp theo, gây lãng phí điện năng không cần thiết.',
     actionPrompt:
       'Bạn đề xuất cách phối hợp nào để lớp học duy trì thói quen tắt thiết bị điện khi rời phòng?',
     choices: [
@@ -177,7 +177,7 @@ export const INTERNAL_DEMO_FIXTURES: readonly FactActCard[] = [
     ],
     sourceId: 'INTERNAL-DEMO-FIXTURE-PENDING-BR-T005',
     sourceNote:
-      'Tình huống mẫu nội bộ dùng để kiểm thử luồng Fact → Act → Phản tư; chưa phải thẻ đã duyệt phát hành công khai.',
+      'Tình huống minh họa phục vụ trải nghiệm thử; bộ thẻ và nguồn tham khảo chính thức đang được đội ngũ nội dung hoàn thiện.',
     reflectionPrompt:
       'Ở lớp học hoặc góc học tập hiện tại, thiết bị nào hay bị bỏ quên bật lâu nhất khi không dùng đến?',
     reflectionSuggestions: [
@@ -193,7 +193,7 @@ export const INTERNAL_DEMO_FIXTURES: readonly FactActCard[] = [
     kind: 'fact-act-pair',
     factHeading: 'Mua mới hay dùng lại học cụ đầu kỳ học',
     prompt:
-      'Tình huống minh họa nội bộ: Mỗi đầu học kỳ, nhiều học sinh và sinh viên có thói quen mua mới hoàn toàn giáo trình, sổ ghi chép và vật dụng sự kiện dù nhiều tài liệu vẫn còn dùng tốt từ khóa trước.',
+      'Mỗi đầu học kỳ, nhiều học sinh và sinh viên có thói quen mua mới hoàn toàn giáo trình, sổ ghi chép và vật dụng sự kiện dù nhiều tài liệu vẫn còn dùng tốt từ khóa trước.',
     actionPrompt:
       'Cách nào giúp cộng đồng lớp hoặc câu lạc bộ kéo dài vòng đời học cụ một cách thiết thực?',
     choices: [
@@ -224,7 +224,7 @@ export const INTERNAL_DEMO_FIXTURES: readonly FactActCard[] = [
     ],
     sourceId: 'INTERNAL-DEMO-FIXTURE-PENDING-BR-T005',
     sourceNote:
-      'Tình huống mẫu nội bộ dùng để kiểm thử luồng Fact → Act → Phản tư; chưa phải thẻ đã duyệt phát hành công khai.',
+      'Tình huống minh họa phục vụ trải nghiệm thử; bộ thẻ và nguồn tham khảo chính thức đang được đội ngũ nội dung hoàn thiện.',
     reflectionPrompt:
       'Có món đồ học tập hoặc sinh hoạt nào bạn đang dùng lại từ người khác hoặc giữ bền nhiều năm mà bạn thấy rất đáng chia sẻ không?',
     reflectionSuggestions: [

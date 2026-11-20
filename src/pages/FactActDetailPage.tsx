@@ -46,14 +46,14 @@ export function FactActDetailPage() {
                 src={publicUrl('/assets/hero-v4/fact-act-deck.webp')}
                 width={1024}
                 height={1024}
-                alt="Bộ thẻ bài vật lý Fact–Act của Brainroot"
+                alt="Bộ thẻ bài vật lý Brainroot - Truth or Dare"
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
               />
             </div>
             <figcaption className="gp-detail-hero__caption">
-              Hình ảnh bộ thẻ bài vật lý Fact–Act gốc của nhóm dự án Brainroot.
+              Hình ảnh bộ thẻ bài vật lý Brainroot - Truth or Dare gốc của nhóm dự án Brainroot.
             </figcaption>
           </figure>
 
@@ -104,7 +104,7 @@ export function FactActDetailPage() {
       >
         <div className="gp-container">
           <div className="gp-section-header gp-section-header--left">
-            <p className="gp-eyebrow">VÒNG LẶP GIÁO DỤC</p>
+            <p className="gp-eyebrow">TRẢI NGHIỆM THỬ TRÊN WEB</p>
             <h2 className="gp-section-heading" id="fact-act-loop-heading">
               {FACT_ACT_DETAIL.learningLoopHeading}
             </h2>
@@ -169,7 +169,7 @@ export function FactActDetailPage() {
       <section className="gp-section gp-section--compact">
         <div className="gp-container">
           <EmptyUnavailableState
-            statusTag="MINH BẠCH NỘI DUNG · BR-T005"
+            statusTag="MINH BẠCH NỘI DUNG"
             heading={FACT_ACT_DETAIL.unavailableNotice.heading}
             description={FACT_ACT_DETAIL.unavailableNotice.description}
             primaryActionLabel={

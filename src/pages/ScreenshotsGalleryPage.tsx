@@ -3,16 +3,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const SCREENSHOTS = [
-  { name: '01. Trang chủ / Hero V4 Living World', filename: '01-home-16-9.png', route: '/' },
+  { name: '01. Trang chủ Brainroot', filename: '01-home-16-9.png', route: '/' },
   { name: '02. Thư viện Green Play', filename: '02-green-play-catalog-16-9.png', route: '/games' },
-  { name: '03. Chi tiết Fact-Act', filename: '03-fact-act-detail-16-9.png', route: '/games/fact-act' },
-  { name: '04. Trải nghiệm số Fact-Act (Play)', filename: '04-fact-act-trial-16-9.png', route: '/games/fact-act/play' },
-  { name: '05. Chi tiết Ô ăn quan xanh 3D & Khám phá 5x3', filename: '05-o-an-quan-detail-16-9.png', route: '/games/o-an-quan-xanh' },
-  { name: '06. Sandbox Ô ăn quan 3D độc lập', filename: '06-o-an-quan-3d-sandbox-16-9.png', route: '/?preview=oanquan3d' },
-  { name: '07. Thử thách Green Quest Lite', filename: '07-green-quest-16-9.png', route: '/quest' },
-  { name: '08. Học tập Green Learn Lite', filename: '08-green-learn-16-9.png', route: '/learn' },
+  { name: '03. Giới thiệu Brainroot - Truth or Dare', filename: '03-fact-act-detail-16-9.png', route: '/games/fact-act' },
+  { name: '04. Trải nghiệm thử Brainroot - Truth or Dare', filename: '04-fact-act-trial-16-9.png', route: '/games/fact-act/play' },
+  { name: '05. Brainroot - Ô ăn quan xanh 3D & 5 chủ đề × 3 cấp độ', filename: '05-o-an-quan-detail-16-9.png', route: '/games/o-an-quan-xanh' },
+  { name: '06. Bàn gỗ 3D toàn màn hình Brainroot - Ô ăn quan xanh', filename: '06-o-an-quan-3d-sandbox-16-9.png', route: '/?preview=oanquan3d' },
+  { name: '07. Thử thách Green Quest', filename: '07-green-quest-16-9.png', route: '/quest' },
+  { name: '08. Học tập Green Learn', filename: '08-green-learn-16-9.png', route: '/learn' },
   { name: '09. Kết nối Green Connect', filename: '09-green-connect-16-9.png', route: '/connect' },
-  { name: '10. Về dự án Brainroot (About)', filename: '10-about-brainroot-16-9.png', route: '/about' }
+  { name: '10. Về dự án Brainroot', filename: '10-about-brainroot-16-9.png', route: '/about' }
 ];
 
 export const ScreenshotsGalleryPage: React.FC = () => {
@@ -22,13 +22,13 @@ export const ScreenshotsGalleryPage: React.FC = () => {
         <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#A6C6B6]/40 pb-6">
           <div>
             <span className="inline-block px-3 py-1 rounded-full bg-[#A6C6B6]/30 text-[#263B31] text-xs font-semibold uppercase tracking-wider mb-2">
-              Brainroot 2.0 • 16:9 UI Export Gallery
+              Brainroot • Thư viện ảnh giao diện 16:9
             </span>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-[#263B31]">
               Bộ Sưu Tập Ảnh Chụp Giao Diện (1920×1080)
             </h1>
             <p className="mt-2 text-sm text-[#263B31]/80 max-w-2xl">
-              Toàn bộ các tuyến đường và giao diện chính của Brainroot 2.0 đã được chụp tự động ở tỷ lệ chuẩn 16:9. Bạn có thể xem trước hoặc tải xuống từng ảnh trực tiếp.
+              Toàn bộ các tuyến đường và giao diện chính của Brainroot đã được chụp ở tỷ lệ chuẩn 16:9. Bạn có thể xem trước hoặc tải xuống từng ảnh trực tiếp.
             </p>
           </div>
           <Link

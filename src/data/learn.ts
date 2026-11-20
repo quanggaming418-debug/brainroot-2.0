@@ -28,9 +28,9 @@ export const GREEN_LEARN_INTRO = {
   heading: 'Năm chủ đề kỹ năng xanh gắn với đời sống hằng ngày',
   summary:
     'Đọc nhanh từng chủ đề với mục tiêu học tập rõ ràng, bối cảnh gần gũi trong học đường và gợi ý thực hành nhỏ — mở công khai cho mọi người không cần đăng nhập.',
-  provenanceBannerTitle: 'Trạng thái biên tập nội dung (BR-T005)',
+  provenanceBannerTitle: 'Nội dung đang trong quá trình biên tập',
   provenanceBannerBody:
-    'Các thẻ kiến thức khung dưới đây đang ở trạng thái bản thảo khung chưa duyệt nguồn chính thức. Nhóm nội dung Brainroot sẽ bổ sung trích dẫn tham khảo đã xác minh và bài đọc mở rộng ở giai đoạn kế tiếp.',
+    'Các thẻ kiến thức khung dưới đây là bản thảo tham khảo ban đầu. Đội ngũ nội dung Brainroot sẽ bổ sung tài liệu trích dẫn đã kiểm duyệt và bài đọc mở rộng ở giai đoạn kế tiếp.',
 } as const;
 
 export const GREEN_LEARN_TOPICS: readonly LearnTopicCard[] = [
@@ -49,7 +49,8 @@ export const GREEN_LEARN_TOPICS: readonly LearnTopicCard[] = [
     reflectionQuestion:
       'Lần gần nhất bạn quyết định không mua một món đồ không cần thiết là khi nào, và bạn thấy điều đó mang lại lợi ích gì?',
     reviewStatus: 'draft_unapproved',
-    provenanceNote: 'Bản thảo khung nội bộ — đang chờ gắn nguồn tham khảo chính thức (BR-T005).',
+    provenanceNote:
+      'Bản thảo khung giáo dục — nguồn tham khảo chính thức đang được đội ngũ nội dung kiểm duyệt.',
   },
   {
     id: 'learn-water',
@@ -66,7 +67,8 @@ export const GREEN_LEARN_TOPICS: readonly LearnTopicCard[] = [
     reflectionQuestion:
       'Trong sinh hoạt mỗi ngày của bạn, hoạt động nào sử dụng nước nhiều nhất và có thể điều chỉnh nhẹ nhàng ở bước nào?',
     reviewStatus: 'draft_unapproved',
-    provenanceNote: 'Bản thảo khung nội bộ — đang chờ gắn nguồn tham khảo chính thức (BR-T005).',
+    provenanceNote:
+      'Bản thảo khung giáo dục — nguồn tham khảo chính thức đang được đội ngũ nội dung kiểm duyệt.',
   },
   {
     id: 'learn-energy',
@@ -83,7 +85,8 @@ export const GREEN_LEARN_TOPICS: readonly LearnTopicCard[] = [
     reflectionQuestion:
       'Lớp học hoặc không gian làm việc của bạn có thể đặt một quy ước nhỏ nào để mọi người cùng nhớ tắt điện khi rời phòng?',
     reviewStatus: 'draft_unapproved',
-    provenanceNote: 'Bản thảo khung nội bộ — đang chờ gắn nguồn tham khảo chính thức (BR-T005).',
+    provenanceNote:
+      'Bản thảo khung giáo dục — nguồn tham khảo chính thức đang được đội ngũ nội dung kiểm duyệt.',
   },
   {
     id: 'learn-waste',
@@ -100,7 +103,8 @@ export const GREEN_LEARN_TOPICS: readonly LearnTopicCard[] = [
     reflectionQuestion:
       'Loại rác nào xuất hiện nhiều nhất quanh bàn học của bạn trong một tuần, và bạn có thể giảm bớt từ khâu nào?',
     reviewStatus: 'draft_unapproved',
-    provenanceNote: 'Bản thảo khung nội bộ — đang chờ gắn nguồn tham khảo chính thức (BR-T005).',
+    provenanceNote:
+      'Bản thảo khung giáo dục — nguồn tham khảo chính thức đang được đội ngũ nội dung kiểm duyệt.',
   },
   {
     id: 'learn-green-spaces',
@@ -117,6 +121,7 @@ export const GREEN_LEARN_TOPICS: readonly LearnTopicCard[] = [
     reflectionQuestion:
       'Góc cây xanh nào quanh nơi bạn học tập khiến bạn cảm thấy dễ chịu nhất, và cộng đồng có thể cùng giữ gìn nơi đó ra sao?',
     reviewStatus: 'draft_unapproved',
-    provenanceNote: 'Bản thảo khung nội bộ — đang chờ gắn nguồn tham khảo chính thức (BR-T005).',
+    provenanceNote:
+      'Bản thảo khung giáo dục — nguồn tham khảo chính thức đang được đội ngũ nội dung kiểm duyệt.',
   },
 ];

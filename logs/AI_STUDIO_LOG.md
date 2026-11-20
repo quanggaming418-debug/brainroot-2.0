@@ -215,3 +215,50 @@
 - **Git commit SHA:** `NOT COMMITTED` (workspace AI Studio không có `.git`).
 - **What remains / next task:** Product Owner xem ảnh chụp Desktop & Mobile để duyệt thẩm mỹ Homepage V2; Codex rà soát diff, chạy QA độc lập trên Git và mở PR review.
 
+## Session: 2026-11-21 01:47+07:00 — Google AI Studio — BR-T022 (Homepage V2 — Final Visual Polish)
+
+- **Task & goal:** Tinh chỉnh chất lượng thẩm mỹ cuối cho Four Garden Windows và chuyển cảnh Hero → H03 mà không thay đổi bố cục tổng thể đã duyệt, Hero V4, 4 asset WebP, router, game hay các trang con.
+- **Status before → after:** `BR-T022` `IN_REVIEW` → `IN_REVIEW` (chờ Product Owner đối chiếu ảnh trước/sau và Codex QA/PR).
+- **Read context:** `AGENTS.md`, `planning/PROJECT_STATE.md`, `planning/TASKS.md`, `logs/HANDOFF.md`, `src/data/landing.ts`, `src/components/landing/{EcosystemSection,FeaturedGreenPlaySection,AboutSection,SiteFooter}.tsx`, `src/components/garden/GardenPrimitives.tsx`, `src/styles/{landing,tokens,unified-world}.css`, `tests/{br-t003,br-t004,r0-integration}.test.ts` và kiểm tra trực quan 4 ảnh WebP cùng ảnh chụp trước/sau.
+- **Files changed:**
+  - `src/data/landing.ts` — Rút gọn `subtitle`, `description`, `note`, `ctaLabel` của 4 thẻ `ECOSYSTEM_AREAS` để giảm chiều cao/xuống dòng và tăng khoảng thở; thay thuật ngữ nội bộ `R0` và `BR-T005` trên trang chủ (kể cả `FOOTER_CONTENT.transparencyNote`) bằng diễn đạt tự nhiên, trung thực về trạng thái thử nghiệm / đang kiểm duyệt.
+  - `src/components/landing/EcosystemSection.tsx` — Loại bỏ lớp `<svg className="garden-window-card__backdrop-leaf">` chứa hình tròn/lá mờ phía sau tranh minh họa; chuyển 4 ảnh dưới Hero sang `loading="lazy"` và `decoding="async"`.
+  - `src/components/garden/GardenPrimitives.tsx` — Tinh chỉnh đường cong & độ đục của `gt-meadow-mist` trong `GardenTransitionBand` nằm gọn giữa đáy `scroll-hint` và đường cắt đáy `.hero`, đồng thời kéo dài mép đáy path + `shapeRendering="geometricPrecision"` cho `BotanicalDivider` và `GardenTransitionBand` để khử hoàn toàn đường kẻ ngang subpixel ở trình duyệt thật.
+  - `src/styles/unified-world.css` — Chuyển nền `.worlds--garden-windows` sang `#f8f3e9` đồng nhất với divider phía dưới, tinh chỉnh `margin` nối mép `-1px/-2px`, bỏ CSS `.garden-window-card__backdrop-leaf`, bổ sung ánh sáng nền chạm đất dịu nhẹ dưới vật thể, cân tỷ lệ chủ thể `scale(1.07)` trên desktop và `aspect-ratio: 16/10` + `scale(1.06)` trên mobile (`<= 720px`), giảm chiều cao đồng đều cả 4 thẻ desktop xuống `295px`.
+  - `planning/TASKS.md`, `planning/PROJECT_STATE.md`, `logs/AI_STUDIO_LOG.md`, `logs/WORK_LOG.md`, `logs/HANDOFF.md` — Cập nhật hồ sơ và ảnh chụp trước/sau.
+- **User-visible behavior changed:** Bốn thẻ Four Garden Windows gọn gàng và thoáng hơn rõ rệt (`295px` đồng đều trên desktop), minh họa cân đối không còn hình tròn/lá mờ nền, ngôn ngữ thân thiện không lộ mã nội bộ (`R0`, `BR-T005`), chuyển tiếp Hero → H02 → H03 liền mạch không hở mép cắt ngang Hero và không còn vết nối subpixel giữa các section; ảnh dưới Hero tải lazy/async mà không ảnh hưởng hiển thị.
+- **Tests actually executed:**
+  - `npx --yes tsx --test tests/*.test.ts`: **PASS (27/27)**.
+  - `npm run typecheck`: **PASS (`tsc --noEmit` 0 lỗi)**.
+  - `npm run build` (`compile_applet` / `vite build`): **PASS**.
+  - `npm run lint`: **`NOT RUN`** (`package.json` chưa có script `lint`).
+  - Playwright Chromium headless (`http://localhost:3000/brainroot-2.0/`): **PASS** sau 2 vòng kiểm chứng trực quan trên `1440×900` và `390×844` + `prefers-reduced-motion`: 0 lỗi console/pageerror, 0 tràn ngang (`overflowX: 0`), 4/4 ảnh WebP có `loading="lazy"` & `decoding="async"` và giải mã đủ `1120×747`, 4 thẻ desktop cao đều `295px`, chuyển tab H05 (`Khơi gợi sự tò mò xanh`) và bấm CTA `/brainroot-2.0/games` hoạt động. Ảnh chụp lưu tại `.aistudio/artifacts/computer_use/homepage-v2-before-{desktop-1440,mobile-390}.png` và `homepage-v2-after-{desktop-1440,mobile-390}.png` (cùng bản chính `homepage-v2-{desktop-1440,mobile-390}.png`).
+- **Git commit SHA:** `NOT COMMITTED` (workspace AI Studio không có `.git`).
+- **What remains / next task:** Product Owner đối chiếu ảnh trước/sau; Codex review diff với `BR-T024`/PR #5 và mở PR vào `main`.
+
+## Session: 2026-11-20 17:30+07:00 — Google AI Studio — Website Branding, Typography, Content & Footer Audit
+
+- **Task & goal:** Rà soát toàn bộ website Brainroot (10 tuyến SPA + `/?preview=oanquan3d`), lập báo cáo audit phân loại P0/P1/P2 và thực hiện chuẩn hóa thương hiệu công khai (**Brainroot**), hai tên sản phẩm chính thức (**Brainroot - Truth or Dare**, **Brainroot - Ô ăn quan xanh**), làm sạch toàn bộ mã nội bộ/thuật ngữ kỹ thuật khỏi UI công khai, tinh chỉnh typography tiếng Việt ngoài Hero V4 và tối ưu chiều cao Footer giảm 30–40% không dùng CSS `transform`/`scale`.
+- **Status before → after:** `IN_REVIEW` → `IN_REVIEW` (báo cáo đầy đủ lưu tại `docs/WEBSITE_BRANDING_TYPOGRAPHY_CONTENT_AUDIT.md`, chờ Product Owner duyệt nội dung mở và Codex review diff/PR).
+- **Read context:** `AGENTS.md`, `docs/DESIGN_SYSTEM.md`, `docs/PRD.md`, `docs/CONTENT_GUIDELINES.md`, `docs/UX_UI_MASTER_BLUEPRINT.md`, `planning/PROJECT_STATE.md`, `logs/HANDOFF.md`, toàn bộ `src/data/*`, `src/pages/*`, `src/components/*`, `src/features/*`, `src/styles/*`, `src/utils/routeNavigation.ts`.
+- **Files changed:**
+  - `docs/WEBSITE_BRANDING_TYPOGRAPHY_CONTENT_AUDIT.md` (mới) — Báo cáo kiểm toán đầy đủ (Executive Summary, bảng P0/P1/P2 BEFORE→AFTER, Typography Audit, Footer BEFORE/AFTER, danh sách hạng mục chờ PO xác nhận).
+  - `src/data/landing.ts`, `src/data/games.ts`, `src/data/learn.ts`, `src/data/connectAbout.ts`, `src/utils/routeNavigation.ts` — Chuẩn hóa `Brainroot`, `Brainroot - Truth or Dare`, `Brainroot - Ô ăn quan xanh`; xóa toàn bộ `Brainroot 2.0`, `BR-T005`, `OQ-08`, `BR-T002`, `VIS-008`, `R0/R1`, `Lite`, `sandbox`, `mẫu nội bộ`, `Fact–Act` khỏi copy công khai; giữ trung lập mô tả Truth or Dare không bịa luật; bọc `sandboxNotice.href` qua `publicUrl()`.
+  - `src/features/factAct/factActModel.ts`, `src/features/oanquan/prototypeOnlyModel.ts`, `src/features/oanquan/OAnQuan3DPrototype.tsx`, `src/features/oanquan/OAnQuanTabletopExperience.tsx` — Làm sạch chuỗi hiển thị công khai và tiêu đề/ARIA 3D; giữ nguyên 100% logic FSM, `APPROVED_PUBLIC_CARDS = []`, cơ chế Three.js và `localStorage`.
+  - `src/components/landing/SiteHeader.tsx`, `src/components/landing/SiteFooter.tsx` — Đổi ALT logo sang `"Biểu trưng Brainroot"`; tái cấu trúc Footer thành 2 cột điều hướng cân đối 4×4 (`Hệ sinh thái` và `Sản phẩm & Dự án`).
+  - `src/pages/FactActDetailPage.tsx`, `FactActTrialPage.tsx`, `OAnQuanXanhDetailPage.tsx`, `GreenQuestPage.tsx`, `GreenLearnPage.tsx`, `AboutPage.tsx`, `ScreenshotsGalleryPage.tsx` — Đồng bộ tên sản phẩm, tiêu đề, breadcrumb và xóa chuỗi nội bộ khỏi UI.
+  - `src/styles/base.css`, `src/styles/green-play.css`, `src/styles/unified-world.css` — Thêm `body { line-height: 1.6 }`, nới tracking (`-0.024em`..`-0.026em`) & hạ `h1` trang con về `weight: 800` + `text-wrap: balance` ngoài Hero V4; rút gọn chiều cao Footer tự nhiên (không dùng `transform`/`scale`).
+  - `tests/br-t004.test.ts`, `tests/r0-integration.test.ts` — Cập nhật assertion tên sản phẩm chính thức và bổ sung test #28 kiểm tra 0 rò rỉ chuỗi cấm trên toàn bộ public copy exports.
+  - `planning/PROJECT_STATE.md`, `logs/AI_STUDIO_LOG.md`, `logs/WORK_LOG.md`, `logs/HANDOFF.md` — Cập nhật hồ sơ quản trị và bàn giao.
+- **User-visible behavior changed:** Toàn bộ website nhất quán dùng tên thương hiệu **Brainroot** và 2 tên sản phẩm **Brainroot - Truth or Dare**, **Brainroot - Ô ăn quan xanh**; không còn bất kỳ mã tác vụ nội bộ hay thuật ngữ kỹ thuật nào trên giao diện công khai; tiêu đề tiếng Việt thoáng hơn; Footer gọn hơn `36.5%` trên Desktop (`436px → 277px`) và `39.5%` trên Mobile (`817px → 494px`).
+- **Tests actually executed:**
+  - `npx --yes tsx --test tests/*.test.ts`: **PASS (28/28)**.
+  - `npm run typecheck`: **PASS (`tsc --noEmit` 0 lỗi)**.
+  - `npm run build` (`vite build`): **PASS**.
+  - `npm run lint`: **`NOT RUN`** (`package.json` chưa có script `lint`).
+  - Playwright Chromium headless (`http://localhost:3000/brainroot-2.0/`): **PASS** trên tất cả 11 tuyến (`1440×900` & `390×844`) — 0 lỗi console, 0 ảnh vỡ, 0 tràn ngang, 0 chuỗi cấm trên DOM & `<title>`, Footer Desktop `277px` (`-36.5%`) / Mobile `494px` (`-39.5%`), khởi chạy luồng chơi thử `/games/fact-act/play` hoạt động.
+- **Git commit SHA:** `NOT COMMITTED` (workspace AI Studio không có `.git`).
+- **What remains / next task:** Product Owner duyệt báo cáo `docs/WEBSITE_BRANDING_TYPOGRAPHY_CONTENT_AUDIT.md`, chốt luật chính thức **Brainroot - Truth or Dare**, hoàn tất `BR-T005`/`OQ-08`/kênh liên hệ chính thức; Codex review diff & mở PR.
+
+
+

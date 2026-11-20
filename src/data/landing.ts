@@ -122,27 +122,27 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
   {
     id: 'games',
     title: 'Green Play',
-    subtitle: 'Trò chơi giáo dục tương tác · Trọng tâm R0',
+    subtitle: 'Trò chơi giáo dục kỹ năng xanh',
     description:
-      'Khám phá Fact–Act với vòng chơi thử mẫu tương tác và Ô ăn quan xanh với bàn gỗ 3D thử nghiệm cùng 5 chủ đề kỹ năng xanh.',
-    statusLabel: 'Đã mở · Có chơi thử mẫu',
-    note: 'Mở công khai không cần đăng nhập; tách biệt dữ liệu mẫu nội bộ với bộ thẻ vật lý trả phí.',
+      'Trải nghiệm thử Brainroot - Truth or Dare và khám phá bàn gỗ 3D Brainroot - Ô ăn quan xanh.',
+    statusLabel: 'Đã mở · Có bản trải nghiệm thử',
+    note: 'Mở tự do không cần đăng nhập · Nội dung chính thức đang hoàn thiện.',
     variant: 'play',
-    ctaLabel: 'Vào khu vườn Green Play',
+    ctaLabel: 'Khám phá Green Play',
     ctaTo: '/games',
     emphasis: 'featured',
     imageSrc: publicUrl('/assets/home/garden/green-play.webp'),
     imageAlt:
-      'Minh họa khu vực Green Play với bàn gỗ Ô ăn quan xanh và hai thẻ bài lá xanh trên gốc cây trong khu vườn',
+      'Minh họa khu vực Green Play với bàn gỗ Brainroot - Ô ăn quan xanh và hai thẻ bài lá xanh trên gốc cây trong khu vườn',
   },
   {
     id: 'quest',
     title: 'Green Quest',
-    subtitle: 'Thử thách và hành động xanh hằng ngày',
+    subtitle: 'Thử thách xanh nhỏ gọn mỗi ngày',
     description:
-      'Bắt đầu từ một thử thách thực hành nhỏ gọn trong ngày tại trường học hoặc góc học tập và tự ghi lại dòng phản tư cá nhân.',
-    statusLabel: 'Bản khởi đầu cục bộ',
-    note: 'Tiến độ lưu cục bộ trên trình duyệt, không yêu cầu tài khoản hay vị trí.',
+      'Thực hành một hành động xanh tại trường học hoặc góc học tập và ghi nhanh dòng phản tư.',
+    statusLabel: 'Đã mở · Lưu trên trình duyệt',
+    note: 'Lưu ngay trên máy, không cần tài khoản hay vị trí.',
     variant: 'quest',
     ctaLabel: 'Mở thử thách khởi đầu',
     ctaTo: '/quest',
@@ -154,13 +154,13 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
   {
     id: 'learn',
     title: 'Green Learn',
-    subtitle: 'Khám phá kiến thức và 5 chủ đề kỹ năng xanh',
+    subtitle: '5 chủ đề kỹ năng xanh cốt lõi',
     description:
-      'Đi qua 5 chủ đề môi trường cốt lõi với mục tiêu học tập rõ ràng, bối cảnh học đường gần gũi và câu hỏi gợi mở thói quen xanh.',
-    statusLabel: 'Bản thảo khung · Chờ duyệt BR-T005',
-    note: 'Hiển thị rõ trạng thái biên tập nội dung; đang chờ gắn nguồn tham khảo chính thức.',
+      'Tìm hiểu tiêu dùng bền vững, nước, năng lượng, rác thải và không gian xanh học đường.',
+    statusLabel: 'Bản thảo khung · Đang kiểm duyệt',
+    note: 'Nội dung và nguồn tham khảo chính thức đang được hoàn thiện.',
     variant: 'learn',
-    ctaLabel: 'Đọc 5 chủ đề kỹ năng xanh',
+    ctaLabel: 'Xem 5 chủ đề kỹ năng xanh',
     ctaTo: '/learn',
     emphasis: 'standard',
     imageSrc: publicUrl('/assets/home/garden/green-learn.webp'),
@@ -170,11 +170,11 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
   {
     id: 'connect',
     title: 'Green Connect',
-    subtitle: 'Kết nối cộng đồng và hoạt động giáo dục',
+    subtitle: 'Kết nối lớp học và cộng đồng trẻ',
     description:
-      'Gợi ý cách học sinh, sinh viên, giáo viên và câu lạc bộ (ưu tiên thử nghiệm tại ULIS & Hà Nội) cùng mang Brainroot vào lớp học.',
-    statusLabel: 'Hướng dẫn tham gia',
-    note: 'Kênh liên hệ và lịch sự kiện chính thức đang chờ nhóm dự án công bố.',
+      'Gợi ý hoạt động cho học sinh, sinh viên, giáo viên và câu lạc bộ, thí điểm tại ULIS & Hà Nội.',
+    statusLabel: 'Hướng dẫn tham gia thử nghiệm',
+    note: 'Kênh liên hệ và lịch sự kiện chính thức đang chờ công bố.',
     variant: 'connect',
     ctaLabel: 'Xem cách cùng tham gia',
     ctaTo: '/connect',
@@ -190,37 +190,37 @@ export const FEATURED_GREEN_PLAY = {
   overline: 'ĐIỂM NỔI BẬT TRONG GREEN PLAY',
   heading: 'Hai sản phẩm mở đường từ nhận thức tới hành động xanh',
   summary:
-    'Từ vòng lặp Fact → Act → Phản tư bạn có thể chơi thử ngay hôm nay, tới bàn gỗ 3D Ô ăn quan xanh kết hợp trò chơi dân gian với 5 chủ đề môi trường.',
+    'Khám phá bộ thẻ kỹ năng xanh Brainroot - Truth or Dare cùng bản trải nghiệm thử trên web, và bàn gỗ 3D Brainroot - Ô ăn quan xanh gắn liền 5 chủ đề môi trường.',
   primaryCtaLabel: 'Mở toàn bộ thư viện Green Play',
   primaryCtaTo: '/games',
   items: [
     {
       id: 'fact-act',
-      badge: 'Có vòng chơi thử mẫu nội bộ',
-      title: 'Fact–Act',
-      subtitle: 'Bộ thẻ giáo dục kỹ năng xanh theo vòng lặp Fact → Act → Phản tư',
+      badge: 'Có bản trải nghiệm thử trên web',
+      title: 'Brainroot - Truth or Dare',
+      subtitle: 'Bộ thẻ giáo dục kỹ năng xanh khơi gợi đối thoại và hành động đời thường',
       description:
-        'Đọc một tình huống môi trường gần gũi, chọn hành động khả thi, nhận phản hồi và ghi nhanh dòng phản tư trong 3 phút.',
-      primaryActionLabel: 'Chơi thử vòng mẫu ngay',
+        'Sản phẩm thẻ bài vật lý giúp học sinh, sinh viên và nhóm bạn trò chuyện cởi mở về lối sống xanh. Hiện bạn có thể thử trước phiên bản tình huống tương tác ngắn trên web trong khi thể lệ chính thức đang hoàn thiện.',
+      primaryActionLabel: 'Trải nghiệm thử ngay',
       primaryActionTo: '/games/fact-act/play',
-      secondaryActionLabel: 'Xem chi tiết bộ thẻ',
+      secondaryActionLabel: 'Xem giới thiệu sản phẩm',
       secondaryActionTo: '/games/fact-act',
       imageSrc: publicUrl('/assets/hero-v4/fact-act-deck.webp'),
-      imageAlt: 'Bộ thẻ bài vật lý Fact–Act của Brainroot',
+      imageAlt: 'Bộ thẻ bài vật lý Brainroot - Truth or Dare',
     },
     {
       id: 'o-an-quan-xanh',
       badge: 'Có bàn gỗ 3D thử nghiệm',
-      title: 'Ô ăn quan xanh',
+      title: 'Brainroot - Ô ăn quan xanh',
       subtitle: 'Trò chơi dân gian Việt Nam · 5 chủ đề môi trường · 3 cấp độ',
       description:
         'Khám phá mặt bàn gỗ 3D tương tác trực tiếp cùng hệ thống 5 chủ đề môi trường và 3 cấp độ học tập trong khi luật bản số đang chuẩn hóa.',
       primaryActionLabel: 'Khám phá bàn 3D & chủ đề',
       primaryActionTo: '/games/o-an-quan-xanh',
-      secondaryActionLabel: 'Mở toàn màn hình sandbox 3D',
+      secondaryActionLabel: 'Mở toàn màn hình bàn gỗ 3D',
       secondaryActionTo: publicUrl('/?preview=oanquan3d'),
       imageSrc: publicUrl('/assets/green-play/vis-008-o-an-quan-concept.webp'),
-      imageAlt: 'Minh họa định hướng nghệ thuật bàn gỗ Ô ăn quan xanh',
+      imageAlt: 'Minh họa định hướng nghệ thuật bàn gỗ Brainroot - Ô ăn quan xanh',
       disclosure: 'Minh họa định hướng nghệ thuật · Bản 3D tương tác ở chế độ thử nghiệm.',
     },
   ],
@@ -246,7 +246,8 @@ export const LEARNING_JOURNEY_STAGES: readonly LearningJourneyStage[] = [
     id: 'understand',
     label: 'Hiểu biết',
     title: 'Nắm vững kiến thức nền',
-    summary: 'Hiểu rõ nguyên nhân và lựa chọn ưu tiên qua Fact–Act và 5 chủ đề của Green Learn.',
+    summary:
+      'Tìm hiểu nguyên nhân và lựa chọn ưu tiên qua Green Learn, Brainroot - Truth or Dare và Brainroot - Ô ăn quan xanh.',
   },
   {
     stepNumber: '04',
@@ -276,11 +277,11 @@ export const ABOUT_CONTENT = {
 } as const;
 
 export const FOOTER_CONTENT = {
-  brandText: 'Brainroot 2.0 · From Brainrot to Brainroot',
+  brandText: 'From Brainrot to Brainroot',
   missionShort:
-    'Dự án nâng cao nhận thức và kết nối giới trẻ về kỹ năng xanh thông qua sản phẩm giáo dục tương tác.',
+    'Nâng cao nhận thức và kết nối giới trẻ về kỹ năng xanh qua sản phẩm giáo dục tương tác.',
   pilotNote:
-    'Phục vụ cộng đồng rộng mở · Ưu tiên thử nghiệm ban đầu tại ULIS và Hà Nội · Không yêu cầu đăng nhập để khám phá.',
+    'Brainroot · Cộng đồng rộng mở · Thí điểm ban đầu tại ULIS & Hà Nội',
   transparencyNote:
-    'Kênh liên hệ chính thức và nội dung mẫu công khai (BR-T005) đang trong quá trình hoàn thiện và kiểm duyệt.',
+    'Không cần đăng nhập để khám phá · Nội dung và kênh liên hệ chính thức đang hoàn thiện.',
 } as const;

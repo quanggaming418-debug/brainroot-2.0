@@ -98,7 +98,7 @@ export function AboutPage() {
           </dl>
 
           <div className="world-next-strip">
-            <p>Khám phá trực tiếp các khu vực đang hoạt động trên Brainroot 2.0:</p>
+            <p>Khám phá trực tiếp các khu vực đang mở trên Brainroot:</p>
             <div className="world-next-strip__links">
               <Link className="gp-button gp-button--primary" to="/games">
                 Vào thư viện Green Play →

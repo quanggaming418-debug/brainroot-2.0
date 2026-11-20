@@ -163,7 +163,7 @@ export function OAnQuanTabletopExperience({
   return (
     <div
       className={`oq-tabletop oq-tabletop--${mode}`}
-      aria-label="Bàn gỗ Ô ăn quan xanh 3D tương tác"
+      aria-label="Bàn gỗ Brainroot - Ô ăn quan xanh 3D tương tác"
     >
       <div className="oq-tabletop__notice-bar">
         <span className="oq-tabletop__badge">Bàn gỗ 3D thử nghiệm</span>
@@ -228,7 +228,7 @@ export function OAnQuanTabletopExperience({
           <div
             className="oq-tabletop__pit-grid"
             role="group"
-            aria-label="Danh sách 12 ô trên bàn Ô ăn quan xanh"
+            aria-label="Danh sách 12 ô trên bàn Brainroot - Ô ăn quan xanh"
           >
             {PITS.map((pit, index) => {
               const isSelected = index === selected;

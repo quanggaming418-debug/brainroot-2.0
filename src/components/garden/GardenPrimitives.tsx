@@ -61,16 +61,17 @@ export function BotanicalDivider({
         className="botanical-divider__svg"
         viewBox="0 0 1440 84"
         preserveAspectRatio="none"
+        shapeRendering="geometricPrecision"
         focusable="false"
       >
-        <rect width="1440" height="84" fill={topFill} />
+        <rect x="0" y="-1" width="1440" height="86" fill={topFill} />
         <path
-          d="M0,42 C240,10 470,68 740,38 C1030,8 1250,60 1440,30 L1440,84 L0,84 Z"
+          d="M0,42 C240,10 470,68 740,38 C1030,8 1250,60 1440,30 L1440,86 L0,86 Z"
           fill={accentFill}
           opacity="0.7"
         />
         <path
-          d="M0,56 C280,26 540,78 820,48 C1090,18 1290,64 1440,44 L1440,84 L0,84 Z"
+          d="M0,56 C280,26 540,78 820,48 C1090,18 1290,64 1440,44 L1440,86 L0,86 Z"
           fill={bottomFill}
         />
         {withLeaves ? (
@@ -103,22 +104,23 @@ export function GardenTransitionBand() {
           className="garden-transition__contour"
           viewBox="0 0 1440 164"
           preserveAspectRatio="none"
+          shapeRendering="geometricPrecision"
           focusable="false"
         >
           <defs>
             <linearGradient id="gt-meadow-mist" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#9DB764" stopOpacity="0.48" />
-              <stop offset="56%" stopColor="#CBE0C0" stopOpacity="0.86" />
-              <stop offset="100%" stopColor="#EFF1E4" stopOpacity="0.98" />
+              <stop offset="0%" stopColor="#C3D79B" stopOpacity="0.92" />
+              <stop offset="20%" stopColor="#D9E7CC" stopOpacity="1" />
+              <stop offset="100%" stopColor="#F4F2E7" stopOpacity="1" />
             </linearGradient>
             <linearGradient id="gt-sun-wash" x1="0.12" y1="0" x2="0.88" y2="1">
-              <stop offset="0%" stopColor="#F5E5CA" stopOpacity="0.78" />
-              <stop offset="50%" stopColor="#EEF1E4" stopOpacity="0.95" />
-              <stop offset="100%" stopColor="#DCE8D9" stopOpacity="0.9" />
+              <stop offset="0%" stopColor="#F5E8D0" />
+              <stop offset="50%" stopColor="#F0F2E6" />
+              <stop offset="100%" stopColor="#E4EDE0" />
             </linearGradient>
             <linearGradient id="gt-ivory-blend" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#F5F0E3" />
-              <stop offset="65%" stopColor="#F8F3E9" />
+              <stop offset="0%" stopColor="#F6F1E5" />
+              <stop offset="62%" stopColor="#F8F3E9" />
               <stop offset="100%" stopColor="#F8F3E9" />
             </linearGradient>
             <linearGradient id="gt-stone-fill" x1="0.2" y1="0" x2="0.8" y2="1">
@@ -126,55 +128,55 @@ export function GardenTransitionBand() {
               <stop offset="100%" stopColor="#E6D5B8" />
             </linearGradient>
             <linearGradient id="gt-path-wash" x1="0.5" y1="0" x2="0.5" y2="1">
-              <stop offset="0%" stopColor="#EFE1C7" stopOpacity="0.45" />
+              <stop offset="0%" stopColor="#EFE1C7" stopOpacity="0.4" />
               <stop offset="100%" stopColor="#F8F3E9" stopOpacity="0" />
             </linearGradient>
           </defs>
 
-          {/* Soft upper meadow contour (dips lower on far right to leave Hero scroll-hint completely clear) */}
+          {/* Opaque upper meadow crest sitting cleanly between Hero scroll-hint bottom (y≈26) and Hero cutoff (y≈51) */}
           <path
-            d="M0,34 C230,10 470,50 720,30 C970,12 1180,60 1440,54 L1440,164 L0,164 Z"
+            d="M0,22 C230,6 470,34 720,18 C970,4 1180,40 1440,36 L1440,166 L0,166 Z"
             fill="url(#gt-meadow-mist)"
           />
 
           {/* Sunlit mid meadow ridge */}
           <path
-            d="M0,66 C260,36 500,82 746,56 C1000,30 1220,82 1440,72 L1440,164 L0,164 Z"
+            d="M0,56 C260,32 500,74 746,50 C1000,26 1220,76 1440,68 L1440,166 L0,166 Z"
             fill="url(#gt-sun-wash)"
           />
 
           {/* Foreground Warm Ivory arrival */}
           <path
-            d="M0,100 C270,74 520,108 740,90 C980,72 1230,104 1440,92 L1440,164 L0,164 Z"
+            d="M0,96 C270,70 520,104 740,86 C980,68 1230,100 1440,90 L1440,166 L0,166 Z"
             fill="url(#gt-ivory-blend)"
           />
 
           {/* Painted Storybook stepping-stone trail fading gently into Warm Ivory */}
           <path
-            d="M668,54 C676,90 658,124 630,164 L810,164 C782,124 764,90 772,54 Z"
+            d="M668,50 C676,88 658,124 630,166 L810,166 C782,124 764,88 772,50 Z"
             fill="url(#gt-path-wash)"
           />
-          <g opacity="0.88">
-            <ellipse cx="718" cy="74" rx="34" ry="8.5" fill="#7D6C52" opacity="0.12" />
-            <ellipse cx="717" cy="71" rx="33" ry="8" fill="url(#gt-stone-fill)" />
+          <g opacity="0.86">
+            <ellipse cx="718" cy="70" rx="33" ry="8" fill="#7D6C52" opacity="0.11" />
+            <ellipse cx="717" cy="67" rx="32" ry="7.5" fill="url(#gt-stone-fill)" />
           </g>
-          <g opacity="0.76">
-            <ellipse cx="734" cy="102" rx="43" ry="10.5" fill="#7D6C52" opacity="0.1" />
-            <ellipse cx="733" cy="99" rx="42" ry="10" fill="url(#gt-stone-fill)" />
+          <g opacity="0.72">
+            <ellipse cx="734" cy="98" rx="42" ry="10" fill="#7D6C52" opacity="0.09" />
+            <ellipse cx="733" cy="95" rx="41" ry="9.5" fill="url(#gt-stone-fill)" />
           </g>
-          <g opacity="0.54">
-            <ellipse cx="712" cy="132" rx="50" ry="11.5" fill="#7D6C52" opacity="0.08" />
-            <ellipse cx="711" cy="129" rx="49" ry="11" fill="url(#gt-stone-fill)" />
+          <g opacity="0.48">
+            <ellipse cx="712" cy="128" rx="48" ry="11" fill="#7D6C52" opacity="0.07" />
+            <ellipse cx="711" cy="125" rx="47" ry="10.5" fill="url(#gt-stone-fill)" />
           </g>
 
           {/* Left botanical leaf sprig echoing Hero V4 corner foliage */}
-          <g transform="translate(52, 62) rotate(-10)" opacity="0.82">
+          <g transform="translate(52, 60) rotate(-10)" opacity="0.82">
             <path d="M0,50 C10,22 28,8 56,4 C44,24 28,42 0,50 Z" fill="#7D9F68" />
             <path d="M16,56 C34,40 58,34 84,40 C64,54 40,62 16,56 Z" fill="#A6C6B6" />
           </g>
 
           {/* Right botanical sage & warm peach leaf cluster placed cleanly below scroll-hint */}
-          <g transform="translate(1294, 74) rotate(8)" opacity="0.82">
+          <g transform="translate(1294, 72) rotate(8)" opacity="0.82">
             <path d="M84,48 C70,22 52,8 24,4 C36,24 52,40 84,48 Z" fill="#7D9F68" />
             <path d="M70,54 C52,38 28,32 4,38 C24,52 46,60 70,54 Z" fill="#A6C6B6" />
             <path d="M78,40 C86,24 80,10 66,8 C62,22 66,34 78,40 Z" fill="#E79A7C" opacity="0.74" />

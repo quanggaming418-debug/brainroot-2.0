@@ -160,10 +160,10 @@ export function GreenLearnPage() {
             <p>Áp dụng ngay kiến thức vừa đọc vào trò chơi hoặc hành động nhỏ:</p>
             <div className="world-next-strip__links">
               <Link className="gp-button gp-button--primary" to="/games/fact-act/play">
-                Chơi thử vòng mẫu Fact–Act →
+                Trải nghiệm thử Brainroot - Truth or Dare →
               </Link>
               <Link className="gp-text-link" to="/games/o-an-quan-xanh">
-                Xem 5 chủ đề trong Ô ăn quan xanh
+                Xem 5 chủ đề trong Brainroot - Ô ăn quan xanh
               </Link>
             </div>
           </div>

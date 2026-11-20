@@ -3,11 +3,12 @@ export const SITE_BASE_TITLE = 'Brainroot | From Brainrot to Brainroot';
 export const ROUTE_TITLES: Readonly<Record<string, string>> = {
   '/': SITE_BASE_TITLE,
   '/games': 'Green Play — Thư viện trò chơi giáo dục | Brainroot',
-  '/games/fact-act': 'Fact–Act — Trò chơi thẻ bài kỹ năng xanh | Brainroot',
+  '/games/fact-act':
+    'Brainroot - Truth or Dare — Trò chơi thẻ bài kỹ năng xanh | Brainroot',
   '/games/fact-act/play':
-    'Chơi thử Fact–Act (Mẫu nội bộ) — Green Play | Brainroot',
+    'Trải nghiệm thử Brainroot - Truth or Dare — Green Play | Brainroot',
   '/games/o-an-quan-xanh':
-    'Ô ăn quan xanh — Trò chơi dân gian & kỹ năng xanh | Brainroot',
+    'Brainroot - Ô ăn quan xanh — Trò chơi dân gian & kỹ năng xanh | Brainroot',
   '/quest': 'Green Quest — Thử thách xanh khởi đầu | Brainroot',
   '/learn': 'Green Learn — 5 chủ đề kỹ năng xanh | Brainroot',
   '/connect': 'Green Connect — Kết nối cộng đồng giáo dục | Brainroot',
