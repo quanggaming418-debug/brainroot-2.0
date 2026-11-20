@@ -8,5 +8,6 @@
 | 2026-11-20 03:45 | AI Studio | BR-T003 | IN_REVIEW | unit(5/5), typecheck, build, Playwright 1440/390/320: PASS; lint: NOT RUN | logs/AI_STUDIO_LOG.md |
 | 2026-11-20 09:30 | AI Studio | BR-T021 | IN_REVIEW | Docs-only planning (GATE A/B/C); asset check PASS; code build/test NOT RUN | logs/AI_STUDIO_LOG.md |
 | 2026-11-20 11:15 | AI Studio | BR-T021 | IN_REVIEW | Rev 1.1 Design Review refinement (docs-only, 7 review decisions applied); code build/test NOT RUN | logs/AI_STUDIO_LOG.md |
+| 2026-11-20 12:10 | AI Studio | BR-T021 | DONE (pending Git PR) | Closeout GATE A/B/C (0a735d189885), BR-T020 DONE (PR #2), add BR-T022, remove unused prompt file (grep 0 refs PASS); git/code build NOT RUN | logs/AI_STUDIO_LOG.md |
 
 **Append format:** `YYYY-MM-DD HH:MM | AI Studio/Codex | BR-Txxx | DONE/BLOCKED/IN_REVIEW | command: result | logs/<AGENT>_LOG.md`.

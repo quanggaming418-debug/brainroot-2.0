@@ -1,7 +1,7 @@
 # BRAINROOT 2.0 — VISUAL ASSET REGISTER & PRODUCTION BRIEFS (Rev 1.1)
 
-**Task ID:** `BR-T021`  
-**Trạng thái:** `IN_REVIEW` (Rev 1.1 sau Design Review) — Chờ đồng bộ GitHub và duyệt **GATE C** trước khi sản xuất bất kỳ tài sản mới nào.
+**Task ID:** `BR-T021` (`DONE` — 2026-11-20) · **Task kế tiếp:** `BR-T022` (Wave 1A Visual Asset Production & Verification)  
+**Trạng thái:** **`APPROVED` — GATE C (Đặc tả Sổ đăng ký Tài sản Rev 1.1)** theo phê duyệt của Product Owner ngày `2026-11-20` (commit `0a735d189885`). Phê duyệt chỉ áp dụng cho đặc tả & Production Briefs, **chưa** phê duyệt bất kỳ artwork tạo mới nào — mọi tài sản mới phải vượt qua cả **GATE D1** và **GATE D2**.
 
 ## 1. Phân loại Kiến trúc Tài sản (6 Nhóm bắt buộc — Không đánh đồng ảnh phẳng với cảnh có thể animate)
 
@@ -72,6 +72,17 @@ Mỗi tài sản trong hệ thống bắt buộc thuộc đúng một nhóm ki�
 
 ### Wave 1B — Nâng cấp chiều sâu cảnh quan (Sau khi `BR-T004` / `BR-T006` chạy ổn định)
 - Thay trực tiếp `VIS-003A/004A/005A` bằng 3 tranh cảnh đầy đủ `VIS-003B`, `VIS-004B`, `VIS-005B` trên cùng khung slot 16:10 (0 thay đổi kiến trúc code), kết hợp hoàn thiện `VIS-010` (chuỗi sinh trưởng 5 pha H05).
+
+### 4.1 Hai Cổng Phê duyệt Tài sản Độc lập (Bắt buộc cho `BR-T022` và mọi đợt tài sản)
+Mỗi tài sản mới chỉ được chuyển sang tích hợp vào mã nguồn khi vượt qua **cả hai cổng kiểm duyệt tách biệt** sau:
+1. **GATE D1 — Artistic Quality Approval (Phê duyệt Chất lượng Mỹ thuật):**
+   - Đồng bộ ngôn ngữ vẽ tay ấm áp của Hero V4 (`hero-garden-v4.webp`), ánh sáng 35° trái-trên và bảng màu thương hiệu (`#E79A7C`, `#A6C6B6`, `#F8F3E9`, `#63894C`, `#263B31`).
+   - Không nướng chữ/UI vào tranh, không tự vẽ lại Brainie/Rootie, không lộ lỗi giải phẫu/rác thị giác AI, giữ sạch vùng an toàn chữ theo brief.
+   - Bảo đảm tính nhất quán giữa cả 4 vùng (`VIS-002` + `VIS-003A..005A`) và ghi rõ tình trạng bản quyền (`BR-T002`).
+2. **GATE D2 — Technical Integration Readiness (Sẵn sàng Tích hợp Kỹ thuật):**
+   - Đúng định dạng mục tiêu (WebP/SVG), đúng tỉ lệ khung (`16:10`, `3:2`, `~2.8:1`…) và có biến thể/crop mobile nếu thuộc Tier A/B.
+   - Kênh alpha trong suốt sạch (không viền răng cưa trắng/halo) cho mọi `Transparent foreground cutout` (`VIS-009`) và tối ưu path gọn cho `Reusable SVG decoration` (`VIS-001`, `VIS-003A..005A`).
+   - Lưu đúng đường dẫn quy ước trong `public/assets/`, cập nhật manifest & kiểm chứng giải mã hợp lệ (`naturalWidth > 0`) không gây vỡ nét hoặc phình dung lượng bất thường theo Tier A–D.
 
 ---
 

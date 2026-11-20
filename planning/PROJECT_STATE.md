@@ -1,11 +1,11 @@
 # PROJECT_STATE — Read before every agent run
 
-- **Updated:** 2026-11-20 (`BR-T021` Rev 1.1 hoàn tất điều chỉnh sau Design Review — 4 vùng minh họa đồng bộ Wave 1A/1B, chuyển cảnh 3 trạng thái H01→H02→H03, phân loại 6 nhóm tài sản animation-ready, roadmap MVP-first, đặc tả React Router cho `BR-T004`, ngân sách ảnh theo Tier A–D và checklist 8 chiều; chờ sync GitHub & kiểm tra để đóng GATE A/B/C.)
-- **Phase:** M0 — Master Design Blueprint (`BR-T021` Rev 1.1 `IN_REVIEW`; GATE A, GATE B, GATE C vẫn đang MỞ). Mã nguồn `src/`, `package.json`, `public/` giữ nguyên nền `BR-T003` + `BR-T020` (không chỉnh code, chưa cài dependency, chưa sinh ảnh).
-- **Current release:** R0 proposed (phạm vi `BR-T003` & `BR-T020` đã triển khai; roadmap tái cân bằng ưu tiên MVP giáo dục: `Wave 1A` → `M2 BR-T004` → `M3 BR-T006` với `BR-T005` chạy song song, không để Wave 1B chặn MVP).
-- **Current active Task ID:** `BR-T021` (`IN_REVIEW` — Rev 1.1). `BR-T004` chưa bắt đầu (chờ đóng GATE A/B/C và duyệt cài `react-router-dom`).
-- **Last verified build:** Xem phiên Codex gần nhất (`BR-T020` PASS: `typecheck`, `build`, unit 5/5, Playwright Chromium 1440/390/320). Các phiên `BR-T021` (Rev 1.0 & Rev 1.1) chỉ cập nhật tài liệu Markdown, không chạm mã ứng dụng (code build/test: `NOT RUN`).
-- **Repository branch / base:** Không xác minh được bằng Git CLI (workspace AI Studio không có `.git`). **Lưu ý sai lệch:** Product Owner xác nhận `BR-T003` và `BR-T020` đã merge vào `main`, nhưng `planning/TASKS.md` và `logs/HANDOFF.md` trước phiên vẫn ghi `BR-T020` ở `IN_REVIEW` trên nhánh `codex/hero-ambient-motion`; cần đối chiếu khi sync GitHub. Toàn bộ thay đổi `BR-T021` Rev 1.1 đang ở trạng thái **NOT COMMITTED**.
+- **Updated:** 2026-11-20 (`BR-T021` đóng **`DONE`** sau khi Product Owner phê duyệt GATE A/B/C trên commit `0a735d189885`; `BR-T020` hiệu chỉnh thành **`DONE`** theo PR #2 đã merge; tạo tác vụ kế tiếp **`BR-T022`** — Wave 1A Visual Asset Production & Verification; đã xóa file Master Prompt dư chưa sử dụng trong `public/assets/aistudio/`.)
+- **Phase:** M0 (`BR-T021`) **`DONE`** → Chuẩn bị vào **M1A (`BR-T022` — `TODO`)**. Phê duyệt GATE A/B/C chỉ áp dụng cho đặc tả thiết kế, không thay thế duyệt artwork hoàn chỉnh (**GATE D1** & **GATE D2**). Mã nguồn `src/`, `package.json` giữ nguyên nền `BR-T003` + `BR-T020` (không sửa React code, chưa cài dependency, chưa sinh ảnh).
+- **Current release:** R0 proposed (`BR-T003`, `BR-T020` PR #2, `BR-T021` `DONE`; lộ trình ưu tiên MVP giáo dục: `BR-T022 Wave 1A (GATE D1+D2)` → xác minh component anatomy/states → `M2 BR-T004` → `M3 BR-T006`, với `BR-T005` chạy song song).
+- **Current active Task ID:** `BR-T021` (`DONE` — closeout chờ Codex commit/PR) · Tác vụ kế tiếp: **`BR-T022`** (`TODO`). `BR-T004` chưa bắt đầu (chờ `BR-T022` đạt GATE D1+D2 và xác minh chi tiết component anatomy/states).
+- **Last verified build:** Xem phiên Codex gần nhất (`BR-T020` PASS: `typecheck`, `build`, unit 5/5, Playwright Chromium 1440/390/320). Phiên closeout `BR-T021` chỉ cập nhật tài liệu quản trị và xóa file prompt dư không có tham chiếu trong `public/assets/aistudio/` (code build/test: `NOT RUN`).
+- **Repository branch / base:** Product Owner xác nhận `BR-T020` đã merge qua **PR #2** và duyệt `BR-T021` trên commit `0a735d189885`. Tuy nhiên, workspace Google AI Studio **không có thư mục `.git`** (`git status`/`git log` trả lỗi `not a git repository`), nên chưa thể tự xác minh Git history, chưa thể commit/push/tạo PR từ container này (**`NOT COMMITTED`**). Cần Codex (có Git CLI) xác minh `main` commit `0a735d189885`, cập nhật `logs/CODEX_LOG.md`, commit lên nhánh riêng và mở PR nhắm vào `main`.
 - **Deployment URL:** NOT CREATED for Brainroot 2.0.
 - **Hero reference:** `reference/hero-v4/`; **asset copies:** `public/assets/hero-v4/`.
 
@@ -32,6 +32,6 @@
 - Existing Brainroot survey totals and old website functional descriptions are not independently verified from raw data.
 
 ## Immediate next action
-1. Đồng bộ các tài liệu `BR-T021` (Rev 1.1) lên GitHub để Product Owner & Reviewer kiểm tra trực tiếp Markdown trước khi đóng **GATE A** (IA & React Router spec), **GATE B** (Storyboard 3 trạng thái chuyển cảnh & 4 vùng đồng bộ) và **GATE C** (Visual Asset Register 6 nhóm animation-ready & Wave 1A/1B).
-2. Đối chiếu trạng thái merge thực tế của `BR-T020` trên `main` khi sync GitHub và chạy song song **`BR-T005`** (đội nội dung duyệt >=5 mục Fact–Act kèm nguồn).
-3. Sau khi đóng GATE A/B/C → thực hiện **Wave 1A Asset Production & Verification (GATE D)** để mở khóa trực tiếp **`BR-T004` (Game Library với React Router)** và nối tiếp sang **`BR-T006` (Playable Loop)**, không để Wave 1B trang chủ chặn MVP giáo dục. Giải quyết quyền xuất bản thương mại theo `BR-T002` trước khi public release.
+1. Đồng bộ các tệp closeout `BR-T021` sang môi trường Codex có `.git` để xác minh `main` commit `0a735d189885` & PR #2, bổ sung `logs/CODEX_LOG.md`, rà soát diff, commit & push lên nhánh riêng và mở PR nhắm vào `main` (không tự merge).
+2. Khởi chạy song song **`BR-T005`** (đội nội dung duyệt ≥5 mục Fact–Act kèm nguồn) để không chặn `BR-T006`.
+3. Sau khi PR closeout được duyệt/merge → triển khai **`BR-T022` — Wave 1A Visual Asset Production & Verification** (vượt qua **cả 2 cổng tách biệt: GATE D1 Artistic Quality & GATE D2 Technical Integration Readiness**) và **xác minh chi tiết component anatomy/states** trước khi mở `BR-T004` (Game Library với React Router). Giải quyết quyền xuất bản thương mại theo `BR-T002` trước public release.

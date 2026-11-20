@@ -86,3 +86,30 @@
 - **What remains / next task:** Sau khi đồng bộ GitHub và Owner/Reviewer đóng GATE A/B/C → khởi động **Wave 1A Asset Production & Verification (GATE D)** (song song để đội nội dung chạy `BR-T005`), nhằm mở khóa trực tiếp **`BR-T004` (Game Library)** và nối tiếp sang **`BR-T006` (Playable Loop)**.
 - **Owner approval required:** Có — Kiểm tra Markdown sau sync GitHub để đóng chính thức **GATE A, GATE B, GATE C** và duyệt phương án **React Router** cho `BR-T004`.
 
+## Session: 2026-11-20 12:10+07:00 — Google AI Studio — BR-T021 (Design Approval & Closeout)
+
+- **Task & goal:** Ghi nhận phê duyệt GATE A (IA), GATE B (Storyboard Rev 1.1), GATE C (Visual Asset Register Rev 1.1) của Product Owner theo commit `0a735d189885` (chỉ áp dụng cho đặc tả thiết kế, chưa phải artwork cuối); đóng `BR-T021` → `DONE`, hiệu chỉnh `BR-T020` → `DONE` (PR #2 đã merge), thêm `BR-T022` (Wave 1A Visual Asset Production & Verification), tách 2 cổng duyệt tài sản (GATE D1 Artistic Quality & GATE D2 Technical Integration Readiness), ghi yêu cầu xác minh chi tiết component anatomy/states trước `BR-T004`, và xóa file Master Prompt dư chưa dùng trong `public/assets/aistudio/`. Không tạo artwork, không sửa React code, không mở `BR-T004`.
+- **Status before → after:** `BR-T021`: `IN_REVIEW` → `DONE`; `BR-T020`: `IN_REVIEW` → `DONE` (PR #2); `BR-T022`: `NEW` → `TODO`.
+- **Read context:** `planning/TASKS.md`, `planning/PROJECT_STATE.md`, `planning/UX_UI_CHECKLIST.md`, `planning/VISUAL_ASSET_REGISTER.md`, `docs/UX_UI_MASTER_BLUEPRINT.md`, `docs/UX_UI_STORYBOARD.md`, `logs/CODEX_LOG.md`, `logs/AI_STUDIO_LOG.md`, `logs/WORK_LOG.md`, `logs/HANDOFF.md`, `public/assets/aistudio/Paste_November_20__2026_-_9_24AM_7af48852`.
+- **Files changed:**
+  - `public/assets/aistudio/Paste_November_20__2026_-_9_24AM_7af48852` & thư mục rỗng `public/assets/aistudio/` (xóa) — Đã `grep` toàn dự án xác nhận 0 tham chiếu trước khi xóa.
+  - `docs/UX_UI_MASTER_BLUEPRINT.md` — Ghi nhận GATE A/B/C `APPROVED` (2026-11-20, commit `0a735d189885`), tách GATE D1 (Artistic Quality) & GATE D2 (Technical Integration Readiness), ghi bắt buộc xác minh chi tiết component anatomy/states trước `BR-T004`, cập nhật roadmap với `BR-T022`.
+  - `docs/UX_UI_STORYBOARD.md` — Cập nhật tiêu đề sang `APPROVED` (GATE B, 2026-11-20, commit `0a735d189885`; chỉ duyệt đặc tả).
+  - `planning/VISUAL_ASSET_REGISTER.md` — Cập nhật tiêu đề sang `APPROVED` (GATE C, 2026-11-20, commit `0a735d189885`) và bổ sung mục 4.1 định nghĩa 2 cổng duyệt tài sản tách biệt `GATE D1` & `GATE D2` cho `BR-T022`.
+  - `planning/UX_UI_CHECKLIST.md` — Giữ nguyên đủ 17 mục (`UX-001..017`) và tiêu chí bằng chứng 8 chiều; cập nhật `UX-002` (PR #2), `UX-003`/`UX-004` (`PASS` ở mức đặc tả thiết kế GATE A/B/C), bổ sung yêu cầu GATE D1/D2 & kiểm tra anatomy/states trước `BR-T004`, cập nhật Checkpoint.
+  - `planning/TASKS.md` — Đóng `BR-T021` `DONE`, hiệu chỉnh `BR-T020` `DONE` (PR #2), thêm `BR-T022` (`TODO`), ghi điều kiện `BR-T022 (GATE D1+D2)` & xác minh anatomy/states ở cột phụ thuộc `BR-T004`.
+  - `planning/PROJECT_STATE.md`, `logs/AI_STUDIO_LOG.md`, `logs/WORK_LOG.md`, `logs/HANDOFF.md` — Cập nhật trạng thái closeout và bàn giao bước Git/PR cho Codex.
+- **User-visible behavior changed:** Không có (không thay đổi mã nguồn React/CSS/HTML hay tài sản runtime của ứng dụng; chỉ xóa tệp prompt dư không có tham chiếu và cập nhật tài liệu quản trị).
+- **Tests actually executed:**
+  - `git status --short` & `git log -n 5 --oneline`: **Không khả dụng** (`fatal: not a git repository` — container AI Studio không có `.git`).
+  - `grep -rn "aistudio" src index.html docs planning logs tests public/assets/hero-v4` & `grep -rn "Paste_November" .`: **PASS** (0 tham chiếu tới `public/assets/aistudio/` hay `Paste_November_20__2026_-_9_24AM_7af48852`).
+  - `npm run typecheck`, `npm run build`, `npm run lint`, unit tests, Playwright: **`NOT RUN`** (không thay đổi mã nguồn ứng dụng).
+- **Acceptance criteria:** Đã hoàn tất toàn bộ phần cập nhật tệp và dọn file prompt dư trong phạm vi workspace AI Studio. Các bước cần Git CLI (`verify main commit 0a735d189885`, cập nhật `logs/CODEX_LOG.md` đúng quy tắc tách log theo `AGENTS.md`, tạo nhánh riêng, commit, push, mở PR nhắm vào `main`) **chưa thể thực hiện trong container không có `.git`** và được bàn giao rõ sang Codex.
+- **Bugs / tradeoffs / risk:**
+  - Không ghi giả vào `logs/CODEX_LOG.md` vì theo `AGENTS.md`, AI Studio chỉ ghi `logs/AI_STUDIO_LOG.md`, còn `logs/CODEX_LOG.md` do Codex tự ghi sau khi kiểm tra diff và thực thi Git/PR thật.
+  - Chưa xác minh được bằng Git CLI rằng `main` đang ở `0a735d189885` và PR #2 đã merge — Codex cần kiểm tra ngay ở bước tiếp theo.
+- **Git commit SHA:** **`NOT COMMITTED`** (workspace AI Studio không có `.git`; branch/push/PR: `NOT RUN / NOT CREATED`).
+- **What remains / next task:** (1) Codex xác minh `main` commit `0a735d189885` & PR #2, rà soát diff, append `logs/CODEX_LOG.md`, commit & push lên nhánh riêng và mở PR closeout `BR-T021` nhắm vào `main` (không tự merge); (2) Khởi động **`BR-T022` — Wave 1A Visual Asset Production & Verification** (vượt qua GATE D1 & GATE D2) và xác minh component anatomy/states trước khi mở `BR-T004`.
+- **Owner approval required:** Có — Duyệt PR closeout `BR-T021` trên GitHub; sau đó duyệt riêng biệt GATE D1 và GATE D2 khi thực hiện `BR-T022`.
+
+

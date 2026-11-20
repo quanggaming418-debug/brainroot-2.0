@@ -1,5 +1,24 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 (Closeout) — BR-T021 → BR-T022 · Google AI Studio → Codex & Product Owner
+
+- **Trạng thái nhiệm vụ sau closeout:**
+  - `BR-T021`: **`DONE`** (Product Owner phê duyệt ngày `2026-11-20` theo commit `0a735d189885` cho **GATE A** IA, **GATE B** Storyboard Rev 1.1, **GATE C** Visual Asset Register Rev 1.1 — chỉ phê duyệt đặc tả thiết kế, chưa phải artwork cuối).
+  - `BR-T020`: **`DONE`** (hiệu chỉnh theo **PR #2** đã merge vào `main`).
+  - `BR-T022`: **`TODO`** (mới thêm — *Wave 1A Visual Asset Production & Verification*, là tác vụ kế tiếp).
+  - `BR-T004`: **`TODO`** (chưa bắt đầu; bị ràng buộc bởi `BR-T022` GATE D1+D2 và xác minh chi tiết component anatomy/states trước code).
+- **Thay đổi đã thực hiện trong workspace AI Studio (không sửa React code, không tạo artwork):**
+  - Đã kiểm tra `grep` (0 tham chiếu) và xóa tệp Master Prompt dư `public/assets/aistudio/Paste_November_20__2026_-_9_24AM_7af48852` cùng thư mục rỗng `public/assets/aistudio/`.
+  - Đã cập nhật `docs/UX_UI_MASTER_BLUEPRINT.md`, `docs/UX_UI_STORYBOARD.md`, `planning/VISUAL_ASSET_REGISTER.md`, `planning/UX_UI_CHECKLIST.md` (bảo toàn đủ 17 mục & tiêu chí bằng chứng 8 chiều), `planning/TASKS.md`, `planning/PROJECT_STATE.md`, `logs/AI_STUDIO_LOG.md`, `logs/WORK_LOG.md` và `logs/HANDOFF.md`.
+  - Đã ghi nhận **2 cổng duyệt tài sản tách biệt** (`GATE D1: Artistic Quality Approval` & `GATE D2: Technical Integration Readiness`) và yêu cầu **xác minh chi tiết component anatomy/states trước khi triển khai `BR-T004`**.
+- **Việc còn lại cần Codex thực hiện (vì workspace AI Studio không có `.git`):**
+  1. Xác minh repo cục bộ, nhánh `main`, commit `0a735d189885` và lịch sử merge PR #2 bằng Git CLI.
+  2. Rà soát toàn bộ diff của đợt closeout này (đặc biệt xác nhận đã xóa sạch `public/assets/aistudio/` và không chạm mã React).
+  3. Append mục kiểm chứng vào **`logs/CODEX_LOG.md`** (AI Studio không tự ghi vào `CODEX_LOG.md` theo quy tắc tách log của `AGENTS.md`).
+  4. Tạo nhánh riêng (ví dụ `codex/br-t021-closeout`), commit, push và mở **PR nhắm vào `main`** (không tự merge).
+- **Trạng thái Git & kiểm thử:** `NOT COMMITTED` · Branch/PR: `NOT CREATED` · `grep` kiểm tra file dư: `PASS` (0 tham chiếu) · `typecheck`/`build`/`lint`/Playwright: `NOT RUN` (không thay đổi mã nguồn ứng dụng).
+- **Tác vụ kế tiếp sau khi merge PR closeout:** **`BR-T022` — Wave 1A Visual Asset Production & Verification** (chạy song song `BR-T005` với đội nội dung; chưa mở `BR-T004`).
+
 ## 2026-11-20 (Rev 1.1) — BR-T021 · Google AI Studio → Product Owner & Reviewer (GitHub Sync)
 
 - **Trạng thái:** `IN_REVIEW` (M0 — Master Design Blueprint Rev 1.1; **GATE A, GATE B, GATE C vẫn đang MỞ** chờ đồng bộ GitHub và kiểm tra trực tiếp Markdown).

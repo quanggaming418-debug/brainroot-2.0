@@ -1,7 +1,7 @@
 # BRAINROOT 2.0 — HOMEPAGE ILLUSTRATED STORYBOARD (Rev 1.1: H01–H06)
 
-**Task ID:** `BR-T021`  
-**Trạng thái:** `IN_REVIEW` (Rev 1.1 sau Design Review) — Chờ đồng bộ GitHub và duyệt **GATE B**.  
+**Task ID:** `BR-T021` (`DONE` — 2026-11-20)  
+**Trạng thái:** **`APPROVED` — GATE B (Đặc tả Storyboard Rev 1.1)** theo phê duyệt của Product Owner ngày `2026-11-20` (commit `0a735d189885`). Phê duyệt áp dụng cho đặc tả kịch bản thị giác, **không** thay thế phê duyệt artwork hoàn chỉnh (`GATE D1` & `GATE D2`).  
 **Mô hình phân lớp chuẩn:** `L0` Nền & khí quyển (Flattened background) · `L1` Cảnh quan môi trường · `L2` Nhân vật / Vật thể độc lập / Tranh điểm đến · `L3` Cutout lá & thực vật tiền cảnh (Transparent foreground cutout / SVG) · `L4` Giao diện HTML ngữ nghĩa.
 
 ---

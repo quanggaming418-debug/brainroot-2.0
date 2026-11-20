@@ -1,8 +1,8 @@
 # BRAINROOT 2.0 — UX/UI MASTER BLUEPRINT (Rev 1.1)
 
-**Task ID:** `BR-T021`  
-**Ngày cập nhật:** 2026-11-20 (Bản hiệu đính sau Design Review — Rev 1.1)  
-**Trạng thái:** `IN_REVIEW` — Chưa đóng chính thức **GATE A**, **GATE B**, **GATE C**; chờ đồng bộ Markdown lên GitHub và Product Owner + Reviewer xác nhận trực tiếp trên file.  
+**Task ID:** `BR-T021` (`DONE` — 2026-11-20)  
+**Ngày cập nhật:** 2026-11-20 (Đóng gói phê duyệt thiết kế — Rev 1.1)  
+**Trạng thái:** **`APPROVED` (Đặc tả thiết kế)** — Product Owner đã phê duyệt **GATE A** (Information Architecture), **GATE B** (Storyboard Rev 1.1) và **GATE C** (Visual Asset Register Rev 1.1) theo commit `0a735d189885` ngày `2026-11-20`. Phê duyệt này chỉ áp dụng cho đặc tả thiết kế, **không** thay thế phê duyệt artwork hoàn chỉnh cuối cùng.  
 **Phạm vi:** Đặc tả kiến trúc trải nghiệm, định hướng mỹ thuật **ONE LIVING WORLD**, hệ thống thiết kế, routing đề xuất và lộ trình triển khai R0 (không sửa mã nguồn ứng dụng, không cài dependency, không sinh ảnh trong tác vụ này).
 
 ## Quy ước phân loại bằng chứng
@@ -123,6 +123,8 @@
 ### 5.2 Thư viện 15 thành phần chuẩn
 Giữ nguyên đặc tả đầy đủ 15 thành phần: `SiteHeader` (`overlay-hero` & `solid-ivory`), `MobileNavDrawer`, `ActionButton` (`PrimaryCTA`/Secondary), `DestinationLandmark` (tích hợp đồng bộ cả Wave 1A vignette và Wave 1B scenic slot cho cả 4 vùng), `GameProductShowcase`, `ProductStatusLabel`, `Breadcrumbs`, `EducationalContentCard`, `GameInstructionPanel`, `ProgressIndicator`, `FeedbackPanel`, `SourceCitation`, `ModalDialog`, `EmptyUnavailableState`, `SiteFooter`.
 
+> **Điều kiện bắt buộc trước khi triển khai `BR-T004`:** Cấu trúc giải phẫu chi tiết (component anatomy), danh sách trạng thái đầy đủ (`default / hover / focus-visible / active / disabled / loading / empty / error`), kích thước vùng chạm, ngữ nghĩa ARIA và đặc tả responsive cho các thành phần phục vụ `/games` & `/games/*` (`SiteHeader` biến thể `solid-ivory`, `Breadcrumbs`, `GameProductShowcase`, `ProductStatusLabel`, `EmptyUnavailableState`, `RouteScrollAndFocus`, `NotFoundPage`) **phải được xác minh chi tiết trước khi bắt đầu code `BR-T004`**.
+
 ### 5.3 Ngân sách hiệu năng hình ảnh theo cấp độ trung thực (Fidelity-Aware Performance Budgets — [PROPOSED])
 > **Nguyên tắc hiệu đính:** Không áp đặt trần cứng `70–120 KB` cho mọi ảnh raster gây suy giảm chất lượng minh họa. Thay vào đó, định ngân sách theo **kích thước hiển thị thực, tầm quan trọng thị giác, biến thể desktop/mobile, chất lượng nén, chiến lược lazy-loading và đo hiệu năng thực tế** (`LCP`, `CLS`, thời gian giải mã trên trình duyệt ở GATE F).
 
@@ -152,11 +154,11 @@ Giữ nguyên đặc tả đầy đủ 15 thành phần: `SiteHeader` (`overlay-
 | Giai đoạn / Luồng | Phạm vi chính | Phụ thuộc | Tài sản cần | Phụ trách | Cổng duyệt |
 |---|---|---|---|---|---|
 | **Track Nội dung (Song song) — `BR-T005`** | Đội nội dung chốt `OQ-01` (chọn Fact–Act làm game thử R0) & duyệt >=5 mục câu hỏi/thẻ + nguồn khoa học | Độc lập với UI — **chạy ngay song song** | Không chờ tài sản UI | Team Content Reviewer + Owner | Duyệt nội dung R0 |
-| **M0 — `BR-T021` (Hiện tại)** | Master Blueprint, Storyboard H01–H06, Visual Asset Register & Persistent Checklist | `BR-T003` + `BR-T020` | Kiểm kê `EX-001..009` | AI Studio → Owner + Reviewer | **GATE A, B, C** |
-| **M1A — Wave 1A Minimum Coherent Assets** | Sản xuất & duyệt bộ tài sản tối thiểu nhưng đồng bộ cả 4 vùng + mở khóa `/games`: `VIS-007` (sẵn), `VIS-006`, `VIS-008`, `VIS-002`, bộ botanical vignettes `VIS-003A/004A/005A`, chuyển cảnh/trang trí `VIS-001` & `VIS-009` | GATE A, B, C PASS | Wave 1A | Design / Approved Asset Workflow → Owner | **GATE D (Wave 1A)** |
-| **M2 — `BR-T004` Functional Game Library *(Ưu tiên R0)*** | Cài & xác minh React Router, trang `/games`, `/games/fact-act`, `/games/o-an-quan-xanh`, fallback 404, khôi phục scroll/focus, trạng thái trung thực | GATE A/C + Wave 1A (`VIS-006`, `VIS-007`, `VIS-008`, `VIS-009`) | `VIS-006`, `VIS-007`, `VIS-008`, `VIS-009` | AI Studio (UI) → Codex (QA & review) | **GATE E, F, G** |
+| **M0 — `BR-T021` (`DONE` — 2026-11-20)** | Master Blueprint, Storyboard H01–H06, Visual Asset Register & Persistent Checklist (commit `0a735d189885`) | `BR-T003` + `BR-T020` (`DONE`, PR #2) | Kiểm kê `EX-001..009` | AI Studio → Owner (`APPROVED`) | **GATE A, B, C (`APPROVED`)** |
+| **M1A — `BR-T022`: Wave 1A Minimum Coherent Assets** | Sản xuất & kiểm duyệt bộ tài sản tối thiểu đồng bộ cả 4 vùng + mở khóa `/games`: `VIS-007` (sẵn), `VIS-006`, `VIS-008`, `VIS-002`, `VIS-003A/004A/005A`, `VIS-001` & `VIS-009` | GATE A, B, C APPROVED | Wave 1A | Design / Approved Asset Workflow → Owner + Codex | **GATE D1 (Mỹ thuật) & GATE D2 (Kỹ thuật)** |
+| **M2 — `BR-T004` Functional Game Library *(Ưu tiên R0)*** | Xác minh chi tiết anatomy/states thành phần trước code; cài & xác minh React Router, trang `/games`, `/games/fact-act`, `/games/o-an-quan-xanh`, fallback 404, khôi phục scroll/focus, trạng thái trung thực | `BR-T022` (GATE D1 + D2 cho `VIS-006/008/009`) + **Xác minh anatomy/states thành phần** | `VIS-006`, `VIS-007`, `VIS-008`, `VIS-009` | AI Studio (UI) → Codex (QA & review) | **Pre-BR-T004 Anatomy Check, GATE E, F, G** |
 | **M3 — `BR-T006` Playable Educational Loop *(Ưu tiên R0)*** | Dựng 1 vòng lặp chơi thử Fact–Act hoàn chỉnh cho khách không cần login + phản hồi có nguồn + phản tư + guest E2E | `BR-T004` DONE + `BR-T005` DONE | Dùng hệ UI thẻ + `VIS-007` (không chặn bởi Wave 1B) | Codex + AI Studio | **GATE E, F, G** |
-| **M1B — Homepage Visual Upgrade & Wave 1B Polish** | Triển khai chuyển cảnh 3 trạng thái `H01→H02→H03`, 4 điểm đến minh họa (gắn ngay Wave 1A và nâng lên tranh cảnh đầy đủ `VIS-003B/004B/005B` khi sẵn sàng), `H04` Featured Green Play dẫn vào `/games`, `H05` Story (`VIS-010`), `H06` Footer | Wave 1A (cho bản nền đồng bộ) / Wave 1B (cho nâng cấp toàn cảnh) | `VIS-001`, `VIS-002`, `VIS-003A..005A` → `VIS-003B..005B`, `VIS-009`, `VIS-010` | AI Studio (UI) → Codex (QA & review) | **GATE D (1B), E, F, G** |
+| **M1B — Homepage Visual Upgrade & Wave 1B Polish** | Triển khai chuyển cảnh 3 trạng thái `H01→H02→H03`, 4 điểm đến minh họa (gắn ngay Wave 1A và nâng lên tranh cảnh đầy đủ `VIS-003B/004B/005B` khi sẵn sàng), `H04` Featured Green Play dẫn vào `/games`, `H05` Story (`VIS-010`), `H06` Footer | Wave 1A (GATE D1+D2) / Wave 1B (GATE D1+D2) | `VIS-001`, `VIS-002`, `VIS-003A..005A` → `VIS-003B..005B`, `VIS-009`, `VIS-010` | AI Studio (UI) → Codex (QA & review) | **GATE D1 & D2 (1B), E, F, G** |
 | **M4 — R0 Quality Gate (`BR-T007`, `BR-T008`, `BR-T009`)** | Trang `/about`, kiểm toán hiệu năng thực tế (LCP/CLS), A11y, E2E khách công khai, hồ sơ sơ tuyển | M2, M3, M1B hoàn tất + xác nhận thông tin liên hệ | Rà soát `BR-T002` trước phát hành công khai | Codex + Team + Owner | **GATE G** |
 
 ---
@@ -167,10 +169,13 @@ Giữ nguyên đặc tả đầy đủ 15 thành phần: `SiteHeader` (`overlay-
 1. **Lệch chất lượng giữa 4 vùng Hệ sinh thái nếu triển khai nửa vời** → *Kiểm soát:* Bắt buộc triển khai đồng bộ bộ minh họa Wave 1A cho cả 4 vùng (`VIS-002` + `VIS-003A/004A/005A`, loại bỏ hoàn toàn thẻ Unicode phẳng) rồi nâng cấp trơn tru lên Wave 1B (`VIS-003B/004B/005B`) trên cùng slot DOM.
 2. **Đường ghép H01→H02 bị giả hoặc lộ viền cắt nếu chỉ đặt 1 SVG sóng** → *Kiểm soát:* Thiết kế chuyển cảnh 3 trạng thái kết hợp dải khí quyển chuyển màu + đá bước chân thẳng trục 50% + cutout lá tiền cảnh phủ mép dưới H01.
 3. **Nhầm lẫn ảnh nền phẳng với cảnh có thể animate từng phần** → *Kiểm soát:* Phân loại rõ 6 nhóm kiến trúc tài sản trong `VISUAL_ASSET_REGISTER.md`; chỉ animate độc lập các đối tượng có cutout/vector riêng.
-4. **Nghẽn MVP giáo dục R0 do chờ đủ tranh trang trí trang chủ** → *Kiểm soát:* Tái cân bằng lộ trình ưu tiên `Wave 1A → BR-T004 → BR-T006` (chạy song song `BR-T005`), đưa Wave 1B sang `M1B` không chặn luồng chơi thử.
-5. **Lỗi điều hướng SPA khi tải lại trang con (`/games/fact-act`) hoặc mất focus bàn phím** → *Kiểm soát:* Chuẩn hóa React Router + `RouteScrollAndFocus` + cấu hình rewrite fallback hosting + test hard reload ở `BR-T004`.
+4. **Nghẽn MVP giáo dục R0 do chờ đủ tranh trang trí trang chủ** → *Kiểm soát:* Tái cân bằng lộ trình ưu tiên `Wave 1A (BR-T022) → BR-T004 → BR-T006` (chạy song song `BR-T005`), đưa Wave 1B sang `M1B` không chặn luồng chơi thử.
+5. **Lỗi điều hướng SPA khi tải lại trang con (`/games/fact-act`) hoặc mất focus bàn phím** → *Kiểm soát:* Chuẩn hóa React Router + `RouteScrollAndFocus` + cấu hình rewrite fallback hosting + xác minh anatomy/states thành phần trước code + test hard reload ở `BR-T004`.
 6. **Bản quyền thương mại `BR-T002` chưa chốt** → *Kiểm soát:* Chỉ sử dụng tài sản gốc Brainie/Rootie/Fact–Act cho phát triển nội bộ/prototype; không đưa tài sản gốc lên dịch vụ sinh ảnh bên thứ ba.
 
 ### 8.2 Cổng phê duyệt
-- **GATE A** (IA & React Router proposal) · **GATE B** (Storyboard H01–H06 & chuyển cảnh 3 trạng thái) · **GATE C** (Visual Asset Register & Wave 1A/1B) → *Chờ Owner + Reviewer duyệt trực tiếp trên file Markdown sau khi đồng bộ GitHub*.
-- **GATE D** (Tài sản Wave 1A được cung cấp & xác minh) → **GATE E** (Triển khai UI) → **GATE F** (Codex QA & đo hiệu năng/A11y thực tế) → **GATE G** (Nghiệm thu milestone).
+- **GATE A** (Information Architecture) · **GATE B** (UX/UI Storyboard Rev 1.1) · **GATE C** (Visual Asset Register Rev 1.1) → **`APPROVED` ngày 2026-11-20** (theo commit `0a735d189885`; chỉ áp dụng cho đặc tả thiết kế, không thay thế duyệt artwork hoàn chỉnh).
+- **GATE D1 — Artistic Quality Approval (Phê duyệt Chất lượng Mỹ thuật):** Product Owner / Art Direction xác nhận phong cách đồng bộ Hero V4, ánh sáng 35° trái-trên, màu thương hiệu, không chữ/UI nướng trong tranh, không tự vẽ lại Brainie/Rootie, không vi phạm `BR-T002`, đạt vùng an toàn chữ.
+- **GATE D2 — Technical Integration Readiness (Sẵn sàng Tích hợp Kỹ thuật):** Xác minh độc lập định dạng WebP/SVG, kênh alpha sạch (nếu là cutout), đúng kích thước/tỉ lệ khung & biến thể desktop/mobile theo Tier A–D, đường dẫn file & manifest hợp lệ, không vỡ nét/nhiễu nén và giải mã tốt trên trình duyệt. **Chỉ khi đạt cả GATE D1 và GATE D2, tài sản mới được phép chuyển sang tích hợp.**
+- **Pre-`BR-T004` Component Anatomy & States Verification:** Xác minh đầy đủ cấu trúc giải phẫu và ma trận trạng thái thành phần trước khi mở code `BR-T004`.
+- **GATE E** (Triển khai UI) → **GATE F** (Codex QA & đo hiệu năng/A11y thực tế) → **GATE G** (Nghiệm thu milestone).
