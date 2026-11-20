@@ -31,7 +31,7 @@ export function AboutPage() {
                 {ABOUT_PAGE_CONTENT.missionLabel}
               </p>
               <p className="about-mission-box__text">
-                “{ABOUT_PAGE_CONTENT.missionText}”
+                {ABOUT_PAGE_CONTENT.missionText}
               </p>
             </div>
             <p className="gp-detail-hero__overview">
@@ -49,18 +49,18 @@ export function AboutPage() {
 
       <section
         className="gp-section gp-section--tinted"
-        aria-labelledby="about-pilot-heading"
+        aria-labelledby="about-audience-heading"
       >
         <div className="gp-container">
           <div className="gp-section-header gp-section-header--left">
-            <p className="gp-eyebrow">BỐI CẢNH & CÁCH TIẾP CẬN</p>
-            <h2 className="gp-section-heading" id="about-pilot-heading">
-              {ABOUT_PAGE_CONTENT.pilotHeading}
+            <p className="gp-eyebrow">{ABOUT_PAGE_CONTENT.audienceEyebrow}</p>
+            <h2 className="gp-section-heading" id="about-audience-heading">
+              {ABOUT_PAGE_CONTENT.audienceHeading}
             </h2>
           </div>
 
           <div className="gp-phygital__grid">
-            {ABOUT_PAGE_CONTENT.pilotCards.map((card, index) => (
+            {ABOUT_PAGE_CONTENT.audienceCards.map((card, index) => (
               <article className="gp-pillar" key={card.title}>
                 <span className="gp-pillar__index" aria-hidden="true">
                   0{index + 1}
@@ -75,40 +75,39 @@ export function AboutPage() {
 
       <section
         className="gp-section"
-        aria-labelledby="about-transparency-heading"
+        aria-labelledby="about-start-heading"
       >
         <div className="gp-container">
-          <div className="gp-section-header gp-section-header--left">
-            <p className="gp-eyebrow">TRUNG THỰC TRONG PHÁT TRIỂN</p>
-            <h2 className="gp-section-heading" id="about-transparency-heading">
-              {ABOUT_PAGE_CONTENT.transparencyHeading}
-            </h2>
-          </div>
+          <div className="about-start-panel">
+            <div className="about-start-panel__copy">
+              <p className="gp-eyebrow">{ABOUT_PAGE_CONTENT.startEyebrow}</p>
+              <h2 className="gp-section-heading" id="about-start-heading">
+                {ABOUT_PAGE_CONTENT.startHeading}
+              </h2>
+              <p className="about-start-panel__desc">
+                {ABOUT_PAGE_CONTENT.startDescription}
+              </p>
+            </div>
 
-          <dl className="transparency-list">
-            {ABOUT_PAGE_CONTENT.transparencyItems.map((item) => (
-              <div className="transparency-row" key={item.label}>
-                <dt className="transparency-row__label">
-                  <strong>{item.label}</strong>
-                  <span className="transparency-row__status">{item.status}</span>
-                </dt>
-                <dd className="transparency-row__detail">{item.detail}</dd>
-              </div>
-            ))}
-          </dl>
-
-          <div className="world-next-strip">
-            <p>Khám phá trực tiếp các khu vực đang mở trên Brainroot:</p>
-            <div className="world-next-strip__links">
-              <Link className="gp-button gp-button--primary" to="/games">
-                Vào thư viện Green Play →
-              </Link>
-              <Link className="gp-button gp-button--secondary" to="/quest">
-                Mở Green Quest
-              </Link>
-              <Link className="gp-text-link" to="/connect">
-                Xem Green Connect
-              </Link>
+            <div className="about-start-panel__actions">
+              {ABOUT_PAGE_CONTENT.startActions.map((action) => (
+                <Link
+                  key={action.to}
+                  className={
+                    action.variant === 'primary'
+                      ? 'gp-button gp-button--primary'
+                      : 'gp-button gp-button--secondary'
+                  }
+                  to={action.to}
+                >
+                  <span>{action.label}</span>
+                  {action.variant === 'primary' ? (
+                    <span className="gp-button__arrow" aria-hidden="true">
+                      →
+                    </span>
+                  ) : null}
+                </Link>
+              ))}
             </div>
           </div>
         </div>

@@ -269,3 +269,63 @@ test('Public copy exports contain zero internal task IDs, Brainroot 2.0, or inte
     );
   }
 });
+
+test('Footer and About page present public brand story without dev progress notices', () => {
+  assert.equal(FOOTER_CONTENT.brandText, 'From Brainrot to Brainroot');
+  assert.equal(
+    FOOTER_CONTENT.missionShort,
+    'Khám phá kỹ năng xanh qua trò chơi, kiến thức và những hành động nhỏ trong cuộc sống hằng ngày.',
+  );
+  assert.equal(FOOTER_CONTENT.copyrightText, '© 2026 Brainroot');
+  assert.equal(
+    FOOTER_CONTENT.bottomSlogan,
+    'Học điều xanh, chơi điều hay, cùng nhau tạo thay đổi.',
+  );
+
+  assert.equal(ABOUT_PAGE_CONTENT.audienceHeading, 'Brainroot dành cho ai?');
+  assert.deepEqual(
+    ABOUT_PAGE_CONTENT.audienceCards.map((c) => c.title),
+    [
+      'Người yêu khám phá',
+      'Lớp học cùng học, cùng chơi',
+      'Cộng đồng cùng lan tỏa',
+    ],
+  );
+  assert.equal(
+    ABOUT_PAGE_CONTENT.startHeading,
+    'Bắt đầu hành trình xanh cùng Brainroot',
+  );
+  assert.deepEqual(
+    ABOUT_PAGE_CONTENT.startActions.map((a) => ({ label: a.label, to: a.to })),
+    [
+      { label: 'Khám phá trò chơi', to: '/games' },
+      { label: 'Thử thách xanh', to: '/quest' },
+      { label: 'Tìm hiểu kỹ năng xanh', to: '/learn' },
+    ],
+  );
+
+  const brandTexts = JSON.stringify({
+    FOOTER_CONTENT,
+    ABOUT_CONTENT,
+    ABOUT_PAGE_CONTENT,
+  });
+  const prohibitedBrandPhrases = [
+    /Bối cảnh triển khai và đối tượng phục vụ/i,
+    /Minh bạch trạng thái hoàn thiện/i,
+    /Ưu tiên thử nghiệm tại ULIS/i,
+    /Thí điểm ban đầu tại ULIS/i,
+    /Không cần đăng nhập/i,
+    /đang chờ công bố/i,
+    /đang hoàn thiện/i,
+    /đang kiểm duyệt/i,
+    /đang chuẩn hóa/i,
+    /bản quyền/i,
+  ];
+  for (const phrase of prohibitedBrandPhrases) {
+    assert.equal(
+      phrase.test(brandTexts),
+      false,
+      `Found prohibited project-progress phrase ${phrase} in brand/footer/about copy`,
+    );
+  }
+});

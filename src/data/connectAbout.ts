@@ -75,56 +75,51 @@ export const GREEN_CONNECT_CONTENT = {
 } as const;
 
 export const ABOUT_PAGE_CONTENT = {
-  eyebrow: 'VỀ DỰ ÁN BRAINROOT',
+  eyebrow: 'CÂU CHUYỆN BRAINROOT',
   heading: 'From Brainrot to Brainroot',
-  missionLabel: 'Sứ mệnh cốt lõi',
+  missionLabel: 'SỨ MỆNH CỦA CHÚNG TÔI',
   missionText:
-    'Dự án nâng cao nhận thức và kết nối giới trẻ về kỹ năng xanh thông qua sản phẩm giáo dục tương tác.',
+    'Đưa kỹ năng xanh đến gần giới trẻ bằng những trải nghiệm giáo dục tương tác, gần gũi và giàu tính kết nối.',
   introBody:
-    'Brainroot không phải là một cổng game giải trí thuần túy. Đây là không gian giáo dục tương tác nơi trò chơi, kiến thức gần gũi và hành động nhỏ hằng ngày bổ trợ cho nhau để biến sự tò mò thành thói quen xanh bền vững.',
-  pilotHeading: 'Bối cảnh triển khai và đối tượng phục vụ',
-  pilotCards: [
+    'Brainroot là không gian học tập tương tác, nơi kiến thức môi trường được kết nối với trò chơi, thử thách và những hành động gần gũi trong cuộc sống. Chúng tôi mong muốn mỗi người có thể bắt đầu hành trình sống xanh từ sự tò mò, niềm vui khám phá và những thay đổi nhỏ mỗi ngày.',
+  audienceEyebrow: 'ĐỒNG HÀNH CÙNG BẠN',
+  audienceHeading: 'Brainroot dành cho ai?',
+  audienceCards: [
     {
-      title: 'Mở công khai cho mọi người',
+      title: 'Người yêu khám phá',
       description:
-        'Bất kỳ ai quan tâm đến kỹ năng xanh — học sinh, sinh viên, giáo viên hay phụ huynh — đều có thể khám phá nội dung công khai trên website mà không bị ép đăng nhập.',
+        'Dù mới bắt đầu tìm hiểu hay đã quan tâm đến môi trường, bạn đều có thể khám phá kiến thức xanh qua các trò chơi và hoạt động gần gũi.',
     },
     {
-      title: 'Ưu tiên thử nghiệm tại ULIS & Hà Nội',
+      title: 'Lớp học cùng học, cùng chơi',
       description:
-        'Giai đoạn thử nghiệm ban đầu tập trung lắng nghe phản hồi từ cộng đồng sinh viên, giảng viên và câu lạc bộ tại Trường Đại học Ngoại ngữ (ULIS) và khu vực Hà Nội.',
+        'Học sinh, sinh viên và giáo viên có thể tham khảo những tình huống, trò chơi và chủ đề môi trường để cùng trao đổi, học hỏi.',
     },
     {
-      title: 'Kết nối vật lý & trải nghiệm số (Phygital)',
+      title: 'Cộng đồng cùng lan tỏa',
       description:
-        'Trải nghiệm trực tuyến bổ trợ cho bộ thẻ vật lý Brainroot - Truth or Dare và định hướng bàn chơi Brainroot - Ô ăn quan xanh, luôn tôn trọng giá trị sản phẩm gốc và không công khai nội dung bộ thẻ vật lý.',
+        'Các nhóm bạn, câu lạc bộ và cộng đồng có thể tìm thấy những ý tưởng hoạt động giúp kết nối mọi người quanh lối sống xanh.',
     },
   ],
-  transparencyHeading: 'Minh bạch trạng thái hoàn thiện của nền tảng Brainroot',
-  transparencyItems: [
+  startEyebrow: 'BẮT ĐẦU HÀNH TRÌNH',
+  startHeading: 'Bắt đầu hành trình xanh cùng Brainroot',
+  startDescription:
+    'Mỗi hành trình đều bắt đầu từ một bước nhỏ. Bạn có thể chọn một trò chơi, khám phá kiến thức môi trường hoặc thử thực hiện một hành động xanh ngay hôm nay.',
+  startActions: [
     {
-      label: 'Nội dung mẫu & học liệu giáo dục',
-      status: 'Đang kiểm duyệt nguồn tham khảo',
-      detail:
-        'Bản trải nghiệm thử của Brainroot - Truth or Dare và 5 thẻ kiến thức Green Learn hiện dùng tình huống minh họa và bản thảo khung được gắn nhãn rõ ràng; nguồn tham khảo chính thức sẽ cập nhật sau khi kiểm duyệt.',
+      label: 'Khám phá trò chơi',
+      to: '/games',
+      variant: 'primary',
     },
     {
-      label: 'Luật chơi bản số Brainroot - Ô ăn quan xanh',
-      status: 'Đang chuẩn hóa',
-      detail:
-        'Trang Brainroot - Ô ăn quan xanh cung cấp bàn gỗ 3D tương tác thử nghiệm và khung 5 chủ đề × 3 cấp độ; chưa áp đặt luật thi đấu hay phòng chơi trực tuyến.',
+      label: 'Thử thách xanh',
+      to: '/quest',
+      variant: 'secondary',
     },
     {
-      label: 'Nhân vật & minh họa của dự án',
-      status: 'Đang dùng cho giai đoạn thử nghiệm',
-      detail:
-        'Các nhân vật Brainie, Rootie và minh họa gốc của nhóm Brainroot được giữ nguyên bản trong giai đoạn thử nghiệm; các bước rà soát bản quyền phát hành tiếp tục được hoàn thiện.',
-    },
-    {
-      label: 'Kênh liên hệ & cộng đồng chính thức',
-      status: 'Chưa công bố trên bản web này',
-      detail:
-        'Chưa hiển thị email, mạng xã hội hoặc đơn vị đối tác cho đến khi nhóm dự án xác nhận thông tin chính thức.',
+      label: 'Tìm hiểu kỹ năng xanh',
+      to: '/learn',
+      variant: 'secondary',
     },
   ],
 } as const;

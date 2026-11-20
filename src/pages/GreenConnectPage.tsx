@@ -88,7 +88,7 @@ export function GreenConnectPage() {
             </p>
             <div className="world-next-strip__links">
               <Link className="gp-button gp-button--forest" to="/about">
-                Xem đầy đủ minh bạch dự án Brainroot →
+                Khám phá câu chuyện Brainroot →
               </Link>
               <Link className="gp-text-link" to="/games">
                 Quay lại thư viện Green Play

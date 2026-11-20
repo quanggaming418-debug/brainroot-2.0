@@ -261,27 +261,25 @@ export const LEARNING_JOURNEY_STAGES: readonly LearningJourneyStage[] = [
     id: 'connect',
     label: 'Kết nối',
     title: 'Lan tỏa cùng lớp học & cộng đồng',
-    summary: 'Chia sẻ cách làm hay với bạn bè, giáo viên và câu lạc bộ tại ULIS, Hà Nội và rộng hơn.',
+    summary: 'Chia sẻ cách làm hay với bạn bè, lớp học và cộng đồng cùng hướng tới lối sống xanh.',
   },
 ];
 
 export const ABOUT_CONTENT = {
   id: 'about',
-  overline: 'HÀNH TRÌNH BRAINROOT · FROM BRAINROT TO BRAINROOT',
+  overline: 'CÂU CHUYỆN BRAINROOT · FROM BRAINROT TO BRAINROOT',
   heading: 'Nuôi dưỡng kỹ năng xanh từ những bước nhỏ bền bỉ',
   mission:
-    'Dự án nâng cao nhận thức và kết nối giới trẻ về kỹ năng xanh thông qua sản phẩm giáo dục tương tác.',
-  body: 'Brainroot dành cho mọi người muốn học và thực hành kỹ năng xanh. Ở giai đoạn khởi đầu, nhóm ưu tiên thử nghiệm cùng học sinh, sinh viên, giáo viên và câu lạc bộ tại ULIS và Hà Nội.',
-  ctaLabel: 'Đọc thêm về sứ mệnh & minh bạch dự án',
+    'Đưa kỹ năng xanh đến gần giới trẻ bằng những trải nghiệm giáo dục tương tác, gần gũi và giàu tính kết nối.',
+  body: 'Brainroot là không gian học tập tương tác dành cho người trẻ, lớp học và cộng đồng cùng khám phá kiến thức môi trường qua trò chơi, thử thách và những hành động nhỏ mỗi ngày.',
+  ctaLabel: 'Đọc câu chuyện Brainroot',
   ctaTo: '/about',
 } as const;
 
 export const FOOTER_CONTENT = {
   brandText: 'From Brainrot to Brainroot',
   missionShort:
-    'Nâng cao nhận thức và kết nối giới trẻ về kỹ năng xanh qua sản phẩm giáo dục tương tác.',
-  pilotNote:
-    'Brainroot · Cộng đồng rộng mở · Thí điểm ban đầu tại ULIS & Hà Nội',
-  transparencyNote:
-    'Không cần đăng nhập để khám phá · Nội dung và kênh liên hệ chính thức đang hoàn thiện.',
+    'Khám phá kỹ năng xanh qua trò chơi, kiến thức và những hành động nhỏ trong cuộc sống hằng ngày.',
+  copyrightText: '© 2026 Brainroot',
+  bottomSlogan: 'Học điều xanh, chơi điều hay, cùng nhau tạo thay đổi.',
 } as const;

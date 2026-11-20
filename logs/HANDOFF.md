@@ -1,5 +1,15 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 (18:10) — Public-Facing Footer & About Redesign · Google AI Studio → Product Owner & Codex
+
+- **Trạng thái:** **`IN_REVIEW`** (`NOT COMMITTED` vì container AI Studio không có `.git`). Bảo toàn nguyên vẹn Hero V4, mascot Brainie/Rootie, bộ 4 ảnh Four Garden Windows, logic Truth or Dare & Ô ăn quan 3D, thông báo giới hạn tại các trang sản phẩm/tính năng, React Router và GitHub Pages `base: '/brainroot-2.0/'`.
+- **Tóm tắt thay đổi đã hoàn tất:**
+  - **Footer (`src/data/landing.ts`, `SiteFooter.tsx`, `unified-world.css`):** Giữ logo, hệ màu, hai nhóm điều hướng 4×4; cập nhật slogan `"From Brainrot to Brainroot"`, mô tả công khai `"Khám phá kỹ năng xanh qua trò chơi, kiến thức và những hành động nhỏ trong cuộc sống hằng ngày."`, hàng đáy `"© 2026 Brainroot"` và `"Học điều xanh, chơi điều hay, cùng nhau tạo thay đổi."`; xóa 2 ghi chú tiến độ/thí điểm cũ. Chiều cao Desktop giữ nguyên `277px` (`1440×900`), Mobile gọn hơn từ `494px → 457px` (`390×844`).
+  - **Trang Về Brainroot (`/about` — `src/data/connectAbout.ts`, `AboutPage.tsx`):** Thay toàn bộ nội dung báo cáo tiến độ (`"Bối cảnh triển khai và đối tượng phục vụ"`, `"Minh bạch trạng thái hoàn thiện"`, bảng 4 hàng) bằng 3 phần giới thiệu công chúng: Section A (*CÂU CHUYỆN BRAINROOT*, *From Brainrot to Brainroot*, *SỨ MỆNH CỦA CHÚNG TÔI* + minh họa 5 giai đoạn), Section B (*Brainroot dành cho ai?* — 3 thẻ đối tượng), Section C (*Bắt đầu hành trình xanh cùng Brainroot* — 3 CTA thật tới `/games`, `/quest`, `/learn`).
+  - **Đồng bộ thương hiệu chung (`src/data/landing.ts`, `GreenConnectPage.tsx`):** Đồng bộ `ABOUT_CONTENT`, bước 05 của `GrowthJourneyGraphic` và nhãn nút tới `/about` trên `/connect` để nhất quán hoàn toàn giữa Homepage, `/about` và Footer.
+- **Kiểm thử đã chạy thực tế:** `npx --yes tsx --test tests/*.test.ts` **PASS (29/29)** · `npm run typecheck` **PASS (0 lỗi)** · `npm run build` **PASS** · Playwright Chromium (`1440×900` & `390×844`) **PASS** (`0` tràn ngang, `0` lỗi console, 3 CTA `/about` điều hướng đúng, `0` cụm từ tiến độ dự án) · `npm run lint`: **`NOT RUN`**.
+- **Bước tiếp theo:** Product Owner nghiệm thu giao diện công khai mới; Codex rà soát diff trên Git (đối chiếu PR #5 & `BR-T024`) và mở PR.
+
 ## 2026-11-20 (17:30) — Website Branding, Typography, Content & Footer Audit · Google AI Studio → Product Owner & Codex
 
 - **Trạng thái:** **`IN_REVIEW`** (`NOT COMMITTED` vì container AI Studio không có `.git`). Báo cáo kiểm toán đầy đủ lưu tại `docs/WEBSITE_BRANDING_TYPOGRAPHY_CONTENT_AUDIT.md`. Bảo toàn nguyên vẹn Hero V4, artwork mascot, 4 ảnh Four Garden Windows WebP, kỹ thuật 3D Three.js, FSM/localStorage, đường dẫn React Router và cấu hình GitHub Pages (`base: '/brainroot-2.0/'`).

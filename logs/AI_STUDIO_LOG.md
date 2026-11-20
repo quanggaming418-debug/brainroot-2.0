@@ -260,5 +260,29 @@
 - **Git commit SHA:** `NOT COMMITTED` (workspace AI Studio không có `.git`).
 - **What remains / next task:** Product Owner duyệt báo cáo `docs/WEBSITE_BRANDING_TYPOGRAPHY_CONTENT_AUDIT.md`, chốt luật chính thức **Brainroot - Truth or Dare**, hoàn tất `BR-T005`/`OQ-08`/kênh liên hệ chính thức; Codex review diff & mở PR.
 
+## Session: 2026-11-20 18:10+07:00 — Google AI Studio — Public-Facing Footer & About Redesign
+
+- **Task & goal:** Hoàn thiện Footer và trang Về Brainroot (`/about`), đồng thời đồng bộ phần giới thiệu thương hiệu trên Homepage theo tiêu chuẩn website giáo dục công chúng (loại bỏ ngôn ngữ báo cáo tiến độ/quản trị dự án khỏi khu vực thương hiệu chung, giữ nguyên các thông báo giới hạn thật tại trang sản phẩm và tài liệu quản trị nội bộ).
+- **Status before → after:** `IN_REVIEW` → `IN_REVIEW` (chờ Product Owner nghiệm thu và Codex review diff/PR).
+- **Read context:** `AGENTS.md`, `src/data/landing.ts`, `src/data/connectAbout.ts`, `src/components/landing/{SiteFooter,AboutSection}.tsx`, `src/pages/{AboutPage,GreenConnectPage}.tsx`, `src/styles/unified-world.css`, `tests/{br-t003,r0-integration}.test.ts`.
+- **Files changed:**
+  - `src/data/landing.ts` — Cập nhật `FOOTER_CONTENT` (`From Brainrot to Brainroot`, mô tả công khai, `© 2026 Brainroot`, `Học điều xanh, chơi điều hay, cùng nhau tạo thay đổi.`), đồng bộ `ABOUT_CONTENT` và `LEARNING_JOURNEY_STAGES[4]` cho nhất quán thương hiệu công chúng, bỏ nhắc ULIS/kênh liên hệ/trạng thái kiểm duyệt ở phần giới thiệu thương hiệu chung.
+  - `src/components/landing/SiteFooter.tsx` — Cập nhật hàng đáy Footer dùng `copyrightText` và `bottomSlogan`, giữ nguyên logo, hai cột điều hướng và bố cục gọn.
+  - `src/data/connectAbout.ts` & `src/pages/AboutPage.tsx` — Thiết kế lại đầy đủ 3 phần trang `/about`: Section A (`CÂU CHUYỆN BRAINROOT` / `From Brainrot to Brainroot` / `SỨ MỆNH CỦA CHÚNG TÔI` + giới thiệu + giữ nguyên `GrowthJourneyGraphic` 5 giai đoạn), Section B (`Brainroot dành cho ai?` với 3 thẻ: *Người yêu khám phá*, *Lớp học cùng học, cùng chơi*, *Cộng đồng cùng lan tỏa*), Section C (`Bắt đầu hành trình xanh cùng Brainroot` với 3 CTA thật tới `/games`, `/quest`, `/learn`); loại bỏ hoàn toàn mục `"Bối cảnh triển khai và đối tượng phục vụ"` và bảng `"Minh bạch trạng thái hoàn thiện"`.
+  - `src/pages/GreenConnectPage.tsx` — Đồng bộ nhãn CTA liên kết sang `/about` thành `"Khám phá câu chuyện Brainroot →"`.
+  - `src/styles/unified-world.css` — Cập nhật selector hàng đáy Footer (`.site-footer__copyright`, `.site-footer__slogan-bottom`), tinh chỉnh viền nhẹ `.about-mission-box`, bổ sung `.about-start-panel` cho Section C và giữ lại `.world-next-strip` cho `GreenLearnPage`/`GreenQuestPage`.
+  - `tests/r0-integration.test.ts` — Bổ sung test #29 kiểm tra Footer & About theo đúng nội dung công khai và không chứa cụm từ tiến độ dự án.
+  - `planning/PROJECT_STATE.md`, `logs/AI_STUDIO_LOG.md`, `logs/WORK_LOG.md`, `logs/HANDOFF.md` — Cập nhật hồ sơ và bàn giao.
+- **User-visible behavior changed:** Footer và trang Về Brainroot trình bày rõ câu chuyện, sứ mệnh, đối tượng phục vụ và lối bắt đầu hành trình xanh dành cho công chúng; Footer giữ nguyên `277px` trên Desktop (`1440×900`) và thu gọn thêm từ `494px → 457px` trên Mobile (`390×844`).
+- **Tests actually executed:**
+  - `npx --yes tsx --test tests/*.test.ts`: **PASS (29/29)**.
+  - `npm run typecheck`: **PASS (`tsc --noEmit` 0 lỗi)**.
+  - `npm run build` (`vite build` / `compile_applet`): **PASS**.
+  - `npm run lint`: **`NOT RUN`** (`package.json` chưa có script `lint`).
+  - Playwright Chromium headless (`http://localhost:3000/brainroot-2.0/`): **PASS** tại `1440×900` & `390×844` — `0` tràn ngang, `0` lỗi console, Footer Desktop `277px` (`surface 246px`), Mobile `457px` (`surface 436px`), kiểm tra 3 CTA trên `/about` trỏ đúng `/games`, `/quest`, `/learn`, và `foundBanned: []`.
+- **Git commit SHA:** `NOT COMMITTED` (workspace AI Studio không có `.git`).
+- **What remains / next task:** Product Owner duyệt giao diện Footer & About công khai; Codex rà soát diff và mở PR.
+
+
 
 

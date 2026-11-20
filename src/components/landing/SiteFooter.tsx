@@ -90,9 +90,9 @@ export function SiteFooter() {
         </div>
 
         <div className="site-footer__bottom">
-          <p className="site-footer__pilot">{FOOTER_CONTENT.pilotNote}</p>
-          <p className="site-footer__transparency">
-            {FOOTER_CONTENT.transparencyNote}
+          <p className="site-footer__copyright">{FOOTER_CONTENT.copyrightText}</p>
+          <p className="site-footer__slogan-bottom">
+            {FOOTER_CONTENT.bottomSlogan}
           </p>
         </div>
       </div>
