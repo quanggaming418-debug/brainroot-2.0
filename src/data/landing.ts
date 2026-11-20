@@ -36,6 +36,8 @@ export interface EcosystemArea {
   readonly ctaLabel: string;
   readonly ctaTo: string;
   readonly emphasis: 'featured' | 'standard';
+  readonly imageSrc: string;
+  readonly imageAlt: string;
 }
 
 export interface LearningJourneyStage {
@@ -129,6 +131,9 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
     ctaLabel: 'Vào khu vườn Green Play',
     ctaTo: '/games',
     emphasis: 'featured',
+    imageSrc: publicUrl('/assets/home/garden/green-play.webp'),
+    imageAlt:
+      'Minh họa khu vực Green Play với bàn gỗ Ô ăn quan xanh và hai thẻ bài lá xanh trên gốc cây trong khu vườn',
   },
   {
     id: 'quest',
@@ -142,6 +147,9 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
     ctaLabel: 'Mở thử thách khởi đầu',
     ctaTo: '/quest',
     emphasis: 'standard',
+    imageSrc: publicUrl('/assets/home/garden/green-quest.webp'),
+    imageAlt:
+      'Minh họa khu vực Green Quest với bình nước cá nhân, bảng chỉ đường gỗ và chồi non trên bãi cỏ',
   },
   {
     id: 'learn',
@@ -155,6 +163,9 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
     ctaLabel: 'Đọc 5 chủ đề kỹ năng xanh',
     ctaTo: '/learn',
     emphasis: 'standard',
+    imageSrc: publicUrl('/assets/home/garden/green-learn.webp'),
+    imageAlt:
+      'Minh họa khu vực Green Learn với cuốn sổ tay mở vẽ chiếc lá xanh, dải đánh dấu trang và chồi non',
   },
   {
     id: 'connect',
@@ -168,6 +179,9 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
     ctaLabel: 'Xem cách cùng tham gia',
     ctaTo: '/connect',
     emphasis: 'standard',
+    imageSrc: publicUrl('/assets/home/garden/green-connect.webp'),
+    imageAlt:
+      'Minh họa khu vực Green Connect với ghế gỗ công viên, bảng tin cộng đồng treo cờ giấy và chậu cây xanh',
   },
 ];
 
@@ -204,7 +218,7 @@ export const FEATURED_GREEN_PLAY = {
       primaryActionLabel: 'Khám phá bàn 3D & chủ đề',
       primaryActionTo: '/games/o-an-quan-xanh',
       secondaryActionLabel: 'Mở toàn màn hình sandbox 3D',
-      secondaryActionTo: '/?preview=oanquan3d',
+      secondaryActionTo: publicUrl('/?preview=oanquan3d'),
       imageSrc: publicUrl('/assets/green-play/vis-008-o-an-quan-concept.webp'),
       imageAlt: 'Minh họa định hướng nghệ thuật bàn gỗ Ô ăn quan xanh',
       disclosure: 'Minh họa định hướng nghệ thuật · Bản 3D tương tác ở chế độ thử nghiệm.',

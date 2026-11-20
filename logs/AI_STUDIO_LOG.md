@@ -171,3 +171,47 @@
   - Playwright Chromium headless (`http://localhost:3000`): **PASS** sau 2 vòng chụp ảnh & sửa lỗi — Vòng 1 phát hiện và sửa 4 lỗi thật: (1) tràn ngang 108px trên `/games/o-an-quan-xanh` ở 390px do CSS Grid `1fr` thiếu `minmax(0, 1fr)`/`min-width: 0`, (2) mặt bàn 3D ban đầu bị thừa sáng + mặt gỗ đặc che hốc + vết nối texture gỗ dọc → nâng cấp khoét lỗ 3D thật trên nền gỗ óc chó + texture không vết nối + ánh sáng ấm cân bằng, (3) ảnh dưới nếp gấp H04/`/games` giải mã chậm khi chụp full-page → chuyển `decoding="sync"`, (4) bổ sung co giãn khoảng cách camera 3D trên màn hình di động hẹp. Vòng 2 xác nhận 0 lỗi console/pageerror, 0 ảnh vỡ, 0 tràn ngang trên `1440×900`, `1280×800`, `768×1024`, `390×844`, `320×740`, zoom 200% (`720×450`), `prefers-reduced-motion`, hard reload sâu, E2E Fact–Act đủ 3 thẻ + replay, E2E bàn 3D + mũi tên + 5×3 explorer, E2E Green Quest + Green Learn.
 - **Git commit SHA:** `NOT COMMITTED` (workspace AI Studio không có thư mục `.git`).
 - **What remains / next task:** Codex rà soát diff & hòa giải chồng lấn PR #5 (`src/features/oanquan/`), chạy QA độc lập/axe-core và mở PR review; đội nội dung thực hiện `BR-T005` để duyệt thẻ mẫu công khai, nguồn Green Learn, luật `OQ-08` và kênh liên hệ chính thức.
+
+
+## Session: 2026-11-20 22:50+07:00 — Google AI Studio — GitHub Pages Deployment Prep
+
+- **Task & goal:** Chuẩn bị triển khai website lên GitHub Pages tại `https://quanggaming418-debug.github.io/brainroot-2.0/`.
+- **Status before → after:** `IN_REVIEW` → `IN_REVIEW` (Sẵn sàng deploy qua GitHub Actions).
+- **Read context:** `AGENTS.md`, `vite.config.ts`, `src/App.tsx`, `src/utils/assetUrl.ts`, `planning/PROJECT_STATE.md`, `planning/TASKS.md`.
+- **Files changed:**
+  - `vite.config.ts` — Thêm `base: '/brainroot-2.0/'`.
+  - `src/App.tsx` — Thêm `basename="/brainroot-2.0"` vào `<BrowserRouter>`.
+  - `src/utils/assetUrl.ts` (mới) — Tiện ích xử lý URL tài sản tĩnh thích ứng với `BASE_URL`.
+  - `src/data/landing.ts`, `src/data/games.ts` — Sử dụng `getAssetUrl` cho các đường dẫn ảnh tĩnh.
+  - `.github/workflows/deploy.yml` (mới) — Tạo GitHub Actions workflow tự động build & deploy lên GitHub Pages khi push lên `main`.
+- **Tests actually executed:**
+  - `npm run typecheck`: **PASS** (`tsc --noEmit` 0 lỗi toàn repo).
+  - `npm run build` (`vite build`): **PASS**.
+- **Git commit SHA:** `NOT COMMITTED` (workspace AI Studio không chứa thư mục `.git`).
+- **What remains / next task:** Commit & push mã nguồn lên nhánh `main` của kho chứa GitHub, sau đó bật GitHub Pages với Source = GitHub Actions trong cài đặt repository trên GitHub.
+
+## Session: 2026-11-20 23:45+07:00 — Google AI Studio — BR-T022 (Homepage Visual Redesign V2 — Four Garden Windows)
+
+- **Task & goal:** Thiết kế lại phần trang chủ từ sau Hero V4 theo concept **Four Garden Windows** đã duyệt, tích hợp đúng 4 ảnh WebP đã chuẩn bị tại `public/assets/home/garden/` (`green-play.webp`, `green-quest.webp`, `green-learn.webp`, `green-connect.webp`) qua `publicUrl()`, làm mượt chuyển cảnh Hero V4 → Four Worlds, đồng bộ H04–H06 theo phong cách Storybook 2.5D tiết chế, bảo toàn Hero V4 và cấu hình GitHub Pages (`BR-T024`), không mở rộng phạm vi tính năng mới.
+- **Status before → after:** `BR-T022` `IN_PROGRESS` (intake 4 WebP xong) → `IN_REVIEW` (tích hợp UI trang chủ V2 hoàn chỉnh, chờ Product Owner duyệt ảnh chụp Desktop/Mobile và Codex review PR).
+- **Read context:** `AGENTS.md`, `.agents/rules/brainroot-ui.md`, `planning/PROJECT_STATE.md`, `planning/TASKS.md`, `logs/HANDOFF.md`, `vite.config.ts`, `src/utils/publicUrl.ts`, `src/data/landing.ts`, `src/components/garden/GardenPrimitives.tsx`, `src/components/landing/{HeroSection,EcosystemSection,FeaturedGreenPlaySection,AboutSection,SiteFooter}.tsx`, `src/styles/{tokens,landing,green-play,unified-world}.css`, `tests/{br-t003,pages,r0-integration}.test.ts` và kiểm tra trực quan cả 4 ảnh WebP cùng `hero-garden-v4.webp`.
+- **Files changed:**
+  - `src/data/landing.ts` — Bổ sung `imageSrc` (qua `publicUrl('/assets/home/garden/*.webp')`) và `imageAlt` tiếng Việt mô tả chi tiết cho cả 4 khu vực trong `ECOSYSTEM_AREAS`; bọc `FEATURED_GREEN_PLAY.items[1].secondaryActionTo` bằng `publicUrl('/?preview=oanquan3d')` để tương thích subpath GitHub Pages.
+  - `src/components/landing/EcosystemSection.tsx` — Tái thiết kế H03 thành hệ thẻ ngang **Four Garden Windows** 2×2 (khung minh họa Storybook 2.5D bên trái với nền chuyển sắc ấm theo từng khu vực + lá SVG chìm + ảnh WebP 1120×747 gốc; cột nội dung bên phải gồm nhãn trạng thái kiểu hạt giống tối giản không pill dày, tiêu đề, mô tả, ghi chú minh bạch và CTA rõ phân cấp).
+  - `src/components/garden/GardenPrimitives.tsx` — Nâng cấp dải chuyển cảnh H02 (`GardenTransitionBand`) hòa màu từ đồng cỏ nắng Hero V4 sang Warm Ivory `#F8F3E9`, tạo các phiến đá bước chân vẽ mềm không viền cứng, hạ thấp đường lượn góc phải để không che nút `Cuộn xuống khám phá` của Hero V4; bổ sung tùy chọn lá SVG nhẹ (`withLeaves`) cho `BotanicalDivider`.
+  - `src/components/landing/FeaturedGreenPlaySection.tsx`, `AboutSection.tsx`, `SiteFooter.tsx` — Đồng bộ tiêu đề nhỏ dạng hạt giống, khung cửa sổ bo mềm cho media H04, đưa nhãn ghi chú định hướng nghệ thuật Ô ăn quan xanh gọn vào mép dưới khung ảnh giúp hai thẻ H04 thẳng hàng tuyệt đối ở đường tiêu đề, đồng bộ trạng thái văn bản không pill dày và thêm điểm nhấn lá ở dải phân tách.
+  - `src/styles/unified-world.css` — Viết lại hệ kiểu dáng H02–H06 theo ngôn ngữ Storybook 2.5D tiết chế (`Be Vietnam Pro`, `#F8F3E9`/`#A6C6B6`/`#E79A7C`/`#63894C`/`#263B31`, bo góc `26px`, bóng đổ ấm nhẹ), lưới 2×2 card ngang trên desktop, chuyển dọc mượt trên mobile (`<= 720px`), cân đối lại nhóm 5 tab H05 trên mobile (`3 + 2` căn giữa, hết nút lẻ hàng 3), và hỗ trợ đầy đủ `prefers-reduced-motion`.
+  - `tests/br-t003.test.ts` — Thêm 1 unit test xác minh đủ 4 đường dẫn `/assets/home/garden/*.webp` qua `publicUrl()` và `imageAlt` tiếng Việt.
+  - `planning/TASKS.md`, `planning/PROJECT_STATE.md`, `logs/AI_STUDIO_LOG.md`, `logs/WORK_LOG.md`, `logs/HANDOFF.md` — Cập nhật hồ sơ quản trị và bàn giao.
+- **User-visible behavior changed:** Toàn bộ trang chủ dưới Hero V4 nay liền mạch theo một ngôn ngữ minh họa Storybook 2.5D thống nhất: chuyển cảnh đồng cỏ mượt không đè nút cuộn Hero, 4 cửa sổ khu vực dùng đúng 4 minh họa WebP dạng card ngang 2×2 trên desktop và xếp dọc gọn trên mobile, các khối H04–H06 cân đối khoảng cách, typography và CTA; giữ nguyên toàn bộ tuyến điều hướng, nội dung và thông điệp minh bạch.
+- **Tests actually executed:**
+  - `npx --yes tsx --test tests/*.test.ts`: **PASS (27/27)**.
+  - `npm run typecheck`: **PASS (`tsc --noEmit` 0 lỗi)**.
+  - `npm run build` (`compile_applet` / `vite build`): **PASS**.
+  - `npm run lint`: **`NOT RUN`** (`package.json` chưa có script `lint`).
+  - Playwright Chromium headless (`http://localhost:3000/brainroot-2.0/`): **PASS** sau 2 vòng kiểm chứng trực quan:
+    - Vòng 1 phát hiện và sửa 4 điểm: (1) dải H02 phủ nhẹ lên nút `Cuộn xuống khám phá` ở góc dưới phải Hero V4 & viền đá bước chân hơi cứng → giảm chồng lấn, uốn thấp góc phải và chuyển đá sang sắc độ vẽ mềm; (2) tỷ lệ khung ảnh H03 hơi hẹp ngang khiến minh họa 3:2 còn khoảng trống dọc → mở rộng cột ảnh lên `46%` và tinh chỉnh tỷ lệ; (3) nút `Mở toàn bộ thư viện Green Play` ở H04 xuống dòng sớm và hai tiêu đề thẻ H04 lệch chiều cao do dòng disclosure → căn phải nút header và đặt disclosure gọn trong khung ảnh giúp lệch đường cơ sở = `0px`; (4) 5 tab hành trình H05 trên mobile `390px` bị lẻ 1 nút ở hàng 3 → chuyển sang flex căn giữa `3 + 2`.
+    - Vòng 2 xác nhận trên Desktop (`1440×900`) & Mobile (`390×844`) + `prefers-reduced-motion`: 0 lỗi console/cảnh báo, 0 ảnh vỡ, 4/4 ảnh WebP tải đúng `1120×747` dưới `/brainroot-2.0/assets/home/garden/`, 0 tràn ngang (`1440/1440` & `390/390`), `featTitleTopDelta: 0`, `featBtnRightAligned: true`, chuyển trang `/games` & bấm tab H05 hoạt động. Ảnh chụp toàn trang lưu tại `.aistudio/artifacts/computer_use/homepage-v2-desktop-1440.png` và `.aistudio/artifacts/computer_use/homepage-v2-mobile-390.png`.
+- **Git commit SHA:** `NOT COMMITTED` (workspace AI Studio không có `.git`).
+- **What remains / next task:** Product Owner xem ảnh chụp Desktop & Mobile để duyệt thẩm mỹ Homepage V2; Codex rà soát diff, chạy QA độc lập trên Git và mở PR review.
+

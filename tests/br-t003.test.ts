@@ -117,3 +117,25 @@ test('hero assets preserve official Brainie/Rootie and depth layer paths under /
     );
   }
 });
+
+test('Four Garden Windows ecosystem areas reference the 4 prepared WebP assets via publicUrl()', () => {
+  const expectedPaths = [
+    '/assets/home/garden/green-play.webp',
+    '/assets/home/garden/green-quest.webp',
+    '/assets/home/garden/green-learn.webp',
+    '/assets/home/garden/green-connect.webp',
+  ];
+
+  assert.deepEqual(
+    ECOSYSTEM_AREAS.map((area) => area.imageSrc),
+    expectedPaths,
+  );
+
+  for (const area of ECOSYSTEM_AREAS) {
+    assert.ok(
+      area.imageAlt.trim().length >= 16,
+      `Expected descriptive Vietnamese alt text for ${area.title}`,
+    );
+  }
+});
+

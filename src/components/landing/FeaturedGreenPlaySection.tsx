@@ -12,15 +12,19 @@ export function FeaturedGreenPlaySection() {
     >
       <BotanicalDivider
         topFill="#F8F3E9"
-        accentFill="#E7DFCD"
-        bottomFill="#EFE8D9"
+        accentFill="#E5DEC9"
+        bottomFill="#F1EBDC"
+        withLeaves
       />
 
       <div className="featured-play__band">
         <div className="featured-play__inner">
           <header className="featured-play__header">
             <div>
-              <p className="section-overline">{FEATURED_GREEN_PLAY.overline}</p>
+              <p className="section-overline section-overline--botanical">
+                <span className="section-overline__seed" aria-hidden="true" />
+                <span>{FEATURED_GREEN_PLAY.overline}</span>
+              </p>
               <h2 className="section-heading" id="featured-play-heading">
                 {FEATURED_GREEN_PLAY.heading}
               </h2>
@@ -41,35 +45,43 @@ export function FeaturedGreenPlaySection() {
 
           <div className="featured-play__grid">
             {FEATURED_GREEN_PLAY.items.map((item) => {
-              const isExternalPreview = item.secondaryActionTo.startsWith('/?preview=');
+              const isExternalPreview = item.secondaryActionTo.includes('?preview=');
               return (
                 <article
                   key={item.id}
                   className={`featured-game-card featured-game-card--${item.id}`}
                 >
-                  <div className="featured-game-card__media">
-                    <img
-                      src={item.imageSrc}
-                      alt={item.imageAlt}
-                      loading="eager"
-                      decoding="sync"
-                      className={
-                        item.id === 'fact-act'
-                          ? 'featured-game-card__img--cutout'
-                          : 'featured-game-card__img--scene'
-                      }
-                    />
-                    {'disclosure' in item && item.disclosure ? (
-                      <p className="featured-game-card__disclosure">
-                        {item.disclosure}
-                      </p>
-                    ) : null}
+                  <div className="featured-game-card__media-shell">
+                    <div className="featured-game-card__media">
+                      <img
+                        src={item.imageSrc}
+                        alt={item.imageAlt}
+                        loading="eager"
+                        decoding="sync"
+                        className={
+                          item.id === 'fact-act'
+                            ? 'featured-game-card__img--cutout'
+                            : 'featured-game-card__img--scene'
+                        }
+                      />
+                      {'disclosure' in item && item.disclosure ? (
+                        <p className="featured-game-card__disclosure">
+                          {item.disclosure}
+                        </p>
+                      ) : null}
+                    </div>
                   </div>
 
                   <div className="featured-game-card__body">
-                    <span className="featured-game-card__badge">
-                      {item.badge}
-                    </span>
+                    <p
+                      className={`featured-game-card__status featured-game-card__status--${item.id}`}
+                    >
+                      <span
+                        className="featured-game-card__status-seed"
+                        aria-hidden="true"
+                      />
+                      <span>{item.badge}</span>
+                    </p>
                     <h3 className="featured-game-card__title">{item.title}</h3>
                     <p className="featured-game-card__subtitle">
                       {item.subtitle}
@@ -117,9 +129,10 @@ export function FeaturedGreenPlaySection() {
       </div>
 
       <BotanicalDivider
-        topFill="#EFE8D9"
-        accentFill="#DCE6D7"
+        topFill="#F1EBDC"
+        accentFill="#DEE8D8"
         bottomFill="#F8F3E9"
+        withLeaves
       />
     </section>
   );

@@ -1,5 +1,18 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 (23:45) — BR-T022 Homepage Visual Redesign V2 (Four Garden Windows) · Google AI Studio → Product Owner & Codex
+
+- **Trạng thái:** **`IN_REVIEW`** (`NOT COMMITTED` vì container AI Studio không có `.git`). Đã bảo toàn nguyên vẹn Hero V4 (`HeroSection.tsx`, `landing.css`) và cấu hình GitHub Pages (`BR-T024`: `vite.config.ts`, `publicUrl()`, `BrowserRouter basename`).
+- **Tóm tắt thay đổi đã hoàn tất:**
+  - Tích hợp đúng 4 ảnh WebP đã xác minh tại `public/assets/home/garden/` (`green-play.webp`, `green-quest.webp`, `green-learn.webp`, `green-connect.webp`) qua `publicUrl()` vào `src/data/landing.ts` và `src/components/landing/EcosystemSection.tsx`.
+  - Thiết kế lại H03 (`#worlds`) theo concept **Four Garden Windows**: card ngang Storybook 2.5D (khung minh họa bên trái, nội dung & CTA bên phải), lưới 2×2 cân đối trên desktop, tự động xếp dọc gọn trên mobile (`<= 720px`) với nút CTA đủ vùng chạm `>= 44px`.
+  - Nâng cấp dải chuyển cảnh H02 (`GardenTransitionBand`) nối mượt đồng cỏ Hero V4 xuống nền Warm Ivory `#F8F3E9` mà không che nút `Cuộn xuống khám phá`, đồng bộ typography, spacing, trạng thái văn bản tối giản (không pill dày), đường căn tiêu đề H04 (`FeaturedGreenPlaySection`), cân đối 5 tab H05 trên mobile và chân trang H06 (`SiteFooter`).
+  - Sửa đường dẫn `/?preview=oanquan3d` trên H04 đi qua `publicUrl('/?preview=oanquan3d')` để chạy đúng dưới subpath `/brainroot-2.0/` của GitHub Pages.
+- **Tệp đã sửa:** `src/data/landing.ts`, `src/components/garden/GardenPrimitives.tsx`, `src/components/landing/EcosystemSection.tsx`, `src/components/landing/FeaturedGreenPlaySection.tsx`, `src/components/landing/AboutSection.tsx`, `src/components/landing/SiteFooter.tsx`, `src/styles/unified-world.css`, `tests/br-t003.test.ts` (và hồ sơ quản trị `planning/TASKS.md`, `planning/PROJECT_STATE.md`, `logs/AI_STUDIO_LOG.md`, `logs/WORK_LOG.md`, `logs/HANDOFF.md`).
+- **Kiểm thử đã chạy thực tế:** `npx --yes tsx --test tests/*.test.ts` **PASS (27/27)** · `npm run typecheck` **PASS (0 lỗi)** · `npm run build` **PASS** · Playwright Chromium headless trên `http://localhost:3000/brainroot-2.0/` **PASS** qua 2 vòng trên `1440×900` & `390×844` + `prefers-reduced-motion` (0 lỗi console, 0 ảnh vỡ, 4/4 ảnh garden WebP `1120×747`, 0 tràn ngang, điều hướng `/games` & tab H05 hoạt động) · `npm run lint`: **`NOT RUN`** (`package.json` chưa có script `lint`).
+- **Ảnh chụp toàn trang sẵn sàng duyệt:** `.aistudio/artifacts/computer_use/homepage-v2-desktop-1440.png` (Desktop 1440px) và `.aistudio/artifacts/computer_use/homepage-v2-mobile-390.png` (Mobile 390px).
+- **Bước tiếp theo:** (1) Product Owner duyệt trực quan ảnh chụp Desktop & Mobile Homepage V2; (2) Codex đồng bộ diff vào Git, kiểm chứng độc lập trên nhánh PR và đối chiếu với `BR-T024`/PR #5; (3) Tiếp tục `BR-T005` (duyệt nội dung công khai) và `BR-T002` (quyền phát hành thương mại).
+
 ## BR-T022 — Garden asset intake · Codex → Google AI Studio
 
 - 4 WebP đã xác minh trong `public/assets/home/garden/` trên nhánh `codex/garden-webp-intake`, chờ review/merge. AI Studio phụ trách thiết kế và tích hợp ở bước sau.

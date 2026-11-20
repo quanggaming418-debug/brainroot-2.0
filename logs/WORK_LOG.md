@@ -11,5 +11,7 @@
 | 2026-11-20 12:10 | AI Studio | BR-T021 | DONE (pending Git PR) | Closeout GATE A/B/C (0a735d189885), BR-T020 DONE (PR #2), add BR-T022, remove unused prompt file (grep 0 refs PASS); git/code build NOT RUN | logs/AI_STUDIO_LOG.md |
 | 2026-11-20 15:30 | AI Studio | BR-T004 | IN_REVIEW | unit(17/17), vite build, Playwright 1440/1280/390/320 + zoom 200% + hard reload/Escape: PASS; typecheck: 0 errors in BR-T004 (1 pre-existing TS6133 in PR #5 sandbox untouched); lint: NOT RUN; NOT COMMITTED | logs/AI_STUDIO_LOG.md |
 | 2026-11-20 18:45 | AI Studio | Master R0 (BR-T004/006/007/011 + 3D) | IN_REVIEW | typecheck(0 errs), unit(24/24), vite build, Playwright 1440/1280/768/390/320 + zoom 200% + reduced-motion + E2E(Fact-Act/3D/Quest/Learn): PASS; lint: NOT RUN; NOT COMMITTED | logs/AI_STUDIO_LOG.md |
+| 2026-11-20 22:50 | AI Studio | Deployment Prep | IN_REVIEW | typecheck, vite build: PASS; workflow created | logs/AI_STUDIO_LOG.md |
+| 2026-11-20 23:45 | AI Studio | BR-T022 (Homepage V2) | IN_REVIEW | unit(27/27), typecheck, vite build, Playwright 1440/390 + reduced-motion (2 passes): PASS; lint: NOT RUN; NOT COMMITTED | logs/AI_STUDIO_LOG.md |
 
 **Append format:** `YYYY-MM-DD HH:MM | AI Studio/Codex | BR-Txxx | DONE/BLOCKED/IN_REVIEW | command: result | logs/<AGENT>_LOG.md`.

@@ -40,6 +40,7 @@ interface BotanicalDividerProps {
   readonly bottomFill?: string;
   readonly accentFill?: string;
   readonly flip?: boolean;
+  readonly withLeaves?: boolean;
   readonly className?: string;
 }
 
@@ -48,6 +49,7 @@ export function BotanicalDivider({
   bottomFill = '#F8F3E9',
   accentFill = '#DDE8D8',
   flip = false,
+  withLeaves = false,
   className = '',
 }: BotanicalDividerProps) {
   return (
@@ -57,20 +59,32 @@ export function BotanicalDivider({
     >
       <svg
         className="botanical-divider__svg"
-        viewBox="0 0 1440 92"
+        viewBox="0 0 1440 84"
         preserveAspectRatio="none"
         focusable="false"
       >
-        <rect width="1440" height="92" fill={topFill} />
+        <rect width="1440" height="84" fill={topFill} />
         <path
-          d="M0,48 C210,12 430,78 720,42 C1020,6 1230,66 1440,32 L1440,92 L0,92 Z"
+          d="M0,42 C240,10 470,68 740,38 C1030,8 1250,60 1440,30 L1440,84 L0,84 Z"
           fill={accentFill}
-          opacity="0.72"
+          opacity="0.7"
         />
         <path
-          d="M0,62 C260,26 520,86 810,50 C1080,18 1280,68 1440,46 L1440,92 L0,92 Z"
+          d="M0,56 C280,26 540,78 820,48 C1090,18 1290,64 1440,44 L1440,84 L0,84 Z"
           fill={bottomFill}
         />
+        {withLeaves ? (
+          <>
+            <g transform="translate(86, 22) rotate(-14)" opacity="0.52">
+              <path d="M0,26 C8,12 20,4 36,2 C28,16 18,24 0,26 Z" fill="#89AE7E" />
+              <path d="M10,30 C22,22 36,20 50,24 C38,33 24,36 10,30 Z" fill="#A6C6B6" />
+            </g>
+            <g transform="translate(1300, 18) rotate(12)" opacity="0.48">
+              <path d="M44,28 C34,14 22,6 6,4 C14,18 26,26 44,28 Z" fill="#89AE7E" />
+              <path d="M36,32 C24,24 10,22 -4,26 C8,34 22,37 36,32 Z" fill="#E79A7C" opacity="0.7" />
+            </g>
+          </>
+        ) : null}
       </svg>
     </div>
   );
@@ -78,9 +92,8 @@ export function BotanicalDivider({
 
 /**
  * H02 — Seamless Hero-to-Garden Transition Band.
- * Bridges Hero V4's warm meadow foreground into the sunlit warm-ivory
- * Four Worlds garden using layered botanical contours, stepping stones
- * aligned on the 50% visual axis, and matching upper-left sunlight.
+ * Bridges Hero V4's sunlit olive-green meadow & center stepping stones
+ * smoothly into the Warm Ivory (#F8F3E9) Four Garden Windows section.
  */
 export function GardenTransitionBand() {
   return (
@@ -88,50 +101,83 @@ export function GardenTransitionBand() {
       <div className="garden-transition__meadow">
         <svg
           className="garden-transition__contour"
-          viewBox="0 0 1440 168"
+          viewBox="0 0 1440 164"
           preserveAspectRatio="none"
           focusable="false"
         >
           <defs>
-            <linearGradient id="gt-sun-wash" x1="0" y1="0" x2="1" y2="0.6">
-              <stop offset="0%" stopColor="#F5D7B8" stopOpacity="0.65" />
-              <stop offset="52%" stopColor="#E6EADB" stopOpacity="0.88" />
-              <stop offset="100%" stopColor="#CFE0D1" stopOpacity="0.72" />
+            <linearGradient id="gt-meadow-mist" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#9DB764" stopOpacity="0.48" />
+              <stop offset="56%" stopColor="#CBE0C0" stopOpacity="0.86" />
+              <stop offset="100%" stopColor="#EFF1E4" stopOpacity="0.98" />
+            </linearGradient>
+            <linearGradient id="gt-sun-wash" x1="0.12" y1="0" x2="0.88" y2="1">
+              <stop offset="0%" stopColor="#F5E5CA" stopOpacity="0.78" />
+              <stop offset="50%" stopColor="#EEF1E4" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="#DCE8D9" stopOpacity="0.9" />
             </linearGradient>
             <linearGradient id="gt-ivory-blend" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#EFF0E4" />
+              <stop offset="0%" stopColor="#F5F0E3" />
+              <stop offset="65%" stopColor="#F8F3E9" />
               <stop offset="100%" stopColor="#F8F3E9" />
             </linearGradient>
+            <linearGradient id="gt-stone-fill" x1="0.2" y1="0" x2="0.8" y2="1">
+              <stop offset="0%" stopColor="#F9EFE0" />
+              <stop offset="100%" stopColor="#E6D5B8" />
+            </linearGradient>
+            <linearGradient id="gt-path-wash" x1="0.5" y1="0" x2="0.5" y2="1">
+              <stop offset="0%" stopColor="#EFE1C7" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="#F8F3E9" stopOpacity="0" />
+            </linearGradient>
           </defs>
-          {/* Back meadow hill echoing Hero V4 foreground */}
+
+          {/* Soft upper meadow contour (dips lower on far right to leave Hero scroll-hint completely clear) */}
           <path
-            d="M0,56 C240,14 480,74 720,46 C960,18 1210,72 1440,34 L1440,168 L0,168 Z"
-            fill="#B7CFAF"
-            opacity="0.62"
+            d="M0,34 C230,10 470,50 720,30 C970,12 1180,60 1440,54 L1440,164 L0,164 Z"
+            fill="url(#gt-meadow-mist)"
           />
+
           {/* Sunlit mid meadow ridge */}
           <path
-            d="M0,84 C290,46 510,98 760,68 C1040,36 1240,86 1440,56 L1440,168 L0,168 Z"
+            d="M0,66 C260,36 500,82 746,56 C1000,30 1220,82 1440,72 L1440,164 L0,164 Z"
             fill="url(#gt-sun-wash)"
           />
-          {/* Foreground warm ivory garden path entry */}
+
+          {/* Foreground Warm Ivory arrival */}
           <path
-            d="M0,118 C270,84 520,126 740,104 C990,80 1230,118 1440,94 L1440,168 L0,168 Z"
+            d="M0,100 C270,74 520,108 740,90 C980,72 1230,104 1440,92 L1440,164 L0,164 Z"
             fill="url(#gt-ivory-blend)"
           />
-          {/* 3 stepping stones along the center axis guiding the eye into H03 */}
-          <ellipse cx="716" cy="96" rx="34" ry="11" fill="#FBF5E8" stroke="#C9BFA9" strokeWidth="1.5" />
-          <ellipse cx="732" cy="124" rx="44" ry="14" fill="#FCF7EC" stroke="#CFC4AE" strokeWidth="1.5" />
-          <ellipse cx="712" cy="153" rx="52" ry="14" fill="#F6E9D7" stroke="#D3C4AE" strokeWidth="1.5" />
-          {/* Left botanical leaf sprig */}
-          <g transform="translate(88, 72) rotate(-14)" opacity="0.82">
-            <path d="M0,44 C8,22 24,8 48,4 C38,24 24,38 0,44 Z" fill="#89AE7E" />
-            <path d="M12,48 C28,34 48,30 70,34 C54,48 34,54 12,48 Z" fill="#A6C6B6" />
+
+          {/* Painted Storybook stepping-stone trail fading gently into Warm Ivory */}
+          <path
+            d="M668,54 C676,90 658,124 630,164 L810,164 C782,124 764,90 772,54 Z"
+            fill="url(#gt-path-wash)"
+          />
+          <g opacity="0.88">
+            <ellipse cx="718" cy="74" rx="34" ry="8.5" fill="#7D6C52" opacity="0.12" />
+            <ellipse cx="717" cy="71" rx="33" ry="8" fill="url(#gt-stone-fill)" />
           </g>
-          {/* Right warm peach blossom & sage sprig */}
-          <g transform="translate(1284, 68) rotate(12)" opacity="0.82">
-            <path d="M68,46 C54,24 38,10 14,6 C24,26 40,40 68,46 Z" fill="#89AE7E" />
-            <path d="M56,50 C40,36 20,32 -2,36 C14,50 34,56 56,50 Z" fill="#E79A7C" opacity="0.72" />
+          <g opacity="0.76">
+            <ellipse cx="734" cy="102" rx="43" ry="10.5" fill="#7D6C52" opacity="0.1" />
+            <ellipse cx="733" cy="99" rx="42" ry="10" fill="url(#gt-stone-fill)" />
+          </g>
+          <g opacity="0.54">
+            <ellipse cx="712" cy="132" rx="50" ry="11.5" fill="#7D6C52" opacity="0.08" />
+            <ellipse cx="711" cy="129" rx="49" ry="11" fill="url(#gt-stone-fill)" />
+          </g>
+
+          {/* Left botanical leaf sprig echoing Hero V4 corner foliage */}
+          <g transform="translate(52, 62) rotate(-10)" opacity="0.82">
+            <path d="M0,50 C10,22 28,8 56,4 C44,24 28,42 0,50 Z" fill="#7D9F68" />
+            <path d="M16,56 C34,40 58,34 84,40 C64,54 40,62 16,56 Z" fill="#A6C6B6" />
+          </g>
+
+          {/* Right botanical sage & warm peach leaf cluster placed cleanly below scroll-hint */}
+          <g transform="translate(1294, 74) rotate(8)" opacity="0.82">
+            <path d="M84,48 C70,22 52,8 24,4 C36,24 52,40 84,48 Z" fill="#7D9F68" />
+            <path d="M70,54 C52,38 28,32 4,38 C24,52 46,60 70,54 Z" fill="#A6C6B6" />
+            <path d="M78,40 C86,24 80,10 66,8 C62,22 66,34 78,40 Z" fill="#E79A7C" opacity="0.74" />
           </g>
         </svg>
       </div>

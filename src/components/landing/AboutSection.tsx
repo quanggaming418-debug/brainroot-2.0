@@ -15,7 +15,10 @@ export function AboutSection() {
     >
       <div className="about__grid">
         <div className="about__story">
-          <p className="section-overline">{ABOUT_CONTENT.overline}</p>
+          <p className="section-overline section-overline--botanical">
+            <span className="section-overline__seed" aria-hidden="true" />
+            <span>{ABOUT_CONTENT.overline}</span>
+          </p>
           <h2 className="section-heading" id="about-heading">
             {ABOUT_CONTENT.heading}
           </h2>

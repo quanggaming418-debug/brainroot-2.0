@@ -10,6 +10,7 @@ export function SiteFooter() {
         topFill="transparent"
         accentFill="#DFDFCF"
         bottomFill="#EAE3D3"
+        withLeaves
       />
 
       <div className="site-footer__surface">
