@@ -1,11 +1,11 @@
 # PROJECT_STATE — Read before every agent run
 
-- **Updated:** 2026-11-20 (BR-T020 khôi phục chuyển động nền Hero V4 theo quyết định sản phẩm.)
-- **Phase:** BR-T003 đã merge vào `main`. BR-T020 đang chờ review.
-- **Current release:** R0 proposed (scope BR-T003 approved; remaining R0 tasks pending).
-- **Current active Task ID:** `BR-T020` (`IN_REVIEW`). `BR-T004` đang chờ giao riêng.
-- **Last verified build:** PASS — `npm run typecheck`, `npm run build`, `npx --yes tsx --test tests/br-t003.test.ts` (5/5). Xem kết quả Chromium và runtime ở `logs/CODEX_LOG.md`.
-- **Repository branch / base:** `codex/hero-ambient-motion` / `a2db00a8d4672304beb7c35d59726e36b1e4a2c6` (BR-T003, đã merge vào `main`).
+- **Updated:** 2026-11-20 (BR-T021 hoàn tất gói đặc tả UX/UI Master Blueprint, Storyboard H01–H06, Visual Asset Register & Checklist; chờ Owner duyệt GATE A/B/C.)
+- **Phase:** M0 — Master Design Blueprint (`BR-T021` `IN_REVIEW`). Mã nguồn `src/` giữ nguyên nền `BR-T003` + `BR-T020` (không chỉnh code trong `BR-T021`).
+- **Current release:** R0 proposed (scope BR-T003 & BR-T020 đã triển khai; M1/M2 chờ duyệt GATE A/B/C).
+- **Current active Task ID:** `BR-T021` (`IN_REVIEW`). `BR-T004` chưa bắt đầu (chờ duyệt GATE A/B/C/D).
+- **Last verified build:** Xem phiên Codex gần nhất (`BR-T020` PASS: `typecheck`, `build`, unit 5/5, Playwright Chromium 1440/390/320). Phiên `BR-T021` chỉ tạo/cập nhật tài liệu Markdown, không thay đổi mã nguồn ứng dụng (build/test: NOT RUN trong phiên này).
+- **Repository branch / base:** Không xác minh được bằng Git CLI (workspace AI Studio không có `.git`). **Lưu ý sai lệch:** Product Owner xác nhận `BR-T003` và `BR-T020` đã merge vào `main`, nhưng `planning/TASKS.md` và `logs/HANDOFF.md` đồng bộ trước phiên vẫn ghi `BR-T020` ở `IN_REVIEW` trên nhánh `codex/hero-ambient-motion`; cần đối chiếu khi sync GitHub. Thay đổi `BR-T021` đang ở trạng thái **NOT COMMITTED**.
 - **Deployment URL:** NOT CREATED for Brainroot 2.0.
 - **Hero reference:** `reference/hero-v4/`; **asset copies:** `public/assets/hero-v4/`.
 
@@ -32,4 +32,6 @@
 - Existing Brainroot survey totals and old website functional descriptions are not independently verified from raw data.
 
 ## Immediate next action
-Owner review PR BR-T020, bao gồm giới hạn WCAG 2.2.2 tại `docs/ACCESSIBILITY.md`. BR-T004 cần được giao riêng. Giải quyết quyền xuất bản artwork theo BR-T002 trước khi đưa artwork lên bản công khai.
+1. Product Owner duyệt **GATE A** (IA), **GATE B** (Storyboard H01–H06) và **GATE C** (Visual Asset Register & Wave 1A) từ `BR-T021`.
+2. Đồng bộ trạng thái merge thực tế của `BR-T020` trên `main` khi sync GitHub.
+3. Sau khi duyệt GATE A/B/C, triển khai sản xuất & kiểm duyệt tài sản Wave 1A (**GATE D**) trước khi vào M1 hoặc `BR-T004`. Giải quyết quyền xuất bản artwork theo `BR-T002` trước khi đưa artwork lên bản công khai.

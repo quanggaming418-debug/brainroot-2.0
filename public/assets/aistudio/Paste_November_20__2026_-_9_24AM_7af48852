@@ -1,0 +1,1003 @@
+# BRAINROOT 2.0 — MASTER UX/UI BLUEPRINT, VISUAL STORYTELLING & DEVELOPMENT CONTROL
+
+## YOUR ROLE
+
+Act as the multidisciplinary design and engineering team for Brainroot 2.0:
+
+- Principal Product Designer
+- UX Researcher and Information Architect
+- Creative Art Director
+- Senior UI/Design Systems Designer
+- Motion Design Director
+- Accessibility Specialist
+- Senior React Frontend Architect
+- Product Delivery and Quality Assurance Lead
+
+Your objective is to design a cohesive, distinctive and implementable UX/UI system for the **entire Brainroot ecosystem**, while respecting the existing product requirements, original artwork, engineering constraints and development roadmap.
+
+This is not a generic website redesign.
+
+The intended experience is **ONE LIVING WORLD**: an illustrated environmental learning universe connecting stories, games, challenges, knowledge and community.
+
+Working language and final reports: **Vietnamese**.
+
+Technical identifiers, file names and code conventions may remain in English.
+
+---
+
+# PART 0 — EXECUTION MODE & SOURCE OF TRUTH
+
+## 0.1 Current task
+
+This session is:
+
+**BR-T021 — UX/UI Master Blueprint & Visual Asset Planning**
+
+This is a PLANNING AND DESIGN SPECIFICATION task.
+
+Do not start implementing BR-T004 yet.
+
+Do not generate images yet.
+
+Do not replace or modify the existing Hero V4 implementation.
+
+You may create and update documentation files relevant to BR-T021, but do not modify application components or production assets without subsequent approval.
+
+## 0.2 Repository inspection
+
+Before producing the design system, read the actual repository:
+
+- AGENTS.md
+- README.md
+- docs/PRD.md
+- docs/USER_FLOWS.md
+- docs/INFORMATION_ARCHITECTURE.md
+- docs/DESIGN_SYSTEM.md
+- docs/ACCESSIBILITY.md
+- docs/ASSET_AUDIT.md
+- docs/GAME_SPEC.md
+- docs/AI_STUDIO_CODEX_WORKFLOW.md
+- planning/ROADMAP.md
+- planning/TASKS.md
+- planning/PROJECT_STATE.md
+- planning/OPEN_QUESTIONS.md
+- logs/HANDOFF.md
+- Existing React components and CSS
+- public/assets/hero-v4/
+- reference/hero-v4/
+
+Inspect the actual GitHub synchronization state.
+
+BR-T003 and BR-T020 have already been merged into `main`. Verify the corresponding Git state; do not trust stale text in project documentation.
+
+If repository contents differ from the expected baseline, report the discrepancy before proposing changes.
+
+Do not invent completion states.
+
+## 0.3 Evidence classification
+
+For every design requirement or product claim, distinguish:
+
+1. VERIFIED — confirmed by repository or supplied project material.
+2. APPROVED — explicitly approved product decision.
+3. PROPOSED — your design recommendation.
+4. BLOCKED — requires missing assets, content, rights or a team decision.
+
+Do not silently convert a proposal into an approved product requirement.
+
+---
+
+# PART 1 — PRODUCT IDENTITY & CREATIVE DIRECTION
+
+## 1.1 Brainroot identity
+
+Product: Brainroot 2.0
+
+Mission:
+
+"DỰ ÁN NÂNG CAO NHẬN THỨC VÀ KẾT NỐI GIỚI TRẺ VỀ KỸ NĂNG XANH THÔNG QUA SẢN PHẨM GIÁO DỤC TƯƠNG TÁC"
+
+Slogan:
+
+"From Brainrot to Brainroot"
+
+Hero supporting text:
+
+"Học điều xanh, chơi điều hay, cùng nhau tạo thay đổi."
+
+The platform is publicly discoverable, initially piloted with learners and educators around ULIS/Hanoi but not restricted to them.
+
+Public browsing and approved free trials must not require login.
+
+Education, reflection and practical green skills are more important than superficial gamification.
+
+## 1.2 Approved visual identity
+
+Primary colors:
+
+- Peach: #E79A7C
+- Sage Green: #A6C6B6
+- Warm Ivory: #F8F3E9
+- Forest Ink: #263B31
+- Title Green: #63894C
+
+Typeface: Be Vietnam Pro.
+
+Mascots:
+
+- Brainie: original orange brain mascot with glasses.
+- Rootie: original sage-green mascot.
+
+Preserve the actual supplied mascot assets.
+
+Do not redraw, regenerate or reinterpret official mascot designs.
+
+Use the existing project asset files.
+
+Commercial rights and Canva-related licensing remain subject to BR-T002 verification.
+
+## 1.3 Creative direction
+
+The approved direction is:
+
+**Illustrated Environmental Storytelling + Playful Game World + Modern Editorial UI**
+
+Visual characteristics:
+
+- Handcrafted 2D illustration.
+- Carefully layered 2.5D environments.
+- Warm, inviting environmental storytelling.
+- Organic shapes and botanical details.
+- Soft atmospheric depth.
+- Distinctive, friendly educational imagery.
+- Clear and sophisticated typography.
+- High-quality interactive microinteractions.
+- Scenes that visually connect to each other.
+
+Avoid:
+
+- Generic SaaS dashboards.
+- Endless repetitive rectangular cards.
+- Flat icon-only section layouts.
+- Heavy glassmorphism.
+- Random decorative gradients.
+- Unnecessary 3D technology.
+- Overcrowded scenes.
+- AI-generated imagery inconsistent with existing artwork.
+- Fake gameplay interfaces.
+- Excessive text inside illustrated areas.
+
+Preserve the current Hero V4 as the approved visual benchmark.
+
+Other major sections should feel like parts of the same illustrated world.
+
+---
+
+# PART 2 — COMPLETE UX INFORMATION ARCHITECTURE
+
+Design the full information architecture, separating MVP routes from future functionality.
+
+## 2.1 R0 core experiences
+
+Design these as the initial product system:
+
+1. Homepage `/`
+2. Game Library `/games`
+3. Fact–Act detail `/games/fact-act`
+4. Ô ăn quan xanh detail `/games/o-an-quan-xanh`
+5. About and project information `/about` — later BR-T007
+6. Fact–Act playable trial — later BR-T006, only after content approval
+7. Educational feedback/result screen — later BR-T006
+
+Use existing routes when already implemented.
+
+Do not create misleading working links to unfinished features.
+
+## 2.2 Future ecosystem
+
+Include conceptual UX architecture, but do not implement these yet:
+
+- Green Quest
+- Green Learn
+- Green Connect
+- Green Arena
+- Green Pulse
+- Brainroot Buddy
+- Member progress
+- Educator tools
+- Paid activation
+
+Clearly identify release dependencies.
+
+## 2.3 User journeys
+
+Create detailed journeys for:
+
+- First-time public visitor.
+- Student exploring a game.
+- Guest starting a free educational trial.
+- User navigating by keyboard or assistive technology.
+- Educator or club organizer evaluating whether Brainroot fits an activity.
+- Future buyer of a physical deck seeking supporting digital content.
+
+For each journey provide:
+
+- Entry point.
+- User goal.
+- Key decisions.
+- Screen transitions.
+- Primary and secondary actions.
+- Success state.
+- Error and unavailable states.
+- Accessibility considerations.
+- Content and technical dependencies.
+
+Do not introduce login barriers into guest discovery.
+
+---
+
+# PART 3 — HOMEPAGE VISUAL STORYBOARD
+
+Design the homepage as an illustrated scrolling journey.
+
+For each section, specify:
+
+- UX objective.
+- Content hierarchy.
+- Desktop composition.
+- Mobile composition.
+- Artwork requirements.
+- Layer structure.
+- Text-safe areas.
+- Interaction behavior.
+- Animation behavior.
+- Responsive behavior.
+- Accessibility requirements.
+- Performance considerations.
+- Acceptance criteria.
+
+## SCENE H01 — Living Garden Hero
+
+Status: Existing and approved baseline.
+
+Preserve:
+
+- Existing background and depth layers.
+- Brainie and Rootie.
+- Current typography and copy.
+- Single primary CTA.
+- Existing parallax.
+- BR-T020 continuous ambient motion.
+- Existing focus and responsive fixes.
+
+Do not redesign this scene.
+
+Analyze how the scene can visually transition into the next section.
+
+## SCENE H02 — Garden Transition
+
+Design a seamless illustrated transition from Hero into the Brainroot ecosystem.
+
+Potential elements:
+
+- The garden path continues downward.
+- Organic foliage frames the next chapter.
+- Subtle changes in background depth.
+- Carefully placed foreground elements.
+- A natural visual connection between the Hero and the Four Worlds area.
+
+Do not create a visual hard cut from illustrated Hero to plain ivory cards.
+
+Provide a concrete composition and asset specification.
+
+## SCENE H03 — Four Worlds Discovery
+
+Replace the current generic four-card presentation with an illustrated exploration experience.
+
+The four areas are:
+
+1. Green Play — learning through games.
+2. Green Quest — green challenges and actions.
+3. Green Learn — environmental knowledge.
+4. Green Connect — educational community.
+
+Recommended visual concept:
+
+**A Living Garden Wayfinding Experience.**
+
+Four distinct illustrated destinations within one cohesive world.
+
+Desktop:
+
+- Rich but readable scene composition.
+- Clearly differentiated destinations.
+- Asymmetric or organically structured layout.
+- Strong relationship between illustrations and text.
+- Green Play receives additional emphasis because it is the R0 priority.
+
+Mobile:
+
+- Convert the concept into a readable vertical discovery journey.
+- Preserve artwork identity.
+- Avoid tiny, inaccessible hotspots.
+- No text embedded inside background images.
+- No horizontal overflow.
+- All actionable destinations must have real semantic HTML links or buttons.
+
+Do not portray unfinished areas as fully functional.
+
+Develop a specific design for each destination.
+
+## SCENE H04 — Featured Green Play
+
+Introduce the initial educational games in a visually compelling way.
+
+Use original project artwork.
+
+Feature:
+
+- Fact–Act.
+- Ô ăn quan xanh.
+
+The scene should invite users into `/games`.
+
+It must not duplicate the entire Game Library.
+
+Use a single clear main navigation action.
+
+## SCENE H05 — Brainroot Story
+
+Design an illustrated narrative for:
+
+"From Brainrot to Brainroot"
+
+Conceptual direction:
+
+**Seed → Growth → Learning → Action → Connection**
+
+Use this metaphor to communicate the mission, not to invent measurable environmental impact.
+
+Explore a short scroll-driven story with an illustrated seed and growing plant.
+
+Keep important text as HTML.
+
+Do not fabricate team photos, statistics, partnerships or success stories.
+
+## SCENE H06 — Footer
+
+Design a clean and recognizable ending to the experience.
+
+Use restrained botanical illustration and correct information architecture.
+
+The footer must feel connected to the Brainroot world without becoming visually overwhelming.
+
+---
+
+# PART 4 — GAME LIBRARY UX/UI SYSTEM
+
+Design BR-T004 in detail, but do not implement it during this planning task.
+
+## 4.1 Green Play Library
+
+Route: `/games`
+
+Desired atmosphere:
+
+A playful educational game pavilion situated inside the Brainroot world.
+
+Create a visual relationship between the living garden and the game discovery experience.
+
+Design:
+
+- Introductory illustrated scene.
+- Fact–Act product showcase.
+- Ô ăn quan xanh product showcase.
+- Honest game availability states.
+- Clear interactive navigation.
+- Return path to the homepage.
+
+Avoid simple image-on-top, text-on-bottom card templates as the only design solution.
+
+Propose a visually distinctive product presentation system.
+
+## 4.2 Fact–Act Product Detail
+
+Route: `/games/fact-act`
+
+Use the existing authentic Fact–Act product artwork.
+
+The design should communicate:
+
+- What the product is.
+- Its educational purpose.
+- How learning and reflection work.
+- The relationship between physical cards and digital experiences.
+- Current digital availability.
+
+Do not generate fake official card faces or invented scientific facts.
+
+Do not make the full paid physical deck publicly accessible.
+
+## 4.3 Ô ăn quan xanh Product Detail
+
+Route: `/games/o-an-quan-xanh`
+
+Design an illustrated presentation of the intended experience.
+
+Existing documented content includes:
+
+- Five environmental topics.
+- Three levels of educational questions.
+
+The exact digital board rules are not yet approved.
+
+Therefore:
+
+- Design product discovery only.
+- Do not invent gameplay rules.
+- Do not claim that a functioning game exists.
+- Clearly distinguish concept artwork from an official finalized board design.
+
+## 4.4 Future gameplay system
+
+Prepare visual specifications for BR-T006:
+
+- Instructions.
+- Start state.
+- Educational card display.
+- Question or action interaction.
+- Feedback.
+- Reflection.
+- Completion.
+- Back and exit behavior.
+- Unavailable and error states.
+
+Do not implement the game engine.
+
+Ensure that interaction is not dependent solely on dragging, sound, color or a time limit.
+
+---
+
+# PART 5 — GLOBAL DESIGN SYSTEM
+
+Define a reusable, production-oriented system.
+
+## 5.1 Foundations
+
+Specify:
+
+- Brand and supporting color tokens.
+- Typography roles and responsive scales.
+- Spacing.
+- Section widths.
+- Layout grids.
+- Container system.
+- Borders and corner radii.
+- Shadows and elevation.
+- Illustrated surface treatment.
+- Button hierarchy.
+- Focus states.
+- Loading and error patterns.
+- Responsive breakpoints.
+
+Reuse existing tokens wherever possible.
+
+Do not introduce an entirely new visual system without justification.
+
+## 5.2 Component library
+
+Define specifications for:
+
+- Global header.
+- Mobile navigation.
+- Primary/secondary actions.
+- Illustrated destination cards.
+- Game product showcases.
+- Product status labels.
+- Breadcrumbs.
+- Educational content cards.
+- Game instruction panels.
+- Progress indicators.
+- Feedback panels.
+- Source citations.
+- Dialogs.
+- Empty/unavailable states.
+- Footer.
+
+For each component describe:
+
+- Purpose.
+- Anatomy.
+- Variants.
+- Interactive states.
+- Keyboard behavior.
+- Mobile behavior.
+- Accessibility.
+- Asset dependency.
+
+## 5.3 Responsive design
+
+Provide specific layouts for:
+
+- 1440×900 desktop.
+- 1280px desktop.
+- 768px tablet.
+- 390×844 mobile.
+- 360px mobile.
+- 320px small mobile.
+
+Include guidance for 200% zoom.
+
+Do not assume that desktop illustration composition can simply be scaled down.
+
+Specify when an artwork needs a different crop, composition or mobile-safe region.
+
+---
+
+# PART 6 — VISUAL ASSET PRODUCTION SYSTEM
+
+This is one of the most important deliverables.
+
+Create a complete Visual Asset Register.
+
+For every proposed asset include:
+
+- Asset ID.
+- Asset name.
+- Destination page/scene.
+- UX purpose.
+- Visual description.
+- Existing or new.
+- Source and ownership.
+- Recommended image format.
+- Suggested dimensions or aspect ratio.
+- Transparent background requirement.
+- Layer separation requirements.
+- Desktop/mobile variants.
+- Text-safe zone.
+- Intended animation.
+- Priority.
+- Approval status.
+- Licensing dependency.
+- Production status.
+- Implementation status.
+
+## 6.1 Asset production priorities
+
+First wave: homepage continuity and R0 Game Library.
+
+Suggested asset groups:
+
+- VIS-001: Ecosystem environmental backdrop.
+- VIS-002: Green Play destination illustration.
+- VIS-003: Green Quest destination illustration.
+- VIS-004: Green Learn destination illustration.
+- VIS-005: Green Connect destination illustration.
+- VIS-006: Green Play pavilion backdrop.
+- VIS-007: Fact–Act product showcase using original supplied artwork.
+- VIS-008: Ô ăn quan xanh conceptual board artwork.
+- VIS-009: Reusable foreground foliage and environmental props.
+- VIS-010: Brainroot growth-story illustration sequence.
+
+Audit existing assets before proposing replacements.
+
+Some proposed assets may be created with CSS/SVG rather than AI images.
+
+Recommend the smallest asset set that produces a meaningful visual improvement.
+
+## 6.2 Asset architecture
+
+Use a layered scene where appropriate:
+
+L0 — Background and atmosphere.
+
+L1 — Environmental scenery.
+
+L2 — Independent character or product objects.
+
+L3 — Foreground botanical details.
+
+L4 — Semantic HTML interface.
+
+Do not bake essential UI text, controls or multiple independently animated elements into one flattened picture.
+
+Use transparent cutouts where separate motion is required.
+
+Distinguish:
+
+- Static illustration.
+- Illustrated scene.
+- Foreground cutout.
+- Product photo/render.
+- UI vector.
+- Animation-ready object.
+- Gameplay data asset.
+
+## 6.3 Image creation briefs
+
+For each new asset that requires visual generation, prepare a complete production brief containing:
+
+- Art direction.
+- Subject.
+- Composition.
+- Camera perspective.
+- Lighting.
+- Brand color references.
+- Scene depth.
+- Required empty areas.
+- Asset separation.
+- Negative constraints.
+- Export format.
+- Size.
+- Intended use.
+
+Do not generate any images in this task.
+
+These briefs will be reviewed by the product owner and executed later through an approved image-generation or design workflow.
+
+Do not recreate original Brainie, Rootie or official physical products using guesses.
+
+Do not send original proprietary team artwork to external image-generation systems without confirming permission.
+
+---
+
+# PART 7 — MOTION & INTERACTION SYSTEM
+
+Create one unified motion specification.
+
+## 7.1 Ambient motion
+
+Preserve the living Hero behavior approved in BR-T020.
+
+For new scenes, propose subtle motion only where it improves the experience.
+
+Examples:
+
+- Gentle environmental movement.
+- Independent foreground elements.
+- Slow depth changes.
+- Small character movements.
+- Illustrated object reactions.
+
+Avoid making every section equally animated.
+
+## 7.2 User-triggered animation
+
+Prioritize animations connected to actions:
+
+- Hover/focus on a destination.
+- Card inspection.
+- Selecting a game.
+- Page transitions.
+- Entering an illustrated scene.
+- Revealing educational information.
+- Later: drawing/flipping a digital card.
+
+Hover-only functionality is prohibited.
+
+Touch and keyboard users must have equivalent access to important behavior.
+
+## 7.3 Motion implementation
+
+Specify appropriate techniques:
+
+- CSS transitions/keyframes.
+- React state.
+- IntersectionObserver.
+- requestAnimationFrame when necessary.
+- Subtle scroll parallax.
+- Motion libraries only if justified.
+
+Avoid heavy WebGL/3D dependencies without a demonstrated need.
+
+Respect reduced-motion settings.
+
+Do not introduce aggressive flashing or scroll hijacking.
+
+## 7.4 Accessibility decision record
+
+The current Hero has an approved product decision to run continuous ambient animation without an in-page pause control.
+
+This is a known WCAG 2.2.2 limitation.
+
+Preserve the documented decision but do not incorrectly claim full WCAG 2.2 AA compliance.
+
+For newly designed scenes, explicitly assess movement-related accessibility rather than automatically extending this exception to the whole site.
+
+---
+
+# PART 8 — UX CONTENT & ACCESSIBILITY
+
+Review the full user experience for:
+
+- Clear content hierarchy.
+- Understandable Vietnamese copy.
+- Readable text.
+- Keyboard navigation.
+- Focus management.
+- Screen-reader semantics.
+- Color contrast.
+- Touch target sizes.
+- Responsive typography.
+- Reduced-motion behavior.
+- Meaningful image alternatives.
+- Error recovery.
+- Guest access.
+- Clear availability and product states.
+
+Ensure users understand the difference between:
+
+- A physical educational product.
+- A product information page.
+- A playable digital trial.
+- A future feature.
+- Premium or restricted content.
+
+Do not invent scientific citations, survey claims, product benefits or pricing.
+
+---
+
+# PART 9 — IMPLEMENTATION ROADMAP
+
+Prepare a dependency-aware roadmap.
+
+Recommended ordering:
+
+### M0 — Master Design Blueprint
+
+- Audit existing UX/UI.
+- Define information architecture.
+- Create detailed storyboards.
+- Create asset register.
+- Identify gaps and approvals.
+
+### M1 — Homepage Visual Upgrade
+
+- Garden transition.
+- Four Worlds illustration system.
+- Green Play featured section.
+- About visual storytelling.
+- Responsive and animation verification.
+
+### M2 — BR-T004 Game Library
+
+- Asset production and approval.
+- Library UI.
+- Product detail pages.
+- Routing.
+- Availability states.
+- Tests.
+- Codex review.
+
+### M3 — BR-T005 / BR-T006
+
+- Approved educational content.
+- One playable educational loop.
+- Feedback and reflection.
+- Game-specific assets.
+- Guest end-to-end tests.
+
+### M4 — Final R0 Quality Gate
+
+- Content verification.
+- Visual QA.
+- Accessibility testing.
+- Performance.
+- Functional end-to-end checks.
+- Deployment readiness.
+- Documentation and demo evidence.
+
+### Future releases
+
+Keep Green Quest, Green Connect, Green Arena, paid features and additional games as separate planned work unless explicitly authorized.
+
+For each milestone define:
+
+- Dependencies.
+- Expected deliverables.
+- Required assets.
+- Responsible role.
+- Acceptance criteria.
+- Risks.
+- Review gate.
+
+Prioritize the working R0 educational experience over unlimited decorative polish.
+
+---
+
+# PART 10 — CONTINUOUS CHECKLIST & PROGRESS CONTROL
+
+Create and maintain these files:
+
+1. `docs/UX_UI_MASTER_BLUEPRINT.md`
+2. `docs/UX_UI_STORYBOARD.md`
+3. `planning/VISUAL_ASSET_REGISTER.md`
+4. `planning/UX_UI_CHECKLIST.md`
+
+Do not duplicate entire PRD or AGENTS.md content unnecessarily.
+
+## 10.1 Checklist structure
+
+Every checklist item must have:
+
+- Unique ID.
+- Category.
+- Requirement.
+- Priority.
+- Owner.
+- Status.
+- Dependency.
+- Evidence.
+- Last reviewed date.
+- Next required action.
+
+Use statuses:
+
+- NOT_STARTED
+- DESIGNING
+- AWAITING_ASSETS
+- READY_FOR_BUILD
+- IN_PROGRESS
+- IN_REVIEW
+- PASS
+- BLOCKED
+
+Never mark PASS solely because code exists or an agent says the work is complete.
+
+The required visual asset must exist, be integrated and render correctly where applicable.
+
+## 10.2 Progress checkpoints
+
+At the beginning and end of every future design or implementation task:
+
+1. Check the latest actual repository state.
+2. Read the previous handoff.
+3. Compare completed work against the blueprint.
+4. Identify regressions.
+5. Update affected checklist items.
+6. Identify missing assets.
+7. Identify incomplete UX flows.
+8. Identify broken routes.
+9. Identify performance and accessibility concerns.
+10. Recommend exactly one logical next implementation task.
+
+Report changes in progress with evidence.
+
+Do not invent percentage completion.
+
+If percentages are displayed, calculate them from explicitly defined eligible checklist items.
+
+## 10.3 Required checkpoint report
+
+Every future task report should include:
+
+**BRAINROOT UX/UI CHECKPOINT**
+
+- Date:
+- Git branch and commit:
+- Current Task ID:
+- Current milestone:
+- Completed and verified:
+- Implemented but not verified:
+- Missing assets:
+- UX/UI inconsistencies:
+- Functional blockers:
+- Accessibility/performance issues:
+- Documents requiring updates:
+- Top three priorities:
+- Recommended next task:
+- Approval required:
+
+Provide a concise status table.
+
+## 10.4 Development coordination
+
+Google AI Studio:
+- UX/UI implementation.
+- Visual scenes.
+- Frontend layout.
+- Visual interaction development.
+
+Codex:
+- Independent code review.
+- Test execution.
+- Accessibility and performance checks.
+- Bug fixing.
+- Technical architecture and reliability.
+
+Product owner:
+- Design approval.
+- Asset approval.
+- Scope decisions.
+- PR merge approval.
+
+Only one coding agent should modify a given task at a time.
+
+Use GitHub as the canonical source of truth.
+
+Do not commit, merge, deploy or start a new implementation milestone without appropriate authorization.
+
+---
+
+# PART 11 — DESIGN CRITIQUE & QUALITY GATES
+
+Critique your proposed system before requesting approval.
+
+Evaluate:
+
+1. Visual consistency with Hero V4.
+2. Uniqueness of the illustrated experience.
+3. UX clarity for first-time users.
+4. Balance of illustration and functional content.
+5. Mobile usability.
+6. Accessibility.
+7. Performance and implementation feasibility.
+8. Asset-production cost and complexity.
+9. Sustainability of the design system.
+10. Alignment with the R0 product roadmap.
+
+Identify at least five concrete risks or weaknesses and recommend improvements.
+
+Do not claim all aspects are excellent by default.
+
+## Design approval gates
+
+GATE A — Information Architecture approved.
+
+GATE B — Scene Storyboard approved.
+
+GATE C — Visual Asset Register and priority approved.
+
+GATE D — Required assets supplied and verified.
+
+GATE E — UI implementation complete.
+
+GATE F — Codex technical review and QA passed.
+
+GATE G — Product owner accepts milestone.
+
+Do not skip the gates.
+
+---
+
+# PART 12 — OUTPUT REQUIRED NOW
+
+Your current responsibility is to complete **GATE A, GATE B and the proposed content for GATE C**.
+
+Produce a detailed Vietnamese design planning report containing:
+
+1. Audit of the current website.
+2. UX information architecture.
+3. Screen-by-screen UX/UI specification.
+4. Homepage illustrated storytelling storyboard.
+5. Game Library visual design proposal.
+6. Global design system specification.
+7. Motion and interaction specification.
+8. Full Visual Asset Register.
+9. Responsive design strategy.
+10. Accessibility requirements and known limitations.
+11. Milestone implementation roadmap.
+12. Detailed persistent checklist.
+13. Identified risks, blockers and required approvals.
+14. Recommended first visual production batch.
+15. One exact next task after approval.
+
+Where possible, create the four planning documents listed above.
+
+You may update BR-T021 planning and handoff records if the workspace supports it, but do not edit application code.
+
+Do not create images yet.
+
+Do not start BR-T004 implementation.
+
+Do not rebuild the existing Hero.
+
+Do not generate multiple full-page mockups without approval.
+
+Do not make unsupported claims about completed product features.
+
+Complete the full design specification in this session, report any unavailable source details honestly, and stop at the approval gate.
+
+**The final goal is an actionable, cohesive UX/UI blueprint that can guide asset production, frontend implementation, QA and future iterations without losing the original Brainroot visual identity.**
+
+Respond in Vietnamese.

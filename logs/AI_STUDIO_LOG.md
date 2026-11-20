@@ -37,3 +37,27 @@
 - **Git commit SHA:** `NOT COMMITTED` (workspace AI Studio không chứa thư mục `.git`; cần đồng bộ qua luồng GitHub sync và để Codex kiểm tra diff).
 - **What remains / next task:** Codex review PR/diff cho `BR-T003`, bổ sung cấu hình lint/a11y check nếu cần, xác nhận `DONE` trước khi chuyển sang `BR-T004` (Game Catalog).
 - **Owner approval required:** Không cho bước review hiện tại; cần duyệt phạm vi trước khi khởi động `BR-T004`.
+
+## Session: 2026-11-20 09:30+07:00 — Google AI Studio — BR-T021
+
+- **Task & goal:** Lập đặc tả thiết kế & kiểm soát phát triển toàn diện (`BR-T021` — UX/UI Master Blueprint, Homepage Storyboard H01–H06, Visual Asset Register & Briefs, Persistent UX/UI Checklist) để trình duyệt **GATE A, GATE B và GATE C**. Không chỉnh sửa mã nguồn ứng dụng, không sinh ảnh, không bắt đầu `BR-T004`.
+- **Status before → after:** `NEW` → `IN_REVIEW` (dừng tại cổng phê duyệt GATE A/B/C của Product Owner).
+- **Read context:** `AGENTS.md`, `README.md`, `docs/PRD.md`, `docs/USER_FLOWS.md`, `docs/INFORMATION_ARCHITECTURE.md`, `docs/DESIGN_SYSTEM.md`, `docs/ACCESSIBILITY.md`, `docs/ASSET_AUDIT.md`, `docs/GAME_SPEC.md`, `docs/AI_STUDIO_CODEX_WORKFLOW.md`, `docs/CONTENT_GUIDELINES.md`, `docs/ACCESS_CONTROL.md`, `docs/DATA_MODEL.md`, `docs/QUALITY_AND_TESTING.md`, `planning/ROADMAP.md`, `planning/TASKS.md`, `planning/PROJECT_STATE.md`, `planning/OPEN_QUESTIONS.md`, `logs/HANDOFF.md`, `logs/CODEX_LOG.md`, mã nguồn `src/` & ảnh `public/assets/hero-v4/fact-act-deck.webp`.
+- **Files changed:**
+  - `docs/UX_UI_MASTER_BLUEPRINT.md` (mới) — Kiểm toán hiện trạng, IA (R0 vs tương lai), 6 hành trình người dùng, đặc tả `/games` & `/games/*` (`BR-T004`/`BR-T006`), Global Design System (15 components, responsive + zoom 200%), Motion spec & WCAG 2.2.2 boundary, Roadmap M0–M4, phản biện 10 tiêu chí & 6 rủi ro.
+  - `docs/UX_UI_STORYBOARD.md` (mới) — Kịch bản trực quan H01–H06 cho trang chủ theo định hướng ONE LIVING WORLD.
+  - `planning/VISUAL_ASSET_REGISTER.md` (mới) — Kiểm kê `EX-001..009`, sổ đăng ký `VIS-001..010` đủ 19 trường, đề xuất Wave 1A tối giản và Production Briefs đầy đủ 13 mục cho các tranh mới.
+  - `planning/UX_UI_CHECKLIST.md` (mới) — 18 mục kiểm soát liên tục (`UX-001..018`), quy trình checkpoint và báo cáo `BRAINROOT UX/UI CHECKPOINT` hiện hành.
+  - `planning/TASKS.md`, `planning/PROJECT_STATE.md`, `logs/AI_STUDIO_LOG.md`, `logs/WORK_LOG.md`, `logs/HANDOFF.md` — Cập nhật hồ sơ tác vụ `BR-T021` và báo cáo sai lệch tài liệu `BR-T020`.
+- **User-visible behavior changed:** Không có (chỉ tạo/cập nhật tài liệu thiết kế và quản trị; mã nguồn ứng dụng giữ nguyên 100%).
+- **Tests actually executed:**
+  - `git status --short`, `git branch -a`, `git log -n 5 --oneline`: Không khả dụng (`fatal: not a git repository` — container không chứa `.git`).
+  - `ls -la public/assets/hero-v4/` & kiểm tra trực quan `fact-act-deck.webp`: PASS (xác nhận đủ 10 file trong `public/assets/hero-v4/`, gồm `fact-act-deck.webp` 91.986 bytes).
+  - `npm run typecheck`, `npm run build`, `npm run lint`, unit/Playwright: `NOT RUN` (không thay đổi mã nguồn ứng dụng trong phiên `BR-T021`).
+- **Acceptance criteria:** GATE A (IA & 6 journeys) sẵn sàng duyệt; GATE B (Storyboard H01–H06) sẵn sàng duyệt; GATE C (Asset Register + Briefs + Wave 1A) sẵn sàng duyệt; 4 file kiểm soát đã được tạo đầy đủ; không chạm mã ứng dụng hay sinh ảnh.
+- **Bugs / tradeoffs / risk:**
+  - Sai lệch giữa xác nhận của Owner (`BR-T020` đã merge vào `main`) và văn bản cũ trong `TASKS.md`/`HANDOFF.md` (`IN_REVIEW`), chưa tự kiểm chứng được qua Git CLI do thiếu `.git`.
+  - Chi phí & tính đồng bộ phong cách của các tranh minh họa mới là rủi ro chính → đã giảm thiểu bằng đề xuất Wave 1A tối giản (chỉ 3 tranh raster mới + 3 bộ SVG nội bộ + tái sử dụng `fact-act-deck.webp`).
+- **Git commit SHA:** `NOT COMMITTED` (workspace không có `.git`).
+- **What remains / next task:** Owner duyệt GATE A/B/C → chuyển sang sản xuất & kiểm duyệt tài sản Wave 1A (**GATE D**), sau đó mới triển khai M1 hoặc `BR-T004`.
+- **Owner approval required:** Có — Phê duyệt GATE A, GATE B, GATE C và chiến lược router trước khi mở triển khai tiếp theo.

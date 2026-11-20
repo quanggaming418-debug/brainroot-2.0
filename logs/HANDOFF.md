@@ -1,5 +1,17 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 — BR-T021 · Google AI Studio → Product Owner & Codex
+
+- **Trạng thái:** `IN_REVIEW` (M0 — Master Design Blueprint; dừng tại cổng phê duyệt **GATE A, GATE B, GATE C**).
+- **Phạm vi đã thực hiện (chỉ tài liệu, không sửa mã ứng dụng, không sinh ảnh):**
+  - `docs/UX_UI_MASTER_BLUEPRINT.md` — Kiểm toán hiện trạng, IA (R0 & tương lai), 6 hành trình người dùng, đặc tả `/games` & `/games/*`, Global Design System (15 components, responsive & zoom 200%), Motion & WCAG 2.2.2, Roadmap M0–M4, phản biện thiết kế.
+  - `docs/UX_UI_STORYBOARD.md` — Kịch bản minh họa trang chủ H01–H06.
+  - `planning/VISUAL_ASSET_REGISTER.md` — Kiểm kê `EX-001..009`, sổ đăng ký `VIS-001..010`, đề xuất Wave 1A tối giản & Production Briefs đầy đủ 13 mục.
+  - `planning/UX_UI_CHECKLIST.md` — 18 mục kiểm soát (`UX-001..018`) & báo cáo `BRAINROOT UX/UI CHECKPOINT`.
+- **Trạng thái Git & sai lệch phát hiện:** Workspace AI Studio không có `.git` (`NOT COMMITTED`). Mã nguồn `src/` đã có đủ `BR-T003` + `BR-T020`, nhưng `planning/TASKS.md` và `HANDOFF.md` trước phiên vẫn ghi `BR-T020` ở `IN_REVIEW` thay vì đã merge vào `main`; nhờ Codex/Owner đối chiếu commit trên GitHub khi sync.
+- **Kiểm thử:** Kiểm kê thư mục `public/assets/hero-v4/` và xem ảnh `fact-act-deck.webp` PASS; `typecheck`/`build`/`lint`/Playwright `NOT RUN` do không thay đổi mã nguồn ứng dụng.
+- **Bước tiếp theo duy nhất sau phê duyệt:** Owner duyệt GATE A/B/C → thực hiện **Đợt sản xuất & xác minh tài sản Wave 1A (GATE D)** (`VIS-006`, `VIS-008`, `VIS-002` + SVG `VIS-001/009/010` + dùng `VIS-007` sẵn có) trước khi mở M1 hoặc `BR-T004`.
+
 ## 2026-11-20 — BR-T020 · Codex → Product owner
 
 - **Trạng thái:** `IN_REVIEW`, nhánh `codex/hero-ambient-motion`. PR nhắm vào `main`, chỉ để review.

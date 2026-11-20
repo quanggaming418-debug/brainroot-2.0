@@ -6,5 +6,6 @@
 |---|---|---|---|---|---|
 | 2026-11-20 (initial) | Documentation preparation | N/A | Specs drafted; app not built | NOT RUN | README + planning/PROJECT_STATE.md |
 | 2026-11-20 03:45 | AI Studio | BR-T003 | IN_REVIEW | unit(5/5), typecheck, build, Playwright 1440/390/320: PASS; lint: NOT RUN | logs/AI_STUDIO_LOG.md |
+| 2026-11-20 09:30 | AI Studio | BR-T021 | IN_REVIEW | Docs-only planning (GATE A/B/C); asset check PASS; code build/test NOT RUN | logs/AI_STUDIO_LOG.md |
 
 **Append format:** `YYYY-MM-DD HH:MM | AI Studio/Codex | BR-Txxx | DONE/BLOCKED/IN_REVIEW | command: result | logs/<AGENT>_LOG.md`.
