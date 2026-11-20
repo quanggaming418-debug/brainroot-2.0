@@ -94,6 +94,19 @@
   transform: rotate(-20deg);
 }
 
+.brand__mascot-img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  background: transparent;
+  box-shadow: none;
+  transform: rotate(-10deg);
+  transition: transform 0.2s ease;
+}
+.brand:hover .brand__mascot-img {
+  transform: rotate(0deg) scale(1.1);
+}
+
 .brand__period {
   color: var(--color-brand-period);
 }

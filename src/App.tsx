@@ -14,6 +14,7 @@ import { GreenQuestPage } from './pages/GreenQuestPage';
 import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { OAnQuanXanhDetailPage } from './pages/OAnQuanXanhDetailPage';
+import { ScreenshotsGalleryPage } from './pages/ScreenshotsGalleryPage';
 import { isHomeRoute } from './utils/routeNavigation';
 
 const OAnQuan3DPrototype = lazy(
@@ -50,6 +51,7 @@ function AppLayout() {
           <Route path="/learn" element={<GreenLearnPage />} />
           <Route path="/connect" element={<GreenConnectPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/screenshots" element={<ScreenshotsGalleryPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

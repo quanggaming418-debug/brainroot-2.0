@@ -15,9 +15,11 @@ export function SiteFooter() {
         <div className="site-footer__grid">
           <div className="site-footer__col site-footer__col--brand">
             <Link className="site-footer__logo" to="/">
-              <span className="brand__symbol" aria-hidden="true">
-                ✳
-              </span>
+              <img
+                src="/assets/aistudio/brainie_1a0fca92.webp"
+                alt="Brainroot Logo"
+                className="brand__mascot-img"
+              />
               <span>
                 brainroot<span className="brand__period">.</span>
               </span>
