@@ -1,5 +1,15 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 — Codex → Product owner
+
+- **Task:** `BR-T003` — `DONE` theo kiểm thử độc lập cục bộ. `BR-T004` chờ giao riêng.
+- **Git:** Nhánh `codex/br-t003-remediation`. HEAD `275f5ed4d64811c079540135ef42abc4d447b634` là bản triển khai của AI Studio. Bản sửa và `package-lock.json` ở working tree, **NOT COMMITTED**.
+- **File:** `src/App.tsx`, các component trong `src/components/landing/`, `src/utils/focusAnchorTarget.ts`, `src/data/landing.ts`, `src/styles/{landing,tokens}.css`, `package-lock.json`, README và hồ sơ task.
+- **Xác minh:** typecheck, build, unit (5/5), npm audit (0 lỗ hổng), Playwright Chromium 1440×900 / 390×844 / 320×740 và zoom 200% PASS. Axe 0 vi phạm tự động. Đã đo riêng tương phản trên nền Hero. Kiểm thử screen reader thật và lint **NOT RUN**. Chi tiết xem `CODEX_LOG.md`.
+- **Tiếp theo:** Owner xem diff và duyệt commit nếu muốn lưu bản sửa. Giải quyết quyền xuất bản artwork theo BR-T002 và giao BR-T004 riêng.
+
+## Bàn giao trước đó — Google AI Studio → Codex
+
 **Last updated:** 2026-11-20 03:45+07:00  
 **From agent:** Google AI Studio Build Mode  
 **To agent:** Codex (review & verification)  

@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react';
+import { focusAnchorTarget } from '../../utils/focusAnchorTarget';
 
 interface PrimaryCTAProps {
   readonly label: string;
@@ -6,28 +6,8 @@ interface PrimaryCTAProps {
 }
 
 export function PrimaryCTA({ label, href }: PrimaryCTAProps) {
-  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    const targetId = href.slice(1);
-    const targetElement = document.getElementById(targetId);
-    if (!targetElement) return;
-
-    event.preventDefault();
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches;
-
-    targetElement.scrollIntoView({
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
-      block: 'start',
-    });
-
-    if (window.history.replaceState) {
-      window.history.replaceState(null, '', href);
-    }
-  };
-
   return (
-    <a className="hero__cta" href={href} onClick={handleClick}>
+    <a className="hero__cta" href={href} onClick={focusAnchorTarget}>
       <span>{label}</span>
       <span className="hero__cta-arrow" aria-hidden="true">
         ↗

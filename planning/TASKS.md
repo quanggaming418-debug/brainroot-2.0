@@ -7,7 +7,7 @@
 |---|---|---|---|---|---|
 | BR-T001 | P0 | TODO | unassigned | — | Owner duyệt PRD và 3 quyết định sản phẩm chính; ghi DECISION |
 | BR-T002 | P0 | BLOCKED | unassigned | Brand assets from team | Lấy file mascot/logo/fonts và quyền sử dụng; không dùng icon giả làm official |
-| BR-T003 | P0 | IN_REVIEW | Google AI Studio | T001 (scope BR-T003 approved), T002 (internal dev assets approved) | Modular React/TS Hero V4 + 4-area Ecosystem + WCAG AA contrast + reduced motion; `npx tsx --test`, `typecheck`, `build`, Playwright 1440/390/320 PASS; chờ Codex review & GitHub sync |
+| BR-T003 | P0 | DONE | Codex (remediation & QA) | T001 (scope BR-T003 approved), T002 (internal dev assets approved) | Hero V4 React/TS, 4 khu vực, tương phản chữ AA trong các trạng thái đã đo, bàn phím/focus, reduced motion và Playwright 1440/390/320 PASS. Typecheck, build, unit 5/5 và npm audit PASS. Bản sửa đã xác minh cục bộ, NOT COMMITTED. Xem `logs/CODEX_LOG.md`. |
 | BR-T004 | P0 | TODO | AI Studio candidate | T001 | Game catalog có Fact–Act và Ô ăn quan xanh; states và routes hoạt động |
 | BR-T005 | P0 | BLOCKED | Team content reviewer | Source review | Chọn/duyệt ít nhất 5 prompt+answer/source từ kho; tránh claim chưa kiểm chứng |
 | BR-T006 | P0 | TODO | Codex candidate | T004,T005 | 1 game demo full loop start→play→feedback→finish, tested |
