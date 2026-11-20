@@ -1,0 +1,211 @@
+/* BR-T023: isolated visual sandbox. No selectors leak into the landing page. */
+.oanquan3d {
+  min-height: 100vh;
+  padding: clamp(18px, 3vw, 44px);
+  background:
+    radial-gradient(circle at 10% 5%, #fde0cd 0, transparent 34%),
+    radial-gradient(circle at 90% 70%, #d5e8d3 0, transparent 38%),
+    #f8f3e9;
+  color: #263b31;
+  font-family: var(--font-sans, 'Be Vietnam Pro', system-ui, sans-serif);
+}
+.oanquan3d__back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2d563f;
+  text-underline-offset: 4px;
+  text-decoration: underline;
+}
+.oanquan3d__layout {
+  display: grid;
+  width: min(100%, 1600px);
+  margin: 16px auto 0;
+  grid-template-columns: minmax(0, 1fr) minmax(290px, 360px);
+  gap: 24px;
+  align-items: start;
+}
+.oanquan3d__intro { grid-column: 1 / -1; text-align: center; max-width: 1000px; margin: 0 auto 10px; }
+.oanquan3d__eyebrow, .oanquan3d__label {
+  color: #63894c;
+  font-size: 11px;
+  letter-spacing: .17em;
+  font-weight: 800;
+}
+.oanquan3d h1 {
+  margin: 10px 0 8px;
+  font-size: clamp(38px, 5.6vw, 74px);
+  line-height: 1.12;
+  font-weight: 900;
+  letter-spacing: -.045em;
+}
+.oanquan3d h1 span { color: #63894c; }
+.oanquan3d__intro > p {
+  max-width: 630px;
+  margin: 0 auto 18px;
+  line-height: 1.7;
+  font-size: clamp(14px, 1.4vw, 17px);
+  color: #405b4d;
+}
+.oanquan3d__prototype-notice {
+  display: inline-block;
+  max-width: 900px;
+  padding: 11px 20px;
+  border: 1px solid #d7dfc9;
+  border-radius: 999px;
+  background: rgba(255,255,255,.78);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.oanquan3d__stage {
+  position: relative;
+  min-height: 510px;
+  border: 1px solid rgba(100,137,76,.22);
+  border-radius: 32px;
+  isolation: isolate;
+  overflow: hidden;
+  background: #dce8d5;
+  box-shadow: 0 24px 50px rgba(68,94,58,.12);
+}
+.oanquan3d__stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(to bottom, rgba(250,235,212,.62), rgba(220,231,201,.48)),
+    url('/assets/green-play/vis-006-pavilion-desktop.webp') center / cover no-repeat;
+  filter: saturate(.75) blur(3px);
+  transform: scale(1.02);
+}
+.oanquan3d__stage-decor {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  top: 20px;
+  text-align: center;
+  color: #345c3e;
+  font-size: 12px;
+  font-weight: 800;
+  z-index: 1;
+  pointer-events: none;
+}
+.oanquan3d__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.oanquan3d__stage-caption {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  right: 18px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #263b31;
+  pointer-events: none;
+}
+.oanquan3d__fallback {
+  display: grid;
+  place-content: center;
+  min-height: 490px;
+  padding: 30px;
+  text-align: center;
+  color: #263b31;
+}
+.oanquan3d__panel {
+  padding: 25px;
+  border-radius: 28px;
+  border: 1px solid rgba(38,59,49,.09);
+  background: rgba(255,255,255,.93);
+  box-shadow: 0 18px 40px rgba(38,59,49,.08);
+}
+.oanquan3d__panel-header { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
+.oanquan3d__panel h2 { margin: 7px 0 0; font-size: 21px; letter-spacing: -.025em; }
+.oanquan3d__status {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #e6f1dd;
+  color: #365b3d;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.oanquan3d__help, .oanquan3d__disclaimer {
+  font-size: 12px;
+  line-height: 1.65;
+  color: #455a4e;
+}
+.oanquan3d__grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 8px;
+  margin: 18px 0;
+}
+.oanquan3d__pit {
+  min-height: 72px;
+  padding: 9px 6px;
+  border: 2px solid #d8e3d1;
+  border-radius: 14px;
+  background: #f5f8f0;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+.oanquan3d__pit:hover { border-color: #9bb682; background: #eef4e5; }
+.oanquan3d__pit.is-selected { border-color: #376b46; background: #e3efd7; box-shadow: inset 0 0 0 1px #376b46; }
+.oanquan3d__pit span { color: #425c49; font-size: 10px; font-weight: 600; }
+.oanquan3d__pit strong { font-size: 18px; line-height: 1; color: #294d36; }
+.oanquan3d__pit small { font-size: 10px; font-weight: 600; }
+.oanquan3d__announce {
+  min-height: 52px;
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 12px;
+  background: #fff5e8;
+  border-radius: 12px;
+  color: #463d31;
+}
+.oanquan3d__actions { display: flex; gap: 9px; flex-wrap: wrap; }
+.oanquan3d__actions button {
+  border-radius: 999px;
+  padding: 12px 15px;
+  min-height: 44px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.oanquan3d__action-primary { border: 1px solid #d58367; background: #e79a7c; color: #263b31; }
+.oanquan3d__action-secondary { border: 1px solid #b7c9b5; background: #fff; color: #2d563f; }
+.oanquan3d__actions button:disabled { cursor: not-allowed; opacity: .55; }
+.oanquan3d__disclaimer { margin-bottom: 0; }
+@media (max-width: 1050px) {
+  .oanquan3d__layout { grid-template-columns: minmax(0,1fr); }
+  .oanquan3d__intro { grid-column: 1; }
+  .oanquan3d__stage { min-height: 440px; }
+  .oanquan3d__grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+}
+@media (max-width: 600px) {
+  .oanquan3d { padding: 16px; }
+  .oanquan3d__layout { gap: 16px; margin-top: 4px; }
+  .oanquan3d__prototype-notice { border-radius: 18px; }
+  .oanquan3d__stage { min-height: 300px; border-radius: 20px; }
+  .oanquan3d__grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .oanquan3d__panel { padding: 18px; }
+  .oanquan3d__stage-decor { top: 12px; font-size: 10px; }
+  .oanquan3d__stage-caption { font-size: 10px; bottom: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .oanquan3d *, .oanquan3d *::before, .oanquan3d *::after { animation: none !important; transition: none !important; }
+}
