@@ -21,9 +21,9 @@ export const PITS: readonly PitDefinition[] = [
     x, z: -1.04, rx: 0.63, rz: 0.69, isQuan: false,
   })),
   { id: 'quan-right', label: 'Ô quan bên phải', x: 4.55, z: 0, rx: 0.64, rz: 1.03, isQuan: true },
-  ...smallXs.map((x, i) => ({
+  ...smallXs.slice().reverse().map((x, i) => ({
     id: `bottom-${5 - i}`, label: `Ô dân hàng dưới số ${5 - i}`,
-    x: smallXs[4 - i], z: 1.04, rx: 0.63, rz: 0.69, isQuan: false,
+    x, z: 1.04, rx: 0.63, rz: 0.69, isQuan: false,
   })),
 ];
 

@@ -67,3 +67,20 @@
 - **Git:** Nhánh codex/br-t022-asset-docs-intake, nền 99eb20b24793b4d3e6386bfab1ef668c1833992e. Commit intake chứa mục log này.
 - **What remains / next task:** Owner review intake và D1 riêng; duyệt S0 trước khi giao AI Studio BR-T023 Slice A.
 - **Owner approval required:** D1, quyền phát hành, phạm vi S0 và merge.
+
+## Session: 2026-11-20 12:21+07:00 — Codex — BR-T023 S1B
+
+- **Task & goal:** QA kỹ thuật prototype tại `/?preview=oanquan3d` trên main sau PR #4.
+- **Status before → after:** IN_PROGRESS → IN_REVIEW.
+- **Read context:** AGENTS, README, TASKS, PROJECT_STATE, ROADMAP, HANDOFF, BR_T023_S1A_HANDOFF, ACCESSIBILITY và mã prototype.
+- **Files changed:** Model prototype (tọa độ hàng dưới dùng giá trị map), React preview (phục hồi context và trạng thái HTML), CSS (vùng riêng cho chú thích, fallback mobile, nhãn đậm hơn), ảnh QA và hồ sơ task.
+- **User-visible behavior changed:** Khi WebGL mất context, nút HTML vẫn hoạt động; khi có context trở lại, bàn render trạng thái hiện tại. Chú thích tách khỏi bàn và trạng thái online được mô tả đúng.
+- **Tests actually executed:** `npm ci` PASS sau khi đóng Vite cũ giữ esbuild; typecheck/build ban đầu FAIL TS6133, chạy lại `npm run typecheck`, `npm run build` PASS. `npx --yes tsx --test tests/*.test.ts` PASS 10/10. Lint NOT RUN (không có script).
+- **Browser QA:** Chromium headless + SwiftShader, Playwright script tạm `br-t023-preview.cjs` trên `npm run preview`. PASS 1440×900/1280×800/390×844/320×740. Draw ban đầu 44.208 đỉnh, đọc framebuffer xác nhận pixel mô hình và 0 lỗi GL. 4 vị trí canvas đại diện hai hàng và hai đầu, ArrowRight/Space, chuyển hạt và reset đều PASS. Không tràn ngang, 0 console error. Zoom tab 200% PASS (720 CSS px, Enter chọn ô). 5 ảnh thực tế trong `docs/qa/br-t023/`.
+- **Fallback/accessibility:** PASS khi giả lập không cấp WebGL2; PASS mất/khôi phục context thật qua WEBGL_lose_context, chuyển hạt trong fallback và giữ trạng thái khi khôi phục. Reduced motion PASS, 0 animation. Axe 390 px: 0 vi phạm tự động, contrast còn mục cần đối chiếu thủ công; đánh giá contrast hoàn chỉnh và screen reader thật NOT RUN.
+- **Performance smoke:** 0 lượt vẽ lặp trong cửa sổ idle 350 ms; 24 lượt kích hoạt DOM tới khung rAF thứ hai ở 390 px, median 33,8 ms, p95 52,3 ms (headless, không phải INP hay benchmark GPU/thiết bị thật). QA trên GPU vật lý/thiết bị thật NOT RUN.
+- **Acceptance criteria:** PASS render, responsive, chuột/bàn phím, các thao tác sandbox, fallback/recovery và reduced motion trong môi trường đã thử. UI mỹ thuật chờ Owner xem ảnh.
+- **Bugs / tradeoffs / risk:** OQ-08 chưa duyệt; luật chính thức và multiplayer ngoài phạm vi.
+- **Git:** `codex/br-t023-slice-b-qa`, base `f55beef4f518`, commit chứa mục log này.
+- **What remains / next task:** Review PR, xác minh trên thiết bị thật trước phát hành.
+- **Owner approval required:** Merge và scope gameplay.

@@ -1,5 +1,11 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 — BR-T023 S1B · Codex → Product Owner
+
+- BR-T023 `IN_REVIEW`. Branch `codex/br-t023-slice-b-qa`, base `f55beef4f518`. Typecheck/build/unit 10/10 và Chromium QA PASS.
+- Review JPEG desktop/mobile/fallback trong `docs/qa/br-t023/`; xem phương pháp và giới hạn ở CODEX_LOG.
+- Chưa có luật chính thức, điểm hoặc multiplayer. Chờ OQ-08 và phê duyệt riêng trước các slice gameplay.
+
 ## 2026-11-20 — BR-T022 · Codex → Product Owner / AI Studio
 
 - **Trạng thái:** BR-T022 `IN_PROGRESS`. Nhánh `codex/br-t022-asset-docs-intake` chứa intake VIS-006/VIS-008 và tài liệu BR-GAME-001. Xem kết quả QA ở CODEX_LOG.

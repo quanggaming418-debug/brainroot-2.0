@@ -11,42 +11,46 @@ export default function OAnQuan3DPrototype() {
   const [selected, setSelected] = useState<number | null>(null);
   const [unavailable, setUnavailable] = useState(false);
   const [message, setMessage] = useState('Chọn một ô trên bàn 3D hoặc bằng các nút bên dưới.');
-  const isReducedMotion = typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const boardState = useRef({ counts, selected });
+
+  useEffect(() => {
+    boardState.current = { counts, selected };
+    rendererRef.current?.render(counts, selected);
+  }, [counts, selected]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    let renderer: BoardRenderer | null = null;
-    try {
-      renderer = new BoardRenderer(canvas);
-      rendererRef.current = renderer;
-      renderer.render(counts, selected);
-      setUnavailable(false);
-    } catch {
-      setUnavailable(true);
-      setMessage('WebGL2 không khả dụng. Bạn vẫn có thể chọn ô bằng nút HTML.');
-    }
-    const observer = new ResizeObserver(() => renderer?.redraw());
+    const initialize = () => {
+      try {
+        const renderer = new BoardRenderer(canvas);
+        rendererRef.current = renderer;
+        renderer.render(boardState.current.counts, boardState.current.selected);
+        setUnavailable(false);
+      } catch {
+        rendererRef.current?.destroy();
+        rendererRef.current = null;
+        setUnavailable(true);
+      }
+    };
+    initialize();
+    const observer = new ResizeObserver(() => rendererRef.current?.redraw());
     observer.observe(canvas);
     const onLoss = (event: Event) => {
       event.preventDefault();
       rendererRef.current = null;
       setUnavailable(true);
-      setMessage('Đã mất kết nối với đồ họa 3D. Các nút HTML vẫn hoạt động.');
     };
     canvas.addEventListener('webglcontextlost', onLoss);
+    canvas.addEventListener('webglcontextrestored', initialize);
     return () => {
       observer.disconnect();
       canvas.removeEventListener('webglcontextlost', onLoss);
-      renderer?.destroy();
-      if (rendererRef.current === renderer) rendererRef.current = null;
+      canvas.removeEventListener('webglcontextrestored', initialize);
+      rendererRef.current?.destroy();
+      rendererRef.current = null;
     };
-    // Initialize a WebGL renderer once per canvas mount.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => { rendererRef.current?.render(counts, selected); }, [counts, selected]);
 
   function choosePit(index: number) {
     setSelected(index);
@@ -74,7 +78,7 @@ export default function OAnQuan3DPrototype() {
 
   function handlePitKey(event: React.KeyboardEvent<HTMLButtonElement>, index: number) {
     const offset: Record<string, number> = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: 1, ArrowUp: -1 };
-    if (event.key in offset) {
+    if (Object.hasOwn(offset, event.key)) {
       event.preventDefault();
       const target = (index + PITS.length + offset[event.key]) % PITS.length;
       controlRefs.current[target]?.focus();
@@ -90,29 +94,29 @@ export default function OAnQuan3DPrototype() {
           <h1 id="oanquan3d-title">Ô ăn quan <span>xanh</span></h1>
           <p>Chạm vào thế giới trò chơi dân gian bằng một bàn gỗ 3D và những hạt mầm nhỏ.</p>
           <div className="oanquan3d__prototype-notice" role="note">
-            <strong>Bản thử nghiệm đồ họa 3D.</strong> Luật chơi, điểm số và chế độ chơi online cùng bạn bè
-            đang được nhóm hoàn thiện.
+            <strong>Bản thử nghiệm đồ họa 3D.</strong> Luật chơi và điểm số chưa được duyệt. Chưa có chế độ chơi online.
           </div>
         </section>
 
         <section className="oanquan3d__stage" aria-label="Mô hình bàn chơi ba chiều">
           <div className="oanquan3d__stage-decor" aria-hidden="true">✦  Gieo một hạt, nuôi một ý tưởng  ✦</div>
-          {!unavailable && (
             <canvas
               ref={canvasRef}
               onClick={handleCanvasClick}
               className="oanquan3d__canvas"
+              style={{ visibility: unavailable ? 'hidden' : undefined }}
               aria-hidden="true"
               title="Chọn ô bằng chuột hoặc dùng các nút HTML phía dưới"
             />
-          )}
           {unavailable && (
             <div className="oanquan3d__fallback" role="status">
               <strong>Không thể hiển thị bàn 3D</strong>
               <p>Danh sách 12 ô bên dưới vẫn cho phép khám phá và chuyển hạt minh họa.</p>
             </div>
           )}
-          <div className="oanquan3d__stage-caption">Mô hình 3D dựng bằng WebGL2 · Không phải bàn chơi chính thức</div>
+          <div className="oanquan3d__stage-caption">
+            {unavailable ? 'Chế độ dùng nút HTML' : 'Mô hình 3D dựng bằng WebGL2'} · Không phải bàn chơi chính thức
+          </div>
         </section>
 
         <section className="oanquan3d__panel" aria-labelledby="oanquan3d-controls-title">
@@ -121,7 +125,7 @@ export default function OAnQuan3DPrototype() {
               <span className="oanquan3d__label">BÀN THỬ NGHIỆM</span>
               <h2 id="oanquan3d-controls-title">Khám phá các ô</h2>
             </div>
-            <span className="oanquan3d__status">12 ô · 3D</span>
+            <span className="oanquan3d__status">12 ô</span>
           </div>
           <p className="oanquan3d__help">Chọn ô bằng chuột hoặc Tab/Enter. Dùng phím mũi tên để chuyển giữa các nút.</p>
           <div className="oanquan3d__grid" role="group" aria-label="Các ô mô phỏng">
@@ -149,7 +153,6 @@ export default function OAnQuan3DPrototype() {
           </div>
           <p className="oanquan3d__disclaimer">
             Chuyển hạt chỉ là mô phỏng thao tác, không đại diện cho luật Ô ăn quan.
-            {isReducedMotion ? ' Đã bật chế độ giảm chuyển động.' : ''}
           </p>
         </section>
       </div>

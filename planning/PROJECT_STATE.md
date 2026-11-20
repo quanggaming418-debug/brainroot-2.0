@@ -3,9 +3,9 @@
 - **Updated:** 2026-11-20 (Intake kỹ thuật VIS-006/VIS-008, kiểm kê mascot nội bộ và đồng bộ BR-GAME-001.)
 - **Phase:** M1A — BR-T022 `IN_PROGRESS`. D2 file PASS cho VIS-006/VIS-008; chưa gắn vào app. Chờ duyệt D1 và các asset Wave 1A còn lại.
 - **Current release:** R0 proposed (`BR-T003`, `BR-T020` PR #2, `BR-T021` `DONE`; lộ trình ưu tiên MVP giáo dục: `BR-T022 Wave 1A (GATE D1+D2)` → xác minh component anatomy/states → `M2 BR-T004` → `M3 BR-T006`, với `BR-T005` chạy song song).
-- **Current active Task ID:** BR-T022 `IN_PROGRESS` (asset Wave 1A) và BR-T023 `IN_PROGRESS` trên nhánh sandbox riêng (Slice A code, S1B QA NOT RUN). BR-T004/006 giữ phạm vi.
-- **Last verified build:** PR #3 intake: typecheck/build/unit 5/5 PASS theo log Codex. BR-T023 sandbox: standalone renderer/model TS typecheck PASS và local Node smoke PASS; full React/Vite build/browser S1B NOT RUN.
-- **Repository branch / base:** PR #3 nhánh `codex/br-t022-asset-docs-intake` chưa merge; BR-T023 nhánh stacked `codex/br-t023-3d-tabletop-slice-a` dựa trên PR #3. Chưa có deploy.
+- **Current active Task ID:** BR-T022 `IN_PROGRESS` và BR-T023 `IN_REVIEW` (S1B đã QA; chờ review). BR-T004/006 giữ phạm vi.
+- **Last verified build:** BR-T023: typecheck/build PASS, unit 10/10, Chromium WebGL2 (SwiftShader) 1440/1280/390/320, fallback, context recovery, reduced motion và bàn phím PASS.
+- **Repository branch / base:** PR #3 và #4 đã merge. Nhánh `codex/br-t023-slice-b-qa` từ main `f55beef4f518`. Chưa deploy.
 - **Deployment URL:** NOT CREATED for Brainroot 2.0.
 - **Hero reference:** `reference/hero-v4/`; **asset copies:** `public/assets/hero-v4/`.
 
@@ -34,5 +34,5 @@
 ## Immediate next action
 
 1. Owner review intake, xác nhận D1 VIS-006/VIS-008 và quyền phát hành. Tiếp tục các asset Wave 1A còn lại và anatomy/states trước BR-T004.
-2. BR-T023 Slice A hiện có mã sandbox WebGL2 trên branch riêng: mở `/?preview=oanquan3d` và giao Codex S1B QA theo `docs/BR_T023_S1A_HANDOFF.md`. Chưa phải game playable. OQ-08 và backend còn mở.
+2. Owner review BR-T023 S1B và ảnh trong `docs/qa/br-t023/`. Mở `/?preview=oanquan3d` để thử sandbox. OQ-08 và backend còn mở.
 3. Giữ R0 ưu tiên một game giáo dục end-to-end. Tiếp tục BR-T005 và chốt OQ-01 theo lộ trình hiện hành.
