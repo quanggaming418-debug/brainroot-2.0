@@ -19,13 +19,34 @@
   align-items: center;
   text-align: center;
   padding: 48px 12px 62px;
-  transform: translateX(-7%);
+  transform: translateX(-9.5%);
   color: #263b31;
   font-family: var(--font-sans, 'Be Vietnam Pro', system-ui, sans-serif);
 }
-.green-play-pavilion__eyebrow { margin: 0 0 10px; font-size: 14px; font-weight: 800; letter-spacing: .1em; }
-.green-play-pavilion h1 { margin: 0; font-size: clamp(48px, 5.6vw, 82px); font-weight: 900; line-height: 1.12; }
-.green-play-pavilion__subtitle { margin: 22px 0 0; font-size: clamp(17px, 1.7vw, 23px); line-height: 1.5; font-weight: 500; }
+.green-play-pavilion__eyebrow {
+  margin: 0 0 10px;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-shadow: 0 1px 10px rgba(255, 248, 232, 0.85);
+}
+.green-play-pavilion h1 {
+  margin: 0;
+  font-size: clamp(44px, 5vw, 76px);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  text-shadow:
+    0 2px 0 rgba(255, 248, 232, 0.72),
+    0 4px 18px rgba(255, 242, 220, 0.65);
+}
+.green-play-pavilion__subtitle {
+  margin: 18px 0 0;
+  font-size: clamp(17px, 1.65vw, 22px);
+  line-height: 1.5;
+  font-weight: 600;
+  text-shadow: 0 1px 10px rgba(255, 248, 232, 0.85);
+}
 @media (max-width: 767px) {
   .green-play-pavilion { min-height: 0; display: flex; flex-direction: column; }
   .green-play-pavilion__visual { position: relative; inset: auto; width: 100%; aspect-ratio: 828 / 460; z-index: 0; }

@@ -1,5 +1,22 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 — BR-T004 · Google AI Studio → Codex & Product Owner
+
+- **Trạng thái:** `BR-T004` → **`IN_REVIEW`** (Green Play UI/UX + React Router). Chưa tự đóng `DONE`; chờ Codex kiểm chứng độc lập trên nhánh Git và mở PR review. Workspace AI Studio không có `.git` (`NOT COMMITTED`).
+- **Phạm vi đã triển khai:**
+  - Cài `react-router-dom` và dựng điều hướng SPA cho `/`, `/games`, `/games/fact-act`, `/games/o-an-quan-xanh`, `*` (404), kèm `RouteScrollAndFocus` (`document.title`, cuộn đầu trang `instant` + focus `#main-content` khi `PUSH`/`REPLACE`, giữ nguyên `POP`, cuộn/focus `#hash` xuyên trang tôn trọng `prefers-reduced-motion`).
+  - Bảo toàn nguyên vẹn Hero V4 (`/`), hoạt ảnh mascot và nhánh sandbox 3D `/?preview=oanquan3d` (không chạm bất kỳ tệp nào trong `src/features/oanquan/`, `src/styles/oanquan3d-prototype.css`, `tests/br-t023.test.ts` của PR #5).
+  - Dựng `GameLibraryPage` (`/games` với `VIS-006`, 2 `GameProductShowcase` bất đối xứng cho Fact–Act & Ô ăn quan xanh, dải minh bạch Phygital, lối về `/`), `FactActDetailPage` (`/games/fact-act` giữ nguyên `fact-act-deck.webp`, chu trình `Fact → Act → Phản tư`, so sánh vật lý vs số, không nút chơi giả), `OAnQuanXanhDetailPage` (`/games/o-an-quan-xanh` với `VIS-008` + nhãn nguyên văn *"Minh họa khái niệm — luật bản số đang chuẩn hóa."*, đủ 5 chủ đề & 3 cấp độ theo `docs/GAME_SPEC.md`, liên kết tách biệt tới `/?preview=oanquan3d` ghi rõ là sandbox kỹ thuật nội bộ) và `NotFoundPage`.
+  - Nối liên kết thật từ mục `Trò chơi` trên `SiteHeader` và thẻ `Green Play` trên `#worlds` sang `/games`; giữ 3 thẻ còn lại (`Green Quest`, `Green Learn`, `Green Connect`) trung thực ở trạng thái `Đang phát triển`.
+- **Kiểm thử đã chạy thực tế:**
+  - `npx --yes tsx --test tests/br-t003.test.ts tests/br-t004.test.ts tests/br-t023.test.ts`: **PASS (17/17)**.
+  - `npx vite build`: **PASS** (72 modules).
+  - `npm run typecheck`: **0 lỗi trong toàn bộ mã `BR-T004`**; vẫn trả mã thoát 2 do 1 lỗi có sẵn ở `src/features/oanquan/prototypeOnlyModel.ts:24` (`TS6133` — thuộc PR #5, cố tình không sửa để tránh xung đột).
+  - `npm run lint`: **`NOT RUN`** (chưa có script `lint` trong `package.json`).
+  - Playwright Chromium headless (`http://localhost:3000`): **PASS** cho 1440×900, 1280×800, 390×844, 320×740, zoom 200% (`720×450`) + `prefers-reduced-motion`, hard reload 4 route con/404, Back/Forward, `#about` xuyên trang, `Escape` đóng mobile drawer trả focus về `.nav-toggle`, `minTouchHeight: 44px`, `scrollAfterClick: 0`, `activeElementId: 'main-content'`, 0 lỗi console/pageerror và 100% ảnh WebP giải mã.
+- **Lưu ý bản quyền & cổng duyệt:** `VIS-006` & `VIS-008` mới qua D2 file QA; phê duyệt D1 cuối cùng và bản quyền thương mại cho `fact-act-deck.webp`, Brainie/Rootie, `VIS-006`/`VIS-008` vẫn mở (`BR-T002` / `BR-T022`). Khi deploy static hosting cần bổ sung SPA rewrite về `/index.html`.
+- **Bước tiếp theo cho Codex:** Đồng bộ diff `BR-T004` lên nhánh riêng (trên nền đã merge PR #5 để `npm run typecheck` xanh toàn repo), chạy kiểm thử độc lập + axe-core, ghi kết quả vào `logs/CODEX_LOG.md`, mở PR review (không tự merge). Song song đội nội dung chạy `BR-T005` để mở khóa `BR-T006`.
+
 ## 2026-11-20 — BR-T022 · Codex → Product Owner / AI Studio
 
 - **Trạng thái:** BR-T022 `IN_PROGRESS`. Nhánh `codex/br-t022-asset-docs-intake` chứa intake VIS-006/VIS-008 và tài liệu BR-GAME-001. Xem kết quả QA ở CODEX_LOG.

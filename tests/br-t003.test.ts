@@ -66,15 +66,24 @@ test('ecosystem section contains all 4 required Brainroot introductory areas', (
   );
 });
 
-test('all navigation links target valid in-page section IDs', () => {
+test('all navigation links target valid routes or in-page section IDs', () => {
   const validTargets = new Set<string>([
     ECOSYSTEM_SECTION.id,
     ABOUT_CONTENT.id,
     ...ECOSYSTEM_AREAS.map((area) => area.id),
   ]);
+  const validRoutes = new Set<string>(['/games']);
 
   for (const item of NAV_ITEMS) {
-    assert.ok(item.href.startsWith('#'), `Expected anchor href, got ${item.href}`);
+    if (item.href.startsWith('/')) {
+      assert.ok(
+        validRoutes.has(item.href),
+        `Unexpected navigation route: ${item.href}`,
+      );
+      continue;
+    }
+
+    assert.ok(item.href.startsWith('#'), `Expected anchor or route href, got ${item.href}`);
     const targetId = item.href.slice(1);
     assert.ok(validTargets.has(targetId), `Missing target section #${targetId}`);
   }

@@ -1,15 +1,32 @@
-import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent as ReactMouseEvent,
+} from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { HERO_CONTENT, NAV_ITEMS, type NavItem } from '../../data/landing';
 import { focusAnchorTarget } from '../../utils/focusAnchorTarget';
+import { isHomeRoute, isNavItemActive } from '../../utils/routeNavigation';
 
 interface SiteHeaderProps {
   readonly items?: readonly NavItem[];
+  readonly variant?: 'overlay-hero' | 'solid-ivory';
 }
 
-export function SiteHeader({ items = NAV_ITEMS }: SiteHeaderProps) {
+export function SiteHeader({
+  items = NAV_ITEMS,
+  variant = 'overlay-hero',
+}: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const location = useLocation();
+  const onHome = isHomeRoute(location.pathname);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -49,21 +66,50 @@ export function SiteHeader({ items = NAV_ITEMS }: SiteHeaderProps) {
     setMenuOpen((prev) => !prev);
   };
 
-  const handleNavClick = (event: ReactMouseEvent<HTMLAnchorElement>) => {
+  const handleSamePageAnchorClick = (
+    event: ReactMouseEvent<HTMLAnchorElement>,
+  ) => {
     focusAnchorTarget(event);
     setMenuOpen(false);
   };
 
-  return (
-    <header className="site-header" ref={headerRef}>
-      <a className="brand" href="#top" aria-label={HERO_CONTENT.brandAriaLabel}>
-        <span className="brand__symbol" aria-hidden="true">
-          ✳
-        </span>
-        <span>
-          brainroot<span className="brand__period">.</span>
-        </span>
-      </a>
+  const handleRouteClick = () => {
+    setMenuOpen(false);
+  };
+
+  const headerContent = (
+    <header
+      className={`site-header${variant === 'solid-ivory' ? ' site-header--solid' : ''}`}
+      ref={headerRef}
+    >
+      {onHome ? (
+        <a
+          className="brand"
+          href="#top"
+          aria-label={HERO_CONTENT.brandAriaLabel}
+        >
+          <span className="brand__symbol" aria-hidden="true">
+            ✳
+          </span>
+          <span>
+            brainroot<span className="brand__period">.</span>
+          </span>
+        </a>
+      ) : (
+        <Link
+          className="brand"
+          to="/"
+          aria-label={HERO_CONTENT.brandAriaLabel}
+          onClick={handleRouteClick}
+        >
+          <span className="brand__symbol" aria-hidden="true">
+            ✳
+          </span>
+          <span>
+            brainroot<span className="brand__period">.</span>
+          </span>
+        </Link>
+      )}
 
       <button
         ref={toggleRef}
@@ -84,17 +130,56 @@ export function SiteHeader({ items = NAV_ITEMS }: SiteHeaderProps) {
         id="main-nav"
         aria-label="Điều hướng chính"
       >
-        {items.map((item) => (
-          <a
-            key={item.href}
-            className="main-nav__link"
-            href={item.href}
-            onClick={handleNavClick}
-          >
-            {item.label}
-          </a>
-        ))}
+        {items.map((item) => {
+          const isRouteLink = item.href.startsWith('/');
+          const active = isNavItemActive(item.href, location.pathname);
+          const linkClassName = `main-nav__link${active ? ' main-nav__link--active' : ''}`;
+
+          if (isRouteLink) {
+            return (
+              <Link
+                key={item.href}
+                className={linkClassName}
+                to={item.href}
+                aria-current={active ? 'page' : undefined}
+                onClick={handleRouteClick}
+              >
+                {item.label}
+              </Link>
+            );
+          }
+
+          if (onHome) {
+            return (
+              <a
+                key={item.href}
+                className={linkClassName}
+                href={item.href}
+                onClick={handleSamePageAnchorClick}
+              >
+                {item.label}
+              </a>
+            );
+          }
+
+          return (
+            <Link
+              key={item.href}
+              className={linkClassName}
+              to={`/${item.href}`}
+              onClick={handleRouteClick}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
     </header>
   );
+
+  if (variant === 'solid-ivory') {
+    return <div className="site-header-bar">{headerContent}</div>;
+  }
+
+  return headerContent;
 }

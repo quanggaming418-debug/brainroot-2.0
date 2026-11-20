@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import {
   ECOSYSTEM_AREAS,
   ECOSYSTEM_SECTION,
@@ -46,7 +47,17 @@ export function EcosystemSection({
               <p className="world-card__subtitle">{area.subtitle}</p>
               <p className="world-card__description">{area.description}</p>
             </div>
-            <p className="world-card__note">{area.note}</p>
+            {area.ctaTo && area.ctaLabel ? (
+              <div className="world-card__footer">
+                <p className="world-card__note">{area.note}</p>
+                <Link className="world-card__cta" to={area.ctaTo}>
+                  <span>{area.ctaLabel}</span>
+                  <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            ) : (
+              <p className="world-card__note">{area.note}</p>
+            )}
           </article>
         ))}
       </div>

@@ -1,6 +1,6 @@
 export interface NavItem {
   readonly label: string;
-  readonly href: `#${string}`;
+  readonly href: `/${string}` | `#${string}`;
 }
 
 export interface DepthLayerConfig {
@@ -33,11 +33,13 @@ export interface EcosystemArea {
   readonly note: string;
   readonly icon: string;
   readonly variant: EcosystemVariant;
+  readonly ctaLabel?: string;
+  readonly ctaTo?: string;
 }
 
 export const NAV_ITEMS: readonly NavItem[] = [
   { label: 'Khám phá', href: '#worlds' },
-  { label: 'Trò chơi', href: '#games' },
+  { label: 'Trò chơi', href: '/games' },
   { label: 'Thử thách', href: '#quest' },
   { label: 'Cộng đồng', href: '#connect' },
   { label: 'Về Brainroot', href: '#about' },
@@ -46,7 +48,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
 export const HERO_CONTENT = {
   skipLinkLabel: 'Bỏ qua và đến nội dung chính',
   skipLinkHref: '#main-content',
-  brandAriaLabel: 'Brainroot — về đầu trang',
+  brandAriaLabel: 'Brainroot — về trang chủ',
   heroAriaLabel: 'Chào mừng đến với thế giới Brainroot',
   slogan: 'From Brainrot to Brainroot',
   heading: 'Brainroot',
@@ -111,10 +113,12 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
     subtitle: 'Trò chơi giáo dục tương tác',
     description:
       'Fact–Act và Ô ăn quan xanh là hai sản phẩm đầu tiên trong hành trình học kỹ năng xanh thông qua trò chơi trực quan.',
-    statusLabel: 'Đang phát triển',
-    note: 'Bản chơi thử trực tuyến chưa mở.',
+    statusLabel: 'Đã mở thư viện',
+    note: 'Đã mở trang giới thiệu sản phẩm; bản chơi thử trực tuyến chưa mở.',
     icon: '✦',
     variant: 'play',
+    ctaLabel: 'Khám phá thư viện Green Play',
+    ctaTo: '/games',
   },
   {
     id: 'quest',
