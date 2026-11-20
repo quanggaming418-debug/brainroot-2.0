@@ -1,5 +1,9 @@
 # HANDOFF — Current baton pass
 
+## BR-T022 — Garden asset intake · Codex → Google AI Studio
+
+- 4 WebP đã xác minh trong `public/assets/home/garden/` trên nhánh `codex/garden-webp-intake`, chờ review/merge. AI Studio phụ trách thiết kế và tích hợp ở bước sau.
+
 ## 2026-11-20 — BR-T024 · GitHub Pages
 
 - Nhánh `codex/github-pages-r0` từ R0 `db8b354`. Pages source đã là GitHub Actions; target trả 404 trước PR.

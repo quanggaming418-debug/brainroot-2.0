@@ -9,6 +9,8 @@
 - **Deployment URL:** Mục tiêu [GitHub Pages](https://quanggaming418-debug.github.io/brainroot-2.0/). BR-T024 IN_REVIEW, cấu hình trên nhánh riêng. Chưa deploy ở thời điểm kiểm tra, URL trả HTTP 404; chờ merge, Actions và smoke test trực tiếp.
 - **Hero reference:** `reference/hero-v4/`; **asset copies:** `public/assets/hero-v4/` & `public/assets/green-play/`.
 
+- **BR-T022 garden intake:** 4 WebP 1120×747 tại `public/assets/home/garden/` trên nhánh `codex/garden-webp-intake`, chờ review PR. QA file và build PASS; chưa tích hợp UI.
+
 ## Established context
 - Rebuild website from zero; do **not** reuse old web code as project base.
 - Established frontend stack: **React 19 + TypeScript + Vite 7 + React Router (`react-router-dom`) + Three.js (`three`) + modular standard CSS** (không cài Tailwind CSS).
