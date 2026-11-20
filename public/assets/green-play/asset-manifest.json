@@ -3,7 +3,7 @@
   "name": "Green Play Pavilion Backdrop",
   "revision": "desktop-selected-v2.1",
   "production_status": "D2 file QA passed; banner prepared but not mounted",
-  "source": "approved Brainroot VIS-006 concept; AI generated background; not official mascot/product artwork",
+  "source": "Selected Brainroot VIS-006 V2.1 concept; AI-generated background. Final artwork D1 approval and release rights are pending. Official mascot/product artwork is separate.",
   "artwork_layers": "Flattened background (L0/L1); no independently animated objects",
   "files": [
     {
@@ -23,9 +23,9 @@
   ],
   "mobile_strategy": "desktop-first: selected crop from same painting, HTML copy below image at <=767px",
   "gates": {
-    "D1": "V2.1 concept selected per kit handoff; final artwork approval not independently confirmed",
+    "D1": "Concept V2.1 selected for development; final Product Owner artistic approval pending.",
     "D2_asset": "image decode/dimension/export validation ready",
     "D2_site_integration": "pending integration into React app, PR QA and browser regressions"
   },
-  "rights": "Verify licensing/approval for generated visual before public release; official supplied assets remain separate"
+  "rights": "Internal prototype asset until final D1 and release-rights review; presence under public/assets does not authorize public deployment."
 }
