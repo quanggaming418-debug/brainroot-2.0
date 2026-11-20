@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 import type { EcosystemVariant, LearningJourneyStage } from '../../data/landing';
+import { useI18n } from '../../i18n/I18nContext';
+import { getJourneyUiCopy } from '../../i18n/siteCopy';
 
 /**
  * Shared visual primitives anchoring the entire Brainroot 2.0 site
@@ -398,6 +400,8 @@ export function GrowthJourneyGraphic({
   activeIndex,
   onSelectStage,
 }: GrowthJourneyGraphicProps) {
+  const { locale } = useI18n();
+  const ui = getJourneyUiCopy(locale);
   const activeStage = stages[activeIndex] ?? stages[0];
 
   return (
@@ -506,7 +510,7 @@ export function GrowthJourneyGraphic({
       <div
         className="journey-graphic__tabs"
         role="tablist"
-        aria-label="5 bước hành trình học kỹ năng xanh Brainroot"
+        aria-label={ui.tablistAria}
       >
         {stages.map((stage, index) => {
           const isSelected = index === activeIndex;
@@ -528,7 +532,7 @@ export function GrowthJourneyGraphic({
 
       <div className="journey-graphic__detail" role="tabpanel" aria-live="polite">
         <p className="journey-graphic__detail-eyebrow">
-          Bước {activeStage.stepNumber} · {activeStage.label}
+          {ui.stepPrefix} {activeStage.stepNumber} · {activeStage.label}
         </p>
         <h3 className="journey-graphic__detail-title">{activeStage.title}</h3>
         <p className="journey-graphic__detail-summary">{activeStage.summary}</p>

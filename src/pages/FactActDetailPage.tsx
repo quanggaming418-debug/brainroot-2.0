@@ -3,17 +3,22 @@ import { Link } from 'react-router-dom';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { EmptyUnavailableState } from '../components/common/EmptyUnavailableState';
 import { ProductStatusLabel } from '../components/common/ProductStatusLabel';
-import { FACT_ACT_DETAIL } from '../data/games';
+import { useI18n } from '../i18n/I18nContext';
+import { getBreadcrumbsUiCopy, getFactActDetailCopy } from '../i18n/siteCopy';
 
 export function FactActDetailPage() {
+  const { locale } = useI18n();
+  const copy = getFactActDetailCopy(locale);
+  const crumbs = getBreadcrumbsUiCopy(locale);
+
   return (
     <div className="gp-page gp-detail-page">
       <div className="gp-breadcrumb-bar">
         <Breadcrumbs
           items={[
-            { label: 'Trang chủ', to: '/' },
+            { label: crumbs.homeLabel, to: '/' },
             { label: 'Green Play', to: '/games' },
-            { label: FACT_ACT_DETAIL.title },
+            { label: copy.title },
           ]}
         />
       </div>
@@ -46,48 +51,43 @@ export function FactActDetailPage() {
                 src={publicUrl('/assets/hero-v4/fact-act-deck.webp')}
                 width={1024}
                 height={1024}
-                alt="Bộ thẻ bài vật lý Brainroot - Truth or Dare"
+                alt={copy.deckImgAlt}
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
               />
             </div>
             <figcaption className="gp-detail-hero__caption">
-              Hình ảnh bộ thẻ bài vật lý Brainroot - Truth or Dare gốc của nhóm dự án Brainroot.
+              {copy.deckCaption}
             </figcaption>
           </figure>
 
           <div className="gp-detail-hero__content">
-            <p className="gp-eyebrow">{FACT_ACT_DETAIL.eyebrow}</p>
+            <p className="gp-eyebrow">{copy.eyebrow}</p>
             <h1 className="gp-detail-hero__title" id="fact-act-page-title">
-              {FACT_ACT_DETAIL.title}
+              {copy.title}
             </h1>
-            <ProductStatusLabel
-              label={FACT_ACT_DETAIL.statusLabel}
-              tone="peach"
-            />
-            <p className="gp-detail-hero__tagline">{FACT_ACT_DETAIL.tagline}</p>
-            <p className="gp-detail-hero__overview">
-              {FACT_ACT_DETAIL.overview}
-            </p>
+            <ProductStatusLabel label={copy.statusLabel} tone="peach" />
+            <p className="gp-detail-hero__tagline">{copy.tagline}</p>
+            <p className="gp-detail-hero__overview">{copy.overview}</p>
 
             <div className="gp-detail-hero__cta-row">
               <Link
                 className="gp-button gp-button--primary"
-                to={FACT_ACT_DETAIL.trialCtaTo}
+                to={copy.trialCtaTo}
               >
-                <span>{FACT_ACT_DETAIL.trialCtaLabel}</span>
+                <span>{copy.trialCtaLabel}</span>
                 <span className="gp-button__arrow" aria-hidden="true">
                   →
                 </span>
               </Link>
               <Link className="gp-button gp-button--secondary" to="/games">
-                ← Thư viện Green Play
+                {copy.backToLibrary}
               </Link>
             </div>
 
             <dl className="game-specs">
-              {FACT_ACT_DETAIL.specs.map((spec) => (
+              {copy.specs.map((spec) => (
                 <div className="game-specs__row" key={spec.label}>
                   <dt className="game-specs__label">{spec.label}</dt>
                   <dd className="game-specs__value">{spec.value}</dd>
@@ -104,17 +104,15 @@ export function FactActDetailPage() {
       >
         <div className="gp-container">
           <div className="gp-section-header gp-section-header--left">
-            <p className="gp-eyebrow">TRẢI NGHIỆM THỬ TRÊN WEB</p>
+            <p className="gp-eyebrow">{copy.loopEyebrow}</p>
             <h2 className="gp-section-heading" id="fact-act-loop-heading">
-              {FACT_ACT_DETAIL.learningLoopHeading}
+              {copy.learningLoopHeading}
             </h2>
-            <p className="gp-section-summary">
-              {FACT_ACT_DETAIL.learningLoopSummary}
-            </p>
+            <p className="gp-section-summary">{copy.learningLoopSummary}</p>
           </div>
 
           <ol className="gp-steps-grid">
-            {FACT_ACT_DETAIL.learningSteps.map((step) => (
+            {copy.learningSteps.map((step) => (
               <li className="gp-step-card" key={step.code}>
                 <div className="gp-step-card__meta">
                   <span className="gp-step-card__number">
@@ -136,20 +134,18 @@ export function FactActDetailPage() {
       >
         <div className="gp-container">
           <div className="gp-section-header gp-section-header--left">
-            <p className="gp-eyebrow">SO SÁNH TRẢI NGHIỆM</p>
+            <p className="gp-eyebrow">{copy.compareEyebrow}</p>
             <h2
               className="gp-section-heading"
               id="fact-act-comparison-heading"
             >
-              {FACT_ACT_DETAIL.comparisonHeading}
+              {copy.comparisonHeading}
             </h2>
-            <p className="gp-section-summary">
-              {FACT_ACT_DETAIL.comparisonSummary}
-            </p>
+            <p className="gp-section-summary">{copy.comparisonSummary}</p>
           </div>
 
           <div className="gp-compare-grid">
-            {FACT_ACT_DETAIL.comparisonColumns.map((column) => (
+            {copy.comparisonColumns.map((column) => (
               <article className="gp-compare-card" key={column.heading}>
                 <p className="gp-compare-card__tag">{column.badge}</p>
                 <h3 className="gp-compare-card__title">{column.heading}</h3>
@@ -169,19 +165,13 @@ export function FactActDetailPage() {
       <section className="gp-section gp-section--compact">
         <div className="gp-container">
           <EmptyUnavailableState
-            statusTag="MINH BẠCH NỘI DUNG"
-            heading={FACT_ACT_DETAIL.unavailableNotice.heading}
-            description={FACT_ACT_DETAIL.unavailableNotice.description}
-            primaryActionLabel={
-              FACT_ACT_DETAIL.unavailableNotice.primaryActionLabel
-            }
-            primaryActionTo={FACT_ACT_DETAIL.unavailableNotice.primaryActionTo}
-            secondaryActionLabel={
-              FACT_ACT_DETAIL.unavailableNotice.secondaryActionLabel
-            }
-            secondaryActionTo={
-              FACT_ACT_DETAIL.unavailableNotice.secondaryActionTo
-            }
+            statusTag={copy.noticeTag}
+            heading={copy.unavailableNotice.heading}
+            description={copy.unavailableNotice.description}
+            primaryActionLabel={copy.unavailableNotice.primaryActionLabel}
+            primaryActionTo={copy.unavailableNotice.primaryActionTo}
+            secondaryActionLabel={copy.unavailableNotice.secondaryActionLabel}
+            secondaryActionTo={copy.unavailableNotice.secondaryActionTo}
           />
         </div>
       </section>

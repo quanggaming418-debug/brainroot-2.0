@@ -1,21 +1,24 @@
 import { Link } from 'react-router-dom';
+import type { EcosystemArea } from '../../data/landing';
+import { useI18n } from '../../i18n/I18nContext';
 import {
-  ECOSYSTEM_AREAS,
-  ECOSYSTEM_SECTION,
-  type EcosystemArea,
-} from '../../data/landing';
+  getEcosystemAreas,
+  getEcosystemSectionCopy,
+} from '../../i18n/siteCopy';
 
 interface EcosystemSectionProps {
   readonly areas?: readonly EcosystemArea[];
 }
 
-export function EcosystemSection({
-  areas = ECOSYSTEM_AREAS,
-}: EcosystemSectionProps) {
+export function EcosystemSection({ areas }: EcosystemSectionProps) {
+  const { locale } = useI18n();
+  const sectionCopy = getEcosystemSectionCopy(locale);
+  const resolvedAreas = areas ?? getEcosystemAreas(locale);
+
   return (
     <section
       className="worlds worlds--garden-windows"
-      id={ECOSYSTEM_SECTION.id}
+      id={sectionCopy.id}
       tabIndex={-1}
       aria-labelledby="worlds-heading"
     >
@@ -23,16 +26,16 @@ export function EcosystemSection({
         <header className="worlds__intro">
           <p className="section-overline section-overline--botanical">
             <span className="section-overline__seed" aria-hidden="true" />
-            <span>{ECOSYSTEM_SECTION.overline}</span>
+            <span>{sectionCopy.overline}</span>
           </p>
           <h2 className="section-heading" id="worlds-heading">
-            {ECOSYSTEM_SECTION.heading}
+            {sectionCopy.heading}
           </h2>
-          <p className="section-summary">{ECOSYSTEM_SECTION.summary}</p>
+          <p className="section-summary">{sectionCopy.summary}</p>
         </header>
 
         <div className="garden-windows-grid">
-          {areas.map((area) => {
+          {resolvedAreas.map((area) => {
             const isFeatured = area.emphasis === 'featured';
             return (
               <article

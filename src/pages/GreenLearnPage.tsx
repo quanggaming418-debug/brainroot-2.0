@@ -5,12 +5,17 @@ import {
   DestinationIllustration,
   LearningProgress,
 } from '../components/garden/GardenPrimitives';
-import { GREEN_LEARN_INTRO, GREEN_LEARN_TOPICS } from '../data/learn';
+import { useI18n } from '../i18n/I18nContext';
+import { getBreadcrumbsUiCopy, getGreenLearnCopy } from '../i18n/siteCopy';
 
 export function GreenLearnPage() {
+  const { locale } = useI18n();
+  const copy = getGreenLearnCopy(locale);
+  const crumbs = getBreadcrumbsUiCopy(locale);
+
   const [activeIndex, setActiveIndex] = useState(0);
-  const currentTopic = GREEN_LEARN_TOPICS[activeIndex] ?? GREEN_LEARN_TOPICS[0];
-  const totalTopics = GREEN_LEARN_TOPICS.length;
+  const currentTopic = copy.topics[activeIndex] ?? copy.topics[0];
+  const totalTopics = copy.topics.length;
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev - 1 + totalTopics) % totalTopics);
@@ -25,7 +30,7 @@ export function GreenLearnPage() {
       <div className="gp-breadcrumb-bar">
         <Breadcrumbs
           items={[
-            { label: 'Trang chủ', to: '/' },
+            { label: crumbs.homeLabel, to: '/' },
             { label: 'Green Learn' },
           ]}
         />
@@ -34,13 +39,11 @@ export function GreenLearnPage() {
       <section className="world-hero" aria-labelledby="learn-page-title">
         <div className="gp-container world-hero__grid">
           <div className="world-hero__copy">
-            <p className="gp-eyebrow">{GREEN_LEARN_INTRO.eyebrow}</p>
+            <p className="gp-eyebrow">{copy.intro.eyebrow}</p>
             <h1 className="gp-detail-hero__title" id="learn-page-title">
-              {GREEN_LEARN_INTRO.heading}
+              {copy.intro.heading}
             </h1>
-            <p className="gp-detail-hero__overview">
-              {GREEN_LEARN_INTRO.summary}
-            </p>
+            <p className="gp-detail-hero__overview">{copy.intro.summary}</p>
           </div>
           <div className="world-hero__vignette">
             <DestinationIllustration variant="learn" />
@@ -55,10 +58,10 @@ export function GreenLearnPage() {
         <div className="gp-container learn-container">
           <aside className="trial-disclosure" role="note">
             <span className="trial-disclosure__badge">
-              {GREEN_LEARN_INTRO.provenanceBannerTitle}
+              {copy.intro.provenanceBannerTitle}
             </span>
             <p className="trial-disclosure__text">
-              {GREEN_LEARN_INTRO.provenanceBannerBody}
+              {copy.intro.provenanceBannerBody}
             </p>
           </aside>
 
@@ -66,15 +69,15 @@ export function GreenLearnPage() {
             <LearningProgress
               current={activeIndex + 1}
               total={totalTopics}
-              label={`Đang xem ${currentTopic.shortTag}: ${currentTopic.topicTitle}`}
+              label={`${copy.viewingPrefix} ${currentTopic.shortTag}: ${currentTopic.topicTitle}`}
             />
 
             <div
               className="learn-topic-tabs"
               role="tablist"
-              aria-label="5 chủ đề kỹ năng xanh"
+              aria-label={copy.tabsAria}
             >
-              {GREEN_LEARN_TOPICS.map((topic, index) => {
+              {copy.topics.map((topic, index) => {
                 const isActive = index === activeIndex;
                 return (
                   <button
@@ -99,9 +102,7 @@ export function GreenLearnPage() {
           >
             <div className="learn-card__top">
               <span className="trial-topic-pill">{currentTopic.shortTag}</span>
-              <span className="learn-card__status">
-                Bản thảo khung · Chờ duyệt nguồn
-              </span>
+              <span className="learn-card__status">{copy.draftPill}</span>
             </div>
 
             <h2 className="learn-card__title" id="learn-explorer-heading">
@@ -109,7 +110,7 @@ export function GreenLearnPage() {
             </h2>
 
             <div className="learn-card__objective">
-              <p className="learn-card__label">Mục tiêu học tập</p>
+              <p className="learn-card__label">{copy.objectiveLabel}</p>
               <p className="learn-card__objective-text">
                 {currentTopic.learningObjective}
               </p>
@@ -117,25 +118,25 @@ export function GreenLearnPage() {
 
             <div className="learn-card__grid">
               <div className="learn-card__block">
-                <h3>Ý chính cần hiểu</h3>
+                <h3>{copy.keyConceptHeading}</h3>
                 <p>{currentTopic.keyConcept}</p>
               </div>
               <div className="learn-card__block">
-                <h3>Gần gũi trong học đường</h3>
+                <h3>{copy.campusContextHeading}</h3>
                 <p>{currentTopic.campusContext}</p>
               </div>
               <div className="learn-card__block learn-card__block--accent">
-                <h3>Thói quen nhỏ dễ bắt đầu</h3>
+                <h3>{copy.starterHabitHeading}</h3>
                 <p>{currentTopic.starterHabit}</p>
               </div>
               <div className="learn-card__block">
-                <h3>Câu hỏi gợi mở phản tư</h3>
+                <h3>{copy.reflectionHeading}</h3>
                 <p>{currentTopic.reflectionQuestion}</p>
               </div>
             </div>
 
             <p className="trial-source-note">
-              <strong>Trạng thái biên tập:</strong> {currentTopic.provenanceNote}
+              <strong>{copy.editorialLabel}</strong> {currentTopic.provenanceNote}
             </p>
 
             <div className="learn-card__nav">
@@ -144,26 +145,26 @@ export function GreenLearnPage() {
                 className="gp-button gp-button--secondary"
                 onClick={handlePrev}
               >
-                ← Chủ đề trước
+                {copy.prevBtn}
               </button>
               <button
                 type="button"
                 className="gp-button gp-button--forest"
                 onClick={handleNext}
               >
-                Chủ đề tiếp theo →
+                {copy.nextBtn}
               </button>
             </div>
           </article>
 
           <div className="world-next-strip">
-            <p>Áp dụng ngay kiến thức vừa đọc vào trò chơi hoặc hành động nhỏ:</p>
+            <p>{copy.nextStripPrompt}</p>
             <div className="world-next-strip__links">
               <Link className="gp-button gp-button--primary" to="/games/fact-act/play">
-                Trải nghiệm thử Brainroot - Truth or Dare →
+                {copy.nextPlayBtn}
               </Link>
               <Link className="gp-text-link" to="/games/o-an-quan-xanh">
-                Xem 5 chủ đề trong Brainroot - Ô ăn quan xanh
+                {copy.nextOAnQuanLink}
               </Link>
             </div>
           </div>

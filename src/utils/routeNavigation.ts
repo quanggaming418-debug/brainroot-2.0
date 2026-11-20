@@ -16,7 +16,24 @@ export const ROUTE_TITLES: Readonly<Record<string, string>> = {
   '/screenshots': 'Ảnh chụp giao diện | Brainroot',
 };
 
+export const ROUTE_TITLES_EN: Readonly<Record<string, string>> = {
+  '/': SITE_BASE_TITLE,
+  '/games': 'Green Play — Educational Game Library | Brainroot',
+  '/games/fact-act':
+    'Brainroot - Truth or Dare — Green Skills Card Game | Brainroot',
+  '/games/fact-act/play':
+    'Brainroot - Truth or Dare — Interactive Experience | Brainroot',
+  '/games/o-an-quan-xanh':
+    'Brainroot - Ô ăn quan xanh — Folk Game & Green Skills | Brainroot',
+  '/quest': 'Green Quest — Starter Green Challenge | Brainroot',
+  '/learn': 'Green Learn — 5 Green Skills Topics | Brainroot',
+  '/connect': 'Green Connect — Learning Community | Brainroot',
+  '/about': 'About Brainroot — From Brainrot to Brainroot',
+  '/screenshots': 'UI Screenshots | Brainroot',
+};
+
 export const NOT_FOUND_TITLE = 'Không tìm thấy trang | Brainroot';
+export const NOT_FOUND_TITLE_EN = 'Page Not Found | Brainroot';
 
 export function normalizePathname(pathname: string): string {
   if (!pathname || pathname === '/') {
@@ -26,8 +43,14 @@ export function normalizePathname(pathname: string): string {
   return trimmed || '/';
 }
 
-export function getRouteDocumentTitle(pathname: string): string {
+export function getRouteDocumentTitle(
+  pathname: string,
+  locale: 'vi' | 'en' = 'vi',
+): string {
   const normalized = normalizePathname(pathname);
+  if (locale === 'en') {
+    return ROUTE_TITLES_EN[normalized] ?? NOT_FOUND_TITLE_EN;
+  }
   return ROUTE_TITLES[normalized] ?? NOT_FOUND_TITLE;
 }
 

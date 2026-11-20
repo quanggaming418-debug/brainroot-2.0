@@ -2,19 +2,23 @@ import { Link } from 'react-router-dom';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { GameProductShowcase } from '../components/games/GameProductShowcase';
 import { GreenPlayPavilionBanner } from '../components/games/GreenPlayPavilionBanner';
+import { useI18n } from '../i18n/I18nContext';
 import {
-  GREEN_PLAY_LIBRARY_INTRO,
-  GREEN_PLAY_PRODUCTS,
-  PHYGITAL_TRANSPARENCY,
-} from '../data/games';
+  getBreadcrumbsUiCopy,
+  getGreenPlayLibraryCopy,
+} from '../i18n/siteCopy';
 
 export function GameLibraryPage() {
+  const { locale } = useI18n();
+  const copy = getGreenPlayLibraryCopy(locale);
+  const crumbs = getBreadcrumbsUiCopy(locale);
+
   return (
     <div className="gp-page">
       <div className="gp-breadcrumb-bar">
         <Breadcrumbs
           items={[
-            { label: 'Trang chủ', to: '/' },
+            { label: crumbs.homeLabel, to: '/' },
             { label: 'Green Play' },
           ]}
         />
@@ -28,20 +32,18 @@ export function GameLibraryPage() {
       >
         <div className="gp-container">
           <div className="gp-section-header">
-            <p className="gp-eyebrow">{GREEN_PLAY_LIBRARY_INTRO.eyebrow}</p>
+            <p className="gp-eyebrow">{copy.intro.eyebrow}</p>
             <h2
               className="gp-section-heading"
               id="green-play-library-heading"
             >
-              {GREEN_PLAY_LIBRARY_INTRO.heading}
+              {copy.intro.heading}
             </h2>
-            <p className="gp-section-summary">
-              {GREEN_PLAY_LIBRARY_INTRO.summary}
-            </p>
+            <p className="gp-section-summary">{copy.intro.summary}</p>
           </div>
 
           <div className="game-showcase-list">
-            {GREEN_PLAY_PRODUCTS.map((product) => (
+            {copy.products.map((product) => (
               <GameProductShowcase key={product.id} product={product} />
             ))}
           </div>
@@ -55,17 +57,15 @@ export function GameLibraryPage() {
         <div className="gp-container">
           <div className="gp-phygital__panel">
             <div className="gp-phygital__intro">
-              <p className="gp-eyebrow">{PHYGITAL_TRANSPARENCY.eyebrow}</p>
+              <p className="gp-eyebrow">{copy.phygital.eyebrow}</p>
               <h2 className="gp-section-heading" id="phygital-heading">
-                {PHYGITAL_TRANSPARENCY.heading}
+                {copy.phygital.heading}
               </h2>
-              <p className="gp-section-summary">
-                {PHYGITAL_TRANSPARENCY.summary}
-              </p>
+              <p className="gp-section-summary">{copy.phygital.summary}</p>
             </div>
 
             <div className="gp-phygital__grid">
-              {PHYGITAL_TRANSPARENCY.pillars.map((pillar, index) => (
+              {copy.phygital.pillars.map((pillar, index) => (
                 <article className="gp-pillar" key={pillar.title}>
                   <span className="gp-pillar__index" aria-hidden="true">
                     0{index + 1}
@@ -79,17 +79,15 @@ export function GameLibraryPage() {
         </div>
       </section>
 
-      <section className="gp-return-band" aria-label="Điều hướng quay lại">
+      <section className="gp-return-band" aria-label={copy.returnNavAria}>
         <div className="gp-container gp-return-band__inner">
-          <p className="gp-return-band__text">
-            Muốn xem toàn cảnh bốn khu vực của hệ sinh thái Brainroot?
-          </p>
+          <p className="gp-return-band__text">{copy.returnPrompt}</p>
           <div className="gp-return-band__actions">
             <Link className="gp-button gp-button--secondary" to="/">
-              ← Quay về trang chủ
+              {copy.returnHomeBtn}
             </Link>
             <Link className="gp-text-link" to="/#about">
-              Tìm hiểu thêm về dự án Brainroot
+              {copy.returnAboutLink}
             </Link>
           </div>
         </div>

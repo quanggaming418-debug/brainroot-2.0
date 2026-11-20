@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { DestinationIllustration } from '../components/garden/GardenPrimitives';
 import {
-  GREEN_QUEST_LITE_CHALLENGE,
   completeGreenQuest,
   loadQuestProgressFromStorage,
   resetGreenQuest,
@@ -12,8 +11,14 @@ import {
   startGreenQuest,
   type GreenQuestProgress,
 } from '../features/quest/greenQuestModel';
+import { useI18n } from '../i18n/I18nContext';
+import { getBreadcrumbsUiCopy, getGreenQuestCopy } from '../i18n/siteCopy';
 
 export function GreenQuestPage() {
+  const { locale } = useI18n();
+  const copy = getGreenQuestCopy(locale);
+  const crumbs = getBreadcrumbsUiCopy(locale);
+
   const [progress, setProgress] = useState<GreenQuestProgress>(() =>
     loadQuestProgressFromStorage(
       typeof window !== 'undefined' ? window.localStorage : undefined,
@@ -22,7 +27,9 @@ export function GreenQuestPage() {
   const [reflectionInput, setReflectionInput] = useState<string>(
     () => progress.reflectionNote,
   );
-  const [statusMessage, setStatusMessage] = useState<string>('');
+  const [statusMessageKey, setStatusMessageKey] = useState<
+    'started' | 'completed' | 'skipped' | 'reset' | null
+  >(null);
 
   useEffect(() => {
     saveQuestProgressToStorage(
@@ -34,7 +41,7 @@ export function GreenQuestPage() {
   const handleStart = () => {
     const next = startGreenQuest(progress, new Date().toISOString());
     setProgress(next);
-    setStatusMessage('Bạn đã nhận thử thách xanh khởi đầu. Chúc bạn một ngày học tập xanh nhẹ nhàng!');
+    setStatusMessageKey('started');
   };
 
   const handleComplete = () => {
@@ -44,37 +51,31 @@ export function GreenQuestPage() {
       new Date().toISOString(),
     );
     setProgress(next);
-    setStatusMessage('Đã ghi nhận hoàn thành thử thách trên trình duyệt này.');
+    setStatusMessageKey('completed');
   };
 
   const handleSkip = () => {
     const next = skipGreenQuest(progress, new Date().toISOString());
     setProgress(next);
-    setStatusMessage('Đã đánh dấu tạm bỏ qua thử thách — bạn có thể quay lại thực hiện bất kỳ lúc nào.');
+    setStatusMessageKey('skipped');
   };
 
   const handleReset = () => {
     const next = resetGreenQuest();
     setProgress(next);
     setReflectionInput('');
-    setStatusMessage('Đã đặt lại trạng thái thử thách trên trình duyệt này.');
+    setStatusMessageKey('reset');
   };
 
-  const statusBadgeText =
-    progress.status === 'completed'
-      ? 'Đã tự ghi nhận hoàn thành'
-      : progress.status === 'in_progress'
-        ? 'Đang thực hiện hôm nay'
-        : progress.status === 'skipped'
-          ? 'Đã tạm bỏ qua'
-          : 'Chưa bắt đầu';
+  const statusBadgeText = copy.statusBadges[progress.status];
+  const statusMessage = statusMessageKey ? copy.messages[statusMessageKey] : '';
 
   return (
     <div className="gp-page world-page world-page--quest">
       <div className="gp-breadcrumb-bar">
         <Breadcrumbs
           items={[
-            { label: 'Trang chủ', to: '/' },
+            { label: crumbs.homeLabel, to: '/' },
             { label: 'Green Quest' },
           ]}
         />
@@ -83,16 +84,12 @@ export function GreenQuestPage() {
       <section className="world-hero" aria-labelledby="quest-page-title">
         <div className="gp-container world-hero__grid">
           <div className="world-hero__copy">
-            <p className="gp-eyebrow">GREEN QUEST · HÀNH ĐỘNG XANH KHỞI ĐẦU</p>
+            <p className="gp-eyebrow">{copy.eyebrow}</p>
             <h1 className="gp-detail-hero__title" id="quest-page-title">
-              {GREEN_QUEST_LITE_CHALLENGE.title}
+              {copy.challenge.title}
             </h1>
-            <p className="gp-detail-hero__tagline">
-              {GREEN_QUEST_LITE_CHALLENGE.subtitle}
-            </p>
-            <p className="gp-detail-hero__overview">
-              {GREEN_QUEST_LITE_CHALLENGE.summary}
-            </p>
+            <p className="gp-detail-hero__tagline">{copy.challenge.subtitle}</p>
+            <p className="gp-detail-hero__overview">{copy.challenge.summary}</p>
           </div>
           <div className="world-hero__vignette">
             <DestinationIllustration variant="quest" />
@@ -104,7 +101,7 @@ export function GreenQuestPage() {
         <div className="gp-container quest-container">
           <article className="quest-card">
             <div className="quest-card__top">
-              <span className="trial-topic-pill">{GREEN_QUEST_LITE_CHALLENGE.topic}</span>
+              <span className="trial-topic-pill">{copy.challenge.topic}</span>
               <span
                 className={`quest-status-badge quest-status-badge--${progress.status}`}
               >
@@ -113,11 +110,11 @@ export function GreenQuestPage() {
             </div>
 
             <h2 className="quest-card__heading" id="quest-card-heading">
-              Gợi ý 4 bước thực hành ({GREEN_QUEST_LITE_CHALLENGE.durationLabel})
+              {copy.stepsHeading}
             </h2>
 
             <ol className="quest-steps">
-              {GREEN_QUEST_LITE_CHALLENGE.steps.map((step, index) => (
+              {copy.challenge.steps.map((step, index) => (
                 <li key={step} className="quest-step">
                   <span className="quest-step__num" aria-hidden="true">
                     0{index + 1}
@@ -129,14 +126,14 @@ export function GreenQuestPage() {
 
             <div className="quest-reflection-block">
               <label className="trial-textarea-label" htmlFor="quest-reflection-input">
-                {GREEN_QUEST_LITE_CHALLENGE.reflectionPrompt} (tùy chọn)
+                {copy.challenge.reflectionPrompt} {copy.optionalSuffix}
               </label>
               <textarea
                 id="quest-reflection-input"
                 className="trial-textarea"
                 rows={3}
                 value={reflectionInput}
-                placeholder="Ví dụ: Mang sẵn bình nước giúp mình không mua ly nhựa giờ nghỉ trưa..."
+                placeholder={copy.reflectionPlaceholder}
                 onChange={(e) => setReflectionInput(e.target.value)}
               />
             </div>
@@ -148,7 +145,7 @@ export function GreenQuestPage() {
                   className="gp-button gp-button--primary"
                   onClick={handleStart}
                 >
-                  Bắt đầu thử thách hôm nay
+                  {copy.startBtn}
                 </button>
               ) : null}
 
@@ -158,7 +155,7 @@ export function GreenQuestPage() {
                   className="gp-button gp-button--forest"
                   onClick={handleComplete}
                 >
-                  Đánh dấu đã hoàn thành
+                  {copy.completeBtn}
                 </button>
               ) : null}
 
@@ -168,7 +165,7 @@ export function GreenQuestPage() {
                   className="gp-button gp-button--secondary"
                   onClick={handleSkip}
                 >
-                  Tạm bỏ qua
+                  {copy.skipBtn}
                 </button>
               ) : null}
 
@@ -178,7 +175,7 @@ export function GreenQuestPage() {
                   className="gp-button gp-button--secondary"
                   onClick={handleReset}
                 >
-                  Đặt lại thử thách
+                  {copy.resetBtn}
                 </button>
               ) : null}
             </div>
@@ -191,29 +188,29 @@ export function GreenQuestPage() {
 
             {progress.status === 'completed' ? (
               <div className="quest-completed-note">
-                <h3>Ghi nhận hoàn thành cục bộ</h3>
+                <h3>{copy.completedBoxTitle}</h3>
                 <p>
-                  Cảm ơn bạn đã thực hiện một lựa chọn xanh thiết thực.
+                  {copy.completedBoxLead}
                   {progress.reflectionNote
-                    ? ` Phản tư đã lưu: “${progress.reflectionNote}”`
-                    : ' Bạn có thể bổ sung ghi chú phản tư bất kỳ lúc nào.'}
+                    ? ` ${copy.completedSavedPrefix} “${progress.reflectionNote}”`
+                    : ` ${copy.completedEmptyHint}`}
                 </p>
               </div>
             ) : null}
 
-            <aside className="quest-honesty-note" aria-label="Lưu ý về lưu trữ cục bộ">
-              <strong>Minh bạch:</strong> {GREEN_QUEST_LITE_CHALLENGE.honestyNote}
+            <aside className="quest-honesty-note" aria-label={copy.honestyAria}>
+              <strong>{copy.honestyLabel}</strong> {copy.challenge.honestyNote}
             </aside>
           </article>
 
           <div className="world-next-strip">
-            <p>Muốn kết hợp hành động với trò chơi hoặc đọc sâu hơn?</p>
+            <p>{copy.nextPrompt}</p>
             <div className="world-next-strip__links">
               <Link className="gp-button gp-button--secondary" to="/games/fact-act/play">
-                Trải nghiệm thử Brainroot - Truth or Dare →
+                {copy.nextPlayLink}
               </Link>
               <Link className="gp-text-link" to="/learn">
-                Đọc 5 chủ đề trong Green Learn
+                {copy.nextLearnLink}
               </Link>
             </div>
           </div>

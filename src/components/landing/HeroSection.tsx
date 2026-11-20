@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
-import { HERO_CONTENT } from '../../data/landing';
+import { useI18n } from '../../i18n/I18nContext';
+import { getHeroCopy } from '../../i18n/siteCopy';
 import { HeroBackground } from './HeroBackground';
 import { MascotLayer } from './MascotLayer';
 import { PrimaryCTA } from './PrimaryCTA';
 
 export function HeroSection() {
+  const { locale } = useI18n();
+  const copy = getHeroCopy(locale);
   const [motionPaused, setMotionPaused] = useState(() => document.hidden);
 
   useEffect(() => {
@@ -18,18 +21,18 @@ export function HeroSection() {
     <section
       className="hero"
       data-motion-paused={motionPaused ? '' : undefined}
-      aria-label={HERO_CONTENT.heroAriaLabel}
+      aria-label={copy.heroAriaLabel}
     >
       <HeroBackground />
 
       <div className="hero__copy">
         <p className="eyebrow">
           <span className="eyebrow__seed" aria-hidden="true" />
-          {HERO_CONTENT.slogan}
+          {copy.slogan}
         </p>
 
         <h1 className="hero__title">
-          {HERO_CONTENT.heading}
+          {copy.heading}
           <span className="h1-sprout" aria-hidden="true">
             <svg viewBox="0 0 60 65" fill="none">
               <path
@@ -55,23 +58,23 @@ export function HeroSection() {
         </h1>
 
         <p className="hero__statement">
-          {HERO_CONTENT.statementLine1}
-          <br className="desktop-break" /> {HERO_CONTENT.statementLine2}
+          {copy.statementLine1}
+          <br className="desktop-break" /> {copy.statementLine2}
         </p>
 
         <PrimaryCTA
-          label={HERO_CONTENT.primaryCtaLabel}
-          href={HERO_CONTENT.primaryCtaHref}
+          label={copy.primaryCtaLabel}
+          href={copy.primaryCtaHref}
         />
       </div>
 
       <MascotLayer />
 
-      <a className="scroll-hint" href={HERO_CONTENT.primaryCtaHref}>
+      <a className="scroll-hint" href={copy.primaryCtaHref}>
         <span className="scroll-hint__icon" aria-hidden="true">
           ↓
         </span>
-        <span>{HERO_CONTENT.scrollHintLabel}</span>
+        <span>{copy.scrollHintLabel}</span>
       </a>
     </section>
   );

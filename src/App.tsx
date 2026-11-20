@@ -4,6 +4,8 @@ import { SiteFooter } from './components/landing/SiteFooter';
 import { SiteHeader } from './components/landing/SiteHeader';
 import { RouteScrollAndFocus } from './components/routing/RouteScrollAndFocus';
 import { HERO_CONTENT } from './data/landing';
+import { I18nProvider, useI18n } from './i18n/I18nContext';
+import { getHeaderCopy, getOAnQuanTabletopCopy } from './i18n/siteCopy';
 import { AboutPage } from './pages/AboutPage';
 import { FactActDetailPage } from './pages/FactActDetailPage';
 import { FactActTrialPage } from './pages/FactActTrialPage';
@@ -23,6 +25,8 @@ const OAnQuan3DPrototype = lazy(
 
 function AppLayout() {
   const location = useLocation();
+  const { locale } = useI18n();
+  const headerCopy = getHeaderCopy(locale);
   const headerVariant = isHomeRoute(location.pathname)
     ? 'overlay-hero'
     : 'solid-ivory';
@@ -32,7 +36,7 @@ function AppLayout() {
       <RouteScrollAndFocus />
 
       <a className="skip-link" href={HERO_CONTENT.skipLinkHref}>
-        {HERO_CONTENT.skipLinkLabel}
+        {headerCopy.skipToMain}
       </a>
 
       <SiteHeader variant={headerVariant} />
@@ -61,6 +65,16 @@ function AppLayout() {
   );
 }
 
+function StandalonePreviewShell() {
+  const { locale } = useI18n();
+  const copy = getOAnQuanTabletopCopy(locale);
+  return (
+    <Suspense fallback={<div className="oq3d-loading">{copy.standaloneLoading}</div>}>
+      <OAnQuan3DPrototype />
+    </Suspense>
+  );
+}
+
 export function App() {
   const isOAnQuanPreview =
     typeof window !== 'undefined' &&
@@ -68,16 +82,18 @@ export function App() {
 
   if (isOAnQuanPreview) {
     return (
-      <Suspense fallback={<div className="oq3d-loading">Đang khởi tạo bản thử nghiệm 3D...</div>}>
-        <OAnQuan3DPrototype />
-      </Suspense>
+      <I18nProvider>
+        <StandalonePreviewShell />
+      </I18nProvider>
     );
   }
 
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <AppLayout />
-    </BrowserRouter>
+    <I18nProvider>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <AppLayout />
+      </BrowserRouter>
+    </I18nProvider>
   );
 }
 

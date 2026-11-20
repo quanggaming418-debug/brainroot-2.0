@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigationType } from 'react-router-dom';
+import { useI18n } from '../../i18n/I18nContext';
 import {
   getRouteDocumentTitle,
   resolveRouteFocusAction,
@@ -8,11 +9,14 @@ import {
 export function RouteScrollAndFocus() {
   const location = useLocation();
   const navigationType = useNavigationType();
+  const { locale } = useI18n();
   const isInitialMountRef = useRef(true);
 
   useEffect(() => {
-    document.title = getRouteDocumentTitle(location.pathname);
+    document.title = getRouteDocumentTitle(location.pathname, locale);
+  }, [location.pathname, locale]);
 
+  useEffect(() => {
     const action = resolveRouteFocusAction({
       hash: location.hash,
       navigationType,

@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { useI18n } from '../../i18n/I18nContext';
+import { getOAnQuanTabletopCopy } from '../../i18n/siteCopy';
 import {
   INITIAL_SANDBOX_COUNTS,
   PITS,
@@ -7,6 +9,8 @@ import {
   type OAnQuanRuleset,
 } from './prototypeOnlyModel';
 import { ThreeBoardRenderer, type ThreeBoardHopTransition } from './threeBoardRenderer';
+
+type PitMeta = (typeof PITS)[number];
 
 interface OAnQuanTabletopExperienceProps {
   readonly mode?: 'embedded' | 'standalone';
@@ -17,18 +21,39 @@ export function OAnQuanTabletopExperience({
   mode = 'embedded',
   ruleset = SANDBOX_RULESET,
 }: OAnQuanTabletopExperienceProps) {
+  const { locale } = useI18n();
+  const copy = getOAnQuanTabletopCopy(locale);
+
+  const formatPitShortName = (pit: PitMeta): string => {
+    if (pit.isQuan) {
+      return pit.id === 'quan-left' ? copy.quanLeft : copy.quanRight;
+    }
+    return pit.id.startsWith('top-')
+      ? `${copy.topRowPrefix} ${pit.id.slice(4)}`
+      : `${copy.bottomRowPrefix} ${pit.id.slice(7)}`;
+  };
+
+  const formatPitDisplay = (pit: PitMeta, count: number): string => {
+    if (locale === 'vi') return pitDisplayLabel(pit, count);
+    return `${formatPitShortName(pit)} (${count} ${copy.seedUnit})`;
+  };
+
   const mountRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<ThreeBoardRenderer | null>(null);
   const pitButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const copyRef = useRef(copy);
+  copyRef.current = copy;
 
   const [counts, setCounts] = useState<readonly number[]>(ruleset.initialCounts);
   const [selected, setSelected] = useState<number>(1);
   const [hovered, setHovered] = useState<number>(-1);
   const [fallbackReason, setFallbackReason] = useState<string | null>(null);
   const [reducedMotion, setReducedMotion] = useState<boolean>(false);
-  const [liveStatus, setLiveStatus] = useState<string>(
-    'Bàn gỗ 3D đang ở chế độ thử nghiệm — chọn một ô và nhấn chuyển thử 1 hạt minh họa.',
-  );
+  const [liveStatus, setLiveStatus] = useState<string>(copy.initialLiveStatus);
+
+  useEffect(() => {
+    setLiveStatus(copy.initialLiveStatus);
+  }, [locale, copy.initialLiveStatus]);
 
   // Track prefers-reduced-motion live
   useEffect(() => {
@@ -59,25 +84,30 @@ export function OAnQuanTabletopExperience({
           onHoverPit: (pitIdx) => setHovered(pitIdx),
           onSelectPit: (pitIdx) => {
             setSelected(pitIdx);
-            setLiveStatus(`Đã chọn ${PITS[pitIdx].label}.`);
+            const c = copyRef.current;
+            const pit = PITS[pitIdx];
+            const name = pit.isQuan
+              ? pit.id === 'quan-left'
+                ? c.quanLeft
+                : c.quanRight
+              : pit.id.startsWith('top-')
+                ? `${c.topRowPrefix} ${pit.id.slice(4)}`
+                : `${c.bottomRowPrefix} ${pit.id.slice(7)}`;
+            setLiveStatus(`${c.selectedPitPrefix} ${name}.`);
           },
           onContextLost: () => {
-            setFallbackReason(
-              'Trình duyệt vừa tạm ngắt ngữ cảnh đồ họa WebGL. Bạn vẫn có thể điều khiển đầy đủ 12 ô bằng lưới nút bên dưới.',
-            );
+            setFallbackReason(copyRef.current.contextLostFallback);
           },
           onContextRestored: () => {
             setFallbackReason(null);
-            setLiveStatus('Đã khôi phục hiển thị bàn gỗ 3D.');
+            setLiveStatus(copyRef.current.contextRestored);
           },
         },
       );
       rendererRef.current = instance;
       setFallbackReason(null);
     } catch {
-      setFallbackReason(
-        'Thiết bị hiện không khởi tạo được WebGL 3D. Lưới 12 ô bên dưới vẫn hoạt động đầy đủ bằng chuột và bàn phím.',
-      );
+      setFallbackReason(copyRef.current.webglInitFallback);
       return;
     }
 
@@ -110,9 +140,16 @@ export function OAnQuanTabletopExperience({
   const handleMoveSeed = () => {
     const result = ruleset.applyAction(counts, selected);
     setCounts(result.counts);
-    setLiveStatus(result.summary);
 
     if (result.moved) {
+      const fromName = formatPitShortName(PITS[result.fromPitIndex]);
+      const toName = formatPitShortName(PITS[result.toPitIndex]);
+      setLiveStatus(
+        locale === 'vi'
+          ? result.summary
+          : copy.movedSeedTemplate(fromName, toName),
+      );
+
       const hop: ThreeBoardHopTransition = {
         fromPitIndex: result.fromPitIndex,
         toPitIndex: result.toPitIndex,
@@ -126,13 +163,19 @@ export function OAnQuanTabletopExperience({
         },
         hop,
       );
+    } else {
+      setLiveStatus(
+        locale === 'vi'
+          ? result.summary
+          : `${formatPitShortName(PITS[selected])} ${copy.emptyPitNotice}`,
+      );
     }
   };
 
   const handleReset = () => {
     setCounts(INITIAL_SANDBOX_COUNTS);
     setSelected(1);
-    setLiveStatus('Đã đặt lại số hạt minh họa ban đầu trên toàn bộ 12 ô.');
+    setLiveStatus(copy.resetStatus);
     rendererRef.current?.resetCamera();
   };
 
@@ -152,7 +195,7 @@ export function OAnQuanTabletopExperience({
       event.preventDefault();
       setSelected(nextIndex);
       pitButtonRefs.current[nextIndex]?.focus();
-      setLiveStatus(`Đang chọn ${PITS[nextIndex].label}.`);
+      setLiveStatus(`${copy.selectedPitPrefix} ${formatPitShortName(PITS[nextIndex])}.`);
     }
   };
 
@@ -163,21 +206,19 @@ export function OAnQuanTabletopExperience({
   return (
     <div
       className={`oq-tabletop oq-tabletop--${mode}`}
-      aria-label="Bàn gỗ Brainroot - Ô ăn quan xanh 3D tương tác"
+      aria-label={copy.ariaLabel}
     >
       <div className="oq-tabletop__notice-bar">
-        <span className="oq-tabletop__badge">Bàn gỗ 3D thử nghiệm</span>
+        <span className="oq-tabletop__badge">{copy.badge}</span>
         <p className="oq-tabletop__notice-text">
-          {ruleset.name}. Kéo nhẹ trên bàn để nghiêng góc nhìn hoặc bấm chọn từng ô.
+          {copy.noticePrefix ?? `${ruleset.name}.`} {copy.noticeHint}
         </p>
       </div>
 
       <div className="oq-tabletop__stage">
         {fallbackReason ? (
           <div className="oq-tabletop__fallback" role="status">
-            <p className="oq-tabletop__fallback-title">
-              Chế độ lưới ô dễ tiếp cận (dự phòng WebGL)
-            </p>
+            <p className="oq-tabletop__fallback-title">{copy.fallbackTitle}</p>
             <p className="oq-tabletop__fallback-body">{fallbackReason}</p>
           </div>
         ) : (
@@ -192,9 +233,9 @@ export function OAnQuanTabletopExperience({
       <div className="oq-tabletop__controls">
         <div className="oq-tabletop__selection">
           <div className="oq-tabletop__selection-copy">
-            <p className="oq-tabletop__selection-label">Ô đang chọn</p>
+            <p className="oq-tabletop__selection-label">{copy.selectionLabel}</p>
             <p className="oq-tabletop__selection-value">
-              {pitDisplayLabel(selectedPit, selectedCount)}
+              {formatPitDisplay(selectedPit, selectedCount)}
             </p>
           </div>
 
@@ -205,14 +246,14 @@ export function OAnQuanTabletopExperience({
               onClick={handleMoveSeed}
               disabled={!canMove}
             >
-              Chuyển thử 1 hạt minh họa
+              {copy.moveBtn}
             </button>
             <button
               type="button"
               className="gp-button gp-button--secondary"
               onClick={handleReset}
             >
-              Đặt lại bàn & góc nhìn
+              {copy.resetBtn}
             </button>
           </div>
         </div>
@@ -222,13 +263,11 @@ export function OAnQuanTabletopExperience({
         </p>
 
         <div className="oq-tabletop__grid-wrap">
-          <p className="oq-tabletop__grid-hint">
-            Điều khiển bàn phím đầy đủ (dùng phím mũi tên Trái/Phải để chuyển qua 12 ô):
-          </p>
+          <p className="oq-tabletop__grid-hint">{copy.gridHint}</p>
           <div
             className="oq-tabletop__pit-grid"
             role="group"
-            aria-label="Danh sách 12 ô trên bàn Brainroot - Ô ăn quan xanh"
+            aria-label={copy.gridAria}
           >
             {PITS.map((pit, index) => {
               const isSelected = index === selected;
@@ -245,20 +284,18 @@ export function OAnQuanTabletopExperience({
                   aria-pressed={isSelected}
                   onClick={() => {
                     setSelected(index);
-                    setLiveStatus(`Đã chọn ${pitDisplayLabel(pit, counts[index])}.`);
+                    setLiveStatus(
+                      `${copy.selectedPitPrefix} ${formatPitDisplay(pit, counts[index])}.`,
+                    );
                   }}
                   onKeyDown={(event) => handlePitKeyDown(index, event)}
                 >
                   <span className="oq-pit-btn__name">
-                    {pit.isQuan
-                      ? pit.id === 'quan-left'
-                        ? 'Quan Trái'
-                        : 'Quan Phải'
-                      : pit.id.startsWith('top-')
-                        ? `Trên ${pit.id.slice(4)}`
-                        : `Dưới ${pit.id.slice(7)}`}
+                    {formatPitShortName(pit)}
                   </span>
-                  <span className="oq-pit-btn__count">{counts[index]} hạt</span>
+                  <span className="oq-pit-btn__count">
+                    {counts[index]} {copy.seedUnit}
+                  </span>
                 </button>
               );
             })}

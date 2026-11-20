@@ -1,8 +1,9 @@
 import { publicUrl } from '../utils/publicUrl';
-import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Suspense, lazy, useRef, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { LearningProgress } from '../components/garden/GardenPrimitives';
+import { useI18n } from '../i18n/I18nContext';
 import {
   FACT_ACT_TRIAL_DISCLOSURE,
   advanceFactToAction,
@@ -18,7 +19,11 @@ import {
   updateReflectionDraft,
 } from '../features/factAct/factActModel';
 
-export function FactActTrialPage() {
+const TruthOrDareExperience = lazy(
+  () => import('../features/truthOrDare/TruthOrDareExperience'),
+);
+
+function LegacyFactActTrialView() {
   const [trialState, setTrialState] = useState(() => createInitialFactActState());
   const stageHeadingRef = useRef<HTMLHeadingElement>(null);
 
@@ -454,5 +459,32 @@ export function FactActTrialPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export function FactActTrialPage() {
+  const [searchParams] = useSearchParams();
+  const { locale } = useI18n();
+
+  if (searchParams.get('mode') === 'legacy') {
+    return <LegacyFactActTrialView />;
+  }
+
+  return (
+    <Suspense
+      fallback={
+        <div className="gp-page tod-loading-shell" role="status" aria-live="polite">
+          <div className="gp-container">
+            <p className="tod-loading-text">
+              {locale === 'en'
+                ? 'Preparing Brainroot - Truth or Dare tabletop...'
+                : 'Đang chuẩn bị bàn chơi Brainroot - Truth or Dare...'}
+            </p>
+          </div>
+        </div>
+      }
+    >
+      <TruthOrDareExperience />
+    </Suspense>
   );
 }

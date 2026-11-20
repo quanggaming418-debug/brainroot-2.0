@@ -1,15 +1,20 @@
 import { Link } from 'react-router-dom';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { DestinationIllustration } from '../components/garden/GardenPrimitives';
-import { GREEN_CONNECT_CONTENT } from '../data/connectAbout';
+import { useI18n } from '../i18n/I18nContext';
+import { getBreadcrumbsUiCopy, getGreenConnectCopy } from '../i18n/siteCopy';
 
 export function GreenConnectPage() {
+  const { locale } = useI18n();
+  const copy = getGreenConnectCopy(locale);
+  const crumbs = getBreadcrumbsUiCopy(locale);
+
   return (
     <div className="gp-page world-page world-page--connect">
       <div className="gp-breadcrumb-bar">
         <Breadcrumbs
           items={[
-            { label: 'Trang chủ', to: '/' },
+            { label: crumbs.homeLabel, to: '/' },
             { label: 'Green Connect' },
           ]}
         />
@@ -18,13 +23,11 @@ export function GreenConnectPage() {
       <section className="world-hero" aria-labelledby="connect-page-title">
         <div className="gp-container world-hero__grid">
           <div className="world-hero__copy">
-            <p className="gp-eyebrow">{GREEN_CONNECT_CONTENT.eyebrow}</p>
+            <p className="gp-eyebrow">{copy.eyebrow}</p>
             <h1 className="gp-detail-hero__title" id="connect-page-title">
-              {GREEN_CONNECT_CONTENT.heading}
+              {copy.heading}
             </h1>
-            <p className="gp-detail-hero__overview">
-              {GREEN_CONNECT_CONTENT.summary}
-            </p>
+            <p className="gp-detail-hero__overview">{copy.summary}</p>
           </div>
           <div className="world-hero__vignette">
             <DestinationIllustration variant="connect" />
@@ -38,14 +41,14 @@ export function GreenConnectPage() {
       >
         <div className="gp-container">
           <div className="gp-section-header gp-section-header--left">
-            <p className="gp-eyebrow">CÁCH CÙNG THAM GIA</p>
+            <p className="gp-eyebrow">{copy.pathwaysEyebrow}</p>
             <h2 className="gp-section-heading" id="connect-pathways-heading">
-              Gợi ý đồng hành theo từng vai trò trong cộng đồng học tập
+              {copy.pathwaysHeading}
             </h2>
           </div>
 
           <div className="connect-grid">
-            {GREEN_CONNECT_CONTENT.pathways.map((pathway) => (
+            {copy.pathways.map((pathway) => (
               <article key={pathway.id} className="connect-card">
                 <span className="trial-topic-pill">{pathway.audience}</span>
                 <h3 className="connect-card__title">{pathway.title}</h3>
@@ -77,21 +80,19 @@ export function GreenConnectPage() {
       <section className="gp-section gp-section--compact">
         <div className="gp-container">
           <aside className="connect-transparency" aria-labelledby="connect-contact-heading">
-            <p className="gp-eyebrow">
-              {GREEN_CONNECT_CONTENT.contactTransparency.eyebrow}
-            </p>
+            <p className="gp-eyebrow">{copy.contactTransparency.eyebrow}</p>
             <h2 className="connect-transparency__title" id="connect-contact-heading">
-              {GREEN_CONNECT_CONTENT.contactTransparency.heading}
+              {copy.contactTransparency.heading}
             </h2>
             <p className="connect-transparency__body">
-              {GREEN_CONNECT_CONTENT.contactTransparency.description}
+              {copy.contactTransparency.description}
             </p>
             <div className="world-next-strip__links">
               <Link className="gp-button gp-button--forest" to="/about">
-                Khám phá câu chuyện Brainroot →
+                {copy.aboutBtn}
               </Link>
               <Link className="gp-text-link" to="/games">
-                Quay lại thư viện Green Play
+                {copy.gamesLink}
               </Link>
             </div>
           </aside>

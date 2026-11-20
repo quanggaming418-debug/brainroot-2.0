@@ -2,10 +2,18 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { GrowthJourneyGraphic } from '../components/garden/GardenPrimitives';
-import { ABOUT_PAGE_CONTENT } from '../data/connectAbout';
-import { LEARNING_JOURNEY_STAGES } from '../data/landing';
+import { useI18n } from '../i18n/I18nContext';
+import {
+  getAboutPageCopy,
+  getBreadcrumbsUiCopy,
+  getLearningJourneyStages,
+} from '../i18n/siteCopy';
 
 export function AboutPage() {
+  const { locale } = useI18n();
+  const copy = getAboutPageCopy(locale);
+  const stages = getLearningJourneyStages(locale);
+  const crumbs = getBreadcrumbsUiCopy(locale);
   const [stageIndex, setStageIndex] = useState(4);
 
   return (
@@ -13,8 +21,8 @@ export function AboutPage() {
       <div className="gp-breadcrumb-bar">
         <Breadcrumbs
           items={[
-            { label: 'Trang chủ', to: '/' },
-            { label: 'Về Brainroot' },
+            { label: crumbs.homeLabel, to: '/' },
+            { label: locale === 'en' ? 'About Brainroot' : 'Về Brainroot' },
           ]}
         />
       </div>
@@ -22,25 +30,19 @@ export function AboutPage() {
       <section className="world-hero" aria-labelledby="about-page-title">
         <div className="gp-container about-page-hero">
           <div>
-            <p className="gp-eyebrow">{ABOUT_PAGE_CONTENT.eyebrow}</p>
+            <p className="gp-eyebrow">{copy.eyebrow}</p>
             <h1 className="gp-detail-hero__title" id="about-page-title">
-              {ABOUT_PAGE_CONTENT.heading}
+              {copy.heading}
             </h1>
             <div className="about-mission-box">
-              <p className="about-mission-box__label">
-                {ABOUT_PAGE_CONTENT.missionLabel}
-              </p>
-              <p className="about-mission-box__text">
-                {ABOUT_PAGE_CONTENT.missionText}
-              </p>
+              <p className="about-mission-box__label">{copy.missionLabel}</p>
+              <p className="about-mission-box__text">{copy.missionText}</p>
             </div>
-            <p className="gp-detail-hero__overview">
-              {ABOUT_PAGE_CONTENT.introBody}
-            </p>
+            <p className="gp-detail-hero__overview">{copy.introBody}</p>
           </div>
 
           <GrowthJourneyGraphic
-            stages={LEARNING_JOURNEY_STAGES}
+            stages={stages}
             activeIndex={stageIndex}
             onSelectStage={setStageIndex}
           />
@@ -53,14 +55,14 @@ export function AboutPage() {
       >
         <div className="gp-container">
           <div className="gp-section-header gp-section-header--left">
-            <p className="gp-eyebrow">{ABOUT_PAGE_CONTENT.audienceEyebrow}</p>
+            <p className="gp-eyebrow">{copy.audienceEyebrow}</p>
             <h2 className="gp-section-heading" id="about-audience-heading">
-              {ABOUT_PAGE_CONTENT.audienceHeading}
+              {copy.audienceHeading}
             </h2>
           </div>
 
           <div className="gp-phygital__grid">
-            {ABOUT_PAGE_CONTENT.audienceCards.map((card, index) => (
+            {copy.audienceCards.map((card, index) => (
               <article className="gp-pillar" key={card.title}>
                 <span className="gp-pillar__index" aria-hidden="true">
                   0{index + 1}
@@ -80,17 +82,15 @@ export function AboutPage() {
         <div className="gp-container">
           <div className="about-start-panel">
             <div className="about-start-panel__copy">
-              <p className="gp-eyebrow">{ABOUT_PAGE_CONTENT.startEyebrow}</p>
+              <p className="gp-eyebrow">{copy.startEyebrow}</p>
               <h2 className="gp-section-heading" id="about-start-heading">
-                {ABOUT_PAGE_CONTENT.startHeading}
+                {copy.startHeading}
               </h2>
-              <p className="about-start-panel__desc">
-                {ABOUT_PAGE_CONTENT.startDescription}
-              </p>
+              <p className="about-start-panel__desc">{copy.startDescription}</p>
             </div>
 
             <div className="about-start-panel__actions">
-              {ABOUT_PAGE_CONTENT.startActions.map((action) => (
+              {copy.startActions.map((action) => (
                 <Link
                   key={action.to}
                   className={

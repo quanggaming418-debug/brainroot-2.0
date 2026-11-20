@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom';
-import { FEATURED_GREEN_PLAY } from '../../data/landing';
+import { useI18n } from '../../i18n/I18nContext';
+import { getFeaturedGreenPlayCopy } from '../../i18n/siteCopy';
 import { BotanicalDivider } from '../garden/GardenPrimitives';
 
 export function FeaturedGreenPlaySection() {
+  const { locale } = useI18n();
+  const copy = getFeaturedGreenPlayCopy(locale);
+
   return (
     <section
       className="featured-play"
-      id={FEATURED_GREEN_PLAY.id}
+      id={copy.id}
       tabIndex={-1}
       aria-labelledby="featured-play-heading"
     >
@@ -23,20 +27,18 @@ export function FeaturedGreenPlaySection() {
             <div>
               <p className="section-overline section-overline--botanical">
                 <span className="section-overline__seed" aria-hidden="true" />
-                <span>{FEATURED_GREEN_PLAY.overline}</span>
+                <span>{copy.overline}</span>
               </p>
               <h2 className="section-heading" id="featured-play-heading">
-                {FEATURED_GREEN_PLAY.heading}
+                {copy.heading}
               </h2>
-              <p className="featured-play__summary">
-                {FEATURED_GREEN_PLAY.summary}
-              </p>
+              <p className="featured-play__summary">{copy.summary}</p>
             </div>
             <Link
               className="gp-button gp-button--forest featured-play__all-btn"
-              to={FEATURED_GREEN_PLAY.primaryCtaTo}
+              to={copy.primaryCtaTo}
             >
-              <span>{FEATURED_GREEN_PLAY.primaryCtaLabel}</span>
+              <span>{copy.primaryCtaLabel}</span>
               <span className="gp-button__arrow" aria-hidden="true">
                 →
               </span>
@@ -44,7 +46,7 @@ export function FeaturedGreenPlaySection() {
           </header>
 
           <div className="featured-play__grid">
-            {FEATURED_GREEN_PLAY.items.map((item) => {
+            {copy.items.map((item) => {
               const isExternalPreview = item.secondaryActionTo.includes('?preview=');
               return (
                 <article

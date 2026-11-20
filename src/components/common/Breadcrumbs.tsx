@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { useI18n } from '../../i18n/I18nContext';
+import { getBreadcrumbsUiCopy } from '../../i18n/siteCopy';
 
 export interface BreadcrumbItem {
   readonly label: string;
@@ -10,8 +12,11 @@ interface BreadcrumbsProps {
 }
 
 export function Breadcrumbs({ items }: BreadcrumbsProps) {
+  const { locale } = useI18n();
+  const ui = getBreadcrumbsUiCopy(locale);
+
   return (
-    <nav className="breadcrumbs" aria-label="Đường dẫn trang">
+    <nav className="breadcrumbs" aria-label={ui.ariaLabel}>
       <ol className="breadcrumbs__list">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;

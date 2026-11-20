@@ -1,0 +1,1863 @@
+/* ==========================================================================
+   Brainroot - Truth or Dare V1 — Storybook 2.5D Restrained Tabletop Styles
+   Palette: Ivory #F8F3E9 · Peach #E79A7C · Sage #A6C6B6 · Green #63894C · Forest #263B31
+   Typography: Be Vietnam Pro (inherited globally)
+   ========================================================================== */
+
+.tod-page {
+  background: var(--color-ivory, #f8f3e9);
+  min-height: calc(100svh - 140px);
+}
+
+.tod-loading-shell {
+  min-height: 70svh;
+  display: grid;
+  place-items: center;
+  background: #f8f3e9;
+  color: #263b31;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.tod-tabletop {
+  position: relative;
+  min-height: clamp(640px, 84svh, 880px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  isolation: isolate;
+  background: #f8f3e9;
+}
+
+.tod-tabletop__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+}
+
+.tod-tabletop__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tod-tabletop__vine {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1200px, 106%);
+  height: auto;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.92;
+}
+
+.tod-tabletop__grass {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1320px, 108%);
+  height: auto;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* ── Minimal Tabletop HUD ──────────────────────────────────────────────── */
+.tod-hud {
+  position: relative;
+  z-index: 6;
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px clamp(16px, 3vw, 36px) 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tod-hud__left,
+.tod-hud__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tod-hud__brand-pill,
+.tod-hud__counter {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 250, 239, 0.9);
+  border: 1px solid rgba(99, 137, 76, 0.25);
+  color: #263b31;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(38, 59, 49, 0.06);
+}
+
+.tod-hud__pill {
+  border: 1px solid rgba(99, 137, 76, 0.34);
+  background: rgba(255, 251, 243, 0.94);
+  color: #263b31;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 15px;
+  min-height: 38px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.tod-hud__pill:hover:not(:disabled) {
+  background: #e9f2e4;
+  border-color: #63894c;
+  transform: translateY(-1px);
+}
+
+.tod-hud__pill:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tod-hud__pill--quiet {
+  border-color: rgba(215, 132, 100, 0.4);
+  color: #7c3f2a;
+}
+
+.tod-hud__pill--quiet:hover:not(:disabled) {
+  background: #fae8dc;
+  border-color: #d78464;
+}
+
+/* Round Storybook Icon Triggers (Rulebook & VI/EN) */
+.tod-round-icon-btn {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #263b31;
+  font-family: inherit;
+  display: inline-grid;
+  place-items: center;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tod-round-icon-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+.tod-round-icon-btn:focus-visible {
+  outline: 3px solid #63894c;
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+.tod-round-icon-btn__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 12px rgba(38, 59, 49, 0.1));
+}
+
+.tod-round-icon-btn__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  gap: 2px;
+}
+
+.tod-book-svg-icon {
+  width: 20px;
+  height: 20px;
+  color: #4f733b;
+}
+
+.tod-round-icon-btn__label {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #263b31;
+}
+
+.tod-lang-code {
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #263b31;
+}
+
+/* ── Main Central Tabletop Stage ───────────────────────────────────────── */
+.tod-stage-shell {
+  position: relative;
+  z-index: 3;
+  flex: 1;
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px clamp(16px, 3vw, 36px) 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tod-stage-center {
+  width: 100%;
+  max-width: 780px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+}
+
+/* ── Scene A: Arrival ──────────────────────────────────────────────────── */
+.tod-arrival {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.tod-arrival__hero {
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) minmax(0, 1fr) minmax(140px, 200px);
+  align-items: center;
+  gap: clamp(14px, 2.6vw, 30px);
+}
+
+.tod-arrival__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.tod-kicker {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #63894c;
+}
+
+.tod-title {
+  margin: 0;
+  font-size: clamp(26px, 3.05vw, 38px);
+  line-height: 1.15;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: #263b31;
+}
+
+.tod-subtitle {
+  margin: 0;
+  max-width: 440px;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: #3d5448;
+}
+
+.tod-arrival__mascot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.tod-arrival__mascot img {
+  width: clamp(140px, 17vw, 215px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 24px rgba(38, 59, 49, 0.14));
+  animation: todFloatGentle 4.6s ease-in-out infinite;
+}
+
+.tod-arrival__mascot--rootie img {
+  animation-delay: -2.1s;
+}
+
+.tod-mascot-tag {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.tod-mascot-tag--truth {
+  background: #d7ebdd;
+  color: #264835;
+  border: 1px solid rgba(99, 137, 76, 0.35);
+}
+
+.tod-mascot-tag--dare {
+  background: #fbe5d4;
+  color: #7c3f2a;
+  border: 1px solid rgba(218, 155, 124, 0.5);
+}
+
+/* Deck Preview Stack */
+.tod-deck-preview {
+  position: relative;
+  width: 220px;
+  height: 180px;
+  margin: 8px 0 4px;
+  display: grid;
+  place-items: center;
+}
+
+.tod-deck-shadow {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: auto;
+  pointer-events: none;
+}
+
+.tod-deck-stack {
+  position: relative;
+  width: 118px;
+  height: 168px;
+}
+
+.tod-deck-stack--compact {
+  width: 74px;
+  height: 102px;
+}
+
+.tod-mini-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(155deg, #fffdf7 0%, #f1e8d6 100%);
+  border: 1.5px solid rgba(99, 137, 76, 0.32);
+  box-shadow: 0 10px 22px rgba(38, 59, 49, 0.14);
+}
+
+.tod-mini-card--back3 {
+  transform: translate(-8px, 6px) rotate(-6deg);
+  background: #ede3cf;
+}
+
+.tod-mini-card--back2 {
+  transform: translate(7px, 3px) rotate(4deg);
+  background: #f5ecdc;
+}
+
+.tod-mini-card--top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.tod-mini-card__edge {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.tod-mini-card__brand {
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  font-weight: 900;
+  color: #63894c;
+  letter-spacing: -0.02em;
+}
+
+.tod-mini-card__sub {
+  position: relative;
+  z-index: 1;
+  font-size: 10px;
+  font-weight: 700;
+  color: #263b31;
+}
+
+/* ── Storybook Tactile Buttons ─────────────────────────────────────────── */
+.tod-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 13px 28px;
+  min-height: 46px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.tod-btn:focus-visible {
+  outline: 3px solid #263b31;
+  outline-offset: 2px;
+}
+
+.tod-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tod-btn--play {
+  background: #63894c;
+  color: #fffcf5;
+  font-size: 17px;
+  padding: 15px 40px;
+  box-shadow: 0 12px 26px rgba(99, 137, 76, 0.32);
+}
+
+.tod-btn--play:hover {
+  background: #52763e;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(99, 137, 76, 0.38);
+}
+
+.tod-btn--primary {
+  background: #63894c;
+  color: #fffcf5;
+  box-shadow: 0 10px 22px rgba(99, 137, 76, 0.25);
+}
+
+.tod-btn--primary:hover:not(:disabled) {
+  background: #52763e;
+  transform: translateY(-2px);
+}
+
+.tod-btn--done {
+  background: #4e7741;
+  color: #fffcf5;
+  padding: 11px 26px;
+  min-height: 44px;
+  box-shadow: 0 8px 18px rgba(78, 119, 65, 0.25);
+}
+
+.tod-btn--done:hover {
+  background: #3f6234;
+  transform: translateY(-1px);
+}
+
+.tod-btn--skip {
+  background: #e79a7c;
+  color: #263b31;
+  padding: 11px 24px;
+  min-height: 44px;
+  box-shadow: 0 8px 18px rgba(231, 154, 124, 0.3);
+}
+
+.tod-btn--skip:hover {
+  background: #df8968;
+  transform: translateY(-1px);
+}
+
+.tod-btn--ghost {
+  background: rgba(255, 250, 240, 0.94);
+  color: #263b31;
+  border: 1.5px solid rgba(38, 59, 49, 0.2);
+}
+
+.tod-btn--ghost:hover:not(:disabled) {
+  background: #efe7d6;
+  transform: translateY(-1px);
+}
+
+/* ── Scene B: Multilayer Elastic Shuffle ───────────────────────────────── */
+.tod-shuffle__field {
+  position: relative;
+  width: min(360px, 88vw);
+  height: 290px;
+  display: grid;
+  place-items: center;
+}
+
+.tod-shuffle__shadow {
+  width: 280px;
+  bottom: 8px;
+}
+
+.tod-shuffle__leaf {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.tod-shuffle__leaf--left {
+  left: 16px;
+  top: 48px;
+  animation: todLeafDriftLeft 1.25s ease-in-out infinite;
+}
+
+.tod-shuffle__leaf--right {
+  right: 16px;
+  bottom: 48px;
+  transform: scaleX(-1);
+  animation: todLeafDriftRight 1.25s ease-in-out infinite;
+}
+
+.tod-shuffle__stack {
+  position: relative;
+  width: 156px;
+  height: 230px;
+  perspective: 900px;
+}
+
+.tod-shuffle__card {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(155deg, #fffdf7 0%, #efe6d4 100%);
+  border: 1.5px solid rgba(99, 137, 76, 0.32);
+  box-shadow: 0 12px 24px rgba(38, 59, 49, 0.16);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.tod-shuffle__edge {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.tod-card-back-emblem {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tod-card-back-emblem span {
+  font-size: 18px;
+  font-weight: 900;
+  color: #63894c;
+}
+
+.tod-card-back-emblem small {
+  font-size: 11px;
+  font-weight: 700;
+  color: #263b31;
+}
+
+.tod-shuffle__card--0 {
+  animation: todRiffleLeft 0.62s cubic-bezier(0.34, 1.4, 0.64, 1) infinite;
+}
+
+.tod-shuffle__card--1 {
+  animation: todRiffleRight 0.62s cubic-bezier(0.34, 1.4, 0.64, 1) 0.08s infinite;
+}
+
+.tod-shuffle__card--2 {
+  animation: todRiffleLeft 0.62s cubic-bezier(0.34, 1.4, 0.64, 1) 0.16s infinite;
+}
+
+.tod-shuffle__card--3 {
+  animation: todRiffleRight 0.62s cubic-bezier(0.34, 1.4, 0.64, 1) 0.24s infinite;
+}
+
+.tod-shuffle__card--4 {
+  animation: todRiffleCenter 0.62s cubic-bezier(0.34, 1.4, 0.64, 1) 0.3s infinite;
+}
+
+.tod-shuffle.is-reduced .tod-shuffle__card,
+.tod-shuffle.is-reduced .tod-shuffle__leaf {
+  animation: none;
+}
+
+.tod-stage-caption {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #3a5245;
+}
+
+/* ── Scene C: Choose Truth vs Dare ─────────────────────────────────────── */
+.tod-stage-heading {
+  margin: 0;
+  font-size: clamp(22px, 2.8vw, 30px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #263b31;
+}
+
+.tod-choice-grid {
+  width: 100%;
+  max-width: 600px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 4px;
+}
+
+.tod-choice-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 18px 20px;
+  border-radius: 26px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+.tod-choice-card--truth {
+  background: linear-gradient(160deg, #eaf5ec 0%, #d8ecde 100%);
+  border-color: rgba(99, 137, 76, 0.42);
+  box-shadow: 0 14px 28px rgba(99, 137, 76, 0.14);
+}
+
+.tod-choice-card--dare {
+  background: linear-gradient(160deg, #fff1e6 0%, #f9d8c2 100%);
+  border-color: rgba(218, 155, 124, 0.55);
+  box-shadow: 0 14px 28px rgba(218, 155, 124, 0.18);
+}
+
+.tod-choice-card:hover:not(:disabled) {
+  transform: translateY(-5px);
+}
+
+.tod-choice-card--truth:hover:not(:disabled) {
+  border-color: #63894c;
+  box-shadow: 0 18px 36px rgba(99, 137, 76, 0.24);
+}
+
+.tod-choice-card--dare:hover:not(:disabled) {
+  border-color: #d4825e;
+  box-shadow: 0 18px 36px rgba(212, 130, 94, 0.28);
+}
+
+.tod-choice-card.is-locked {
+  opacity: 0.48;
+  filter: grayscale(0.4);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tod-choice-card__art img {
+  width: clamp(104px, 14vw, 142px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 16px rgba(38, 59, 49, 0.14));
+}
+
+.tod-choice-card__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.tod-choice-card__mascot {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #465d51;
+}
+
+.tod-choice-card__label {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #263b31;
+}
+
+.tod-rule-lock-note {
+  margin: 0;
+  padding: 10px 18px;
+  border-radius: 14px;
+  background: rgba(251, 229, 212, 0.85);
+  border: 1px solid rgba(212, 130, 94, 0.45);
+  color: #6f3723;
+  font-size: 13.5px;
+  font-weight: 700;
+  max-width: 520px;
+}
+
+/* ── Scene D & E: Pull & Digital 2-Face Flip ───────────────────────────── */
+.tod-card-arena {
+  position: relative;
+  width: 100%;
+  min-height: 410px;
+  display: grid;
+  place-items: center;
+}
+
+.tod-back-deck-anchor {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 360px;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.tod-back-deck-stack {
+  position: relative;
+  width: 230px;
+  height: 356px;
+}
+
+.tod-back-deck-sheet {
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  background: #ede4d2;
+  border: 1.5px solid rgba(99, 137, 76, 0.25);
+  box-shadow: 0 12px 24px rgba(38, 59, 49, 0.12);
+}
+
+.tod-back-deck-sheet--2 {
+  transform: translate(-10px, 8px) rotate(-3deg);
+}
+
+.tod-back-deck-sheet--1 {
+  transform: translate(6px, 4px) rotate(2deg);
+}
+
+.tod-flip-perspective {
+  position: relative;
+  z-index: 2;
+  width: min(270px, 82vw);
+  aspect-ratio: 420 / 640;
+  perspective: 1250px;
+  transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tod-flip-perspective.is-deck-top {
+  transform: translateY(-10px) scale(0.95);
+  cursor: pointer;
+}
+
+.tod-flip-perspective.is-pulling {
+  animation: todPullSlide 520ms cubic-bezier(0.22, 1.12, 0.36, 1) forwards;
+}
+
+.tod-flip-perspective.is-centered {
+  transform: translateY(0) scale(1);
+  cursor: pointer;
+}
+
+.tod-flip-perspective.is-flipped {
+  transform: translateY(0) scale(1.02);
+}
+
+.tod-card-3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 680ms cubic-bezier(0.25, 0.85, 0.25, 1);
+  border-radius: 26px;
+  box-shadow:
+    0 22px 44px rgba(38, 59, 49, 0.18),
+    0 4px 0 #e6dcc7;
+}
+
+.tod-card-3d.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.tod-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 26px;
+  overflow: hidden;
+}
+
+.tod-card-face--back {
+  background: linear-gradient(155deg, #fffdf8 0%, #f1e8d6 100%);
+  border: 1.5px solid rgba(99, 137, 76, 0.3);
+}
+
+.tod-card-face--front {
+  transform: rotateY(180deg);
+}
+
+.tod-card-face__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.tod-card-back__inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  padding: 28px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tod-card-back__leaf {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
+  opacity: 0.65;
+}
+
+.tod-card-back__crest img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(38, 59, 49, 0.14));
+}
+
+.tod-card-back__brand {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 900;
+  color: #63894c;
+  letter-spacing: -0.02em;
+}
+
+.tod-card-back__side-badge {
+  margin: 0;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(99, 137, 76, 0.3);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #263b31;
+}
+
+.tod-card-back__pair {
+  font-size: 12px;
+  font-weight: 700;
+  color: #5b7266;
+}
+
+/* Front Face Content (ONLY chosen side) */
+.tod-card-front__content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  padding: 28px 30px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  gap: 10px;
+}
+
+.tod-card-front__top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tod-card-front__badge {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 252, 245, 0.88);
+  color: #263b31;
+}
+
+.tod-card-front__id {
+  font-size: 12px;
+  font-weight: 800;
+  color: #3a5245;
+}
+
+.tod-card-front__mascot img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(38, 59, 49, 0.14));
+}
+
+.tod-card-front__prompt-box {
+  width: 100%;
+  padding: 16px 14px;
+  border-radius: 18px;
+  background: rgba(255, 252, 246, 0.86);
+  border: 1px solid rgba(38, 59, 49, 0.1);
+}
+
+.tod-card-front__prompt {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 700;
+  color: #263b31;
+}
+
+.tod-card-front__slot-title {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 900;
+  color: #263b31;
+}
+
+.tod-card-front__slot-body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #3d5448;
+}
+
+.tod-card-front__sealed {
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #465d51;
+}
+
+.tod-stage-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.tod-stage-hint {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #445a4e;
+}
+
+.tod-tiny-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tod-done-box {
+  padding: 28px 24px;
+  border-radius: 28px;
+  background: rgba(255, 251, 242, 0.94);
+  border: 1.5px solid rgba(166, 198, 182, 0.7);
+  box-shadow: 0 18px 36px rgba(38, 59, 49, 0.1);
+}
+
+.tod-done-box__sparkles {
+  width: 52px;
+  height: 52px;
+}
+
+/* ── Shared Modal Backdrop ─────────────────────────────────────────────── */
+.tod-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(24, 39, 31, 0.66);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  overflow-y: auto;
+}
+
+/* ── Green Penalty 15-? Mystery Wheel Modal ────────────────────────────── */
+.tod-wheel-dialog {
+  position: relative;
+  width: min(540px, 95vw);
+  border-radius: 32px;
+  background: #fffaf0;
+  border: 3px solid #d9dfce;
+  box-shadow: 0 26px 60px rgba(24, 38, 30, 0.32);
+  overflow: hidden;
+}
+
+.tod-wheel-dialog__inner {
+  position: relative;
+  z-index: 1;
+  padding: 26px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.tod-wheel-dialog__title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 900;
+  color: #263b31;
+}
+
+.tod-wheel-dialog__sub {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #465d51;
+}
+
+.tod-wheel-frame-box {
+  position: relative;
+  width: 100%;
+  padding: 22px 16px 18px;
+  display: grid;
+  place-items: center;
+}
+
+.tod-wheel-dialog__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.tod-wheel-stage {
+  position: relative;
+  z-index: 1;
+  width: min(290px, 72vw);
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  margin-top: 6px;
+}
+
+.tod-wheel-pointer {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: auto;
+  z-index: 4;
+  filter: drop-shadow(0 4px 6px rgba(38, 59, 49, 0.25));
+}
+
+.tod-wheel-rotor {
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  transition: transform 3.45s cubic-bezier(0.14, 0.85, 0.22, 1);
+}
+
+.tod-wheel-rotor.is-reduced {
+  transition: transform 220ms ease-out;
+}
+
+.tod-wheel-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tod-wheel-status {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #4f733b;
+}
+
+.tod-wheel-result {
+  position: relative;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #edf6eb;
+  border: 1.5px solid rgba(99, 137, 76, 0.4);
+}
+
+.tod-wheel-result__sparkle {
+  position: absolute;
+  top: -12px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+}
+
+.tod-wheel-result__heading {
+  margin: 0 0 4px;
+  font-size: 15.5px;
+  font-weight: 900;
+  color: #263b31;
+}
+
+.tod-wheel-result__body {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #3d5448;
+}
+
+.tod-wheel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* ── Hardcover Storybook Rulebook Modal ────────────────────────────────── */
+.tod-rulebook-shell {
+  width: min(920px, 96vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.tod-rulebook-topbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fffaf0;
+}
+
+.tod-rulebook-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: #fffaf0;
+}
+
+.tod-icon-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 250, 240, 0.35);
+  background: rgba(38, 59, 49, 0.72);
+  color: #fffaf0;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.tod-icon-close:hover {
+  background: #263b31;
+}
+
+.tod-book-cover {
+  position: relative;
+  width: min(360px, 82vw);
+  aspect-ratio: 900 / 1180;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  animation: todBookPop 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tod-book-cover__bg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 24px 40px rgba(18, 29, 23, 0.42));
+}
+
+.tod-book-cover__overlay {
+  position: absolute;
+  inset: 14% 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #fffaf0;
+  text-align: center;
+}
+
+.tod-book-cover__sparkles {
+  width: 46px;
+  height: 46px;
+}
+
+.tod-book-cover__kicker {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #d7ebdd;
+}
+
+.tod-book-cover__heading {
+  font-size: 30px;
+  font-weight: 900;
+  color: #fffaf0;
+}
+
+.tod-book-cover__cta {
+  margin-top: 8px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: #e79a7c;
+  color: #263b31;
+  font-size: 13.5px;
+  font-weight: 800;
+}
+
+.tod-book-open-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.tod-book-spread {
+  position: relative;
+  width: 100%;
+  display: grid;
+  border-radius: 20px;
+  background: #4e6d45;
+  padding: 12px;
+  box-shadow: 0 28px 60px rgba(18, 29, 23, 0.45);
+  perspective: 1400px;
+}
+
+.tod-book-spread.is-double {
+  grid-template-columns: 1fr 12px 1fr;
+}
+
+.tod-book-spread.is-single {
+  grid-template-columns: 1fr;
+  max-width: 420px;
+}
+
+.tod-book-spread.is-turning-next .tod-book-page--right {
+  animation: todTurnNext 360ms ease-out;
+}
+
+.tod-book-spread.is-turning-prev .tod-book-page--left {
+  animation: todTurnPrev 360ms ease-out;
+}
+
+.tod-book-spine {
+  background: linear-gradient(
+    to right,
+    rgba(38, 59, 49, 0.25),
+    rgba(38, 59, 49, 0.06) 50%,
+    rgba(38, 59, 49, 0.25)
+  );
+  border-radius: 4px;
+}
+
+.tod-book-page {
+  position: relative;
+  min-height: 440px;
+  border-radius: 12px;
+  background: #fffaf0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tod-book-page__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.tod-book-page__tape {
+  position: absolute;
+  top: 10px;
+  left: 18px;
+  width: 72px;
+  height: auto;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.tod-book-page__leaf {
+  position: absolute;
+  bottom: 14px;
+  right: 16px;
+  width: 52px;
+  height: auto;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.tod-book-page__content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  padding: 36px 28px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.tod-book-kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #63894c;
+}
+
+.tod-book-heading {
+  margin: 0;
+  font-size: 21px;
+  line-height: 1.25;
+  font-weight: 900;
+  color: #263b31;
+}
+
+.tod-book-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 8px 0;
+}
+
+.tod-book-art img {
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(38, 59, 49, 0.12));
+}
+
+.tod-book-body {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #364d41;
+}
+
+.tod-book-list {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #263b31;
+}
+
+.tod-book-footnote {
+  margin: auto 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #5b7165;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(99, 137, 76, 0.28);
+}
+
+.tod-book-pagenum {
+  align-self: flex-end;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #63894c;
+}
+
+.tod-rulebook-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.tod-rulebook-counter {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #fffaf0;
+  min-width: 110px;
+  text-align: center;
+}
+
+/* ── Floating Official Brainie Offline FAQ Popover ─────────────────────── */
+.tod-bot-anchor {
+  position: fixed;
+  right: clamp(14px, 2.4vw, 28px);
+  bottom: clamp(14px, 2.4vw, 26px);
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.tod-bot-fab {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 2.5px solid #fffaf0;
+  background: linear-gradient(155deg, #fff8ec 0%, #f9e2cf 100%);
+  box-shadow: 0 12px 28px rgba(38, 59, 49, 0.22);
+  padding: 5px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tod-bot-fab:hover {
+  transform: translateY(-3px) scale(1.04);
+}
+
+.tod-bot-fab img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.tod-bot-popover {
+  position: relative;
+  width: min(350px, calc(100vw - 28px));
+  max-height: min(500px, calc(100svh - 120px));
+  border-radius: 26px;
+  background: #fff9ed;
+  box-shadow: 0 22px 48px rgba(28, 43, 35, 0.24);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tod-bot-popover__border {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.tod-bot-popover__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: inherit;
+  padding: 14px 16px 14px;
+  gap: 10px;
+}
+
+.tod-bot-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(166, 198, 182, 0.6);
+}
+
+.tod-bot-header__id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tod-bot-header__avatar {
+  object-fit: contain;
+}
+
+.tod-bot-header__title {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 900;
+  color: #263b31;
+}
+
+.tod-bot-offline-pill {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #e2f0e4;
+  color: #2b5439;
+  font-size: 10.5px;
+  font-weight: 800;
+}
+
+.tod-bot-close {
+  border: none;
+  background: transparent;
+  color: #465d51;
+  font-size: 16px;
+  font-weight: 800;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.tod-bot-close:hover {
+  background: rgba(38, 59, 49, 0.08);
+}
+
+.tod-bot-messages {
+  flex: 1;
+  min-height: 120px;
+  max-height: 210px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.tod-bot-bubble {
+  padding: 10px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.48;
+  max-width: 92%;
+}
+
+.tod-bot-bubble--brainie {
+  align-self: flex-start;
+  background: #eef5ea;
+  color: #263b31;
+  border-bottom-left-radius: 6px;
+}
+
+.tod-bot-bubble--user {
+  align-self: flex-end;
+  background: #f8dfd0;
+  color: #263b31;
+  font-weight: 600;
+  border-bottom-right-radius: 6px;
+}
+
+.tod-bot-bubble--typing {
+  padding: 8px 12px;
+}
+
+.tod-bot-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tod-bot-chip {
+  border: 1px solid rgba(99, 137, 76, 0.35);
+  background: #ffffff;
+  color: #263b31;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 160ms ease;
+}
+
+.tod-bot-chip:hover {
+  background: #e8f3e4;
+}
+
+.tod-bot-form {
+  display: flex;
+  gap: 6px;
+}
+
+.tod-bot-input {
+  flex: 1;
+  min-width: 0;
+  border: 1.5px solid rgba(99, 137, 76, 0.35);
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 8px 13px;
+  font-family: inherit;
+  font-size: 13px;
+  color: #263b31;
+}
+
+.tod-bot-send {
+  border: none;
+  background: #63894c;
+  color: #fffcf5;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 800;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.tod-bot-send:hover {
+  background: #52763e;
+}
+
+/* ── Keyframes ─────────────────────────────────────────────────────────── */
+@keyframes todFloatGentle {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes todRiffleLeft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  42% {
+    transform: translate3d(-56px, -10px, 0) rotate(-11deg);
+  }
+  72% {
+    transform: translate3d(8px, -4px, 0) rotate(2deg);
+  }
+}
+
+@keyframes todRiffleRight {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  42% {
+    transform: translate3d(56px, -12px, 0) rotate(11deg);
+  }
+  72% {
+    transform: translate3d(-8px, -3px, 0) rotate(-2deg);
+  }
+}
+
+@keyframes todRiffleCenter {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -16px, 0) scale(1.03);
+  }
+}
+
+@keyframes todLeafDriftLeft {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-12deg);
+  }
+  50% {
+    transform: translate(-10px, -8px) rotate(-24deg);
+  }
+}
+
+@keyframes todLeafDriftRight {
+  0%,
+  100% {
+    transform: scaleX(-1) translate(0, 0) rotate(-10deg);
+  }
+  50% {
+    transform: scaleX(-1) translate(-10px, -8px) rotate(-22deg);
+  }
+}
+
+@keyframes todPullSlide {
+  0% {
+    transform: translateY(-28px) scale(0.92) rotate(-2deg);
+  }
+  55% {
+    transform: translateY(-42px) scale(1.04) rotate(1deg);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes todBookPop {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes todTurnNext {
+  0% {
+    transform: rotateY(-24deg);
+    box-shadow: -14px 0 28px rgba(38, 59, 49, 0.22);
+  }
+  100% {
+    transform: rotateY(0deg);
+    box-shadow: none;
+  }
+}
+
+@keyframes todTurnPrev {
+  0% {
+    transform: rotateY(24deg);
+    box-shadow: 14px 0 28px rgba(38, 59, 49, 0.22);
+  }
+  100% {
+    transform: rotateY(0deg);
+    box-shadow: none;
+  }
+}
+
+/* ── Responsive Layout (Tablet & Mobile 390px / 320px) ─────────────────── */
+@media (max-width: 820px) {
+  .tod-arrival__hero {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .tod-arrival__center {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+
+  .tod-arrival__mascot img {
+    width: clamp(110px, 32vw, 150px);
+  }
+}
+
+@media (max-width: 560px) {
+  .tod-tabletop {
+    min-height: calc(100svh - 110px);
+  }
+
+  .tod-hud {
+    padding: 14px 12px 4px;
+  }
+
+  .tod-round-icon-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .tod-choice-grid {
+    gap: 12px;
+  }
+
+  .tod-choice-card {
+    padding: 16px 10px 14px;
+    border-radius: 20px;
+  }
+
+  .tod-choice-card__label {
+    font-size: 20px;
+  }
+
+  .tod-card-arena {
+    min-height: 365px;
+  }
+
+  .tod-flip-perspective {
+    width: min(248px, 78vw);
+  }
+
+  .tod-book-page {
+    min-height: 380px;
+  }
+
+  .tod-book-page__content {
+    padding: 30px 20px 20px;
+  }
+
+  .tod-bot-fab {
+    width: 58px;
+    height: 58px;
+  }
+}
+
+@media (max-width: 350px) {
+  .tod-title {
+    font-size: 24px;
+  }
+
+  .tod-hud__counter,
+  .tod-hud__pill {
+    font-size: 12px;
+    padding: 6px 11px;
+  }
+
+  .tod-flip-perspective {
+    width: 224px;
+  }
+}
+
+/* ── Accessibility: Reduced Motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tod-arrival__mascot img,
+  .tod-shuffle__card,
+  .tod-shuffle__leaf,
+  .tod-flip-perspective.is-pulling,
+  .tod-book-cover,
+  .tod-book-spread.is-turning-next .tod-book-page--right,
+  .tod-book-spread.is-turning-prev .tod-book-page--left {
+    animation: none !important;
+  }
+
+  .tod-card-3d,
+  .tod-flip-perspective,
+  .tod-wheel-rotor,
+  .tod-choice-card,
+  .tod-btn,
+  .tod-round-icon-btn,
+  .tod-bot-fab {
+    transition-duration: 0.01ms !important;
+  }
+}

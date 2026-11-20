@@ -1,5 +1,17 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 (19:30) — BR-T025 Truth or Dare V1 UI & Global VI/EN i18n · Google AI Studio → Product Owner & Codex
+
+- **Trạng thái:** **`IN_REVIEW`** (`NOT COMMITTED` vì container AI Studio không có `.git`). Bảo toàn nguyên vẹn Hero V4, Four Garden Windows 4 WebP, Ô ăn quan 3D Three.js, React Router, cấu hình GitHub Pages (`base: '/brainroot-2.0/'`) và bản chơi thử cũ tại `/games/fact-act/play?mode=legacy` (rollback không rủi ro).
+- **Phạm vi đã triển khai & xác minh:**
+  - **Brainroot - Truth or Dare V1 (`/games/fact-act/play`):** Sử dụng đủ 19 SVG từ `public/assets/truth-or-dare/v1/experience/` + `brainie.webp` & `rootie.webp` qua `publicUrl()`. Đầy đủ 7 cảnh A–G: Arrival (`Chơi`/`Play`) → Trộn bài đa lớp tức thì → Chọn Brainie (`Truth`) hoặc Rootie (`Dare`) trước khi rút với **luật cấm chọn Truth 2 lượt liên tiếp** → Kéo lá trên cùng → Lật 2 mặt 3D chỉ mở đúng mặt đã chọn (`truth_face_base.svg` sage / `dare_face_base.svg` peach) → `Xong`/`Bỏ qua` → **Vòng quay Hình phạt Xanh 15 ô `?`** chỉ mở kết quả sau khi dừng + nút `Dừng` không phạt, không lặp thẻ trong phiên.
+  - **Sách luật bìa cứng (`HardcoverRulebookModal.tsx`):** Mở bìa cứng → 2 trang trải rộng trên desktop (`>= 768px`) / 1 trang trên mobile (`< 768px`), hỗ trợ phím `ArrowLeft`/`ArrowRight`/`Escape` và `prefers-reduced-motion`.
+  - **Brainie `FAQ Ngoại tuyến` (`BrainieFaqPopover.tsx`):** Nút nổi dùng `brainie.webp` gốc + hộp thoại gọn gắn nhãn `FAQ Ngoại tuyến`/`Offline FAQ`, trả lời đúng luật đã xác nhận, từ chối trung thực câu ngoài phạm vi, 0 API key ở frontend, kèm đặc tả proxy server-side `gemini-3.5-flash` trong `FUTURE_GEMINI_PROXY_ARCHITECTURE`.
+  - **Chuyển ngôn ngữ toàn site `VI / EN` (`src/i18n/I18nContext.tsx`, `src/i18n/siteCopy.ts`):** Công tắc `VI / EN` ở header desktop/mobile đồng bộ với nút ngôn ngữ trên bàn chơi, lưu `localStorage` (`brainroot.locale.v1`), cập nhật `<html lang>`, `document.title`, `<meta name="description">` mà không làm mất tiến độ ván chơi.
+  - **Cổng nội dung trung thực:** 16 cặp thẻ (`TD-01..TD-16`) và 15 ô hình phạt (`GP-01..GP-15`) giữ trường văn bản `null` (không bịa câu hỏi/hành động/hình phạt/trích dẫn PDF pp.66–67), sẵn sàng nạp nguyên văn ngay khi Product Owner phê duyệt.
+- **Kiểm thử đã chạy thực tế:** `npx --yes tsx --test tests/*.test.ts` **PASS (39/39)** · `npm run typecheck` **PASS (0 lỗi)** · `npm run build` **PASS** · Playwright Chromium (`1440×900`, `390×844`, `320×568` + `prefers-reduced-motion` + `?mode=legacy`) **PASS (0 lỗi console, 0 ảnh vỡ, 0 tràn ngang)** · 18 ảnh chụp toàn luồng lưu tại `.aistudio/artifacts/computer_use/truth-or-dare-v1/` · `npm run lint`: **`NOT RUN`** (`package.json` chưa có script `lint`).
+- **Bước tiếp theo:** (1) Product Owner duyệt trực quan bộ 18 ảnh chụp & phê duyệt nạp nguyên văn 16 cặp thẻ VI/EN + sách luật pp.66–67 + 15 Hình phạt Xanh; (2) Codex rà soát diff trên Git (đối chiếu PR #5 & `BR-T024`), chạy QA độc lập và mở PR review.
+
 ## 2026-11-20 — BR-T025 · Truth or Dare V1
 
 - 19 SVG trang trí chờ review trên `codex/truth-or-dare-v1-assets`; tham khảo `design/truth-or-dare-v1/README.md` khi AI Studio được giao tích hợp. Kit gốc và dữ liệu chưa duyệt giữ ở staging cục bộ ngoài repo.

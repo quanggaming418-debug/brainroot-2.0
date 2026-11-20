@@ -1,9 +1,13 @@
 import { publicUrl } from '../../utils/publicUrl';
 import { Link } from 'react-router-dom';
-import { FOOTER_CONTENT } from '../../data/landing';
+import { useI18n } from '../../i18n/I18nContext';
+import { getFooterCopy } from '../../i18n/siteCopy';
 import { BotanicalDivider } from '../garden/GardenPrimitives';
 
 export function SiteFooter() {
+  const { locale } = useI18n();
+  const copy = getFooterCopy(locale);
+
   return (
     <footer className="site-footer site-footer--organic">
       <BotanicalDivider
@@ -19,26 +23,26 @@ export function SiteFooter() {
             <Link className="site-footer__logo" to="/">
               <img
                 src={publicUrl('/assets/aistudio/brainie_1a0fca92.webp')}
-                alt="Biểu trưng Brainroot"
+                alt={copy.logoAlt}
                 className="brand__mascot-img"
               />
               <span>
                 brainroot<span className="brand__period">.</span>
               </span>
             </Link>
-            <p className="site-footer__brand">{FOOTER_CONTENT.brandText}</p>
-            <p className="site-footer__mission">{FOOTER_CONTENT.missionShort}</p>
+            <p className="site-footer__brand">{copy.brandText}</p>
+            <p className="site-footer__mission">{copy.missionShort}</p>
           </div>
 
           <nav
             className="site-footer__col site-footer__nav-group"
-            aria-label="Điều hướng hệ sinh thái Brainroot"
+            aria-label={copy.ecosystemNavAria}
           >
-            <h2 className="site-footer__heading">Hệ sinh thái</h2>
+            <h2 className="site-footer__heading">{copy.ecosystemHeading}</h2>
             <ul className="site-footer__list">
               <li>
                 <Link className="site-footer__link" to="/">
-                  Trang chủ
+                  {copy.homeLink}
                 </Link>
               </li>
               <li>
@@ -61,9 +65,9 @@ export function SiteFooter() {
 
           <nav
             className="site-footer__col site-footer__nav-group"
-            aria-label="Sản phẩm và dự án Brainroot"
+            aria-label={copy.productsNavAria}
           >
-            <h2 className="site-footer__heading">Sản phẩm & Dự án</h2>
+            <h2 className="site-footer__heading">{copy.productsHeading}</h2>
             <ul className="site-footer__list">
               <li>
                 <Link className="site-footer__link" to="/games/fact-act">
@@ -82,7 +86,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link className="site-footer__link" to="/about">
-                  Về Brainroot
+                  {copy.aboutLink}
                 </Link>
               </li>
             </ul>
@@ -90,10 +94,8 @@ export function SiteFooter() {
         </div>
 
         <div className="site-footer__bottom">
-          <p className="site-footer__copyright">{FOOTER_CONTENT.copyrightText}</p>
-          <p className="site-footer__slogan-bottom">
-            {FOOTER_CONTENT.bottomSlogan}
-          </p>
+          <p className="site-footer__copyright">{copy.copyrightText}</p>
+          <p className="site-footer__slogan-bottom">{copy.bottomSlogan}</p>
         </div>
       </div>
     </footer>
