@@ -1,13 +1,13 @@
 # PROJECT_STATE — Read before every agent run
 
-**Updated:** 2026-11-20 (BR-T003 Hero V4 & App Shell implemented by Google AI Studio; pending Codex review)  
-**Phase:** BR-T003 implemented (Design System, Application Shell, Hero V4 & 4-area Ecosystem intro) — `IN_REVIEW`.  
-**Current release:** R0 proposed (scope BR-T003 approved; remaining R0 tasks pending).  
-**Current active Task ID:** `BR-T003` (`IN_REVIEW` — ready for Codex review & GitHub sync). Next queued: `BR-T004` (after review/approval).  
-**Last verified build:** PASS — `npx --yes tsx --test tests/br-t003.test.ts` (5/5 pass), `npm run typecheck`, `npm run build`, and headless Chromium Playwright check across 1440×900, 390×844, 320×740 + reduced-motion (0 console errors). `npm run lint` NOT RUN (no lint script configured in `package.json`).  
-**Repository commit SHA:** NOT COMMITTED (no `.git` directory in AI Studio workspace; sync via supported GitHub workflow).  
-**Deployment URL:** NOT CREATED for Brainroot 2.0.
-**Hero reference:** `reference/hero-v4/`; **asset copies:** `public/assets/hero-v4/`.  
+- **Updated:** 2026-11-20 (Codex hoàn tất sửa và xác minh độc lập BR-T003.)
+- **Phase:** BR-T003 — `DONE` theo tiêu chí nghiệm thu cục bộ. Bản sửa chưa commit.
+- **Current release:** R0 proposed (scope BR-T003 approved; remaining R0 tasks pending).
+- **Current active Task ID:** Không có. `BR-T004` đang chờ giao riêng.
+- **Last verified build:** PASS — `npm run typecheck`, `npm run build`, `npx --yes tsx --test tests/br-t003.test.ts` (5/5), `npm audit` (0 lỗ hổng). Playwright Chromium trên bản build PASS ở 1440×900, 390×844, 320×740, có kiểm tra focus, motion, tương phản chữ và 0 lỗi console. Xem `logs/CODEX_LOG.md`.
+- **Repository branch / HEAD:** `codex/br-t003-remediation` / `275f5ed4d64811c079540135ef42abc4d447b634`. Bản sửa nằm trong working tree, **NOT COMMITTED**.
+- **Deployment URL:** NOT CREATED for Brainroot 2.0.
+- **Hero reference:** `reference/hero-v4/`; **asset copies:** `public/assets/hero-v4/`.
 
 ## Established context
 - Rebuild website from zero; do **not** reuse old web code as project base.
@@ -32,4 +32,4 @@
 - Existing Brainroot survey totals and old website functional descriptions are not independently verified from raw data.
 
 ## Immediate next action
-Sync BR-T003 changes to GitHub and have Codex review code, accessibility, and build before marking `BR-T003` `DONE` and proceeding to `BR-T004` (Game Catalog).
+Owner xem diff bản sửa BR-T003 và quyết định commit. BR-T004 cần được giao riêng. Giải quyết quyền xuất bản artwork theo BR-T002 trước khi đưa artwork lên bản công khai.

@@ -1,11 +1,20 @@
-# Brainroot 2.0 — GitHub/Ai Studio Ready Project
+# Brainroot 2.0
 
-**Đây là repo starter cho Google AI Studio, chưa phải website hoàn chỉnh.** Đọc `docs/GITHUB_AI_STUDIO_IMPORT.md` trước khi import.
+Repo chứa trang giới thiệu Brainroot bằng React và TypeScript. Xem `planning/PROJECT_STATE.md` để biết trạng thái hiện tại và `docs/GITHUB_AI_STUDIO_IMPORT.md` nếu làm việc với Google AI Studio.
 
-- `src/` là React + TypeScript khởi tạo (Task BR-T003 vẫn TODO).
+- `src/` chứa Hero V4 và phần giới thiệu bốn khu vực của hệ sinh thái.
 - `reference/hero-v4/` lưu nguyên demo tĩnh Hero V4.
-- `public/assets/hero-v4/` chứa các artwork cần tích hợp bằng React.
+- `public/assets/hero-v4/` chứa artwork dùng trong Hero.
 - `AGENTS.md`, `docs/`, `planning/`, `logs/` là tài liệu làm việc và nhật ký AI.
+
+## Chạy trên máy
+
+```sh
+npm ci
+npm run dev
+```
+
+Kiểm tra bằng `npm run typecheck`, `npm run build` và `npx --yes tsx --test tests/br-t003.test.ts`.
 
 ---
 
@@ -16,7 +25,7 @@
 **Mission (nguyên văn):** “DỰ ÁN NÂNG CAO NHẬN THỨC VÀ KẾT NỐI GIỚI TRẺ VỀ KỸ NĂNG XANH THÔNG QUA SẢN PHẨM GIÁO DỤC TƯƠNG TÁC.”  
 **Slogan (nguyên văn):** “From Brainrot to Brainroot”.
 
-Đây là **gói tài liệu**, không phải mã nguồn ứng dụng đã chạy. Copy toàn bộ file/folder vào root của repository Brainroot 2.0 mới, sau đó chỉnh các mục `TO CONFIRM` trước khi đưa yêu cầu làm code cho agent.
+Tài liệu dưới đây ghi lại định hướng sản phẩm và quy trình làm việc. Xác nhận các mục `TO CONFIRM` với product owner trước khi triển khai phần liên quan.
 
 ## Bắt đầu theo đúng thứ tự
 1. Người phụ trách sản phẩm đọc `docs/PRD.md` và `planning/OPEN_QUESTIONS.md`; chấp thuận/chỉnh những quyết định đang ở trạng thái *proposed*.

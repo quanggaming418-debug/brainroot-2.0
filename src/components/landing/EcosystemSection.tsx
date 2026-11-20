@@ -15,6 +15,7 @@ export function EcosystemSection({
     <section
       className="worlds"
       id={ECOSYSTEM_SECTION.id}
+      tabIndex={-1}
       aria-labelledby="worlds-heading"
     >
       <p className="section-overline">{ECOSYSTEM_SECTION.overline}</p>
@@ -28,6 +29,8 @@ export function EcosystemSection({
           <article
             key={area.id}
             id={area.id}
+            tabIndex={-1}
+            aria-labelledby={`${area.id}-heading`}
             className={`world-card world-card--${area.variant}`}
           >
             <div>
@@ -37,7 +40,9 @@ export function EcosystemSection({
                 </div>
                 <span className="world-card__status">{area.statusLabel}</span>
               </div>
-              <h3 className="world-card__title">{area.title}</h3>
+              <h3 className="world-card__title" id={`${area.id}-heading`}>
+                {area.title}
+              </h3>
               <p className="world-card__subtitle">{area.subtitle}</p>
               <p className="world-card__description">{area.description}</p>
             </div>

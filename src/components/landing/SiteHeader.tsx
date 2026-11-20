@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react';
 import { HERO_CONTENT, NAV_ITEMS, type NavItem } from '../../data/landing';
+import { focusAnchorTarget } from '../../utils/focusAnchorTarget';
 
 interface SiteHeaderProps {
   readonly items?: readonly NavItem[];
@@ -48,7 +49,8 @@ export function SiteHeader({ items = NAV_ITEMS }: SiteHeaderProps) {
     setMenuOpen((prev) => !prev);
   };
 
-  const handleClose = () => {
+  const handleNavClick = (event: ReactMouseEvent<HTMLAnchorElement>) => {
+    focusAnchorTarget(event);
     setMenuOpen(false);
   };
 
@@ -63,23 +65,6 @@ export function SiteHeader({ items = NAV_ITEMS }: SiteHeaderProps) {
         </span>
       </a>
 
-      <nav
-        className={`main-nav${menuOpen ? ' is-open' : ''}`}
-        id="main-nav"
-        aria-label="Điều hướng chính"
-      >
-        {items.map((item) => (
-          <a
-            key={item.href}
-            className="main-nav__link"
-            href={item.href}
-            onClick={handleClose}
-          >
-            {item.label}
-          </a>
-        ))}
-      </nav>
-
       <button
         ref={toggleRef}
         className="nav-toggle"
@@ -93,6 +78,23 @@ export function SiteHeader({ items = NAV_ITEMS }: SiteHeaderProps) {
         <span className="nav-toggle__bar" aria-hidden="true" />
         <span className="nav-toggle__bar" aria-hidden="true" />
       </button>
+
+      <nav
+        className={`main-nav${menuOpen ? ' is-open' : ''}`}
+        id="main-nav"
+        aria-label="Điều hướng chính"
+      >
+        {items.map((item) => (
+          <a
+            key={item.href}
+            className="main-nav__link"
+            href={item.href}
+            onClick={handleNavClick}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
     </header>
   );
 }

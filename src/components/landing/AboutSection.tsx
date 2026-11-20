@@ -5,6 +5,7 @@ export function AboutSection() {
     <section
       className="about"
       id={ABOUT_CONTENT.id}
+      tabIndex={-1}
       aria-labelledby="about-heading"
     >
       <p className="section-overline">{ABOUT_CONTENT.overline}</p>

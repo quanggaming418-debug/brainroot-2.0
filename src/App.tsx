@@ -12,7 +12,7 @@ export default function App() {
         {HERO_CONTENT.skipLinkLabel}
       </a>
       <SiteHeader />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <HeroSection />
         <EcosystemSection />
         <AboutSection />

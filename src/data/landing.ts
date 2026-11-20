@@ -45,7 +45,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
 
 export const HERO_CONTENT = {
   skipLinkLabel: 'Bỏ qua và đến nội dung chính',
-  skipLinkHref: '#worlds',
+  skipLinkHref: '#main-content',
   brandAriaLabel: 'Brainroot — về đầu trang',
   heroAriaLabel: 'Chào mừng đến với thế giới Brainroot',
   slogan: 'From Brainrot to Brainroot',
@@ -111,8 +111,8 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
     subtitle: 'Trò chơi giáo dục tương tác',
     description:
       'Fact–Act và Ô ăn quan xanh là hai sản phẩm đầu tiên trong hành trình học kỹ năng xanh thông qua trò chơi trực quan.',
-    statusLabel: 'Đang phát triển (R0)',
-    note: 'Giới thiệu định hướng — danh mục và bản chơi thử sẽ triển khai ở bước tiếp theo',
+    statusLabel: 'Đang phát triển',
+    note: 'Bản chơi thử trực tuyến chưa mở.',
     icon: '✦',
     variant: 'play',
   },
@@ -122,8 +122,8 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
     subtitle: 'Thử thách và hành động xanh',
     description:
       'Từ một thử thách nhỏ đến những lựa chọn xanh thiết thực và phản tư tích cực trong đời sống thường ngày.',
-    statusLabel: 'Định hướng lộ trình',
-    note: 'Khu vực giới thiệu — chưa mở tương tác thử thách trong bản nền này',
+    statusLabel: 'Đang phát triển',
+    note: 'Các thử thách chưa mở.',
     icon: '❀',
     variant: 'quest',
   },
@@ -132,9 +132,9 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
     title: 'Green Learn',
     subtitle: 'Khám phá kiến thức và kỹ năng xanh',
     description:
-      'Những câu chuyện, sự thật và kiến thức môi trường gần gũi, được kiểm chứng và trích dẫn từ các nguồn phù hợp.',
-    statusLabel: 'Định hướng lộ trình',
-    note: 'Khu vực giới thiệu — kho nội dung kiểm chứng sẽ được bổ sung theo giai đoạn',
+      'Tìm hiểu về môi trường qua những câu chuyện gần gũi và kiến thức có nguồn tham khảo.',
+    statusLabel: 'Đang phát triển',
+    note: 'Kho kiến thức chưa mở.',
     icon: '☘',
     variant: 'learn',
   },
@@ -144,8 +144,8 @@ export const ECOSYSTEM_AREAS: readonly EcosystemArea[] = [
     subtitle: 'Kết nối cộng đồng và hoạt động giáo dục',
     description:
       'Không gian kết nối học sinh, sinh viên, giáo viên và câu lạc bộ cùng tổ chức hoạt động học tập và lan tỏa kỹ năng xanh.',
-    statusLabel: 'Định hướng lộ trình',
-    note: 'Khu vực giới thiệu — không gian cộng đồng và lớp học sẽ phát triển ở giai đoạn sau',
+    statusLabel: 'Đang phát triển',
+    note: 'Không gian cộng đồng chưa mở.',
     icon: '❂',
     variant: 'connect',
   },
@@ -157,9 +157,9 @@ export const ABOUT_CONTENT = {
   heading: 'From Brainrot to Brainroot',
   mission:
     'Dự án nâng cao nhận thức và kết nối giới trẻ về kỹ năng xanh thông qua sản phẩm giáo dục tương tác.',
-  body: 'Brainroot hướng tới mọi người học, ưu tiên thử nghiệm cùng học sinh, sinh viên, giáo viên và câu lạc bộ tại ULIS và Hà Nội. Phiên bản hiện tại là khung giao diện nền tảng Hero V4 (BR-T003); các chức năng trò chơi tương tác, danh mục sản phẩm và trải nghiệm học tập sẽ được xây dựng lần lượt theo lộ trình sản phẩm.',
+  body: 'Brainroot dành cho mọi người muốn học kỹ năng xanh. Dự án ưu tiên thử nghiệm cùng học sinh, sinh viên, giáo viên và câu lạc bộ tại ULIS và Hà Nội.',
 } as const;
 
 export const FOOTER_CONTENT = {
-  text: 'Brainroot 2.0 · From Brainrot to Brainroot — Phiên bản nền tảng giao diện Hero V4 (BR-T003).',
+  text: 'Brainroot 2.0 · From Brainrot to Brainroot',
 } as const;

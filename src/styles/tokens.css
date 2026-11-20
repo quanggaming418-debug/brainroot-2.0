@@ -10,6 +10,7 @@
   --color-danger: #a82a35;
 
   /* Supporting readable tones (WCAG AA checked against warm ivory & card fills) */
+  --color-headline-on-hero: #53743e;
   --color-forest: #2d563f;
   --color-forest-deep: #244a35;
   --color-ink-secondary: #3f5542;
