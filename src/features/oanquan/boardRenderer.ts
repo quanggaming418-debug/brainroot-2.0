@@ -48,7 +48,7 @@ const fragmentSource = [
   'outColor=vec4(vColor*(0.56+0.44*d)*tint,1.0);}',
 ].join('\n');
 function rgb(hex: string): Vec3 {
-  return [parseInt(hex.slice(1, 3), 16) / 255, parseInt(hex.slice(3, 5), 16) / 255, parseInt(hex.slice(5, 7), 16) / 255, parseInt(hex.slice(5, 7), 16) / 255].slice(0,3) as Vec3;
+  return [parseInt(hex.slice(1, 3), 16) / 255, parseInt(hex.slice(3, 5), 16) / 255, parseInt(hex.slice(5, 7), 16) / 255];
 }
 const wood = rgb('#BF8962'), woodDark = rgb('#916649'), grass = rgb('#728E69');
 const seedPalette = [rgb('#B6D9A6'), rgb('#D98F72'), rgb('#F0CC8D'), rgb('#E7E7CC')];
@@ -116,8 +116,12 @@ class MeshBuilder {
   board(counts: readonly number[], selected: number | null) {
     this.box(0,-0.78,0,12.3,.5,5.9,rgb('#B48A66'));
     this.box(0,-1.04,0,11.4,.12,5.2,rgb('#D5A37A'));
-    this.box(0,-.29,0,11.15,.42,4.56,woodDark);
+    this.box(0,-.59,0,11.15,.42,4.56,woodDark);
     this.box(0,-.55,0,11.35,.08,4.68,rgb('#63894C'));
+    this.box(0,-.15,-2.26,11.1,.46,.08,woodDark);
+    this.box(0,-.15,2.26,11.1,.46,.08,woodDark);
+    this.box(-5.49,-.15,0,.08,.46,4.45,woodDark);
+    this.box(5.49,-.15,0,.08,.46,4.45,woodDark);
     this.boardSurface(selected);
     for(let i=0;i<counts.length;i++) {
       const p=PITS[i], count=Math.min(24, Math.max(0, counts[i]));
