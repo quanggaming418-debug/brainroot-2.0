@@ -1,5 +1,9 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-20 — BR-T025 · Truth or Dare V1
+
+- 19 SVG trang trí chờ review trên `codex/truth-or-dare-v1-assets`; tham khảo `design/truth-or-dare-v1/README.md` khi AI Studio được giao tích hợp. Kit gốc và dữ liệu chưa duyệt giữ ở staging cục bộ ngoài repo.
+
 ## 2026-11-20 (18:10) — Public-Facing Footer & About Redesign · Google AI Studio → Product Owner & Codex
 
 - **Trạng thái:** **`IN_REVIEW`** (`NOT COMMITTED` vì container AI Studio không có `.git`). Bảo toàn nguyên vẹn Hero V4, mascot Brainie/Rootie, bộ 4 ảnh Four Garden Windows, logic Truth or Dare & Ô ăn quan 3D, thông báo giới hạn tại các trang sản phẩm/tính năng, React Router và GitHub Pages `base: '/brainroot-2.0/'`.

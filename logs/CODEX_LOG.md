@@ -92,3 +92,16 @@
 - **Tests actually executed:** Python ZipFile + Pillow PASS 4/4 WebP 1120×747, alpha 0–255, góc trong suốt và byte giữ nguyên. npm run build PASS (gồm typecheck); bốn bản dist khớp SHA-256. Unit tests PASS 26/26. Browser UI NOT RUN, asset chưa được gắn vào UI.
 - **Acceptance criteria:** PASS intake đúng bốn file, không nhập master/preview/handoff code. Giữ nguyên UI, Hero, game, router và animation.
 - **Git / next task:** Nhánh codex/garden-webp-intake từ main f61c844. Bản commit này chờ review; giao AI Studio tích hợp sau.
+
+## Session: 2026-11-20 — Codex — BR-T025
+
+- **Task & goal:** Intake chỉ tài sản trang trí Truth or Dare V1, chuẩn bị BR-FR-002.
+- **Status before → after:** Intake mới → IN_REVIEW; không chuyển trạng thái duyệt nội dung hoặc gameplay.
+- **Read context:** AGENTS, .agents/rules, README, TASKS, PROJECT_STATE, ROADMAP, HANDOFF, ACCESS_CONTROL, workflow AI Studio, publicUrl() và manifest ZIP.
+- **Files changed:** 19 SVG trong public/assets/truth-or-dare/v1/experience; README bàn giao đã lược bỏ dữ liệu nguồn và hồ sơ task.
+- **User-visible behavior changed:** Thêm URL tài nguyên tĩnh cho bước sau; không mount UI.
+- **Tests actually executed:** Python ZipFile + ElementTree PASS. Đường dẫn hợp lệ 91/91 tệp kit và 20/20 tệp scaffold; 90/90 hash SHA-256 và byte theo manifest (manifest không tự liệt kê); 19/19 SVG khớp hai ZIP và được kiểm tra XML, không có script, link ngoài, nội dung thẻ hay text ngoài 15 dấu hỏi. npm run typecheck/build PASS; npx --yes tsx --test tests/*.test.ts PASS 29/29. Chromium qua npm run preview: 19/19 HTTP 200, image/svg+xml, giải mã và giữ nguyên byte ở /brainroot-2.0/. Lint NOT RUN vì chưa có script; UI E2E NOT RUN vì chưa tích hợp.
+- **Acceptance criteria:** Chỉ nhập 05_experience_assets. Kit đầy đủ, GAME_SPEC, prompt gốc, thẻ nguồn, trang rulebook, ảnh và nội dung chưa duyệt giữ ngoài repo. Diff không sửa mã ứng dụng, CSS, config hay PR cũ.
+- **Git commit SHA:** Nhánh codex/truth-or-dare-v1-assets từ main 959c672; commit intake chứa mục log này.
+- **What remains / next task:** Product Owner review; AI Studio tiếp tục ở task tích hợp riêng. Chỉ sử dụng tập con nguồn sau khi duyệt quyền.
+- **Owner approval required:** Merge và công bố nội dung nguồn.

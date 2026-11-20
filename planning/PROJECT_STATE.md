@@ -11,6 +11,8 @@
 
 - **BR-T022 garden integration:** 4 WebP 1120×747 tại `public/assets/home/garden/` (`green-play.webp`, `green-quest.webp`, `green-learn.webp`, `green-connect.webp`) đã được tích hợp và tinh chỉnh hoàn thiện trên trang chủ H03 (`EcosystemSection`) qua `publicUrl()`. Ảnh chụp trước/sau Desktop (`1440px`) và Mobile (`390px`) đã sẵn sàng chờ Product Owner duyệt; chờ Codex review diff & mở PR.
 
+- **BR-T025:** Intake Truth or Dare V1 `IN_REVIEW`; 19 SVG trang trí trong `public/assets/truth-or-dare/v1/experience/`, QA file và URL base PASS. Xem handoff ở `design/truth-or-dare-v1/README.md`; tích hợp UI và duyệt nội dung là bước riêng.
+
 ## Established context
 - Rebuild website from zero; do **not** reuse old web code as project base.
 - Established frontend stack: **React 19 + TypeScript + Vite 7 + React Router (`react-router-dom`) + Three.js (`three`) + modular standard CSS** (không cài Tailwind CSS).
