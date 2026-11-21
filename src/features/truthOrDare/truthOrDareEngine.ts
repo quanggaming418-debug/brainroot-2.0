@@ -118,13 +118,25 @@ export function reshuffleRemainingDeck(
   state: TruthOrDareState,
   rng: RngFn = Math.random,
 ): TruthOrDareState {
-  if (state.remainingIds.length === 0) {
+  // Only restart the whole deck when nothing is left AND no card is in hand;
+  // holding the last card must just return that card to the deck.
+  if (state.remainingIds.length === 0 && state.currentCardId === null) {
     return startAndShuffleSession(state, rng);
   }
+  // A card already drawn for the current turn but not yet completed goes back
+  // into the deck, so re-shuffling mid-turn never silently consumes it.
+  const returnedIds =
+    state.currentCardId !== null
+      ? [...state.remainingIds, state.currentCardId]
+      : state.remainingIds;
   return {
     ...state,
     phase: 'shuffling',
-    remainingIds: shuffleIds(state.remainingIds, rng),
+    remainingIds: shuffleIds(returnedIds, rng),
+    drawnIds:
+      state.currentCardId !== null
+        ? state.drawnIds.filter((id) => id !== state.currentCardId)
+        : state.drawnIds,
     currentCardId: null,
     selectedSide: null,
     wheelTargetSectorIndex: null,

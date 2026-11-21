@@ -105,3 +105,29 @@
 - **Git commit SHA:** Nhánh codex/truth-or-dare-v1-assets từ main 959c672; commit intake chứa mục log này.
 - **What remains / next task:** Product Owner review; AI Studio tiếp tục ở task tích hợp riêng. Chỉ sử dụng tập con nguồn sau khi duyệt quyền.
 - **Owner approval required:** Merge và công bố nội dung nguồn.
+
+## Session: 2026-11-21 — Claude Code — BR-T026 (PR 1: gameplay & a11y)
+
+- **Task & goal:** Sửa lỗi gameplay và accessibility P0 của Truth or Dare theo audit đã duyệt; không đổi nội dung thẻ/luật, không đổi giao diện.
+- **Files changed:** `truthOrDareEngine.ts` (reshuffle trả lá đang rút về bộ bài), `useModalFocus.ts` (mới), `GreenPenaltyWheelModal.tsx`, `HardcoverRulebookModal.tsx`, `BrainieFaqPopover.tsx`, `tests/truth-or-dare-v1.test.ts` (+1 test).
+- **Tests actually executed:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` PASS 40/40 (baseline 39/39) · `npm run build` PASS · Playwright Chromium headless 390×844 (script tạm, đã xóa) PASS: Shuffle giữ lá bài (16→15→16), Tab/Shift+Tab nằm trong modal vòng quay và sách luật, Escape ở wheel_ready không bỏ qua, Escape sau kết quả đóng, focus trả về nút mở, 0 lỗi console, 0 tràn ngang · `npm run lint` NOT RUN (chưa có script) · chạy trên `vite preview` bản build.
+- **Chưa làm (PR sau):** Stop xóa phiên, alt tiếng Anh cứng, vô hiệu `?mode=legacy`, rulebook chờ duyệt, deployment `VITE_BASE`, v.v.
+- **Git:** nhánh `codex/br-t026-gameplay-a11y`, **NOT COMMITTED**.
+
+## Session: 2026-11-21 (QA) — Claude Code — BR-T026 / PR #10
+
+- **Task & goal:** QA bổ sung 1440/320/reduced-motion/Brainie/bàn phím; chỉ sửa lỗi cần thiết trong phạm vi BR-T026.
+- **Bổ sung sửa:** (1) `truth-or-dare-v1.css` — `.tod-modal-backdrop > * { margin:auto }` để dialog cao không bị cắt đầu và vẫn cuộn được ở 320×568; (2) `BrainieFaqPopover.tsx` — Escape trả focus về nút Brainie; (3) `TruthOrDareCardStage.tsx` — pha `wheel_*` không còn hiển thị thông báo "Bạn đã rút hết các thẻ" phía sau modal.
+- **Tests actually executed:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` PASS 40/40 · `npm run build` PASS · Playwright Chromium headless (script tạm đã xóa, `vite preview`): 1440×900 / 320×568 / 390×844+reduced-motion — PASS: 0 tràn ngang ở mọi pha, 0 lỗi console/HTTP, thao tác Chơi→Chọn→Rút→Lật→Bỏ qua→Quay→Rút tiếp bằng bàn phím, Shuffle giữ lá, Tab-trap + trả focus ở vòng quay & sách luật, Escape không bỏ qua penalty khi chưa quay/đang quay, Brainie trả lời đúng/từ chối ngoài phạm vi (VI), nút Dừng ở 320px cuộn tới được · ảnh vòng quay 1440 & 320 đã xem bằng mắt: OK.
+- **NOT RUN:** `npm run lint` (không có script) · screen reader thật · Safari iOS/Chrome Android thiết bị thật · Brainie trả lời tiếng Anh ở locale EN · reduced-motion ở 1440/320 (chỉ 390).
+- **Vấn đề a11y còn tồn đọng (ngoài phạm vi, chưa sửa):** thẻ `.tod-card-3d` có onClick nhưng không role/tabindex (người dùng bàn phím dùng nút Rút/Lật nên không bị chặn); nút HUD Trộn/Dừng cao 38–39px (<44px khuyến nghị); Brainie là popover không-modal, Tab có thể ra ngoài (chấp nhận được); alt tiếng Anh cố định và ID thô `TD-01`; `aria-live` bao cả danh sách chat; Stop xóa toàn bộ phiên; Brainie nói "luật đã xác nhận" trong khi luật chưa được nhóm duyệt (→ PR3).
+- **Git:** nhánh `codex/br-t026-gameplay-a11y`, PR #10; không merge.
+
+## Session: 2026-11-21 (review fix) — Claude Code — BR-T026 / PR #10
+
+- **Task & goal:** Xử lý review PR #10: Trộn khi đang cầm lá CUỐI reset cả bộ 16 lá; kiểm tra focus khi đóng vòng quay sang lượt kế.
+- **Sửa:** `truthOrDareEngine.ts` — `reshuffleRemainingDeck` chỉ khởi động lại cả bộ khi `remainingIds` rỗng **và** không có lá đang cầm; cầm lá cuối thì chỉ trả đúng lá đó vào bộ. `TruthOrDareCardStage.tsx` — khi vào `choosing` mà focus đã rơi về `<body>` (ví dụ sau khi đóng vòng quay) thì đặt focus vào nút chọn đầu tiên khả dụng; không cướp focus nếu đang ở control khác.
+- **Test mới:** `reshuffling while holding the LAST card…` (xác nhận FAIL khi gỡ bản sửa, PASS khi có).
+- **Tests actually executed:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` PASS 41/41 · `npm run build` PASS · Playwright Chromium 390×844 / 1440×900 / 320×568+reduced-motion PASS: sau Quay→Rút tiếp, focus ở `tod-choose-truth` (trước sửa: `<body>`), 0 lỗi trang · `npm run lint` NOT RUN.
+- **Ghi chú:** sau Trộn, nút Trộn bị vô hiệu trong pha `shuffling` nên focus cũng chuyển vào nút chọn đầu tiên thay vì rơi về `<body>`. Không đổi giao diện, luật hay nội dung thẻ.
+- **Git:** PR #10, không merge.

@@ -9,6 +9,7 @@ import {
   getRevealedPenaltySlot,
   type TruthOrDareState,
 } from './truthOrDareEngine';
+import { useModalFocus } from './useModalFocus';
 
 interface GreenPenaltyWheelModalProps {
   readonly state: TruthOrDareState;
@@ -38,16 +39,21 @@ export function GreenPenaltyWheelModal({
   const spinBtnRef = useRef<HTMLButtonElement>(null);
   const nextBtnRef = useRef<HTMLButtonElement>(null);
 
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useModalFocus(isOpen, dialogRef);
+
+  // Escape only dismisses once the result has been revealed, so a penalty is
+  // never skipped silently before the wheel was spun.
   useEffect(() => {
-    if (!isOpen) return;
+    if (state.phase !== 'wheel_result') return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && state.phase !== 'wheel_spinning') {
+      if (event.key === 'Escape') {
         onNextAfterWheel();
       }
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [isOpen, state.phase, onNextAfterWheel]);
+  }, [state.phase, onNextAfterWheel]);
 
   useEffect(() => {
     if (state.phase === 'wheel_ready') {
@@ -70,7 +76,7 @@ export function GreenPenaltyWheelModal({
       aria-labelledby="tod-wheel-title"
       data-testid="tod-wheel-modal"
     >
-      <div className="tod-wheel-dialog">
+      <div className="tod-wheel-dialog" ref={dialogRef} tabIndex={-1}>
         <div className="tod-wheel-dialog__inner">
           <header className="tod-wheel-dialog__header">
             <h2 className="tod-wheel-dialog__title" id="tod-wheel-title">

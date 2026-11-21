@@ -28,11 +28,15 @@ export function BrainieFaqPopover({
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<readonly ChatMessage[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') {
+        setOpen(false);
+        triggerRef.current?.focus({ preventScroll: true });
+      }
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
@@ -43,6 +47,16 @@ export function BrainieFaqPopover({
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages, isTyping, open]);
+
+  const replyTimerRef = useRef<number | null>(null);
+  useEffect(
+    () => () => {
+      if (replyTimerRef.current !== null) {
+        window.clearTimeout(replyTimerRef.current);
+      }
+    },
+    [],
+  );
 
   const askQuestion = (questionText: string) => {
     const trimmed = questionText.trim();
@@ -70,7 +84,11 @@ export function BrainieFaqPopover({
     }
 
     setIsTyping(true);
-    window.setTimeout(() => {
+    if (replyTimerRef.current !== null) {
+      window.clearTimeout(replyTimerRef.current);
+    }
+    replyTimerRef.current = window.setTimeout(() => {
+      replyTimerRef.current = null;
       setIsTyping(false);
       setMessages((prev) => [
         ...prev,
@@ -197,6 +215,7 @@ export function BrainieFaqPopover({
       <button
         type="button"
         className="tod-bot-fab"
+        ref={triggerRef}
         data-testid="tod-bot-trigger"
         aria-label={copy.botButtonAria}
         aria-expanded={open}

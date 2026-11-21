@@ -44,6 +44,7 @@ export function TruthOrDareCardStage({
   const activeCard = getActiveCard(state);
   const truthAllowed = canChooseTruth(state);
   const primaryActionRef = useRef<HTMLButtonElement>(null);
+  const chooseSceneRef = useRef<HTMLDivElement>(null);
 
   // Move focus gently onto key interactive controls on major phase arrival
   useEffect(() => {
@@ -55,6 +56,18 @@ export function TruthOrDareCardStage({
     ) {
       primaryActionRef.current?.focus({ preventScroll: true });
     }
+  }, [state.phase]);
+
+  // When a dialog (e.g. the penalty wheel) closes into the next turn the focused
+  // control unmounts and focus falls back to <body>; land on the first usable
+  // choice so keyboard users keep their place. Never steal focus otherwise.
+  useEffect(() => {
+    if (state.phase !== 'choosing') return;
+    const active = document.activeElement;
+    if (active && active !== document.body) return;
+    chooseSceneRef.current
+      ?.querySelector<HTMLButtonElement>('button:not([disabled])')
+      ?.focus({ preventScroll: true });
   }, [state.phase]);
 
   /* ── Scene A: Arrival ────────────────────────────────────────────────── */
@@ -189,7 +202,11 @@ export function TruthOrDareCardStage({
   /* ── Scene C: Choose Truth vs Dare (BEFORE Draw) ─────────────────────── */
   if (state.phase === 'choosing') {
     return (
-      <div className="tod-stage-center tod-choose" data-testid="tod-scene-choose">
+      <div
+        className="tod-stage-center tod-choose"
+        data-testid="tod-scene-choose"
+        ref={chooseSceneRef}
+      >
         <div className="tod-choose__deck-pill" aria-hidden="true">
           <div className="tod-deck-stack tod-deck-stack--compact">
             <div className="tod-mini-card tod-mini-card--back2" />
@@ -496,6 +513,15 @@ export function TruthOrDareCardStage({
         </div>
       </div>
     );
+  }
+
+  /* While the penalty wheel dialog is open the stage stays empty; it must not show the end-of-session message. */
+  if (
+    state.phase === 'wheel_ready' ||
+    state.phase === 'wheel_spinning' ||
+    state.phase === 'wheel_result'
+  ) {
+    return <div className="tod-stage-center" aria-hidden="true" />;
   }
 
   /* ── Scene G: Session Complete (all cards drawn without repeats) ─────── */
