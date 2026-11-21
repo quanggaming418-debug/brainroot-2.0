@@ -122,3 +122,12 @@
 - **NOT RUN:** `npm run lint` (không có script) · screen reader thật · Safari iOS/Chrome Android thiết bị thật · Brainie trả lời tiếng Anh ở locale EN · reduced-motion ở 1440/320 (chỉ 390).
 - **Vấn đề a11y còn tồn đọng (ngoài phạm vi, chưa sửa):** thẻ `.tod-card-3d` có onClick nhưng không role/tabindex (người dùng bàn phím dùng nút Rút/Lật nên không bị chặn); nút HUD Trộn/Dừng cao 38–39px (<44px khuyến nghị); Brainie là popover không-modal, Tab có thể ra ngoài (chấp nhận được); alt tiếng Anh cố định và ID thô `TD-01`; `aria-live` bao cả danh sách chat; Stop xóa toàn bộ phiên; Brainie nói "luật đã xác nhận" trong khi luật chưa được nhóm duyệt (→ PR3).
 - **Git:** nhánh `codex/br-t026-gameplay-a11y`, PR #10; không merge.
+
+## Session: 2026-11-21 (review fix) — Claude Code — BR-T026 / PR #10
+
+- **Task & goal:** Xử lý review PR #10: Trộn khi đang cầm lá CUỐI reset cả bộ 16 lá; kiểm tra focus khi đóng vòng quay sang lượt kế.
+- **Sửa:** `truthOrDareEngine.ts` — `reshuffleRemainingDeck` chỉ khởi động lại cả bộ khi `remainingIds` rỗng **và** không có lá đang cầm; cầm lá cuối thì chỉ trả đúng lá đó vào bộ. `TruthOrDareCardStage.tsx` — khi vào `choosing` mà focus đã rơi về `<body>` (ví dụ sau khi đóng vòng quay) thì đặt focus vào nút chọn đầu tiên khả dụng; không cướp focus nếu đang ở control khác.
+- **Test mới:** `reshuffling while holding the LAST card…` (xác nhận FAIL khi gỡ bản sửa, PASS khi có).
+- **Tests actually executed:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` PASS 41/41 · `npm run build` PASS · Playwright Chromium 390×844 / 1440×900 / 320×568+reduced-motion PASS: sau Quay→Rút tiếp, focus ở `tod-choose-truth` (trước sửa: `<body>`), 0 lỗi trang · `npm run lint` NOT RUN.
+- **Ghi chú:** sau Trộn, nút Trộn bị vô hiệu trong pha `shuffling` nên focus cũng chuyển vào nút chọn đầu tiên thay vì rơi về `<body>`. Không đổi giao diện, luật hay nội dung thẻ.
+- **Git:** PR #10, không merge.

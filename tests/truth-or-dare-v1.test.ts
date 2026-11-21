@@ -319,3 +319,29 @@ test('BR-T026: reshuffling mid-turn returns the drawn card to the deck instead o
   assert.ok(!state.drawnIds.includes(cardId as string));
   assert.equal(new Set(state.remainingIds).size, total);
 });
+
+test('BR-T026: reshuffling while holding the LAST card returns only that card, never resets the 16-card deck', () => {
+  let state = finishShuffle(startAndShuffleSession(createInitialTruthOrDareState(), FIXED_RNG));
+  const total = state.remainingIds.length;
+  // Play through until exactly one card is left, then pick it.
+  for (let i = 0; i < total - 1; i += 1) {
+    state = chooseSideBeforeDraw(state, 'dare');
+    state = flipSelectedCard(finishPullCard(startPullCard(state)));
+    state = finishShuffle({ ...completeCurrentTurn(state), phase: 'shuffling' });
+  }
+  assert.equal(state.remainingIds.length, 1);
+  state = chooseSideBeforeDraw(state, 'dare');
+  const lastId = state.currentCardId;
+  assert.ok(lastId);
+  assert.equal(state.remainingIds.length, 0);
+  const drawnBefore = state.drawnIds.length;
+
+  state = reshuffleRemainingDeck(state, FIXED_RNG);
+  assert.deepEqual(state.remainingIds, [lastId]);
+  assert.equal(state.drawnIds.length, drawnBefore - 1);
+  assert.ok(!state.drawnIds.includes(lastId as string));
+  assert.equal(state.currentCardId, null);
+  assert.equal(state.phase, 'shuffling');
+  // Nothing outside the single returned card came back into the deck.
+  assert.equal(state.remainingIds.length + state.drawnIds.length, total);
+});
