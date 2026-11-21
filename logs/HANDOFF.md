@@ -211,3 +211,13 @@
 - **Trạng thái:** `IN_REVIEW` — PR #10 (`codex/br-t026-gameplay-a11y`) đã commit + push, **chưa merge**, chờ Product Owner duyệt.
 - **Kiểm thử:** typecheck PASS · unit 40/40 PASS · build PASS · Playwright 1440/320/390+reduced-motion PASS · lint NOT RUN · thiết bị/screen reader thật NOT RUN.
 - **Bước tiếp (chưa làm, cần duyệt):** PR3 — kiểm soát luật/nội dung chưa duyệt (engine rules, FAQ Brainie, sách luật, `?mode=legacy`, model Gemini chưa xác minh); sau đó mới tới PR2 deployment (`VITE_BASE`).
+
+## 2026-11-21 — BR-T026 / BR-T027 đã merge · Claude Code → Product Owner
+
+- **Trạng thái:** `DONE`. `main` = `45fb8d9` (PR #10 BR-T026, PR #12 BR-T027). PR #11 bị merge nhầm vào nhánh #10 nên đã tách lại (đưa nhánh #10 về `5c16970`, BR-T027 cherry-pick lên `main` thành #12).
+- **Kiểm thử:** xem `planning/TASKS.md` (typecheck/build PASS, unit 41/41 và 42/42, Playwright 1440/320/390 PASS; lint NOT RUN). Smoke test trình duyệt trên Cloudflare Pages và GitHub Pages sau merge: **NOT RUN**.
+- **Còn mở / cần Product Owner:**
+  1. Nhóm giao luật gốc, 16 cặp thẻ VI/EN và 15 Hình phạt Xanh + quyền công bố (`BR-T005`) — chưa nhập gì.
+  2. Quyết nhãn phân trang "Trang N", câu "thẻ vật lý" trong `games.ts`/`connectAbout.ts`, câu "Không lặp thẻ" chưa có nguồn.
+  3. PR2 deployment (`VITE_BASE`, giữ Cloudflare + GitHub Pages), sửa canvas Three.js từ PR #7, i18n còn trộn tiếng Việt, tách three.js, tooling/CSP — chưa bắt đầu.
+  4. Dọn nhánh remote đã dùng xong; ngắt kết nối Worker phụ `brainroot-2-0` nếu không dùng.
