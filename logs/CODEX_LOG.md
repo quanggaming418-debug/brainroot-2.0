@@ -139,3 +139,9 @@
 - **Tests actually executed:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` PASS 42/42 · `npm run build` PASS · Playwright Chromium 1440×900 VI / 320×568 VI+reduced-motion / 390×844 EN (vite preview bản build): nhãn bản thử hiển thị đúng, 0 tràn ngang, 0 lỗi console, Brainie chào/đáp theo nội dung mới, `?mode=legacy` trên bản build hiển thị trải nghiệm mới (không lộ fixtures) · ảnh 1440 & 320 đã xem · `npm run lint` NOT RUN.
 - **Ghi chú / chưa đổi (cần PO quyết):** nhãn phân trang UI "Trang N" và "Trang 1–2 / 8" vẫn còn vì là điều hướng sách; mô tả cơ chế (khóa Truth, Bỏ qua→quay, không lặp thẻ) giữ nguyên hành vi; nội dung `src/data/games.ts` và các trang Ô ăn quan không thuộc phạm vi; câu "thẻ vật lý" trong `connectAbout.ts`/`games.ts` chưa chỉnh.
 - **Git:** nhánh `codex/br-t027-rules-content-gate`, xếp chồng trên `codex/br-t026-gameplay-a11y` (PR #10). Chưa merge.
+
+## Session: 2026-11-21 — Claude Code — đồng bộ tài liệu sau merge
+
+- **Task & goal:** Cập nhật `TASKS.md`, `PROJECT_STATE.md`, `HANDOFF.md` theo trạng thái thật trên `main` (`45fb8d9`) sau PR #10 và #12.
+- **Tests actually executed:** chỉ sửa tài liệu; không chạy lại typecheck/test/build. Trạng thái GitHub được đọc qua API công khai (PR #10/#11/#12 merged; check trên `main` đều success).
+- **Git:** nhánh `codex/docs-br-t026-t027-done`, không merge.
