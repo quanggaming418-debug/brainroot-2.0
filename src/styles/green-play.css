@@ -1199,3 +1199,40 @@
     transform: none;
   }
 }
+
+/* BR-T028 mobile: breadcrumbs stay on a single line (show only the last 3 crumbs) */
+@media (max-width: 560px) {
+  .breadcrumbs {
+    padding: 4px 0;
+  }
+
+  .breadcrumbs__list {
+    flex-wrap: nowrap;
+    gap: 0 6px;
+    font-size: 12.5px;
+    overflow: hidden;
+  }
+
+  .breadcrumbs__item {
+    gap: 6px;
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .breadcrumbs__item:nth-last-child(n + 4) {
+    display: none;
+  }
+
+  .breadcrumbs__item:nth-last-child(3) .breadcrumbs__separator {
+    display: none;
+  }
+
+  .breadcrumbs__current {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .breadcrumbs__link {
+    min-height: 40px;
+  }
+}

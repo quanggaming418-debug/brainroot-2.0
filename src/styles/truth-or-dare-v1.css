@@ -1878,3 +1878,151 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── BR-T028: real card text, theme chip, proof hint, dare timer ───────────── */
+.tod-card-front__prompt-box {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tod-card-front__prompt--long {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.tod-card-front__proof {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 600;
+  color: #465d51;
+}
+
+.tod-card-front__theme {
+  margin: 0;
+  padding: 3px 11px;
+  border-radius: 999px;
+  background: rgba(255, 252, 245, 0.88);
+  border: 1px solid rgba(38, 59, 49, 0.14);
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #263b31;
+}
+
+.tod-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 252, 245, 0.9);
+  border: 1px solid rgba(38, 59, 49, 0.16);
+}
+
+.tod-timer__clock {
+  min-width: 3.2ch;
+  font-size: 22px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: #263b31;
+}
+
+.tod-timer.is-finished .tod-timer__clock {
+  color: #a1472b;
+}
+
+.tod-timer__announce {
+  font-weight: 800;
+  color: #a1472b;
+}
+
+.tod-timer__announce:empty {
+  display: none;
+}
+
+.tod-timer__buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.tod-timer__btn {
+  min-height: 40px;
+  padding: 6px 14px;
+}
+
+/* BR-T028: roomier card so the longest verbatim prompts (≈200 chars) fit without inner scrolling */
+.tod-card-arena {
+  min-height: 480px;
+}
+
+.tod-flip-perspective {
+  width: min(310px, 86vw);
+}
+
+.tod-card-front__content {
+  padding: 22px 24px 18px;
+  gap: 8px;
+}
+
+.tod-card-front__mascot img {
+  width: 64px;
+  height: 64px;
+}
+
+.tod-card-front__prompt-box {
+  padding: 12px 12px;
+}
+
+@media (max-width: 560px) {
+  .tod-card-arena {
+    min-height: 450px;
+  }
+
+  .tod-flip-perspective {
+    width: min(292px, 86vw);
+  }
+}
+
+@media (max-width: 350px) {
+  .tod-card-arena {
+    min-height: 420px;
+  }
+
+  .tod-flip-perspective {
+    width: min(264px, 86vw);
+  }
+}
+
+/* BR-T028 mobile: the floating Brainie helper must never sit on top of the main controls */
+@media (max-width: 560px) {
+  .tod-bot-anchor {
+    right: 10px;
+    bottom: 12px;
+  }
+
+  .tod-bot-fab {
+    width: 46px;
+    height: 46px;
+    padding: 3px;
+  }
+
+  .tod-stage-shell {
+    padding-bottom: 68px;
+  }
+
+  .tod-timer {
+    padding: 4px 12px;
+    gap: 6px 10px;
+  }
+
+  .tod-timer__clock {
+    font-size: 20px;
+  }
+}

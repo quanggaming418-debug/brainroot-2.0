@@ -139,9 +139,7 @@ export function GreenPenaltyWheelModal({
                 {copy.wheelResultHeading(revealedSlot.slotNumber)}
               </p>
               <p className="tod-wheel-result__body">
-                {revealedSlot.text
-                  ? revealedSlot.text[locale]
-                  : copy.wheelResultSlotBody}
+                {revealedSlot.text[locale]}
               </p>
             </div>
           ) : null}

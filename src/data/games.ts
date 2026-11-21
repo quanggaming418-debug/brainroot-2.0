@@ -74,7 +74,7 @@ export const GREEN_PLAY_PRODUCTS: readonly GameProductSummary[] = [
     statusLabel: 'Bộ thẻ vật lý · Đã mở bản trải nghiệm thử trên web',
     statusTone: 'peach',
     description:
-      'Brainroot - Truth or Dare là bộ thẻ bài giáo dục của Brainroot giúp học sinh, sinh viên và nhóm bạn trẻ khám phá kỹ năng xanh qua các cuộc trò chuyện gần gũi. Thể lệ và bộ thẻ chính thức đang được đội ngũ hoàn thiện; bạn có thể trải nghiệm trước bản chơi thử tình huống ngắn trên web.',
+      'Brainroot - Truth or Dare là bộ thẻ bài giáo dục của Brainroot giúp học sinh, sinh viên và nhóm bạn trẻ khám phá kỹ năng xanh qua các cuộc trò chuyện gần gũi. Bản chơi thử trên web gồm 20 trong 63 thẻ hai mặt (Truth – Brainie, Dare – Rootie); bộ đầy đủ có ở bản thẻ vật lý.',
     ctaLabel: 'Trải nghiệm thử trên web',
     secondaryCtaLabel: 'Xem giới thiệu sản phẩm',
     secondaryCtaTo: '/games/fact-act',
@@ -91,7 +91,7 @@ export const GREEN_PLAY_PRODUCTS: readonly GameProductSummary[] = [
       { label: 'Đối tượng', value: 'Học sinh, sinh viên, giáo viên và nhóm câu lạc bộ' },
       {
         label: 'Hiện trạng',
-        value: 'Mở chơi thử tự do không cần đăng nhập · Thể lệ và bộ thẻ công khai đang hoàn thiện',
+        value: 'Mở chơi thử tự do không cần đăng nhập · Bản web có 20/63 thẻ, bộ đầy đủ ở bản vật lý',
       },
     ],
   },
@@ -140,7 +140,7 @@ export const PHYGITAL_TRANSPARENCY = {
     {
       title: 'Tôn trọng giá trị bộ thẻ vật lý',
       description:
-        'Bản chơi thử số sử dụng tình huống mẫu tách biệt, không công khai nội dung của bộ thẻ vật lý gốc.',
+        'Bản chơi thử trên web chỉ công khai 20 trong 63 thẻ; phần còn lại dành cho bộ thẻ vật lý và bản đầy đủ.',
     },
     {
       title: 'Minh bạch tiến độ hoàn thiện',
@@ -156,7 +156,7 @@ export const FACT_ACT_DETAIL = {
   statusLabel: 'Bộ thẻ vật lý · Bản trải nghiệm thử trên web đang mở',
   tagline: 'Khơi gợi cuộc trò chuyện cởi mở về lối sống xanh và thói quen bền vững hằng ngày.',
   overview:
-    'Brainroot - Truth or Dare là bộ thẻ giáo dục tương tác giúp người trẻ tiếp cận kỹ năng xanh một cách nhẹ nhàng và chủ động cùng lớp học, câu lạc bộ hoặc nhóm bạn. Trong khi đội ngũ Brainroot hoàn thiện thể lệ chính thức và phiên bản thẻ số hai mặt, bạn có thể thử trước bản trải nghiệm tình huống ngắn ngay trên trình duyệt.',
+    'Brainroot - Truth or Dare là bộ thẻ giáo dục tương tác giúp người trẻ tiếp cận kỹ năng xanh một cách nhẹ nhàng và chủ động cùng lớp học, câu lạc bộ hoặc nhóm bạn. Bạn có thể chơi thử ngay trên trình duyệt với 20 trong 63 thẻ hai mặt (Truth – Brainie, Dare – Rootie); bộ đầy đủ có ở bản thẻ vật lý.',
   trialCtaLabel: 'Mở bản trải nghiệm thử trên web',
   trialCtaTo: '/games/fact-act/play',
   specs: [
@@ -164,37 +164,49 @@ export const FACT_ACT_DETAIL = {
     { label: 'Đối tượng phù hợp', value: 'Học sinh, sinh viên, giáo viên và câu lạc bộ' },
     {
       label: 'Thể lệ & bộ thẻ số',
-      value: 'Thể lệ chính thức và phiên bản thẻ số hai mặt đang được đội ngũ hoàn thiện',
+      value: 'Luật 5 bước ngay trong sách luật · Bản web có 20 trong 63 thẻ hai mặt',
     },
     {
       label: 'Trải nghiệm hiện tại',
-      value: 'Bản chơi thử tình huống ngắn mở tự do, không cần đăng nhập và không lộ thẻ vật lý',
+      value: 'Bản chơi thử mở tự do, không cần đăng nhập; 43 thẻ còn lại chỉ có ở bản vật lý',
     },
   ] as readonly GameSpecItem[],
-  learningLoopHeading: 'Định hướng học tập trong bản chơi thử hiện tại',
+  learningLoopHeading: 'Luật chơi 5 bước',
   learningLoopSummary:
-    'Bản chơi thử trên web hiện minh họa trước quy trình 3 bước tình huống học đường để bạn làm quen với chủ đề xanh. Thể lệ chơi chính thức của Brainroot - Truth or Dare sẽ được cập nhật ngay khi đội ngũ hoàn tất xác nhận.',
+    'Mọi người ngồi thành vòng tròn: chọn người chơi, chọn Truth hoặc Dare trước khi bốc, bốc bài và thực hiện, nhận Green Penalty nếu không làm được, rồi chơi tiếp. Lưu ý: không được chọn Truth hai lượt liên tiếp.',
   learningSteps: [
     {
       stepNumber: '01',
-      code: 'TÌNH HUỐNG',
-      title: 'Đọc bối cảnh gần gũi',
+      code: 'CHỌN NGƯỜI',
+      title: 'Chọn người chơi',
       summary:
-        'Khởi đầu từ một tình huống môi trường quen thuộc trong lớp học, câu lạc bộ hoặc sinh hoạt hằng ngày.',
+        'Cả nhóm tự chọn người chơi: quay chai, Random Wheel, oẳn tù tì, bốc thăm…',
     },
     {
       stepNumber: '02',
-      code: 'HÀNH ĐỘNG',
-      title: 'Cân nhắc lựa chọn khả thi',
+      code: 'TRUTH / DARE',
+      title: 'Chọn Truth hoặc Dare trước khi bốc',
       summary:
-        'Cùng thảo luận các hướng ứng xử thực tế phù hợp với hoàn cảnh cá nhân, lớp học hoặc cộng đồng xung quanh.',
+        'Truth (Brainie) trả lời câu hỏi; Dare (Rootie) thực hiện thử thách. Không được chọn Truth hai lượt liên tiếp.',
     },
     {
       stepNumber: '03',
-      code: 'PHẢN TƯ',
-      title: 'Nhìn lại và kết nối thói quen',
+      code: 'BỐC & LÀM',
+      title: 'Bốc bài và thực hiện',
+      summary: 'Bốc 1 lá và làm theo mặt đã chọn.',
+    },
+    {
+      stepNumber: '04',
+      code: 'GREEN PENALTY',
+      title: 'Không làm được? Nhận Green Penalty',
       summary:
-        'Chia sẻ góc nhìn cá nhân, rào cản khi áp dụng và cách duy trì những thay đổi nhỏ nhưng bền bỉ.',
+        'Ví dụ: tạo dáng như cái cây 15 giây, uống một cốc nước và hô "Sống xanh!", bốc thêm 1 lá Dare, góp vào "Quỹ Xanh" hoặc dọn khu vực chơi.',
+    },
+    {
+      stepNumber: '05',
+      code: 'CHƠI TIẾP',
+      title: 'Chơi tiếp',
+      summary: 'Chơi đến hết bài hoặc khi cả nhóm muốn dừng.',
     },
   ] as readonly LearningLoopStep[],
   comparisonHeading: 'Bộ thẻ vật lý và bản chơi thử trên web',
@@ -212,18 +224,18 @@ export const FACT_ACT_DETAIL = {
     },
     {
       heading: 'Bản trải nghiệm thử trên web hiện tại',
-      badge: 'Đang hoàn thiện thể lệ chính thức',
+      badge: 'Bản chơi thử 20/63 thẻ',
       points: [
-        'Mở tự do trên trình duyệt không cần đăng nhập với 3 tình huống học đường minh họa để làm quen chủ đề kỹ năng xanh.',
-        'Tách biệt hoàn toàn với nội dung bộ thẻ vật lý gốc; thể lệ và bộ thẻ số công khai chính thức sẽ cập nhật sau khi hoàn tất biên tập.',
+        'Mở tự do trên trình duyệt, không cần đăng nhập: 20 trong 63 thẻ hai mặt, có đồng hồ cho thử thách có giờ và Green Penalty khi bỏ qua.',
+        'Bộ thẻ đầy đủ (63 thẻ) có ở bản vật lý; bản web chỉ công khai 20 thẻ đã được nhóm duyệt.',
         'Hỗ trợ điều hướng bàn phím đầy đủ, chế độ giảm chuyển động và đọc văn bản rõ ràng.',
       ],
     },
   ] as readonly ComparisonColumn[],
   unavailableNotice: {
-    heading: 'Cập nhật về bộ thẻ công khai Brainroot - Truth or Dare',
+    heading: 'Về bộ thẻ trên web',
     description:
-      'Bạn có thể mở bản trải nghiệm thử trên web ngay bây giờ để làm quen với các tình huống học đường về kỹ năng xanh. Bộ thẻ mẫu công khai có nguồn tham khảo và thể lệ chơi chính thức cho phiên bản web đang được đội ngũ Brainroot hoàn thiện và kiểm duyệt.',
+      'Bản chơi thử trên web gồm 20 trong 63 thẻ của bộ gốc. Các thẻ còn lại dành cho bộ thẻ vật lý và bản đầy đủ.',
     primaryActionLabel: 'Mở bản trải nghiệm thử',
     primaryActionTo: '/games/fact-act/play',
     secondaryActionLabel: 'Quay lại thư viện Green Play',

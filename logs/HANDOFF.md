@@ -1,5 +1,12 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-21 — BR-T028 Truth or Dare 20 thẻ thật · Claude Code → Product Owner & Codex
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED** (nhánh `codex/br-t028-tod-20-cards`, nền `0379bee`). Chờ Quang duyệt và cho phép commit/PR.
+- **Đã làm:** 20 thẻ thật (ADR-0005), luật 5 bước, Green Penalty thật (5 gợi ý trên 15 ô vòng quay), đồng hồ dare, rút+lật một chạm, nội dung `/games/fact-act` thống nhất, sửa mobile. Chi tiết: `logs/BR-T028_BASELINE_BEFORE.md`, `logs/CODEX_LOG.md`.
+- **Kiểm thử:** typecheck PASS, unit 43/43 PASS, build PASS, trình duyệt 375/768/desktop PASS; lint/reduced-motion/320px/thiết bị thật NOT RUN.
+- **Việc tiếp:** (1) Quang duyệt chủ đề từng thẻ; (2) P1 #7 chọn người chơi tiếp theo (tuỳ chọn); (3) P2 trong `planning/ROADMAP.md` cho 24h chung kết; (4) Codex QA diff + smoke test sau deploy.
+
 ## 2026-11-20 (19:30) — BR-T025 Truth or Dare V1 UI & Global VI/EN i18n · Google AI Studio → Product Owner & Codex
 
 - **Trạng thái:** **`IN_REVIEW`** (`NOT COMMITTED` vì container AI Studio không có `.git`). Bảo toàn nguyên vẹn Hero V4, Four Garden Windows 4 WebP, Ô ăn quan 3D Three.js, React Router, cấu hình GitHub Pages (`base: '/brainroot-2.0/'`) và bản chơi thử cũ tại `/games/fact-act/play?mode=legacy` (rollback không rủi ro).

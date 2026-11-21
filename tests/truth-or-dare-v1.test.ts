@@ -9,7 +9,9 @@ import {
   OFFLINE_FAQ_ENTRIES,
   RULEBOOK_SPREADS,
   TOD_ASSETS,
-  TRUTH_OR_DARE_DECK_SLOTS,
+  GREEN_PENALTY_SUGGESTIONS,
+  THEME_LABELS,
+  TRUTH_OR_DARE_DECK,
   answerBrainieFaq,
   getTruthOrDareUiCopy,
 } from '../src/features/truthOrDare/truthOrDareData';
@@ -44,6 +46,8 @@ import {
   getHeroCopy,
   getSiteMetaDescription,
 } from '../src/i18n/siteCopy';
+import { FACT_ACT_DETAIL, GREEN_PLAY_PRODUCTS } from '../src/data/games';
+import { getFactActDetailCopy } from '../src/i18n/siteCopy';
 import { getRouteDocumentTitle } from '../src/utils/routeNavigation';
 
 const FIXED_RNG = () => 0.42;
@@ -58,7 +62,7 @@ test('strict minimal VI and EN action labels match exact specification', () => {
     done: 'Xong',
     skip: 'Bỏ qua',
     spin: 'Quay',
-    next: 'Rút tiếp',
+    next: 'Chơi tiếp',
     stop: 'Dừng',
   });
   assert.deepEqual(ACTION_LABELS.en, {
@@ -70,27 +74,57 @@ test('strict minimal VI and EN action labels match exact specification', () => {
     done: 'Done',
     skip: 'Skip',
     spin: 'Spin',
-    next: 'Next',
+    next: 'Keep playing',
     stop: 'Stop',
   });
 });
 
-test('data contract contains 16 unfabricated card pairs and 15 unfabricated penalty slots', () => {
-  assert.equal(TRUTH_OR_DARE_DECK_SLOTS.length, 16);
-  const pairIds = new Set(TRUTH_OR_DARE_DECK_SLOTS.map((c) => c.pairId));
-  assert.equal(pairIds.size, 16);
-  for (const card of TRUTH_OR_DARE_DECK_SLOTS) {
-    assert.equal(card.approvalStatus, 'awaiting_owner_pdf_import');
-    assert.equal(card.truthText, null);
-    assert.equal(card.dareText, null);
+test('BR-T028 data contract: exactly the 20 owner-approved public cards (verbatim VI/EN) and 15 wheel sectors', () => {
+  assert.equal(TRUTH_OR_DARE_DECK.length, 20);
+  const pairIds = TRUTH_OR_DARE_DECK.map((c) => c.pairId);
+  assert.deepEqual(
+    pairIds,
+    Array.from({ length: 20 }, (_, i) => `TD-${String(i + 1).padStart(2, '0')}`),
+  );
+  for (const card of TRUTH_OR_DARE_DECK) {
+    assert.equal(card.approvalStatus, 'approved_public');
+    for (const text of [card.truthText, card.dareText]) {
+      assert.ok(text.vi.trim().length > 10, `${card.pairId} vi text`);
+      assert.ok(text.en.trim().length > 10, `${card.pairId} en text`);
+    }
+    assert.ok(card.truthTheme in THEME_LABELS);
+    assert.ok(card.dareTheme in THEME_LABELS);
   }
 
+  // Verbatim spot checks (text must never be rewritten)
+  const byId = new Map(TRUTH_OR_DARE_DECK.map((c) => [c.pairId, c]));
+  assert.equal(byId.get('TD-04')?.truthText.vi, 'Điều gì khiến bạn cảm thấy bình yên nhất giữa thiên nhiên?');
+  assert.equal(byId.get('TD-07')?.dareText.en, 'Water the plant closest to you.');
+  assert.equal(byId.get('TD-20')?.truthText.en, 'What item do you think should be shared rather than owned exclusively?');
+
+  // Timers and optional-proof flags exactly as supplied
+  const timers = Object.fromEntries(
+    TRUTH_OR_DARE_DECK.filter((c) => c.dareTimerSec !== null).map((c) => [c.pairId, c.dareTimerSec]),
+  );
+  assert.deepEqual(timers, { 'TD-01': 30, 'TD-05': 300, 'TD-12': 60, 'TD-14': 60, 'TD-19': 15 });
+  assert.deepEqual(
+    TRUTH_OR_DARE_DECK.filter((c) => c.dareProof).map((c) => c.pairId),
+    ['TD-03', 'TD-09', 'TD-11'],
+  );
+
+  // No placeholder copy left, and no private-card topics leaked into the public deck
+  const deckJson = JSON.stringify(TRUTH_OR_DARE_DECK);
+  assert.doesNotMatch(deckJson, /Khung nội dung|sẽ nạp|placeholder/i);
+  assert.doesNotMatch(deckJson, /crush|người yêu cũ|dìm hàng|ex-/i);
+
   assert.equal(GREEN_PENALTY_SLOTS.length, 15);
+  assert.equal(GREEN_PENALTY_SUGGESTIONS.length, 5);
   for (let i = 0; i < 15; i += 1) {
     assert.equal(GREEN_PENALTY_SLOTS[i].sectorIndex, i);
-    assert.equal(GREEN_PENALTY_SLOTS[i].approvalStatus, 'awaiting_owner_approval');
-    assert.equal(GREEN_PENALTY_SLOTS[i].text, null);
+    assert.equal(GREEN_PENALTY_SLOTS[i].approvalStatus, 'approved');
+    assert.equal(GREEN_PENALTY_SLOTS[i].text, GREEN_PENALTY_SUGGESTIONS[i % 5]);
   }
+  assert.equal(new Set(GREEN_PENALTY_SLOTS.map((s) => s.text.vi)).size, 5);
 
   assert.equal(RULEBOOK_SPREADS.length, 4);
   assert.equal(OFFLINE_FAQ_ENTRIES.length >= 4, true);
@@ -116,7 +150,7 @@ test('all 19 Truth or Dare SVGs and official mascots exist in public/', () => {
 test('engine enforces Arrival -> immediate Shuffle -> Choose before draw -> Pull -> 2-face Flip -> Done', () => {
   let state = createInitialTruthOrDareState();
   assert.equal(state.phase, 'arrival');
-  assert.equal(state.remainingIds.length, 16);
+  assert.equal(state.remainingIds.length, 20);
 
   // Scene A -> B: Pressing Play shuffles immediately
   state = startAndShuffleSession(state, FIXED_RNG);
@@ -136,7 +170,7 @@ test('engine enforces Arrival -> immediate Shuffle -> Choose before draw -> Pull
   assert.equal(state.phase, 'ready_to_pull');
   assert.equal(state.selectedSide, 'truth');
   assert.equal(state.drawnIds.length, 1);
-  assert.equal(state.remainingIds.length, 15);
+  assert.equal(state.remainingIds.length, 19);
   assert.ok(getActiveCard(state));
 
   // Pull -> Ready to Flip -> Flipped
@@ -183,10 +217,10 @@ test('engine strictly blocks consecutive Truth turns and unlocks Truth after a D
   assert.equal(state.selectedSide, 'truth');
 });
 
-test('non-repeating deck exhausts all 16 unique cards before reaching session_done', () => {
+test('non-repeating deck exhausts all 20 unique cards before reaching session_done', () => {
   let state = finishShuffle(startAndShuffleSession(createInitialTruthOrDareState(), FIXED_RNG));
 
-  for (let turn = 0; turn < 16; turn += 1) {
+  for (let turn = 0; turn < 20; turn += 1) {
     const side = canChooseTruth(state) ? 'truth' : 'dare';
     state = chooseSideBeforeDraw(state, side);
     state = flipSelectedCard(finishPullCard(startPullCard(state)));
@@ -195,8 +229,8 @@ test('non-repeating deck exhausts all 16 unique cards before reaching session_do
 
   assert.equal(state.phase, 'session_done');
   assert.equal(state.remainingIds.length, 0);
-  assert.equal(state.drawnIds.length, 16);
-  assert.equal(new Set(state.drawnIds).size, 16);
+  assert.equal(state.drawnIds.length, 20);
+  assert.equal(new Set(state.drawnIds).size, 20);
 });
 
 test('skip opens 15-? mystery wheel, hides result while spinning, lands accurately under top pointer, and supports non-punitive stop', () => {
@@ -225,6 +259,7 @@ test('skip opens 15-? mystery wheel, hides result while spinning, lands accurate
   const revealed = getRevealedPenaltySlot(state);
   assert.ok(revealed);
   assert.equal(revealed.slotId, 'GP-07');
+  assert.equal(revealed.text.vi, 'Uống một cốc nước và hô "Sống xanh!".');
 
   // Advance after wheel returns to choosing
   state = advanceAfterWheel(state);
@@ -249,7 +284,7 @@ test('Brainie Offline FAQ answers verified rules in VI/EN and refuses unknown qu
 
   const enWheel = answerBrainieFaq('How does the skip wheel work?', 'en');
   assert.equal(enWheel.matched, true);
-  assert.equal(enWheel.faqId, 'faq-skip-wheel');
+  assert.equal(enWheel.faqId, 'faq-skip-penalty');
 
   const unknownVi = answerBrainieFaq('Thủ đô của Pháp là gì?', 'vi');
   assert.equal(unknownVi.matched, false);
@@ -320,7 +355,7 @@ test('BR-T026: reshuffling mid-turn returns the drawn card to the deck instead o
   assert.equal(new Set(state.remainingIds).size, total);
 });
 
-test('BR-T026: reshuffling while holding the LAST card returns only that card, never resets the 16-card deck', () => {
+test('BR-T026: reshuffling while holding the LAST card returns only that card, never resets the 20-card deck', () => {
   let state = finishShuffle(startAndShuffleSession(createInitialTruthOrDareState(), FIXED_RNG));
   const total = state.remainingIds.length;
   // Play through until exactly one card is left, then pick it.
@@ -346,27 +381,43 @@ test('BR-T026: reshuffling while holding the LAST card returns only that card, n
   assert.equal(state.remainingIds.length + state.drawnIds.length, total);
 });
 
-test('BR-T027 rule gate: preview rules/FAQ/rulebook never claim to be the approved official rulebook', () => {
-  for (const locale of ['vi', 'en'] as const) {
-    const copy = getTruthOrDareUiCopy(locale);
-    assert.ok(copy.rulebookDraftNotice.length > 10);
-    assert.doesNotMatch(copy.botIntro, /đã xác nhận|verified/i);
-    assert.doesNotMatch(String(copy.brandSubtitle), /trung thực|faithful/i);
+test('BR-T028 rules: rulebook carries the 5-step official rule and no leftover "pending approval" copy', () => {
+  const allCopy = JSON.stringify({
+    spreads: RULEBOOK_SPREADS,
+    faq: OFFLINE_FAQ_ENTRIES,
+    vi: getTruthOrDareUiCopy('vi'),
+    en: getTruthOrDareUiCopy('en'),
+    refusalVi: answerBrainieFaq('xyz không liên quan 123', 'vi').text,
+    refusalEn: answerBrainieFaq('xyz unrelated 123', 'en').text,
+  });
+  assert.doesNotMatch(allCopy, /chờ nhóm duyệt|pending team|awaiting|Khung nội dung/i);
+
+  const spreadsText = JSON.stringify(RULEBOOK_SPREADS);
+  for (const needle of ['BƯỚC 1', 'BƯỚC 2', 'BƯỚC 3', 'BƯỚC 4', 'BƯỚC 5', 'Green Penalty', 'Không được chọn Truth hai lượt liên tiếp']) {
+    assert.ok(spreadsText.includes(needle), `rulebook missing: ${needle}`);
   }
   for (const spread of RULEBOOK_SPREADS) {
     for (const locale of ['vi', 'en'] as const) {
       const note = spread.right.footnote[locale];
-      assert.match(note, /Bản thử|Preview/);
+      assert.match(note, /20\/63|20 of 63/);
       assert.doesNotMatch(note, /Trang \d|Pages? \d/i, 'no fabricated PDF page citations');
-      const text = JSON.stringify(spread);
-      assert.doesNotMatch(text, /KEY OFFICIAL RULE|LUẬT QUAN TRỌNG|Theo luật chính thức|By the official/);
     }
   }
-  for (const entry of OFFLINE_FAQ_ENTRIES) {
-    assert.doesNotMatch(entry.answer.vi, /Theo luật chính thức/);
-    assert.doesNotMatch(entry.answer.en, /By the official/i);
+  for (const locale of ['vi', 'en'] as const) {
+    assert.ok(getTruthOrDareUiCopy(locale).rulebookDraftNotice.length > 10);
   }
   const refusal = answerBrainieFaq('xyz không liên quan 123', 'vi');
   assert.equal(refusal.matched, false);
-  assert.match(refusal.text, /chờ nhóm duyệt/);
+  assert.match(refusal.text, /Mình chưa có thông tin/);
+});
+
+test('BR-T028 content consistency: Truth or Dare pages no longer describe the old 3-situation trial', () => {
+  const factAct = GREEN_PLAY_PRODUCTS.find((p) => p.id === 'fact-act');
+  const copy = JSON.stringify({
+    product: factAct,
+    detail: FACT_ACT_DETAIL,
+    en: getFactActDetailCopy('en'),
+  });
+  assert.doesNotMatch(copy, /3 tình huống|Tình huống → Hành động → Phản tư|tình huống ngắn|tình huống học đường|short-scenario|chờ nhóm duyệt/i);
+  assert.match(copy, /20 trong 63|20 of the 63|20 of 63/);
 });

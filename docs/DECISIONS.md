@@ -7,6 +7,7 @@ Mỗi quyết định lớn viết một bản ADR độc lập, *proposed/accep
 | [0001](decisions/0001-public-trial-and-paid-entitlements.md) | Public discovery + server-side paid entitlement | PROPOSED |
 | [0002](decisions/0002-release-first-game-loop.md) | MVP = one functional educational game loop | PROPOSED |
 | [0003](decisions/0003-shared-agent-rule-and-log-system.md) | One root AGENTS.md, per-agent logs, shared tasks | PROPOSED |
+| [0005](decisions/0005-public-20-card-truth-or-dare.md) | Công khai 20/63 thẻ Truth or Dare trên bản chơi thử web | ACCEPTED |
 
 Use short format adapted from [MADR](https://github.com/adr/madr); no external wording copied.
 
