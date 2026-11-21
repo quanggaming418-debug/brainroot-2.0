@@ -498,6 +498,15 @@ export function TruthOrDareCardStage({
     );
   }
 
+  /* While the penalty wheel dialog is open the stage stays empty; it must not show the end-of-session message. */
+  if (
+    state.phase === 'wheel_ready' ||
+    state.phase === 'wheel_spinning' ||
+    state.phase === 'wheel_result'
+  ) {
+    return <div className="tod-stage-center" aria-hidden="true" />;
+  }
+
   /* ── Scene G: Session Complete (all cards drawn without repeats) ─────── */
   return (
     <div className="tod-stage-center tod-done-box" data-testid="tod-scene-done">

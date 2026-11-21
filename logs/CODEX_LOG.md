@@ -113,3 +113,12 @@
 - **Tests actually executed:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` PASS 40/40 (baseline 39/39) · `npm run build` PASS · Playwright Chromium headless 390×844 (script tạm, đã xóa) PASS: Shuffle giữ lá bài (16→15→16), Tab/Shift+Tab nằm trong modal vòng quay và sách luật, Escape ở wheel_ready không bỏ qua, Escape sau kết quả đóng, focus trả về nút mở, 0 lỗi console, 0 tràn ngang · `npm run lint` NOT RUN (chưa có script) · chạy trên `vite preview` bản build.
 - **Chưa làm (PR sau):** Stop xóa phiên, alt tiếng Anh cứng, vô hiệu `?mode=legacy`, rulebook chờ duyệt, deployment `VITE_BASE`, v.v.
 - **Git:** nhánh `codex/br-t026-gameplay-a11y`, **NOT COMMITTED**.
+
+## Session: 2026-11-21 (QA) — Claude Code — BR-T026 / PR #10
+
+- **Task & goal:** QA bổ sung 1440/320/reduced-motion/Brainie/bàn phím; chỉ sửa lỗi cần thiết trong phạm vi BR-T026.
+- **Bổ sung sửa:** (1) `truth-or-dare-v1.css` — `.tod-modal-backdrop > * { margin:auto }` để dialog cao không bị cắt đầu và vẫn cuộn được ở 320×568; (2) `BrainieFaqPopover.tsx` — Escape trả focus về nút Brainie; (3) `TruthOrDareCardStage.tsx` — pha `wheel_*` không còn hiển thị thông báo "Bạn đã rút hết các thẻ" phía sau modal.
+- **Tests actually executed:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` PASS 40/40 · `npm run build` PASS · Playwright Chromium headless (script tạm đã xóa, `vite preview`): 1440×900 / 320×568 / 390×844+reduced-motion — PASS: 0 tràn ngang ở mọi pha, 0 lỗi console/HTTP, thao tác Chơi→Chọn→Rút→Lật→Bỏ qua→Quay→Rút tiếp bằng bàn phím, Shuffle giữ lá, Tab-trap + trả focus ở vòng quay & sách luật, Escape không bỏ qua penalty khi chưa quay/đang quay, Brainie trả lời đúng/từ chối ngoài phạm vi (VI), nút Dừng ở 320px cuộn tới được · ảnh vòng quay 1440 & 320 đã xem bằng mắt: OK.
+- **NOT RUN:** `npm run lint` (không có script) · screen reader thật · Safari iOS/Chrome Android thiết bị thật · Brainie trả lời tiếng Anh ở locale EN · reduced-motion ở 1440/320 (chỉ 390).
+- **Vấn đề a11y còn tồn đọng (ngoài phạm vi, chưa sửa):** thẻ `.tod-card-3d` có onClick nhưng không role/tabindex (người dùng bàn phím dùng nút Rút/Lật nên không bị chặn); nút HUD Trộn/Dừng cao 38–39px (<44px khuyến nghị); Brainie là popover không-modal, Tab có thể ra ngoài (chấp nhận được); alt tiếng Anh cố định và ID thô `TD-01`; `aria-live` bao cả danh sách chat; Stop xóa toàn bộ phiên; Brainie nói "luật đã xác nhận" trong khi luật chưa được nhóm duyệt (→ PR3).
+- **Git:** nhánh `codex/br-t026-gameplay-a11y`, PR #10; không merge.

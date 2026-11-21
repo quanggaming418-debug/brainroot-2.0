@@ -28,11 +28,15 @@ export function BrainieFaqPopover({
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<readonly ChatMessage[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') {
+        setOpen(false);
+        triggerRef.current?.focus({ preventScroll: true });
+      }
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
@@ -211,6 +215,7 @@ export function BrainieFaqPopover({
       <button
         type="button"
         className="tod-bot-fab"
+        ref={triggerRef}
         data-testid="tod-bot-trigger"
         aria-label={copy.botButtonAria}
         aria-expanded={open}

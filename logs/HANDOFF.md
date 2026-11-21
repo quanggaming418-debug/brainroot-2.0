@@ -205,3 +205,9 @@
 - **Validation:** isolated strict TS compilation of renderer/model PASS; Node sandbox-state smoke PASS. React/Vite build, WebGL2 visual browser QA and integration E2E **NOT RUN / NOT VERIFIED** in this environment. Details and acceptance gates in `docs/BR_T023_S1A_HANDOFF.md`.
 - **Next owner/agent:** Product Owner can review and merge PR #3 as internal intake after approval; Codex S1B should review Draft PR #4, install dependencies already in repo, run full tests and screenshot QA, correct issues, then prepare PR #4 for review (do not auto-merge).
 - **Dependencies:** D1/rights before public deploy (`BR-T002`), `OQ-08` before game rules, and backend/privacy decisions before online mode. BR-T022 remains open for other Wave 1A assets.
+
+## 2026-11-21 — BR-T026 · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW` — PR #10 (`codex/br-t026-gameplay-a11y`) đã commit + push, **chưa merge**, chờ Product Owner duyệt.
+- **Kiểm thử:** typecheck PASS · unit 40/40 PASS · build PASS · Playwright 1440/320/390+reduced-motion PASS · lint NOT RUN · thiết bị/screen reader thật NOT RUN.
+- **Bước tiếp (chưa làm, cần duyệt):** PR3 — kiểm soát luật/nội dung chưa duyệt (engine rules, FAQ Brainie, sách luật, `?mode=legacy`, model Gemini chưa xác minh); sau đó mới tới PR2 deployment (`VITE_BASE`).

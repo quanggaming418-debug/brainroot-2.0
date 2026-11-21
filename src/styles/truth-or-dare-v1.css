@@ -1017,6 +1017,11 @@
   overflow-y: auto;
 }
 
+/* Centre with auto margins so tall dialogs (320px screens) scroll instead of being clipped at the top. */
+.tod-modal-backdrop > * {
+  margin: auto;
+}
+
 /* ── Green Penalty 15-? Mystery Wheel Modal ────────────────────────────── */
 .tod-wheel-dialog {
   position: relative;
