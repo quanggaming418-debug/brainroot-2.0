@@ -19,3 +19,7 @@
 - Do not use photos of multiple card faces as the data layer for a playable digital deck: need front/back assets per card plus structured text and content licensing. Photo/render is suitable for product showcase only.
 - `brainroot_slide1.svg` includes some C2PA/AI-generated media metadata for individual embedded elements. **This does not establish that the project owns or has exclusive rights to all component media**; verify Canva source/artist rights with the team.
 - User-uploaded brand art should not be sent to third-party image-generation services until the team confirms rights and permission. AI output editing is optional, **not required** to build a polished site.
+
+## Khai báo nội dung Learn + Quiz (BR-T029, 2026-11-21)
+- `src/data/learnFacts.ts` và `src/data/quiz.ts` do AI soạn **bản nháp** từ nguồn công khai; mỗi fact ghi tên nguồn + URL (+ năm nếu có). Số liệu giữ nguyên như file nội dung nhóm cung cấp, chưa được nhóm/giảng viên duyệt.
+- Giữ ẩn: ngưỡng "9 m² cây xanh/người" và "0,5 ha trong 300 m" (chưa xác nhận bản gốc WHO). Chưa có fact riêng Việt Nam cho Nước và Năng lượng.

@@ -154,3 +154,9 @@
 - **Tests executed:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` PASS 43/43 · `npm run build` PASS · trình duyệt (Vite dev, 375×812, 768×1024, desktop): chơi hết 20 thẻ không lặp, 0 tràn ngang, 0 prompt bị cuộn trong thẻ ở 375px, đồng hồ đếm/đặt lại, vòng quay ra hình phạt thật, EN hiển thị đúng, sách luật mở được. `npm run lint` NOT RUN. Reduced-motion, 320px, bàn phím/trình đọc màn hình, Safari/Android thật: NOT RUN trong phiên này.
 - **Chưa làm / rủi ro:** P1 #7 (chọn người chơi tiếp theo) NOT DONE; chủ đề thẻ là đề xuất chờ nhóm xác nhận; `?mode=legacy` và trang trial cũ còn chuỗi "tình huống" nhưng chỉ dùng ở dev; header ở 768px xuống dòng (có sẵn từ trước, ngoài phạm vi).
 - **Git commit SHA:** NOT COMMITTED.
+
+## Session: 2026-11-21 — Claude Code — BR-T029 (Green Learn facts + Quiz)
+
+- **Files:** `src/data/{learnFacts,quiz}.ts`, `src/features/learn/{quizEngine.ts,LearnQuiz.tsx}`, `src/pages/GreenLearnPage.tsx`, `src/styles/unified-world.css`, `tests/br-t029-learn-quiz.test.ts`, `docs/ASSET_AUDIT.md`, `planning/TASKS.md`.
+- **Tests:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` 47/47 PASS · `npm run build` PASS · trình duyệt: chơi hết 5 câu bằng phím 1, nguồn mở được, 0 tràn ngang ở 375px. Lint, reduced-motion, trình đọc màn hình: NOT RUN.
+- **Ghi chú:** năm nguồn để `null` khi file nội dung không nêu (không đoán). Đáp án EN của quiz là bản dịch của tôi từ lựa chọn VI. **NOT COMMITTED**, nhánh `codex/br-t029-learn-quiz`.
