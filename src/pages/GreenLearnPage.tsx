@@ -7,6 +7,25 @@ import {
 } from '../components/garden/GardenPrimitives';
 import { useI18n } from '../i18n/I18nContext';
 import { getBreadcrumbsUiCopy, getGreenLearnCopy } from '../i18n/siteCopy';
+import { getFactsForTopic } from '../data/learnFacts';
+import { LearnQuiz } from '../features/learn/LearnQuiz';
+
+const FACT_UI = {
+  vi: {
+    heading: 'Số liệu có nguồn',
+    source: 'Nguồn',
+    opens: 'mở trong tab mới',
+    none: 'Đang tra cứu số liệu có nguồn cho chủ đề này.',
+    noteVi: 'Số liệu lấy từ nguồn công khai ghi kèm; nội dung do AI soạn nháp và đang chờ nhóm duyệt.',
+  },
+  en: {
+    heading: 'Sourced facts',
+    source: 'Source',
+    opens: 'opens in a new tab',
+    none: 'We are still looking up sourced figures for this topic.',
+    noteVi: 'Figures come from the public sources shown; AI-drafted content pending team review.',
+  },
+} as const;
 
 export function GreenLearnPage() {
   const { locale } = useI18n();
@@ -16,6 +35,7 @@ export function GreenLearnPage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const currentTopic = copy.topics[activeIndex] ?? copy.topics[0];
   const totalTopics = copy.topics.length;
+  const topicFacts = getFactsForTopic(currentTopic.id);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev - 1 + totalTopics) % totalTopics);
@@ -135,6 +155,37 @@ export function GreenLearnPage() {
               </div>
             </div>
 
+            <div className="learn-facts" data-testid="learn-facts">
+              <h3 className="learn-facts__heading">{FACT_UI[locale].heading}</h3>
+              {topicFacts.length === 0 ? (
+                <p className="learn-facts__none">{FACT_UI[locale].none}</p>
+              ) : (
+                <ul className="learn-facts__list">
+                  {topicFacts.map((fact) => (
+                    <li className="learn-fact" key={fact.id}>
+                      <p className="learn-fact__text" lang={locale}>
+                        {fact[locale]}
+                      </p>
+                      {fact.scopeNote ? (
+                        <p className="learn-fact__scope">{fact.scopeNote[locale]}</p>
+                      ) : null}
+                      <a
+                        className="learn-fact__source"
+                        href={fact.source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${FACT_UI[locale].source}: ${fact.source.name} (${FACT_UI[locale].opens})`}
+                      >
+                        {FACT_UI[locale].source}: {fact.source.name}
+                        {fact.source.year ? ` (${fact.source.year})` : ''}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <p className="learn-facts__note">{FACT_UI[locale].noteVi}</p>
+            </div>
+
             <p className="trial-source-note">
               <strong>{copy.editorialLabel}</strong> {currentTopic.provenanceNote}
             </p>
@@ -156,6 +207,8 @@ export function GreenLearnPage() {
               </button>
             </div>
           </article>
+
+          <LearnQuiz locale={locale} />
 
           <div className="world-next-strip">
             <p>{copy.nextStripPrompt}</p>
