@@ -67,7 +67,7 @@ export function createInitialTruthOrDareState(
   };
 }
 
-/** Official rule: player cannot pick Truth on two consecutive turns. */
+/** Preview rule (pending team approval): player cannot pick Truth on two consecutive turns. */
 export function canChooseTruth(state: TruthOrDareState): boolean {
   return state.lastChoice !== 'truth';
 }

@@ -256,6 +256,9 @@ export function HardcoverRulebookModal({
             ✕
           </button>
         </div>
+        <p className="tod-rulebook-draft" data-testid="tod-rulebook-draft">
+          {copy.rulebookDraftNotice}
+        </p>
 
         {!isBookOpened ? (
           <button

@@ -94,7 +94,7 @@ test('data contract contains 16 unfabricated card pairs and 15 unfabricated pena
 
   assert.equal(RULEBOOK_SPREADS.length, 4);
   assert.equal(OFFLINE_FAQ_ENTRIES.length >= 4, true);
-  assert.equal(FUTURE_GEMINI_PROXY_ARCHITECTURE.recommendedModel, 'gemini-3.5-flash');
+  assert.match(FUTURE_GEMINI_PROXY_ARCHITECTURE.recommendedModel, /unverified/);
 });
 
 test('all 19 Truth or Dare SVGs and official mascots exist in public/', () => {
@@ -344,4 +344,29 @@ test('BR-T026: reshuffling while holding the LAST card returns only that card, n
   assert.equal(state.phase, 'shuffling');
   // Nothing outside the single returned card came back into the deck.
   assert.equal(state.remainingIds.length + state.drawnIds.length, total);
+});
+
+test('BR-T027 rule gate: preview rules/FAQ/rulebook never claim to be the approved official rulebook', () => {
+  for (const locale of ['vi', 'en'] as const) {
+    const copy = getTruthOrDareUiCopy(locale);
+    assert.ok(copy.rulebookDraftNotice.length > 10);
+    assert.doesNotMatch(copy.botIntro, /đã xác nhận|verified/i);
+    assert.doesNotMatch(String(copy.brandSubtitle), /trung thực|faithful/i);
+  }
+  for (const spread of RULEBOOK_SPREADS) {
+    for (const locale of ['vi', 'en'] as const) {
+      const note = spread.right.footnote[locale];
+      assert.match(note, /Bản thử|Preview/);
+      assert.doesNotMatch(note, /Trang \d|Pages? \d/i, 'no fabricated PDF page citations');
+      const text = JSON.stringify(spread);
+      assert.doesNotMatch(text, /KEY OFFICIAL RULE|LUẬT QUAN TRỌNG|Theo luật chính thức|By the official/);
+    }
+  }
+  for (const entry of OFFLINE_FAQ_ENTRIES) {
+    assert.doesNotMatch(entry.answer.vi, /Theo luật chính thức/);
+    assert.doesNotMatch(entry.answer.en, /By the official/i);
+  }
+  const refusal = answerBrainieFaq('xyz không liên quan 123', 'vi');
+  assert.equal(refusal.matched, false);
+  assert.match(refusal.text, /chờ nhóm duyệt/);
 });

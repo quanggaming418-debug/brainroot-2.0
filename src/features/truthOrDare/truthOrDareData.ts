@@ -9,7 +9,9 @@ import { publicUrl } from '../../utils/publicUrl';
  *   verbatim PDF pp.66–67 rulebook passages, or draft Green Penalties.
  * - Card deck (16 sample slots) and 15 Green Penalty slots are typed drop-in
  *   contracts awaiting owner approval & official VI/EN PDF import.
- * - Offline Brainie FAQ answers ONLY verified mechanics; zero API keys in frontend.
+ * - RULE GATE (BR-T027): rulebook, FAQ and mechanics text describe how THIS PREVIEW
+ *   works. None of it is the team's approved official rulebook until the team
+ *   supplies and confirms the source. Zero API keys in frontend.
  */
 
 export type CardSide = 'truth' | 'dare';
@@ -199,7 +201,7 @@ export const GREEN_PENALTY_SLOTS: readonly GreenPenaltySlot[] = Array.from(
   },
 );
 
-/** Hardcover Storybook Rulebook spreads covering ONLY verified official mechanics. */
+/** Hardcover Storybook Rulebook spreads describing the PREVIEW's mechanics (pending team approval; not the official rulebook). */
 export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
   {
     id: 'spread-1',
@@ -212,8 +214,8 @@ export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
         en: 'Meet Brainie & Rootie',
       },
       body: {
-        vi: 'Brainroot - Truth or Dare là phiên bản số trung thực với bộ thẻ bài vật lý của nhóm. Mỗi lá bài có hai mặt tách biệt: Brainie đại diện cho Truth, Rootie đại diện cho Dare.',
-        en: 'Brainroot - Truth or Dare is the faithful digital edition of our physical card deck. Every card holds two distinct sides: Brainie represents Truth, and Rootie represents Dare.',
+        vi: 'Brainroot - Truth or Dare là phiên bản số của bộ thẻ bài vật lý của nhóm. Mỗi lá bài có hai mặt tách biệt: Brainie đại diện cho Truth, Rootie đại diện cho Dare.',
+        en: 'Brainroot - Truth or Dare is the digital edition of our team’s physical card deck. Every card holds two distinct sides: Brainie represents Truth, and Rootie represents Dare.',
       },
       mascot: 'both',
     },
@@ -238,8 +240,8 @@ export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
         },
       ],
       footnote: {
-        vi: 'Trang 1–2 · Bố cục sẵn sàng ghép nguyên văn sách luật khi được duyệt.',
-        en: 'Pages 1–2 · Ready to receive verbatim official rulebook spreads upon release.',
+        vi: 'Bản thử · nội dung chờ nhóm duyệt.',
+        en: 'Preview · content pending team approval.',
       },
     },
   },
@@ -260,7 +262,7 @@ export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
       mascot: 'brainie',
     },
     right: {
-      kicker: { vi: 'LUẬT QUAN TRỌNG', en: 'KEY OFFICIAL RULE' },
+      kicker: { vi: 'CÁCH CHƠI TRONG BẢN THỬ', en: 'HOW THIS PREVIEW WORKS' },
       title: {
         vi: 'Không chọn Truth hai lượt liên tiếp',
         en: 'No two consecutive Truth turns',
@@ -280,8 +282,8 @@ export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
         },
       ],
       footnote: {
-        vi: 'Trang 3–4 · Quy tắc luân phiên giúp cuộc trò chuyện và hành động luôn cân bằng.',
-        en: 'Pages 3–4 · Alternating keeps dialogue and action balanced.',
+        vi: 'Bản thử · nội dung chờ nhóm duyệt.',
+        en: 'Preview · content pending team approval.',
       },
     },
   },
@@ -322,8 +324,8 @@ export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
         },
       ],
       footnote: {
-        vi: 'Trang 5–6 · Trải nghiệm tôn trọng quyền chủ động của người chơi.',
-        en: 'Pages 5–6 · Gameplay always respects player comfort and autonomy.',
+        vi: 'Bản thử · nội dung chờ nhóm duyệt.',
+        en: 'Preview · content pending team approval.',
       },
     },
   },
@@ -346,8 +348,8 @@ export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
     right: {
       kicker: { vi: 'BẢN QUYỀN & NỘI DUNG', en: 'CONTENT TRANSPARENCY' },
       title: {
-        vi: 'Đồng bộ nguyên văn từ bộ thẻ chính thức',
-        en: 'Synced verbatim from the official deck',
+        vi: 'Nội dung chính thức đang chờ duyệt',
+        en: 'Official content is pending approval',
       },
       points: [
         {
@@ -364,16 +366,16 @@ export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
         },
       ],
       footnote: {
-        vi: 'Trang 7–8 · Brainroot - Truth or Dare.',
-        en: 'Pages 7–8 · Brainroot - Truth or Dare.',
+        vi: 'Bản thử · nội dung chờ nhóm duyệt.',
+        en: 'Preview · content pending team approval.',
       },
     },
   },
 ];
 
 /**
- * Verified Offline FAQ entries for the floating official Brainie helper.
- * Answers ONLY verified official mechanics — never fabricates rules or card text.
+ * Offline FAQ entries for the floating Brainie helper.
+ * Describes how this PREVIEW works (rules pending team approval) — never fabricates card text.
  */
 export const OFFLINE_FAQ_ENTRIES: readonly OfflineFaqEntry[] = [
   {
@@ -398,8 +400,8 @@ export const OFFLINE_FAQ_ENTRIES: readonly OfflineFaqEntry[] = [
       en: 'Why can’t I pick Truth twice in a row?',
     },
     answer: {
-      vi: 'Theo luật chính thức của Brainroot - Truth or Dare, người chơi không được chọn Truth ở hai lượt liên tiếp. Sau một lượt Dare cùng Rootie, nút Truth sẽ mở lại bình thường.',
-      en: 'By the official Brainroot - Truth or Dare rule, you cannot choose Truth on two consecutive turns. After one Dare turn with Rootie, Truth unlocks again.',
+      vi: 'Trong bản thử hiện tại, người chơi không chọn Truth ở hai lượt liên tiếp (quy tắc này đang chờ nhóm đối chiếu với luật chính thức). Sau một lượt Dare cùng Rootie, nút Truth sẽ mở lại bình thường.',
+      en: 'In this preview you cannot choose Truth on two consecutive turns (this rule is pending the team’s confirmation against the official rules). After one Dare turn with Rootie, Truth unlocks again.',
     },
     keywords: {
       vi: ['truth', 'lien tiep', 'khoa', 'hai lan', 'brainie'],
@@ -440,7 +442,7 @@ export const OFFLINE_FAQ_ENTRIES: readonly OfflineFaqEntry[] = [
     id: 'faq-card-slots',
     question: {
       vi: 'Vì sao lá bài đang hiển thị khung chờ nội dung gốc?',
-      en: 'Why do cards show official deck slots right now?',
+      en: 'Why do cards show placeholder slots right now?',
     },
     answer: {
       vi: 'Để giữ đúng nguyên văn bộ thẻ vật lý VI/EN và tránh tự bịa câu hỏi hay hình phạt, hệ thống đang hiển thị cấu trúc 16 cặp thẻ và 15 ô vòng quay chờ nạp trực tiếp từ tệp gốc sau khi nhóm duyệt phát hành.',
@@ -534,8 +536,8 @@ export function answerBrainieFaq(
     faqId: null,
     text:
       locale === 'en'
-        ? 'I am not sure about that — in Offline FAQ mode, I can only answer verified Brainroot - Truth or Dare rules (starting a turn, consecutive-Truth lock, 2-face flip, 15-? Skip wheel, and stopping safely).'
-        : 'Mình chưa có thông tin đã kiểm chứng cho câu hỏi này. Ở chế độ Hỏi đáp ngoại tuyến, Brainie chỉ trả lời đúng luật đã xác nhận của Brainroot - Truth or Dare (cách bắt đầu, luật không chọn Truth liên tiếp, lật 2 mặt, vòng quay 15 dấu ? khi Bỏ qua và cách Dừng an toàn).',
+        ? 'I am not sure about that — in Offline FAQ mode I can only explain how this Brainroot - Truth or Dare preview works (starting a turn, consecutive-Truth lock, 2-face flip, 15-? Skip wheel, and stopping safely). Official rules are pending team approval.'
+        : 'Mình chưa có thông tin cho câu hỏi này. Ở chế độ Hỏi đáp ngoại tuyến, Brainie chỉ giải thích cách vận hành của bản thử Brainroot - Truth or Dare (cách bắt đầu, không chọn Truth liên tiếp, lật 2 mặt, vòng quay 15 dấu ? khi Bỏ qua và cách Dừng an toàn). Luật chính thức đang chờ nhóm duyệt.',
   };
 }
 
@@ -546,16 +548,17 @@ export function answerBrainieFaq(
 export const FUTURE_GEMINI_PROXY_ARCHITECTURE = {
   deploymentMode: 'offline_faq_static_pages' as const,
   futureServerEndpoint: '/api/brainie-rules-helper',
-  recommendedModel: 'gemini-3.5-flash',
+  // Intentionally unverified: confirm an available model id, API quota and cost before any build.
+  recommendedModel: 'unverified — confirm model, quota and cost first',
   securityControls: [
     'Store GEMINI_API_KEY strictly in server environment variables; never bundle into Vite client.',
-    'Ground responses exclusively on approved public rulebook markdown & verified FAQ JSON.',
+    'Ground responses exclusively on team-approved public rulebook markdown & FAQ JSON.',
     'Never load unapproved or private physical deck card files into the prompt context.',
     'Enforce per-IP sliding-window rate limit (e.g. 12 requests/min, 60/day) and strict maxOutputTokens cap (<= 220 tokens).',
     'Enforce daily budget ceiling and graceful fallback to this Offline FAQ module on 429/5xx.',
   ],
   strictSystemPromptDraft:
-    'You are Brainie, the official rules guide for Brainroot - Truth or Dare. Answer ONLY from the approved rulebook context provided. Never invent card questions, dare actions, penalties, or extra game modes. If a question is outside the verified rules, politely state that you do not know and point the player to the hardcover Rulebook.',
+    'You are Brainie, the rules guide for Brainroot - Truth or Dare. Answer ONLY from the team-approved rulebook context provided. Never invent card questions, dare actions, penalties, or extra game modes. If a question is outside the verified rules, politely state that you do not know and point the player to the hardcover Rulebook.',
 } as const;
 
 export function getTruthOrDareUiCopy(locale: Locale) {
@@ -563,7 +566,7 @@ export function getTruthOrDareUiCopy(locale: Locale) {
     return {
       breadcrumbHome: 'Home',
       experienceAria: 'Brainroot - Truth or Dare interactive tabletop',
-      brandSubtitle: 'Faithful Digital Card Tabletop',
+      brandSubtitle: 'Digital Card Tabletop (Preview)',
       arrivalHeading: 'Brainroot - Truth or Dare',
       arrivalNote: 'Pick Brainie or Rootie before drawing — flip only your chosen side.',
       rulesIconTitle: 'Open hardcover rulebook',
@@ -596,13 +599,15 @@ export function getTruthOrDareUiCopy(locale: Locale) {
       wheelSpinningNote: 'Spinning the 15-? wheel...',
       wheelResultHeading: (slotNumber: string) => `Landed on Mystery Slot #${slotNumber}`,
       wheelResultSlotBody:
-        'Approved Green Penalty text from the Brainroot team slots directly into this verified sector upon owner release.',
+        'Green Penalty text approved by the Brainroot team will appear in this slot once released.',
       wheelSafeExitLabel: 'Exit without penalty',
       rulebookTitle: 'Hardcover Rulebook',
       rulebookOpenHint: 'Open Book',
       rulebookPrevPage: 'Previous',
       rulebookNextPage: 'Next',
       rulebookClose: 'Close rulebook',
+      rulebookDraftNotice:
+        'Preview — describes how this digital version currently works. Official rules are pending team approval.',
       rulebookPageLabel: (n: number) => `Page ${n}`,
       rulebookSpreadLabel: (l: number, r: number, total: number) =>
         `Pages ${l}–${r} / ${total}`,
@@ -612,7 +617,7 @@ export function getTruthOrDareUiCopy(locale: Locale) {
       botTitle: 'Brainie Rules Guide',
       botOfflineBadge: 'Offline FAQ',
       botIntro:
-        'Hi! I am Brainie in Offline FAQ mode. Ask me about verified Brainroot - Truth or Dare rules.',
+        'Hi! I am Brainie in Offline FAQ mode. Ask me how this Brainroot - Truth or Dare preview works (official rules are pending team approval).',
       botInputPlaceholder: 'Ask a rule question...',
       botSendLabel: 'Ask',
       botCloseAria: 'Close Brainie FAQ',
@@ -623,7 +628,7 @@ export function getTruthOrDareUiCopy(locale: Locale) {
   return {
     breadcrumbHome: 'Trang chủ',
     experienceAria: 'Bàn chơi tương tác Brainroot - Truth or Dare',
-    brandSubtitle: 'Phiên bản số trung thực bộ thẻ vật lý',
+    brandSubtitle: 'Bàn thẻ số (bản thử)',
     arrivalHeading: 'Brainroot - Truth or Dare',
     arrivalNote: 'Chọn Brainie hoặc Rootie trước khi rút — chỉ lật đúng mặt đã chọn.',
     rulesIconTitle: 'Mở sách luật bìa cứng',
@@ -656,13 +661,15 @@ export function getTruthOrDareUiCopy(locale: Locale) {
     wheelSpinningNote: 'Đang quay vòng 15 dấu ?...',
     wheelResultHeading: (slotNumber: string) => `Dừng tại ô bí ẩn số #${slotNumber}`,
     wheelResultSlotBody:
-      'Nội dung Hình phạt Xanh đã kiểm duyệt của đội ngũ Brainroot sẽ nạp trực tiếp vào ô này khi được duyệt công khai.',
+      'Nội dung Hình phạt Xanh do nhóm Brainroot duyệt sẽ xuất hiện tại ô này khi được công bố.',
     wheelSafeExitLabel: 'Thoát không phạt',
     rulebookTitle: 'Sách luật bìa cứng',
     rulebookOpenHint: 'Mở sách luật',
     rulebookPrevPage: 'Trang trước',
     rulebookNextPage: 'Trang sau',
     rulebookClose: 'Đóng sách luật',
+    rulebookDraftNotice:
+      'Bản thử — mô tả cách bản số hiện vận hành. Luật chính thức đang chờ nhóm duyệt.',
     rulebookPageLabel: (n: number) => `Trang ${n}`,
     rulebookSpreadLabel: (l: number, r: number, total: number) =>
       `Trang ${l}–${r} / ${total}`,
@@ -672,7 +679,7 @@ export function getTruthOrDareUiCopy(locale: Locale) {
     botTitle: 'Brainie Hỏi đáp Luật',
     botOfflineBadge: 'FAQ Ngoại tuyến',
     botIntro:
-      'Chào bạn! Mình là Brainie ở chế độ FAQ ngoại tuyến, chỉ trả lời đúng luật đã xác nhận của Brainroot - Truth or Dare.',
+      'Chào bạn! Mình là Brainie ở chế độ FAQ ngoại tuyến. Mình giải thích cách vận hành của bản thử Brainroot - Truth or Dare (luật chính thức đang chờ nhóm duyệt).',
     botInputPlaceholder: 'Hỏi về luật chơi...',
     botSendLabel: 'Hỏi',
     botCloseAria: 'Đóng hộp thoại Brainie',
