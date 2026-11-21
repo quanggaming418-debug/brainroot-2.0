@@ -321,7 +321,7 @@ export function getGreenPlayLibraryCopy(locale: Locale) {
         'Educational green-skills card deck sparking open dialogue and real action',
       statusLabel: 'Physical Card Deck · Interactive Digital Experience Live',
       description:
-        'Brainroot - Truth or Dare brings our physical card deck to the web with a 2-face digital flip, official Brainie (Truth) & Rootie (Dare) turn mechanics, hardcover rulebook, and 15-slot mystery Green Penalty wheel.',
+        'Brainroot - Truth or Dare brings our physical card deck to the web with a 2-face digital flip, Brainie (Truth) & Rootie (Dare) turn mechanics, hardcover rulebook, and 15-slot mystery Green Penalty wheel.',
       ctaLabel: 'Play Interactive Experience',
       secondaryCtaLabel: 'View Product Overview',
       media: {
@@ -433,7 +433,7 @@ export function getFactActDetailCopy(locale: Locale) {
     tagline:
       'Sparking open conversations about green living and everyday sustainable habits.',
     overview:
-      'Brainroot - Truth or Dare is our interactive card game for classrooms, clubs, and friends. Experience the faithful digital version directly in your browser with deck shuffling, Brainie (Truth) & Rootie (Dare) selection before drawing, 2-face flip, hardcover rulebook, and the 15-slot mystery Green Penalty wheel.',
+      'Brainroot - Truth or Dare is our interactive card game for classrooms, clubs, and friends. Experience the digital version directly in your browser with deck shuffling, Brainie (Truth) & Rootie (Dare) selection before drawing, 2-face flip, hardcover rulebook, and the 15-slot mystery Green Penalty wheel.',
     trialCtaLabel: 'Open Interactive Web Experience',
     trialCtaTo: '/games/fact-act/play',
     backToLibrary: '← Green Play Library',
@@ -443,7 +443,7 @@ export function getFactActDetailCopy(locale: Locale) {
     specs: [
       {
         label: 'Format',
-        value: 'Physical card deck & faithful 2-face digital experience',
+        value: 'Physical card deck & 2-face digital experience',
       },
       {
         label: 'Audience',
@@ -470,7 +470,7 @@ export function getFactActDetailCopy(locale: Locale) {
         code: 'CHOOSE',
         title: 'Pick Truth (Brainie) or Dare (Rootie) first',
         summary:
-          'After shuffling, choose your side before drawing. Official rule: you cannot choose Truth on two consecutive turns.',
+          'After shuffling, choose your side before drawing. Preview rule (pending team approval): you cannot choose Truth on two consecutive turns.',
       },
       {
         stepNumber: '02',

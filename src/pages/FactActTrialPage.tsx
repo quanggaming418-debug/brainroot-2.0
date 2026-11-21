@@ -466,7 +466,9 @@ export function FactActTrialPage() {
   const [searchParams] = useSearchParams();
   const { locale } = useI18n();
 
-  if (searchParams.get('mode') === 'legacy') {
+  // BR-T027: legacy developer-written fixtures are not reachable on the public
+  // production build; kept for development rollback only.
+  if (import.meta.env.DEV && searchParams.get('mode') === 'legacy') {
     return <LegacyFactActTrialView />;
   }
 

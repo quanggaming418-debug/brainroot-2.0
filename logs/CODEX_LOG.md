@@ -131,3 +131,11 @@
 - **Tests actually executed:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` PASS 41/41 · `npm run build` PASS · Playwright Chromium 390×844 / 1440×900 / 320×568+reduced-motion PASS: sau Quay→Rút tiếp, focus ở `tod-choose-truth` (trước sửa: `<body>`), 0 lỗi trang · `npm run lint` NOT RUN.
 - **Ghi chú:** sau Trộn, nút Trộn bị vô hiệu trong pha `shuffling` nên focus cũng chuyển vào nút chọn đầu tiên thay vì rơi về `<body>`. Không đổi giao diện, luật hay nội dung thẻ.
 - **Git:** PR #10, không merge.
+
+## Session: 2026-11-21 — Claude Code — BR-T027 (PR3: rule & content gate)
+
+- **Task & goal:** Kiểm soát luật/nội dung chưa được nhóm duyệt; Product Owner chọn: giữ cơ chế chạy + gắn nhãn chờ duyệt; giữ sách luật + xóa số trang giả. Không tự viết luật, thẻ, hình phạt.
+- **Files changed:** `truthOrDareData.ts` (sách luật: kicker/footnote/tiêu đề spread-4 → nhãn bản thử; FAQ "luật chính thức" → "bản thử, chờ nhóm đối chiếu"; câu từ chối & lời chào Brainie; brandSubtitle; chuỗi model Gemini → `unverified`; thêm `rulebookDraftNotice` VI/EN), `truthOrDareEngine.ts` (chú thích), `HardcoverRulebookModal.tsx` + `truth-or-dare-v1.css` (dòng nhãn "Bản thử"), `siteCopy.ts` (EN: bỏ "official/faithful", "Preview rule…"), `FactActTrialPage.tsx` (`?mode=legacy` chỉ trong DEV), `tests/truth-or-dare-v1.test.ts` (+1 test cổng, sửa test model).
+- **Tests actually executed:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` PASS 42/42 · `npm run build` PASS · Playwright Chromium 1440×900 VI / 320×568 VI+reduced-motion / 390×844 EN (vite preview bản build): nhãn bản thử hiển thị đúng, 0 tràn ngang, 0 lỗi console, Brainie chào/đáp theo nội dung mới, `?mode=legacy` trên bản build hiển thị trải nghiệm mới (không lộ fixtures) · ảnh 1440 & 320 đã xem · `npm run lint` NOT RUN.
+- **Ghi chú / chưa đổi (cần PO quyết):** nhãn phân trang UI "Trang N" và "Trang 1–2 / 8" vẫn còn vì là điều hướng sách; mô tả cơ chế (khóa Truth, Bỏ qua→quay, không lặp thẻ) giữ nguyên hành vi; nội dung `src/data/games.ts` và các trang Ô ăn quan không thuộc phạm vi; câu "thẻ vật lý" trong `connectAbout.ts`/`games.ts` chưa chỉnh.
+- **Git:** nhánh `codex/br-t027-rules-content-gate`, xếp chồng trên `codex/br-t026-gameplay-a11y` (PR #10). Chưa merge.
