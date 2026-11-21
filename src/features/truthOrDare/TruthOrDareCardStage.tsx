@@ -2,10 +2,12 @@ import { useEffect, useRef } from 'react';
 import type { Locale } from '../../i18n/I18nContext';
 import {
   ACTION_LABELS,
+  THEME_LABELS,
   TOD_ASSETS,
   getTruthOrDareUiCopy,
   type CardSide,
 } from './truthOrDareData';
+import { DareTimer } from './DareTimer';
 import {
   canChooseTruth,
   getActiveCard,
@@ -19,7 +21,6 @@ interface TruthOrDareCardStageProps {
   readonly onPlay: () => void;
   readonly onChooseSide: (side: CardSide) => void;
   readonly onPull: () => void;
-  readonly onFlip: () => void;
   readonly onDone: () => void;
   readonly onSkip: () => void;
   readonly onReshuffle: () => void;
@@ -33,7 +34,6 @@ export function TruthOrDareCardStage({
   onPlay,
   onChooseSide,
   onPull,
-  onFlip,
   onDone,
   onSkip,
   onReshuffle,
@@ -307,10 +307,11 @@ export function TruthOrDareCardStage({
     const isReadyToPull = state.phase === 'ready_to_pull';
     const isReadyToFlip = state.phase === 'ready_to_flip';
 
-    const approvedText =
-      side === 'truth'
-        ? activeCard.truthText?.[locale] ?? null
-        : activeCard.dareText?.[locale] ?? null;
+    const cardText =
+      side === 'truth' ? activeCard.truthText[locale] : activeCard.dareText[locale];
+    const cardTheme = side === 'truth' ? activeCard.truthTheme : activeCard.dareTheme;
+    const showProofHint = side === 'dare' && activeCard.dareProof;
+    const timerSec = side === 'dare' ? activeCard.dareTimerSec : null;
 
     const faceBaseSrc =
       side === 'truth' ? TOD_ASSETS.truthFaceBase : TOD_ASSETS.dareFaceBase;
@@ -353,7 +354,6 @@ export function TruthOrDareCardStage({
               }`}
               onClick={() => {
                 if (isReadyToPull) onPull();
-                else if (isReadyToFlip) onFlip();
               }}
             >
               {/* Card Back (always sealed until Flip) */}
@@ -426,19 +426,22 @@ export function TruthOrDareCardStage({
                       </div>
 
                       <div className="tod-card-front__prompt-box">
-                        {approvedText ? (
-                          <p className="tod-card-front__prompt">{approvedText}</p>
-                        ) : (
-                          <>
-                            <p className="tod-card-front__slot-title">
-                              {copy.cardSlotTitle(activeCard.pairId)}
-                            </p>
-                            <p className="tod-card-front__slot-body">
-                              {copy.cardSlotBody(side)}
-                            </p>
-                          </>
-                        )}
+                        <p
+                          className={`tod-card-front__prompt${
+                            cardText.length > 110 ? ' tod-card-front__prompt--long' : ''
+                          }`}
+                          lang={locale}
+                        >
+                          {cardText}
+                        </p>
+                        {showProofHint ? (
+                          <p className="tod-card-front__proof">{copy.proofHint}</p>
+                        ) : null}
                       </div>
+
+                      <p className="tod-card-front__theme">
+                        {copy.themeChipLabel(THEME_LABELS[cardTheme][locale])}
+                      </p>
 
                       <p className="tod-card-front__sealed">
                         {copy.cardHiddenFaceNote}
@@ -475,18 +478,13 @@ export function TruthOrDareCardStage({
           ) : null}
 
           {isReadyToFlip ? (
-            <>
-              <p className="tod-stage-hint">{copy.readyToFlipHint}</p>
-              <button
-                ref={primaryActionRef}
-                type="button"
-                className="tod-btn tod-btn--primary"
-                data-testid="tod-btn-flip"
-                onClick={onFlip}
-              >
-                {labels.flip}
-              </button>
-            </>
+            <p className="tod-stage-hint" role="status" aria-live="polite">
+              {copy.readyToFlipHint}
+            </p>
+          ) : null}
+
+          {isFlipped && timerSec ? (
+            <DareTimer key={activeCard.pairId} seconds={timerSec} locale={locale} />
           ) : null}
 
           {isFlipped ? (

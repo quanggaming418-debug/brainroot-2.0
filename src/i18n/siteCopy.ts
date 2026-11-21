@@ -452,7 +452,7 @@ export function getFactActDetailCopy(locale: Locale) {
       {
         label: 'Deck & Rulebook',
         value:
-          'Interactive mechanics live · Official VI/EN PDF card text & penalties slot in upon owner release',
+          '5-step rulebook inside · 20 of 63 two-sided cards on the web',
       },
       {
         label: 'Accessibility',
@@ -460,31 +460,43 @@ export function getFactActDetailCopy(locale: Locale) {
           'Open without login, full keyboard navigation, reduced-motion support, and VI/EN toggle',
       },
     ],
-    loopEyebrow: 'HOW A TURN WORKS',
-    learningLoopHeading: 'Faithful 3-step turn rhythm from the physical deck',
+    loopEyebrow: 'HOW TO PLAY',
+    learningLoopHeading: 'The 5-step rules',
     learningLoopSummary:
-      'The web experience preserves the authentic flow of Brainroot - Truth or Dare without inventing new modes or altering official rules.',
+      'The web experience preserves the authentic flow of Brainroot - Truth or Dare following the team’s 5-step rules.',
     learningSteps: [
       {
         stepNumber: '01',
-        code: 'CHOOSE',
-        title: 'Pick Truth (Brainie) or Dare (Rootie) first',
+        code: 'CHOOSE PLAYER',
+        title: 'Choose the player',
         summary:
-          'After shuffling, choose your side before drawing. Preview rule (pending team approval): you cannot choose Truth on two consecutive turns.',
+          'The group picks who plays: spin a bottle, a random wheel, rock-paper-scissors, draw lots…',
       },
       {
         stepNumber: '02',
-        code: 'DRAW & FLIP',
-        title: 'Pull the top card & flip only your side',
+        code: 'TRUTH / DARE',
+        title: 'Pick Truth or Dare before drawing',
         summary:
-          'Pull the top card forward and flip cleanly to reveal only the face you picked—the other side stays hidden.',
+          'Truth (Brainie) answers a question; Dare (Rootie) does a challenge. You may not pick Truth two turns in a row.',
       },
       {
         stepNumber: '03',
-        code: 'DONE OR SKIP',
-        title: 'Complete, or spin the 15-? Green Penalty wheel',
+        code: 'DRAW & DO',
+        title: 'Draw a card and do it',
+        summary: 'Draw 1 card and follow the side you chose.',
+      },
+      {
+        stepNumber: '04',
+        code: 'GREEN PENALTY',
+        title: "Can't do it? Take a Green Penalty",
         summary:
-          'Mark Done to continue without repeating cards, or Skip to spin the mystery 15-? wheel—with a gentle Stop option anytime.',
+          'For example: strike a tree pose for 15 seconds, drink a glass of water and shout "Live green!", draw 1 extra Dare card, give to the "Green Fund", or tidy up the play area.',
+      },
+      {
+        stepNumber: '05',
+        code: 'KEEP PLAYING',
+        title: 'Keep playing',
+        summary: 'Play until the deck runs out or the whole group wants to stop.',
       },
     ],
     compareEyebrow: 'EXPERIENCE COMPARISON',
@@ -506,16 +518,16 @@ export function getFactActDetailCopy(locale: Locale) {
         badge: 'Interactive Web Build',
         points: [
           'Faithful 2-face card flip, consecutive-Truth lock, hardcover storybook rulebook, and 15-? mystery wheel.',
-          'Zero invented questions or penalties—structured cleanly for approved VI/EN PDF sample cards upon owner release.',
+          '20 of the 63 cards (verbatim VI/EN) with countdowns for timed Dares; the full deck is the physical set.',
           'Full VI/EN support, offline Brainie rules FAQ, keyboard access, and reduced-motion support.',
         ],
       },
     ],
     noticeTag: 'CONTENT TRANSPARENCY',
     unavailableNotice: {
-      heading: 'Approved VI/EN sample deck release status',
+      heading: 'About the cards on the web',
       description:
-        'You can explore the complete interactive Truth or Dare tabletop experience, hardcover rulebook, and offline Brainie FAQ right now. Verbatim VI/EN card prompts and Green Penalty copy will be populated directly from the official PDFs once approved for public release.',
+        'The web preview includes 20 of the 63 cards in the original deck. The other cards are kept for the physical deck and the full edition.',
       primaryActionLabel: 'Launch Truth or Dare',
       primaryActionTo: '/games/fact-act/play',
       secondaryActionLabel: 'Back to Green Play Library',

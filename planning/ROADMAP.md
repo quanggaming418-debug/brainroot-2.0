@@ -33,3 +33,10 @@
 - Người làm/giờ chưa được xác nhận; không ước tính sprint hay deadline cam kết khi thiếu năng lực team.
 - Nếu trễ R0: giảm animation hoặc số màn hình, KHÔNG bỏ end-to-end game và evidence.
 - Sau mỗi milestone, xem TASKS, actual test evidence, user feedback, decision log rồi mới tăng scope.
+
+## Truth or Dare — P2 (chưa làm; để dành chứng minh tiến bộ trong 24h chung kết 19–20/12)
+- Cây chung của nhóm (tiến độ chơi cùng nhau).
+- Thẻ cam kết chia sẻ tỉ lệ 9:16.
+- Khảo sát 2 câu sau ván (chỉ làm khi có phương pháp thu thập rõ; không bịa số liệu).
+- Tuỳ chọn P1 còn lại: chọn người chơi tiếp theo (vòng quay tên/quay chai) — chưa làm trong BR-T028.
+- Chế độ "Bạn bè 16+" cho các thẻ không công khai: cần ADR mới và rà soát nội dung riêng.

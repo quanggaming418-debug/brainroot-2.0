@@ -145,3 +145,12 @@
 - **Task & goal:** Cập nhật `TASKS.md`, `PROJECT_STATE.md`, `HANDOFF.md` theo trạng thái thật trên `main` (`45fb8d9`) sau PR #10 và #12.
 - **Tests actually executed:** chỉ sửa tài liệu; không chạy lại typecheck/test/build. Trạng thái GitHub được đọc qua API công khai (PR #10/#11/#12 merged; check trên `main` đều success).
 - **Git:** nhánh `codex/docs-br-t026-t027-done`, không merge.
+
+## Session: 2026-11-21 — Claude Code — BR-T028 (Truth or Dare: 20 thẻ thật)
+
+- **Task & goal:** Thực hiện `BRAINROOT_CODE_HANDOFF.md` (P0 + P1 #4–6) theo ADR-0005. Status `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t028-tod-20-cards` (nền `0379bee`).
+- **Files changed:** `src/features/truthOrDare/{truthOrDareCards.ts (mới), DareTimer.tsx (mới), truthOrDareData.ts, truthOrDareEngine.ts, TruthOrDareCardStage.tsx, TruthOrDareExperience.tsx, GreenPenaltyWheelModal.tsx}`, `src/data/{games,landing}.ts`, `src/i18n/siteCopy.ts`, `src/styles/{truth-or-dare-v1,green-play}.css`, `tests/{truth-or-dare-v1,br-t004}.test.ts`, `docs/decisions/0005-…`, `docs/DECISIONS.md`, `planning/{TASKS,PROJECT_STATE,ROADMAP}.md`, `logs/BR-T028_BASELINE_BEFORE.md`.
+- **Behavior:** xem mốc "SAU" trong `logs/BR-T028_BASELINE_BEFORE.md`. Rút + lật gộp bằng tự lật sau khi thẻ tới giữa bàn (engine giữ nguyên các phase). Green Penalty dùng vòng quay 15 ô sẵn có thay vì màn hình mới.
+- **Tests executed:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` PASS 43/43 · `npm run build` PASS · trình duyệt (Vite dev, 375×812, 768×1024, desktop): chơi hết 20 thẻ không lặp, 0 tràn ngang, 0 prompt bị cuộn trong thẻ ở 375px, đồng hồ đếm/đặt lại, vòng quay ra hình phạt thật, EN hiển thị đúng, sách luật mở được. `npm run lint` NOT RUN. Reduced-motion, 320px, bàn phím/trình đọc màn hình, Safari/Android thật: NOT RUN trong phiên này.
+- **Chưa làm / rủi ro:** P1 #7 (chọn người chơi tiếp theo) NOT DONE; chủ đề thẻ là đề xuất chờ nhóm xác nhận; `?mode=legacy` và trang trial cũ còn chuỗi "tình huống" nhưng chỉ dùng ở dev; header ở 768px xuống dòng (có sẵn từ trước, ngoài phạm vi).
+- **Git commit SHA:** NOT COMMITTED.

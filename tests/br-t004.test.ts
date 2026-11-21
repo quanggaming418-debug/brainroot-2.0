@@ -140,11 +140,11 @@ test('Green Play product catalog preserves approved asset paths and required VIS
   );
 });
 
-test('Brainroot - Truth or Dare detail presents 3-step trial orientation honestly and links to web preview', () => {
+test('Brainroot - Truth or Dare detail presents the 5-step rule honestly and links to web preview', () => {
   assert.equal(FACT_ACT_DETAIL.title, 'Brainroot - Truth or Dare');
   assert.deepEqual(
     FACT_ACT_DETAIL.learningSteps.map((s) => s.code),
-    ['TÌNH HUỐNG', 'HÀNH ĐỘNG', 'PHẢN TƯ'],
+    ['CHỌN NGƯỜI', 'TRUTH / DARE', 'BỐC & LÀM', 'GREEN PENALTY', 'CHƠI TIẾP'],
   );
   assert.equal(FACT_ACT_DETAIL.comparisonColumns.length, 2);
   assert.equal(FACT_ACT_DETAIL.trialCtaTo, '/games/fact-act/play');

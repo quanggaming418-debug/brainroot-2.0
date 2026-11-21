@@ -1,6 +1,6 @@
 import {
   GREEN_PENALTY_SLOTS,
-  TRUTH_OR_DARE_DECK_SLOTS,
+  TRUTH_OR_DARE_DECK,
   type CardSide,
   type GreenPenaltySlot,
   type TruthOrDareCardPair,
@@ -50,7 +50,7 @@ export function shuffleIds(
 }
 
 export function createInitialTruthOrDareState(
-  deck: readonly TruthOrDareCardPair[] = TRUTH_OR_DARE_DECK_SLOTS,
+  deck: readonly TruthOrDareCardPair[] = TRUTH_OR_DARE_DECK,
 ): TruthOrDareState {
   return {
     phase: 'arrival',

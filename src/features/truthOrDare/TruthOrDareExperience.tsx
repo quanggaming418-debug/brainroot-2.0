@@ -30,7 +30,7 @@ import {
 } from './truthOrDareEngine';
 
 export default function TruthOrDareExperience() {
-  const { locale, toggleLocale } = useI18n();
+  const { locale } = useI18n();
   const labels = ACTION_LABELS[locale];
   const copy = getTruthOrDareUiCopy(locale);
 
@@ -76,6 +76,12 @@ export default function TruthOrDareExperience() {
         () => setState((prev) => finishPullCard(prev)),
         reducedMotion ? 80 : 520,
       );
+    } else if (state.phase === 'ready_to_flip') {
+      // Draw + flip are one gesture: the card flips itself right after it lands.
+      timerRef.current = window.setTimeout(
+        () => setState((prev) => flipSelectedCard(prev)),
+        reducedMotion ? 0 : 180,
+      );
     } else if (state.phase === 'wheel_spinning') {
       timerRef.current = window.setTimeout(
         () => setState((prev) => finishPenaltyWheelSpin(prev)),
@@ -100,10 +106,6 @@ export default function TruthOrDareExperience() {
 
   const handlePull = useCallback(() => {
     setState((prev) => startPullCard(prev));
-  }, []);
-
-  const handleFlip = useCallback(() => {
-    setState((prev) => flipSelectedCard(prev));
   }, []);
 
   const handleDone = useCallback(() => {
@@ -250,26 +252,6 @@ export default function TruthOrDareExperience() {
                 <span className="tod-round-icon-btn__label">{labels.rules}</span>
               </span>
             </button>
-
-            {/* Tabletop Language Switch Icon (synced with global SiteHeader) */}
-            <button
-              type="button"
-              className="tod-round-icon-btn"
-              data-testid="tod-btn-lang"
-              aria-label={copy.langIconTitle}
-              title={copy.langIconTitle}
-              onClick={toggleLocale}
-            >
-              <img
-                className="tod-round-icon-btn__bg"
-                src={TOD_ASSETS.roundIconBg}
-                alt=""
-                aria-hidden="true"
-              />
-              <span className="tod-round-icon-btn__content">
-                <span className="tod-lang-code">{locale.toUpperCase()}</span>
-              </span>
-            </button>
           </div>
         </header>
 
@@ -282,7 +264,6 @@ export default function TruthOrDareExperience() {
             onPlay={handlePlay}
             onChooseSide={handleChooseSide}
             onPull={handlePull}
-            onFlip={handleFlip}
             onDone={handleDone}
             onSkip={handleSkip}
             onReshuffle={handleReshuffle}

@@ -200,7 +200,7 @@ export const FEATURED_GREEN_PLAY = {
       title: 'Brainroot - Truth or Dare',
       subtitle: 'Bộ thẻ giáo dục kỹ năng xanh khơi gợi đối thoại và hành động đời thường',
       description:
-        'Sản phẩm thẻ bài vật lý giúp học sinh, sinh viên và nhóm bạn trò chuyện cởi mở về lối sống xanh. Hiện bạn có thể thử trước phiên bản tình huống tương tác ngắn trên web trong khi thể lệ chính thức đang hoàn thiện.',
+        'Sản phẩm thẻ bài vật lý giúp học sinh, sinh viên và nhóm bạn trò chuyện cởi mở về lối sống xanh. Bạn có thể chơi thử 20 trong 63 thẻ ngay trên web; bộ đầy đủ có ở bản thẻ vật lý.',
       primaryActionLabel: 'Trải nghiệm thử ngay',
       primaryActionTo: '/games/fact-act/play',
       secondaryActionLabel: 'Xem giới thiệu sản phẩm',

@@ -4,14 +4,13 @@ import { publicUrl } from '../../utils/publicUrl';
 /**
  * Brainroot - Truth or Dare V1 — Faithful Digital Data Contract & Assets
  *
- * GOVERNANCE BOUNDARIES:
- * - Zero invented Truth questions, Dare actions, translated card copy,
- *   verbatim PDF pp.66–67 rulebook passages, or draft Green Penalties.
- * - Card deck (16 sample slots) and 15 Green Penalty slots are typed drop-in
- *   contracts awaiting owner approval & official VI/EN PDF import.
- * - RULE GATE (BR-T027): rulebook, FAQ and mechanics text describe how THIS PREVIEW
- *   works. None of it is the team's approved official rulebook until the team
- *   supplies and confirms the source. Zero API keys in frontend.
+ * GOVERNANCE BOUNDARIES (BR-T028, ADR-0005):
+ * - Public deck = exactly the 20 cards the project owner approved on 2026-11-21
+ *   (verbatim VI/EN in `truthOrDareCards.ts`). The other ~43 of the 63 physical
+ *   cards stay private; never add them here.
+ * - No invented questions/actions. Green Penalties are the 5 suggestions from the
+ *   team's own rules (spread over the 15 wheel sectors).
+ * - Rulebook text = the team's 5-step rule (owner-supplied). Zero API keys in frontend.
  */
 
 export type CardSide = 'truth' | 'dare';
@@ -45,7 +44,7 @@ export const ACTION_LABELS: Readonly<Record<Locale, TruthOrDareActionLabels>> = 
     done: 'Xong',
     skip: 'Bỏ qua',
     spin: 'Quay',
-    next: 'Rút tiếp',
+    next: 'Chơi tiếp',
     stop: 'Dừng',
   },
   en: {
@@ -57,25 +56,40 @@ export const ACTION_LABELS: Readonly<Record<Locale, TruthOrDareActionLabels>> = 
     done: 'Done',
     skip: 'Skip',
     spin: 'Spin',
-    next: 'Next',
+    next: 'Keep playing',
     stop: 'Stop',
   },
 };
 
+export type CardTheme =
+  | 'consumption'
+  | 'water'
+  | 'energy'
+  | 'waste'
+  | 'green-space'
+  | 'climate'
+  | 'general';
+
 export interface TruthOrDareCardPair {
   readonly pairId: string;
   readonly cardNumber: string;
-  readonly approvalStatus: 'awaiting_owner_pdf_import' | 'approved_from_pdf';
-  readonly truthText: LocalizedText | null;
-  readonly dareText: LocalizedText | null;
+  readonly approvalStatus: 'approved_public';
+  readonly truthText: LocalizedText;
+  readonly truthTheme: CardTheme;
+  readonly dareText: LocalizedText;
+  readonly dareTheme: CardTheme;
+  /** Suggested countdown (seconds) for timed Dare cards; null when untimed. */
+  readonly dareTimerSec: number | null;
+  /** Dare suggests a photo/post as proof — optional, never required. */
+  readonly dareProof: boolean;
 }
 
 export interface GreenPenaltySlot {
   readonly slotId: string;
   readonly sectorIndex: number; // 0..14 matching mystery_wheel_15_questionmarks.svg
   readonly slotNumber: string;
-  readonly approvalStatus: 'awaiting_owner_approval' | 'approved';
-  readonly text: LocalizedText | null;
+  readonly approvalStatus: 'approved';
+  readonly text: LocalizedText;
 }
 
 export interface RulebookSpread {
@@ -166,26 +180,47 @@ export const TOD_ASSETS = {
   rootieMascot: publicUrl('/assets/hero-v4/rootie.webp'),
 } as const;
 
-/**
- * 16 stable pair IDs matching the selected sample kit size.
- * `truthText` and `dareText` remain `null` until verbatim approved VI/EN PDF copy
- * is imported by the team with owner authorization.
- */
-export const TRUTH_OR_DARE_DECK_SLOTS: readonly TruthOrDareCardPair[] =
-  Array.from({ length: 16 }, (_, idx) => {
-    const num = String(idx + 1).padStart(2, '0');
-    return {
-      pairId: `TD-${num}`,
-      cardNumber: num,
-      approvalStatus: 'awaiting_owner_pdf_import',
-      truthText: null,
-      dareText: null,
-    } as const;
-  });
+/** The 20 owner-approved public cards (TD-01…TD-20). */
+export { APPROVED_PUBLIC_CARDS as TRUTH_OR_DARE_DECK } from './truthOrDareCards';
+
+/** Theme chip labels (themes are proposals pending team confirmation). */
+export const THEME_LABELS: Readonly<Record<CardTheme, LocalizedText>> = {
+  consumption: { vi: 'Tiêu dùng', en: 'Consumption' },
+  water: { vi: 'Nước', en: 'Water' },
+  energy: { vi: 'Năng lượng', en: 'Energy' },
+  waste: { vi: 'Rác thải', en: 'Waste' },
+  'green-space': { vi: 'Không gian xanh', en: 'Green space' },
+  climate: { vi: 'Khí hậu', en: 'Climate' },
+  general: { vi: 'Chung', en: 'General' },
+};
+
+/** The team's 5 suggested Green Penalties (rule step 4), verbatim from the owner-supplied rules. */
+export const GREEN_PENALTY_SUGGESTIONS: readonly LocalizedText[] = [
+  {
+    vi: 'Tạo dáng như cái cây trong 15 giây.',
+    en: 'Strike a pose like a tree for 15 seconds.',
+  },
+  {
+    vi: 'Uống một cốc nước và hô "Sống xanh!".',
+    en: 'Drink a glass of water and shout "Live green!".',
+  },
+  {
+    vi: 'Bốc thêm 1 lá Dare.',
+    en: 'Draw one extra Dare card.',
+  },
+  {
+    vi: 'Đóng góp 2.000–5.000đ vào "Quỹ Xanh" hoặc từ thiện.',
+    en: 'Contribute 2,000–5,000 VND to the "Green Fund" or a charity.',
+  },
+  {
+    vi: 'Dọn dẹp khu vực chơi sau khi kết thúc.',
+    en: 'Tidy up the play area after the game ends.',
+  },
+];
 
 /**
- * 15 mystery wheel slots matching the 15 `?` sectors in `mystery_wheel_15_questionmarks.svg`.
- * Penalty copy remains `null` until approved by the project owner.
+ * 15 wheel sectors matching `mystery_wheel_15_questionmarks.svg`; each sector carries one of the
+ * 5 suggested Green Penalties (sector i → suggestion i mod 5).
  */
 export const GREEN_PENALTY_SLOTS: readonly GreenPenaltySlot[] = Array.from(
   { length: 15 },
@@ -195,13 +230,18 @@ export const GREEN_PENALTY_SLOTS: readonly GreenPenaltySlot[] = Array.from(
       slotId: `GP-${num}`,
       sectorIndex: idx,
       slotNumber: num,
-      approvalStatus: 'awaiting_owner_approval',
-      text: null,
+      approvalStatus: 'approved',
+      text: GREEN_PENALTY_SUGGESTIONS[idx % GREEN_PENALTY_SUGGESTIONS.length],
     } as const;
   },
 );
 
-/** Hardcover Storybook Rulebook spreads describing the PREVIEW's mechanics (pending team approval; not the official rulebook). */
+const SPREAD_FOOTNOTE: LocalizedText = {
+  vi: 'Bản chơi thử web · 20/63 thẻ.',
+  en: 'Web preview · 20 of 63 cards.',
+};
+
+/** Hardcover rulebook: the team's official 5-step rule (owner-supplied, VI/EN). */
 export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
   {
     id: 'spread-1',
@@ -210,39 +250,36 @@ export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
     left: {
       kicker: { vi: 'CHÀO MỪNG', en: 'WELCOME' },
       title: {
-        vi: 'Gặp gỡ Brainie & Rootie',
-        en: 'Meet Brainie & Rootie',
+        vi: 'Rút thẻ bài, rót kiến thức',
+        en: 'Draw a card, pour in knowledge',
       },
       body: {
-        vi: 'Brainroot - Truth or Dare là phiên bản số của bộ thẻ bài vật lý của nhóm. Mỗi lá bài có hai mặt tách biệt: Brainie đại diện cho Truth, Rootie đại diện cho Dare.',
-        en: 'Brainroot - Truth or Dare is the digital edition of our team’s physical card deck. Every card holds two distinct sides: Brainie represents Truth, and Rootie represents Dare.',
+        vi: 'Brainroot - Truth or Dare là bộ thẻ hai mặt: mặt Truth (Brainie) là một câu hỏi, mặt Dare (Rootie) là một thử thách. Bộ vật lý đầy đủ có 63 thẻ; bản chơi thử trên web có 20 thẻ.',
+        en: 'Brainroot - Truth or Dare is a two-sided deck: the Truth side (Brainie) holds a question, the Dare side (Rootie) holds a challenge. The full physical deck has 63 cards; this web preview has 20.',
       },
       mascot: 'both',
     },
     right: {
-      kicker: { vi: 'BẮT ĐẦU VÁN CHƠI', en: 'STARTING A SESSION' },
+      kicker: { vi: 'CHUẨN BỊ', en: 'GET READY' },
       title: {
-        vi: 'Trộn bộ thẻ & vào lượt ngay',
-        en: 'Shuffle the deck & begin',
+        vi: 'Ngồi thành vòng tròn',
+        en: 'Sit in a circle',
       },
       points: [
         {
-          vi: 'Nhấn Chơi để trộn bộ thẻ ngay trên mặt bàn.',
-          en: 'Press Play to shuffle the deck immediately on the tabletop.',
+          vi: 'Mọi người ngồi thành vòng tròn, đặt bộ bài ở giữa.',
+          en: 'Everyone sits in a circle with the deck in the middle.',
         },
         {
-          vi: 'Bộ thẻ không lặp lại trong cùng một phiên chơi.',
-          en: 'Cards never repeat within the same session.',
+          vi: 'Chơi để biết thêm điều thú vị về môi trường và thử một hành động xanh nhỏ.',
+          en: 'Play to learn something new about the environment and try a small green action.',
         },
         {
-          vi: 'Không cần đăng nhập, không tính điểm hay lưu lịch sử cá nhân.',
-          en: 'No account needed, no points, and no personal history stored.',
+          vi: 'Cùng bạn bè học hỏi, cười vui. Không cần đăng nhập.',
+          en: 'Learn and laugh together with friends. No sign-in needed.',
         },
       ],
-      footnote: {
-        vi: 'Bản thử · nội dung chờ nhóm duyệt.',
-        en: 'Preview · content pending team approval.',
-      },
+      footnote: SPREAD_FOOTNOTE,
     },
   },
   {
@@ -250,41 +287,38 @@ export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
     leftPageNumber: 3,
     rightPageNumber: 4,
     left: {
-      kicker: { vi: 'CHỌN MẶT TRƯỚC KHI RÚT', en: 'CHOOSE BEFORE DRAWING' },
+      kicker: { vi: 'BƯỚC 1', en: 'STEP 1' },
       title: {
-        vi: 'Brainie (Truth) hay Rootie (Dare)?',
-        en: 'Brainie (Truth) or Rootie (Dare)?',
+        vi: 'Chọn người chơi',
+        en: 'Choose the player',
       },
       body: {
-        vi: 'Sau khi trộn bài và trước khi rút lá trên cùng, người chơi chọn Truth cùng Brainie hoặc Dare cùng Rootie.',
-        en: 'After shuffling and before drawing the top card, choose Truth with Brainie or Dare with Rootie.',
+        vi: 'Cả nhóm tự chọn người chơi lượt này: quay chai, Random Wheel, oẳn tù tì, bốc thăm… cách nào cũng được.',
+        en: 'The group picks who plays this turn: spin a bottle, a random wheel, rock-paper-scissors, draw lots… any way you like.',
       },
-      mascot: 'brainie',
+      mascot: 'wheel',
     },
     right: {
-      kicker: { vi: 'CÁCH CHƠI TRONG BẢN THỬ', en: 'HOW THIS PREVIEW WORKS' },
+      kicker: { vi: 'BƯỚC 2', en: 'STEP 2' },
       title: {
-        vi: 'Không chọn Truth hai lượt liên tiếp',
-        en: 'No two consecutive Truth turns',
+        vi: 'Chọn Truth hoặc Dare trước khi bốc',
+        en: 'Pick Truth or Dare before drawing',
       },
       points: [
         {
-          vi: 'Bạn phải chọn Truth hoặc Dare trước khi rút bài.',
-          en: 'You must pick Truth or Dare before pulling a card.',
+          vi: 'Truth (Brainie): trả lời một câu hỏi.',
+          en: 'Truth (Brainie): answer a question.',
         },
         {
-          vi: 'Nếu lượt trước vừa chọn Truth, lượt kế tiếp bạn cần chọn Dare cùng Rootie.',
-          en: 'If your previous turn was Truth, your next turn must be Dare with Rootie.',
+          vi: 'Dare (Rootie): thực hiện một thử thách.',
+          en: 'Dare (Rootie): carry out a challenge.',
         },
         {
-          vi: 'Sau khi hoàn thành một lượt Dare, lựa chọn Truth sẽ mở lại tự nhiên.',
-          en: 'After a Dare turn, Truth unlocks naturally again.',
+          vi: 'Không được chọn Truth hai lượt liên tiếp.',
+          en: 'You may not pick Truth two turns in a row.',
         },
       ],
-      footnote: {
-        vi: 'Bản thử · nội dung chờ nhóm duyệt.',
-        en: 'Preview · content pending team approval.',
-      },
+      footnote: SPREAD_FOOTNOTE,
     },
   },
   {
@@ -292,41 +326,38 @@ export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
     leftPageNumber: 5,
     rightPageNumber: 6,
     left: {
-      kicker: { vi: 'RÚT & LẬT HAI MẶT', en: 'PULL & TWO-FACE FLIP' },
+      kicker: { vi: 'BƯỚC 3', en: 'STEP 3' },
       title: {
-        vi: 'Chỉ mở đúng mặt bạn đã chọn',
-        en: 'Reveal only your chosen face',
+        vi: 'Bốc bài & thực hiện',
+        en: 'Draw & do it',
       },
       body: {
-        vi: 'Kéo lá bài trên cùng ra giữa bàn và nhấn Lật. Lá bài chỉ hiển thị duy nhất mặt bạn đã chọn — mặt còn lại luôn được giữ kín.',
-        en: 'Pull the top card to the center and press Flip. Only the side you selected is revealed—the unchosen side stays hidden.',
+        vi: 'Bốc 1 lá và làm theo mặt đã chọn. Chạm vào bộ bài để rút và lật: chỉ mặt bạn đã chọn được mở, mặt còn lại luôn được giữ kín. Thử thách có giờ sẽ có đồng hồ đếm.',
+        en: 'Draw 1 card and follow the side you chose. Tap the deck to draw and flip: only your chosen side opens, the other stays hidden. Timed challenges come with a countdown.',
       },
       mascot: 'rootie',
     },
     right: {
-      kicker: { vi: 'NHỊP LƯỢT CHƠI', en: 'TURN FLOW' },
+      kicker: { vi: 'BƯỚC 4', en: 'STEP 4' },
       title: {
-        vi: 'Hoàn thành hoặc Bỏ qua',
-        en: 'Complete or Skip',
+        vi: 'Không làm được? Nhận Green Penalty',
+        en: "Can't do it? Take a Green Penalty",
       },
       points: [
         {
-          vi: 'Nhấn Xong khi bạn đã chia sẻ câu trả lời hoặc thực hiện thử thách.',
-          en: 'Press Done once you have shared your answer or completed the action.',
+          vi: 'Nhấn Bỏ qua để nhận một Green Penalty ngẫu nhiên.',
+          en: 'Press Skip to receive a random Green Penalty.',
         },
         {
-          vi: 'Nhấn Bỏ qua nếu muốn chuyển sang Vòng quay Hình phạt Xanh 15 ô bí ẩn.',
-          en: 'Press Skip to open the 15-? mystery Green Penalty wheel.',
+          vi: 'Gợi ý: tạo dáng như cái cây 15 giây · uống một cốc nước và hô "Sống xanh!" · bốc thêm 1 lá Dare.',
+          en: 'Ideas: strike a tree pose for 15 seconds · drink a glass of water and shout "Live green!" · draw 1 extra Dare card.',
         },
         {
-          vi: 'Bạn có thể nhấn Dừng bất cứ lúc nào để kết thúc nhẹ nhàng.',
-          en: 'You may press Stop at any time to end the session comfortably.',
+          vi: 'Hoặc: đóng góp 2.000–5.000đ vào "Quỹ Xanh" · dọn dẹp khu vực chơi sau khi kết thúc.',
+          en: 'Or: give 2,000–5,000 VND to the "Green Fund" · tidy up the play area afterwards.',
         },
       ],
-      footnote: {
-        vi: 'Bản thử · nội dung chờ nhóm duyệt.',
-        en: 'Preview · content pending team approval.',
-      },
+      footnote: SPREAD_FOOTNOTE,
     },
   },
   {
@@ -334,48 +365,45 @@ export const RULEBOOK_SPREADS: readonly RulebookSpread[] = [
     leftPageNumber: 7,
     rightPageNumber: 8,
     left: {
-      kicker: { vi: 'VÒNG QUAY BÍ ẨN', en: 'MYSTERY WHEEL' },
+      kicker: { vi: 'BƯỚC 5', en: 'STEP 5' },
       title: {
-        vi: '15 ô dấu hỏi & kết quả sau khi quay',
-        en: '15 question marks revealed after spin',
+        vi: 'Chơi tiếp',
+        en: 'Keep playing',
       },
       body: {
-        vi: 'Khi chọn Bỏ qua, vòng quay 15 ô chỉ hiển thị dấu ?. Ô hình phạt xanh chỉ mở ra sau khi vòng quay dừng hẳn, và luôn có nút Dừng không ép buộc.',
-        en: 'When you Skip, the 15-sector wheel displays only ? marks. The landed Green Penalty slot appears only after the spin stops, with a non-punitive Stop option always available.',
+        vi: 'Chơi tiếp đến hết bài hoặc khi cả nhóm muốn dừng. Thẻ không lặp lại trong cùng một phiên; bạn có thể nhấn Dừng bất cứ lúc nào.',
+        en: 'Keep going until the deck runs out or the whole group wants to stop. Cards never repeat within a session; you can press Stop at any time.',
       },
-      mascot: 'wheel',
+      mascot: 'brainie',
     },
     right: {
-      kicker: { vi: 'BẢN QUYỀN & NỘI DUNG', en: 'CONTENT TRANSPARENCY' },
+      kicker: { vi: 'ĐIỀU KHIỂN', en: 'CONTROLS' },
       title: {
-        vi: 'Nội dung chính thức đang chờ duyệt',
-        en: 'Official content is pending approval',
+        vi: 'Dùng bàn phím cũng được',
+        en: 'Keyboard friendly',
       },
       points: [
         {
-          vi: 'Hệ thống không tự bịa câu hỏi Truth, thử thách Dare hay nội dung Hình phạt Xanh.',
-          en: 'No Truth prompts, Dare actions, or Green Penalties are fabricated in code.',
+          vi: 'Phím mũi tên Trái/Phải để lật trang sách luật, phím Esc để đóng.',
+          en: 'Use the Left/Right arrow keys to turn pages and Esc to close the book.',
         },
         {
-          vi: 'Nguyên văn câu thẻ VI/EN, trang luật gốc và 15 hình phạt xanh sẽ được nạp trực tiếp khi nhóm duyệt công khai.',
-          en: 'Verbatim VI/EN cards, official rulebook text, and the 15 Green Penalties drop straight in once released.',
+          vi: 'Chế độ giảm chuyển động của thiết bị được tôn trọng.',
+          en: 'Your device reduced-motion setting is respected.',
         },
         {
-          vi: 'Dùng phím mũi tên Trái/Phải để lật trang sách luật, phím Esc để đóng.',
-          en: 'Use Left/Right arrow keys to turn pages and Esc to close the book.',
+          vi: 'Thẻ có gợi ý chụp ảnh/đăng bài chỉ là tùy chọn, không bắt buộc đăng công khai.',
+          en: 'Photo/post suggestions on cards are optional, never a requirement to share publicly.',
         },
       ],
-      footnote: {
-        vi: 'Bản thử · nội dung chờ nhóm duyệt.',
-        en: 'Preview · content pending team approval.',
-      },
+      footnote: SPREAD_FOOTNOTE,
     },
   },
 ];
 
 /**
  * Offline FAQ entries for the floating Brainie helper.
- * Describes how this PREVIEW works (rules pending team approval) — never fabricates card text.
+ * Explains the team's rules; never invents card text or extra rules.
  */
 export const OFFLINE_FAQ_ENTRIES: readonly OfflineFaqEntry[] = [
   {
@@ -385,12 +413,12 @@ export const OFFLINE_FAQ_ENTRIES: readonly OfflineFaqEntry[] = [
       en: 'How does a turn work?',
     },
     answer: {
-      vi: 'Nhấn Chơi để trộn bộ thẻ ngay trên bàn. Sau đó chọn Brainie (Truth) hoặc Rootie (Dare) trước khi rút lá trên cùng, rồi nhấn Lật để xem đúng mặt bạn đã chọn.',
-      en: 'Press Play to shuffle the deck immediately. Choose Brainie (Truth) or Rootie (Dare) before pulling the top card, then press Flip to reveal only your chosen side.',
+      vi: 'Cả nhóm chọn người chơi, người đó chọn Truth (Brainie) hoặc Dare (Rootie) trước khi bốc, rồi chạm vào bộ bài để rút và lật: chỉ mặt đã chọn được mở. Làm xong thì nhấn Xong.',
+      en: 'The group picks the player, who chooses Truth (Brainie) or Dare (Rootie) before drawing, then taps the deck to draw and flip: only the chosen side opens. Press Done when finished.',
     },
     keywords: {
-      vi: ['bat dau', 'cach choi', 'luot choi', 'tron bai', 'rut bai', 'lat bai'],
-      en: ['start', 'play', 'turn', 'shuffle', 'draw', 'flip', 'how to'],
+      vi: ['bat dau', 'cach choi', 'luot choi', 'tron bai', 'rut bai', 'lat bai', 'luat'],
+      en: ['start', 'play', 'turn', 'shuffle', 'draw', 'flip', 'how to', 'rules'],
     },
   },
   {
@@ -400,8 +428,8 @@ export const OFFLINE_FAQ_ENTRIES: readonly OfflineFaqEntry[] = [
       en: 'Why can’t I pick Truth twice in a row?',
     },
     answer: {
-      vi: 'Trong bản thử hiện tại, người chơi không chọn Truth ở hai lượt liên tiếp (quy tắc này đang chờ nhóm đối chiếu với luật chính thức). Sau một lượt Dare cùng Rootie, nút Truth sẽ mở lại bình thường.',
-      en: 'In this preview you cannot choose Truth on two consecutive turns (this rule is pending the team’s confirmation against the official rules). After one Dare turn with Rootie, Truth unlocks again.',
+      vi: 'Luật của Brainroot - Truth or Dare: không được chọn Truth hai lượt liên tiếp. Sau một lượt Dare cùng Rootie, nút Truth sẽ mở lại.',
+      en: 'It is a rule of Brainroot - Truth or Dare: you may not pick Truth on two consecutive turns. After one Dare turn with Rootie, Truth unlocks again.',
     },
     keywords: {
       vi: ['truth', 'lien tiep', 'khoa', 'hai lan', 'brainie'],
@@ -409,48 +437,48 @@ export const OFFLINE_FAQ_ENTRIES: readonly OfflineFaqEntry[] = [
     },
   },
   {
-    id: 'faq-skip-wheel',
+    id: 'faq-skip-penalty',
     question: {
-      vi: 'Bỏ qua và vòng quay 15 dấu ? hoạt động ra sao?',
-      en: 'How do Skip and the 15-? wheel work?',
+      vi: 'Không làm được thì sao? Green Penalty là gì?',
+      en: 'What if I can’t do it? What is a Green Penalty?',
     },
     answer: {
-      vi: 'Khi bạn nhấn Bỏ qua trên lá bài đã lật, vòng quay bí ẩn gồm 15 ô dấu ? sẽ hiện ra. Nội dung ô chỉ mở sau khi vòng quay dừng lại. Nếu muốn, bạn luôn có thể nhấn Dừng để thoát mà không bị phạt.',
-      en: 'Pressing Skip on a flipped card opens the 15-? mystery wheel. The landed slot is revealed only after the wheel stops spinning. You can always press Stop to exit without penalty.',
+      vi: 'Nhấn Bỏ qua để nhận một Green Penalty, ví dụ: tạo dáng như cái cây 15 giây, uống một cốc nước và hô "Sống xanh!", bốc thêm 1 lá Dare, đóng góp 2.000–5.000đ vào "Quỹ Xanh", hoặc dọn dẹp khu vực chơi sau khi kết thúc.',
+      en: 'Press Skip to take a Green Penalty, for example: strike a tree pose for 15 seconds, drink a glass of water and shout "Live green!", draw 1 extra Dare card, give 2,000–5,000 VND to the "Green Fund", or tidy up the play area afterwards.',
     },
     keywords: {
-      vi: ['bo qua', 'vong quay', 'hinh phat', 'phat', 'dau hoi', 'quay'],
-      en: ['skip', 'wheel', 'penalty', 'spin', 'question mark'],
+      vi: ['bo qua', 'vong quay', 'hinh phat', 'phat', 'green penalty', 'khong lam duoc', 'quay'],
+      en: ['skip', 'wheel', 'penalty', 'green penalty', 'spin', 'cannot'],
     },
   },
   {
     id: 'faq-stop-anytime',
     question: {
-      vi: 'Có thể dừng chơi mà không cần quay phạt không?',
-      en: 'Can I stop without taking a penalty?',
+      vi: 'Có thể dừng chơi giữa chừng không?',
+      en: 'Can I stop partway?',
     },
     answer: {
-      vi: 'Có. Brainroot luôn tôn trọng sự thoải mái của người chơi — bạn có thể nhấn Dừng ở bất kỳ bước nào, kể cả khi vòng quay đang mở, để quay về màn hình bàn chơi mà không có hình phạt nào.',
-      en: 'Yes. Brainroot always respects player comfort—you can press Stop at any point, including inside the wheel dialog, to exit cleanly with zero penalty.',
+      vi: 'Có. Chơi tiếp đến hết bài hoặc khi cả nhóm muốn dừng — bạn có thể nhấn Dừng ở bất kỳ bước nào để quay về màn hình đầu.',
+      en: 'Yes. Play until the deck runs out or the group wants to stop — press Stop at any step to return to the start screen.',
     },
     keywords: {
-      vi: ['dung', 'thoat', 'khong phat', 'ket thuc'],
-      en: ['stop', 'exit', 'leave', 'cancel', 'without penalty'],
+      vi: ['dung', 'thoat', 'ket thuc', 'het bai'],
+      en: ['stop', 'exit', 'leave', 'cancel', 'end'],
     },
   },
   {
-    id: 'faq-card-slots',
+    id: 'faq-20-cards',
     question: {
-      vi: 'Vì sao lá bài đang hiển thị khung chờ nội dung gốc?',
-      en: 'Why do cards show placeholder slots right now?',
+      vi: 'Vì sao bản web chỉ có 20 thẻ?',
+      en: 'Why does the web version have only 20 cards?',
     },
     answer: {
-      vi: 'Để giữ đúng nguyên văn bộ thẻ vật lý VI/EN và tránh tự bịa câu hỏi hay hình phạt, hệ thống đang hiển thị cấu trúc 16 cặp thẻ và 15 ô vòng quay chờ nạp trực tiếp từ tệp gốc sau khi nhóm duyệt phát hành.',
-      en: 'To stay faithful to the original VI/EN physical deck without inventing prompts or penalties, the 16 card pairs and 15 wheel slots are structured for direct import once approved for public release.',
+      vi: 'Bản chơi thử trên web gồm 20 trong 63 thẻ của bộ gốc. Bộ đầy đủ có ở bản thẻ vật lý.',
+      en: 'The web preview includes 20 of the 63 cards in the original deck. The full deck is available as the physical card set.',
     },
     keywords: {
-      vi: ['noi dung', 'khung cho', 'bo the', 'la bai', 'pdf'],
-      en: ['slots', 'cards', 'deck', 'pdf', 'content', 'missing'],
+      vi: ['20', '63', 'bao nhieu the', 'bo the', 'la bai', 'noi dung'],
+      en: ['20', '63', 'how many', 'cards', 'deck', 'content'],
     },
   },
 ];
@@ -536,8 +564,8 @@ export function answerBrainieFaq(
     faqId: null,
     text:
       locale === 'en'
-        ? 'I am not sure about that — in Offline FAQ mode I can only explain how this Brainroot - Truth or Dare preview works (starting a turn, consecutive-Truth lock, 2-face flip, 15-? Skip wheel, and stopping safely). Official rules are pending team approval.'
-        : 'Mình chưa có thông tin cho câu hỏi này. Ở chế độ Hỏi đáp ngoại tuyến, Brainie chỉ giải thích cách vận hành của bản thử Brainroot - Truth or Dare (cách bắt đầu, không chọn Truth liên tiếp, lật 2 mặt, vòng quay 15 dấu ? khi Bỏ qua và cách Dừng an toàn). Luật chính thức đang chờ nhóm duyệt.',
+        ? 'I am not sure about that — in Offline FAQ mode I can only explain how this Brainroot - Truth or Dare preview works (starting a turn, the no-two-Truths-in-a-row rule, drawing and flipping, Green Penalties, and stopping). Please check the Rules book for more.'
+        : 'Mình chưa có thông tin cho câu hỏi này. Ở chế độ Hỏi đáp ngoại tuyến, Brainie chỉ giải thích luật chơi Brainroot - Truth or Dare (cách bắt đầu, không chọn Truth liên tiếp, rút và lật thẻ, Green Penalty và cách Dừng). Bạn xem thêm trong sách Luật nhé.',
   };
 }
 
@@ -566,9 +594,9 @@ export function getTruthOrDareUiCopy(locale: Locale) {
     return {
       breadcrumbHome: 'Home',
       experienceAria: 'Brainroot - Truth or Dare interactive tabletop',
-      brandSubtitle: 'Digital Card Tabletop (Preview)',
+      brandSubtitle: 'Web preview · 20 of 63 cards',
       arrivalHeading: 'Brainroot - Truth or Dare',
-      arrivalNote: 'Pick Brainie or Rootie before drawing — flip only your chosen side.',
+      arrivalNote: 'Draw a card, pour in knowledge — 20 of 63 cards in this web preview.',
       rulesIconTitle: 'Open hardcover rulebook',
       langIconTitle: 'Switch language VI / EN',
       shufflingStatus: 'Shuffling the deck on the tabletop...',
@@ -578,28 +606,29 @@ export function getTruthOrDareUiCopy(locale: Locale) {
       truthMascotName: 'Brainie',
       dareMascotName: 'Rootie',
       truthLockedHint: 'Cannot pick Truth twice in a row — choose Dare with Rootie this turn.',
-      readyToPullHint: 'Tap the top card or press Draw to pull it forward.',
-      pullingStatus: 'Pulling the top card forward...',
-      readyToFlipHint: 'Card drawn. Press Flip to reveal only your chosen face.',
+      readyToPullHint: 'Tap the deck to draw and flip your card.',
+      pullingStatus: 'Drawing your card...',
+      readyToFlipHint: 'Flipping your chosen face...',
       deckBackTitle: 'Brainroot',
       deckBackTag: 'Truth or Dare',
       remainingCardsLabel: (left: number, total: number) => `${left}/${total} left`,
       cardFaceHeading: (side: CardSide) =>
         side === 'truth' ? 'TRUTH · BRAINIE' : 'DARE · ROOTIE',
-      cardSlotTitle: (pairId: string) => `Card ${pairId}`,
-      cardSlotBody: (side: CardSide) =>
-        side === 'truth'
-          ? 'Official Truth prompt slot — verbatim VI/EN text from the team deck slots directly here upon release.'
-          : 'Official Dare action slot — verbatim VI/EN text from the team deck slots directly here upon release.',
+      themeChipLabel: (theme: string) => `Theme: ${theme}`,
+      proofHint: 'Optional: a photo or post is welcome, never required to share publicly.',
+      timerLabel: (sec: number) => `${sec}s timer`,
+      timerStart: 'Start timer',
+      timerPause: 'Pause',
+      timerReset: 'Reset',
+      timerDone: "Time's up!",
+      timerRegion: 'Challenge countdown',
       cardHiddenFaceNote: 'Unchosen side stays sealed.',
       sessionDoneTitle: 'All cards in this session have been drawn',
       sessionDoneBody: 'Shuffle a fresh session anytime or return to the tabletop.',
-      wheelModalTitle: 'Mystery Green Penalty Wheel',
-      wheelModalSub: '15 hidden ? slots — your slot reveals only after the wheel stops.',
+      wheelModalTitle: 'Green Penalty',
+      wheelModalSub: "Couldn't do it? Spin for a Green Penalty — it is revealed once the wheel stops.",
       wheelSpinningNote: 'Spinning the 15-? wheel...',
-      wheelResultHeading: (slotNumber: string) => `Landed on Mystery Slot #${slotNumber}`,
-      wheelResultSlotBody:
-        'Green Penalty text approved by the Brainroot team will appear in this slot once released.',
+      wheelResultHeading: (_slotNumber: string) => 'Your Green Penalty',
       wheelSafeExitLabel: 'Exit without penalty',
       rulebookTitle: 'Hardcover Rulebook',
       rulebookOpenHint: 'Open Book',
@@ -607,7 +636,7 @@ export function getTruthOrDareUiCopy(locale: Locale) {
       rulebookNextPage: 'Next',
       rulebookClose: 'Close rulebook',
       rulebookDraftNotice:
-        'Preview — describes how this digital version currently works. Official rules are pending team approval.',
+        'The web preview has 20 of the 63 cards; the full deck is the physical set.',
       rulebookPageLabel: (n: number) => `Page ${n}`,
       rulebookSpreadLabel: (l: number, r: number, total: number) =>
         `Pages ${l}–${r} / ${total}`,
@@ -617,7 +646,7 @@ export function getTruthOrDareUiCopy(locale: Locale) {
       botTitle: 'Brainie Rules Guide',
       botOfflineBadge: 'Offline FAQ',
       botIntro:
-        'Hi! I am Brainie in Offline FAQ mode. Ask me how this Brainroot - Truth or Dare preview works (official rules are pending team approval).',
+        'Hi! I am Brainie in Offline FAQ mode. Ask me how to play Brainroot - Truth or Dare.',
       botInputPlaceholder: 'Ask a rule question...',
       botSendLabel: 'Ask',
       botCloseAria: 'Close Brainie FAQ',
@@ -628,9 +657,9 @@ export function getTruthOrDareUiCopy(locale: Locale) {
   return {
     breadcrumbHome: 'Trang chủ',
     experienceAria: 'Bàn chơi tương tác Brainroot - Truth or Dare',
-    brandSubtitle: 'Bàn thẻ số (bản thử)',
+    brandSubtitle: 'Bản chơi thử · 20/63 thẻ',
     arrivalHeading: 'Brainroot - Truth or Dare',
-    arrivalNote: 'Chọn Brainie hoặc Rootie trước khi rút — chỉ lật đúng mặt đã chọn.',
+    arrivalNote: 'Rút thẻ bài, rót kiến thức — bản chơi thử 20/63 thẻ.',
     rulesIconTitle: 'Mở sách luật bìa cứng',
     langIconTitle: 'Chuyển ngôn ngữ VI / EN',
     shufflingStatus: 'Đang trộn bộ thẻ trên mặt bàn...',
@@ -640,28 +669,29 @@ export function getTruthOrDareUiCopy(locale: Locale) {
     truthMascotName: 'Brainie',
     dareMascotName: 'Rootie',
     truthLockedHint: 'Không chọn Truth hai lượt liên tiếp — lượt này hãy chọn Dare cùng Rootie.',
-    readyToPullHint: 'Chạm lá bài trên cùng hoặc nhấn Rút để kéo bài ra giữa bàn.',
-    pullingStatus: 'Đang kéo lá bài trên cùng ra giữa bàn...',
-    readyToFlipHint: 'Đã rút lá bài. Nhấn Lật để mở duy nhất mặt bạn đã chọn.',
+    readyToPullHint: 'Chạm vào bộ bài để rút và lật thẻ.',
+    pullingStatus: 'Đang rút thẻ...',
+    readyToFlipHint: 'Đang lật mặt bạn đã chọn...',
     deckBackTitle: 'Brainroot',
     deckBackTag: 'Truth or Dare',
     remainingCardsLabel: (left: number, total: number) => `Còn ${left}/${total} thẻ`,
     cardFaceHeading: (side: CardSide) =>
       side === 'truth' ? 'TRUTH · BRAINIE' : 'DARE · ROOTIE',
-    cardSlotTitle: (pairId: string) => `Thẻ ${pairId}`,
-    cardSlotBody: (side: CardSide) =>
-      side === 'truth'
-        ? 'Khung nội dung Truth chính thức — nguyên văn câu hỏi VI/EN từ bộ thẻ gốc sẽ nạp trực tiếp tại đây khi được duyệt công khai.'
-        : 'Khung nội dung Dare chính thức — nguyên văn thử thách VI/EN từ bộ thẻ gốc sẽ nạp trực tiếp tại đây khi được duyệt công khai.',
+    themeChipLabel: (theme: string) => `Chủ đề: ${theme}`,
+    proofHint: 'Tùy chọn: chụp ảnh hoặc đăng bài đều được, không bắt buộc đăng công khai.',
+    timerLabel: (sec: number) => `Đồng hồ ${sec} giây`,
+    timerStart: 'Bắt đầu đếm giờ',
+    timerPause: 'Tạm dừng',
+    timerReset: 'Đặt lại',
+    timerDone: 'Hết giờ!',
+    timerRegion: 'Đồng hồ thử thách',
     cardHiddenFaceNote: 'Mặt không chọn được giữ kín.',
     sessionDoneTitle: 'Bạn đã rút hết các thẻ trong phiên này',
     sessionDoneBody: 'Bạn có thể trộn lại phiên mới hoặc dừng nhẹ nhàng bất kỳ lúc nào.',
-    wheelModalTitle: 'Vòng quay Hình phạt Xanh bí ẩn',
-    wheelModalSub: '15 ô dấu ? bí ẩn — kết quả chỉ mở sau khi vòng quay dừng hẳn.',
+    wheelModalTitle: 'Green Penalty',
+    wheelModalSub: 'Không làm được? Quay để nhận một Green Penalty — kết quả mở sau khi vòng quay dừng.',
     wheelSpinningNote: 'Đang quay vòng 15 dấu ?...',
-    wheelResultHeading: (slotNumber: string) => `Dừng tại ô bí ẩn số #${slotNumber}`,
-    wheelResultSlotBody:
-      'Nội dung Hình phạt Xanh do nhóm Brainroot duyệt sẽ xuất hiện tại ô này khi được công bố.',
+    wheelResultHeading: (_slotNumber: string) => 'Green Penalty của bạn',
     wheelSafeExitLabel: 'Thoát không phạt',
     rulebookTitle: 'Sách luật bìa cứng',
     rulebookOpenHint: 'Mở sách luật',
@@ -669,7 +699,7 @@ export function getTruthOrDareUiCopy(locale: Locale) {
     rulebookNextPage: 'Trang sau',
     rulebookClose: 'Đóng sách luật',
     rulebookDraftNotice:
-      'Bản thử — mô tả cách bản số hiện vận hành. Luật chính thức đang chờ nhóm duyệt.',
+      'Bản chơi thử web có 20/63 thẻ; bộ đầy đủ là bản thẻ vật lý.',
     rulebookPageLabel: (n: number) => `Trang ${n}`,
     rulebookSpreadLabel: (l: number, r: number, total: number) =>
       `Trang ${l}–${r} / ${total}`,
@@ -679,7 +709,7 @@ export function getTruthOrDareUiCopy(locale: Locale) {
     botTitle: 'Brainie Hỏi đáp Luật',
     botOfflineBadge: 'FAQ Ngoại tuyến',
     botIntro:
-      'Chào bạn! Mình là Brainie ở chế độ FAQ ngoại tuyến. Mình giải thích cách vận hành của bản thử Brainroot - Truth or Dare (luật chính thức đang chờ nhóm duyệt).',
+      'Chào bạn! Mình là Brainie ở chế độ FAQ ngoại tuyến. Hỏi mình cách chơi Brainroot - Truth or Dare nhé.',
     botInputPlaceholder: 'Hỏi về luật chơi...',
     botSendLabel: 'Hỏi',
     botCloseAria: 'Đóng hộp thoại Brainie',
