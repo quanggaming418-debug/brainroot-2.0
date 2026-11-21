@@ -44,6 +44,16 @@ export function BrainieFaqPopover({
     }
   }, [messages, isTyping, open]);
 
+  const replyTimerRef = useRef<number | null>(null);
+  useEffect(
+    () => () => {
+      if (replyTimerRef.current !== null) {
+        window.clearTimeout(replyTimerRef.current);
+      }
+    },
+    [],
+  );
+
   const askQuestion = (questionText: string) => {
     const trimmed = questionText.trim();
     if (!trimmed) return;
@@ -70,7 +80,11 @@ export function BrainieFaqPopover({
     }
 
     setIsTyping(true);
-    window.setTimeout(() => {
+    if (replyTimerRef.current !== null) {
+      window.clearTimeout(replyTimerRef.current);
+    }
+    replyTimerRef.current = window.setTimeout(() => {
+      replyTimerRef.current = null;
       setIsTyping(false);
       setMessages((prev) => [
         ...prev,

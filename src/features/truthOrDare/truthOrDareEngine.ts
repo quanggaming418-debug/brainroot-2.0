@@ -121,10 +121,20 @@ export function reshuffleRemainingDeck(
   if (state.remainingIds.length === 0) {
     return startAndShuffleSession(state, rng);
   }
+  // A card already drawn for the current turn but not yet completed goes back
+  // into the deck, so re-shuffling mid-turn never silently consumes it.
+  const returnedIds =
+    state.currentCardId !== null
+      ? [...state.remainingIds, state.currentCardId]
+      : state.remainingIds;
   return {
     ...state,
     phase: 'shuffling',
-    remainingIds: shuffleIds(state.remainingIds, rng),
+    remainingIds: shuffleIds(returnedIds, rng),
+    drawnIds:
+      state.currentCardId !== null
+        ? state.drawnIds.filter((id) => id !== state.currentCardId)
+        : state.drawnIds,
     currentCardId: null,
     selectedSide: null,
     wheelTargetSectorIndex: null,

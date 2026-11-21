@@ -6,6 +6,7 @@ import {
   getTruthOrDareUiCopy,
   type RulebookSpread,
 } from './truthOrDareData';
+import { useModalFocus } from './useModalFocus';
 
 interface HardcoverRulebookModalProps {
   readonly open: boolean;
@@ -44,6 +45,18 @@ export function HardcoverRulebookModal({
     typeof window !== 'undefined' ? window.innerWidth < 768 : false,
   );
   const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const shellRef = useRef<HTMLDivElement>(null);
+  const turnTimerRef = useRef<number | null>(null);
+  useModalFocus(open, shellRef);
+
+  useEffect(
+    () => () => {
+      if (turnTimerRef.current !== null) {
+        window.clearTimeout(turnTimerRef.current);
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     const syncWidth = () => setIsMobileView(window.innerWidth < 768);
@@ -74,7 +87,13 @@ export function HardcoverRulebookModal({
     (dir: 'next' | 'prev') => {
       if (!reducedMotion) {
         setTurnDirection(dir);
-        window.setTimeout(() => setTurnDirection(null), 380);
+        if (turnTimerRef.current !== null) {
+          window.clearTimeout(turnTimerRef.current);
+        }
+        turnTimerRef.current = window.setTimeout(() => {
+          turnTimerRef.current = null;
+          setTurnDirection(null);
+        }, 380);
       }
       if (isMobileView) {
         setMobilePageIndex((prev) =>
@@ -221,7 +240,7 @@ export function HardcoverRulebookModal({
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      <div className="tod-rulebook-shell">
+      <div className="tod-rulebook-shell" ref={shellRef} tabIndex={-1}>
         <div className="tod-rulebook-topbar">
           <h2 className="tod-rulebook-title" id="tod-rulebook-title">
             {copy.rulebookTitle}

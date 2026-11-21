@@ -105,3 +105,11 @@
 - **Git commit SHA:** Nhánh codex/truth-or-dare-v1-assets từ main 959c672; commit intake chứa mục log này.
 - **What remains / next task:** Product Owner review; AI Studio tiếp tục ở task tích hợp riêng. Chỉ sử dụng tập con nguồn sau khi duyệt quyền.
 - **Owner approval required:** Merge và công bố nội dung nguồn.
+
+## Session: 2026-11-21 — Claude Code — BR-T026 (PR 1: gameplay & a11y)
+
+- **Task & goal:** Sửa lỗi gameplay và accessibility P0 của Truth or Dare theo audit đã duyệt; không đổi nội dung thẻ/luật, không đổi giao diện.
+- **Files changed:** `truthOrDareEngine.ts` (reshuffle trả lá đang rút về bộ bài), `useModalFocus.ts` (mới), `GreenPenaltyWheelModal.tsx`, `HardcoverRulebookModal.tsx`, `BrainieFaqPopover.tsx`, `tests/truth-or-dare-v1.test.ts` (+1 test).
+- **Tests actually executed:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` PASS 40/40 (baseline 39/39) · `npm run build` PASS · Playwright Chromium headless 390×844 (script tạm, đã xóa) PASS: Shuffle giữ lá bài (16→15→16), Tab/Shift+Tab nằm trong modal vòng quay và sách luật, Escape ở wheel_ready không bỏ qua, Escape sau kết quả đóng, focus trả về nút mở, 0 lỗi console, 0 tràn ngang · `npm run lint` NOT RUN (chưa có script) · chạy trên `vite preview` bản build.
+- **Chưa làm (PR sau):** Stop xóa phiên, alt tiếng Anh cứng, vô hiệu `?mode=legacy`, rulebook chờ duyệt, deployment `VITE_BASE`, v.v.
+- **Git:** nhánh `codex/br-t026-gameplay-a11y`, **NOT COMMITTED**.

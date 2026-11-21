@@ -302,3 +302,20 @@ test('global VI/EN i18n helpers persist locale, translate titles, and stay free 
     assert.doesNotMatch(combinedPublicCopy, pattern);
   }
 });
+
+test('BR-T026: reshuffling mid-turn returns the drawn card to the deck instead of consuming it', () => {
+  let state = createInitialTruthOrDareState();
+  state = finishShuffle(startAndShuffleSession(state, FIXED_RNG));
+  const total = state.remainingIds.length;
+  state = chooseSideBeforeDraw(state, 'dare');
+  const cardId = state.currentCardId;
+  assert.ok(cardId);
+  assert.equal(state.remainingIds.length, total - 1);
+
+  state = reshuffleRemainingDeck(state, FIXED_RNG);
+  assert.equal(state.currentCardId, null);
+  assert.equal(state.remainingIds.length, total);
+  assert.ok(state.remainingIds.includes(cardId as string));
+  assert.ok(!state.drawnIds.includes(cardId as string));
+  assert.equal(new Set(state.remainingIds).size, total);
+});
