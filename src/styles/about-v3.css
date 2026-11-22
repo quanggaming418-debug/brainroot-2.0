@@ -1,0 +1,574 @@
+/* ==========================================================================
+   /about V3 — short garden story in 5 blocks (BR-T030)
+   ========================================================================== */
+
+.about-v3 {
+  --about-tint: #ecece1;
+  --about-gap: clamp(56px, 8vw, 104px);
+  overflow-x: clip;
+  background: var(--color-ivory);
+}
+
+.about-container {
+  width: min(100% - 40px, 1240px);
+  margin: 0 auto;
+}
+
+.about-block {
+  position: relative;
+  padding: var(--about-gap) 0;
+}
+
+.about-block--tinted {
+  background: var(--about-tint);
+}
+
+.about-wave {
+  position: absolute;
+  left: 0;
+  top: -71px;
+  width: 100%;
+  height: 72px;
+  fill: var(--about-tint);
+  pointer-events: none;
+}
+
+.about-wave--flip {
+  fill: var(--color-ivory);
+}
+
+.about-h2 {
+  margin: 0 0 20px;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+.about-lead {
+  margin: 0 0 16px;
+  font-size: clamp(16px, 1.5vw, 18px);
+  line-height: 1.7;
+  color: #34493d;
+  max-width: 60ch;
+}
+
+/* ── Reveal on scroll (content stays visible without JS / with reduced motion) ── */
+.about-v3 .about-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 520ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-v3 .about-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Block 1: Hero ───────────────────────────────────────────────────────── */
+.about-hero {
+  padding: clamp(24px, 4vw, 48px) 0 var(--about-gap);
+}
+
+.about-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+}
+
+.about-hero__title {
+  margin: 8px 0 12px;
+  font-size: clamp(36px, 5.2vw, 64px);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+.about-hero__slogan {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #8a4a2c;
+}
+
+.about-hero__desc {
+  margin: 0;
+  font-size: clamp(16px, 1.6vw, 18px);
+  line-height: 1.65;
+  color: #34493d;
+  max-width: 46ch;
+}
+
+.about-scene {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  border-radius: 32px;
+  background: #f8d6bb;
+  box-shadow: 0 24px 60px rgba(38, 59, 49, 0.16);
+  isolation: isolate;
+}
+
+.about-scene__base,
+.about-scene__layer {
+  position: absolute;
+  inset: 0;
+}
+
+.about-scene__base {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.about-scene__layer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.about-mascot {
+  position: absolute;
+  bottom: 2%;
+  z-index: 3;
+  height: auto;
+  filter: drop-shadow(0 10px 14px rgba(38, 59, 49, 0.2));
+  animation: aboutMascotSway 7s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+.about-mascot--brainie {
+  left: 3%;
+  width: 27%;
+}
+
+.about-mascot--rootie {
+  right: 3%;
+  width: 26%;
+  animation-delay: -3.5s;
+}
+
+@keyframes aboutMascotSway {
+  0%,
+  100% {
+    transform: rotate(-2deg) translateY(0);
+  }
+
+  50% {
+    transform: rotate(2deg) translateY(-6px);
+  }
+}
+
+/* ── Block 2: Brainrot → Brainroot ───────────────────────────────────────── */
+.about-contrast__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 72px);
+}
+
+.about-brain {
+  color: var(--color-ink);
+}
+
+.about-rot {
+  color: #8a4a2c;
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+  text-decoration-color: rgba(138, 74, 44, 0.5);
+}
+
+.about-root {
+  position: relative;
+  color: #3f6b2f;
+}
+
+.about-root::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #63894c, #a6c6b6);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1) 250ms;
+}
+
+.is-visible .about-root::after {
+  transform: scaleX(1);
+}
+
+.about-nameline {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #465d51;
+}
+
+.about-compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.25fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.about-compare__frame {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #fffdf8;
+  box-shadow: 0 14px 34px rgba(38, 59, 49, 0.14);
+}
+
+.about-compare__frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+
+.about-compare__frame--after img {
+  aspect-ratio: 5 / 4;
+  object-position: 40% 70%;
+}
+
+.about-compare__frame--before img {
+  filter: grayscale(0.85) brightness(1.04);
+}
+
+.about-compare__frame figcaption {
+  padding: 10px 14px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--color-ink);
+}
+
+.about-compare__arrow {
+  font-size: 26px;
+  font-weight: 800;
+  color: #63894c;
+}
+
+/* ── Block 3: journey trail ──────────────────────────────────────────────── */
+.about-trail {
+  position: relative;
+  margin-top: 36px;
+}
+
+.about-trail__line {
+  position: absolute;
+  left: 0;
+  top: 18%;
+  width: 100%;
+  height: 56%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.about-trail__path {
+  fill: none;
+  stroke: #63894c;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0.55;
+  transition: stroke-dashoffset 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-trail__scenes {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 4vw, 56px);
+}
+
+.about-scene-step {
+  position: relative;
+}
+
+.about-scene-step--experience {
+  margin-top: 56px;
+}
+
+.about-scene-step__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 34px 34px 34px 8px;
+  box-shadow: 0 16px 38px rgba(38, 59, 49, 0.16);
+}
+
+.about-scene-step--experience .about-scene-step__img {
+  border-radius: 34px 8px 34px 34px;
+}
+
+.about-scene-step__num {
+  margin: 16px 0 0;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #8a4a2c;
+}
+
+.about-scene-step__title {
+  margin: 2px 0 6px;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.about-scene-step__text {
+  margin: 0;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: #34493d;
+}
+
+/* path draws in, then the three scenes appear one after another */
+.about-v3 .about-trail.about-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.about-trail.is-visible .about-trail__path {
+  stroke-dashoffset: 0;
+}
+
+.about-v3 .about-scene-step {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 520ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-v3 .about-trail.is-visible .about-scene-step {
+  opacity: 1;
+  transform: none;
+}
+
+.about-v3 .about-trail.is-visible .about-scene-step:nth-child(2) {
+  transition-delay: 220ms;
+}
+
+.about-v3 .about-trail.is-visible .about-scene-step:nth-child(3) {
+  transition-delay: 440ms;
+}
+
+.about-mascot-line {
+  margin-top: 44px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.about-mascot-line img {
+  width: 56px;
+  height: auto;
+}
+
+.about-mascot-line p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #34493d;
+}
+
+/* ── Block 4: audience ───────────────────────────────────────────────────── */
+.about-audience__grid {
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 5vw, 64px);
+}
+
+.about-audience__item {
+  transition:
+    opacity 520ms ease,
+    transform 260ms ease;
+}
+
+.about-audience__item.is-visible:hover {
+  transform: translateY(-4px);
+}
+
+.about-audience__img {
+  display: block;
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 10px 24px rgba(38, 59, 49, 0.18);
+}
+
+.about-audience__title {
+  margin: 18px 0 6px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.about-audience__item p {
+  margin: 0;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: #34493d;
+}
+
+/* ── Block 5: invitation ─────────────────────────────────────────────────── */
+.about-invite__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 72px);
+}
+
+.about-invite__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.about-invite__scene {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  overflow: hidden;
+  border-radius: 32px;
+  background: linear-gradient(180deg, #fbe6d2 0%, #f8d6bb 60%, #cfe0c9 100%);
+  box-shadow: 0 24px 60px rgba(38, 59, 49, 0.14);
+}
+
+.about-invite__ground {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 100%;
+  transform: scale(1.55);
+  transform-origin: 50% 100%;
+}
+
+.about-footnote {
+  margin: 0;
+  padding: 0 20px 40px;
+  text-align: center;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: rgba(38, 59, 49, 0.62);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .about-hero__grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* mobile: scene on top, text below */
+  .about-scene {
+    order: -1;
+  }
+
+  .about-contrast__grid,
+  .about-invite__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-trail__line {
+    display: none;
+  }
+
+  .about-trail__scenes {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding-left: 18px;
+    border-left: 3px dotted rgba(99, 137, 76, 0.55);
+  }
+
+  .about-scene-step--experience {
+    margin-top: 0;
+  }
+
+  .about-audience__grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .about-invite__scene {
+    order: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .about-container {
+    width: min(100% - 32px, 1240px);
+  }
+
+  .about-compare {
+    grid-template-columns: 1fr;
+  }
+
+  .about-compare__arrow {
+    transform: rotate(90deg);
+    justify-self: center;
+  }
+
+  .about-compare__frame img {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ── Reduced motion: no parallax, no sway, no drawing; everything readable ─ */
+@media (prefers-reduced-motion: reduce) {
+  .about-mascot {
+    animation: none;
+  }
+
+  .about-v3 .about-reveal,
+  .about-v3 .about-scene-step {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .about-trail__path {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .about-root::after {
+    transform: scaleX(1);
+    transition: none;
+  }
+
+  .about-scene__layer {
+    transform: none !important;
+  }
+
+  .about-audience__item.is-visible:hover {
+    transform: none;
+  }
+}

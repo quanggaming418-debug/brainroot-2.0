@@ -160,3 +160,20 @@
 - **Files:** `src/data/{learnFacts,quiz}.ts`, `src/features/learn/{quizEngine.ts,LearnQuiz.tsx}`, `src/pages/GreenLearnPage.tsx`, `src/styles/unified-world.css`, `tests/br-t029-learn-quiz.test.ts`, `docs/ASSET_AUDIT.md`, `planning/TASKS.md`.
 - **Tests:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` 47/47 PASS · `npm run build` PASS · trình duyệt: chơi hết 5 câu bằng phím 1, nguồn mở được, 0 tràn ngang ở 375px. Lint, reduced-motion, trình đọc màn hình: NOT RUN.
 - **Ghi chú:** năm nguồn để `null` khi file nội dung không nêu (không đoán). Đáp án EN của quiz là bản dịch của tôi từ lựa chọn VI. **NOT COMMITTED**, nhánh `codex/br-t029-learn-quiz`.
+
+## Session: 2026-11-21 — Claude Code — BR-T030 (Quest + Về Brainroot + Tin dự án)
+
+- **Files:** `src/data/{quests,aboutExtra}.ts`, `src/features/quest/questBoard.ts`, `src/pages/{GreenQuestPage,AboutPage}.tsx`, `src/styles/unified-world.css`, `src/utils/routeNavigation.ts`, `tests/br-t030-quest-about-news.test.ts`, `planning/TASKS.md`.
+- **Tests:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` 51/51 PASS · `npm run build` PASS · trình duyệt: đánh dấu 3 thử thách nhận huy hiệu và lưu localStorage, About hiển thị đủ khối, 0 tràn ngang ở 375px. Lint, reduced-motion, trình đọc màn hình: NOT RUN.
+- **Ghi chú:** số khảo sát chép nguyên văn nhưng nhóm chưa xác nhận lại file gốc/làm tròn. Tên sự kiện tiếng Việt giữ nguyên ở bản EN. Thử thách cũ (`greenQuestModel.ts`) còn trong mã nhưng không còn dùng ở giao diện. **NOT COMMITTED**, nhánh `codex/br-t030-quest-about-news`.
+
+### BR-T030 bổ sung (2026-11-21) — chỉnh About/News theo hướng người dùng
+- Chuyển khảo sát/đội ngũ/lộ trình/chi tiết sơ tuyển sang `docs/HACKATHON_DOSSIER.md`; xóa `src/data/aboutExtra.ts`; thêm `src/data/{about,news}.ts`; viết lại `src/pages/AboutPage.tsx`; sửa CSS và `tests/br-t030-quest-about-news.test.ts`.
+- Tests: typecheck PASS · unit 51/51 PASS · build PASS · trình duyệt 375px: 0 tràn ngang, không còn chuỗi khảo sát/đội ngũ/lộ trình trên trang. Lint, reduced-motion, bàn phím, alt ảnh (chưa có ảnh nào được đăng): NOT RUN.
+- Hạn chế: không đọc được PDF (thiếu poppler/pypdf), nội dung dựa trên file revision. **NOT COMMITTED.**
+
+### BR-T030 bổ sung 2 (2026-11-21) — /about V3
+- Files: `src/pages/AboutPage.tsx` (viết lại), `src/data/about.ts` (V3), `src/data/news.ts` (tất cả draft), `src/hooks/useRevealOnScroll.ts` (mới), `src/styles/about-v3.css` (mới, import trong `styles.css`), `src/styles/unified-world.css` (xóa CSS about cũ), `tests/br-t030-quest-about-news.test.ts`, `docs/ASSET_AUDIT.md`, `planning/TASKS.md`.
+- Tests: typecheck PASS · unit 51/51 PASS · build PASS · trình duyệt: 375px và ~1024px: 0 tràn ngang, 0 ảnh vỡ, mọi ảnh có alt, 1 h1, không còn chuỗi Tin dự án/Sắp có/NGO/ESG/khảo sát.
+- NOT RUN: chụp đúng 1440 và 768 px, reduced-motion trên trình duyệt (đã viết CSS/JS tắt parallax, đường vẽ, lắc mascot), bàn phím, Lighthouse.
+- Chưa làm theo mục 5.74 spec: đồng bộ tên "Thử thách"/"Green Quest" ở footer và ghi chú Ô ăn quan xanh trong footer (cần nhóm đồng ý). **NOT COMMITTED.**

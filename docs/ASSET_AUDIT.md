@@ -23,3 +23,6 @@
 ## Khai báo nội dung Learn + Quiz (BR-T029, 2026-11-21)
 - `src/data/learnFacts.ts` và `src/data/quiz.ts` do AI soạn **bản nháp** từ nguồn công khai; mỗi fact ghi tên nguồn + URL (+ năm nếu có). Số liệu giữ nguyên như file nội dung nhóm cung cấp, chưa được nhóm/giảng viên duyệt.
 - Giữ ẩn: ngưỡng "9 m² cây xanh/người" và "0,5 ha trong 300 m" (chưa xác nhận bản gốc WHO). Chưa có fact riêng Việt Nam cho Nước và Năng lượng.
+
+## /about V3 — asset đã dùng (BR-T030, 2026-11-21)
+Chỉ dùng asset có sẵn trong repo, không tạo mới: `hero-v4/{hero-garden-v4,depth-01-sky,depth-02-hills,depth-03-foreground}.webp`, `hero-v4/{brainie,rootie}.webp`, `home/garden/{green-learn,green-play,green-quest,green-connect}.webp`. Đường mòn và sóng đồi là path SVG trang trí viết bằng mã (không phải artwork AI).
