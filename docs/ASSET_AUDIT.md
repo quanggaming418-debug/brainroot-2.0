@@ -26,3 +26,9 @@
 
 ## /about V3 — asset đã dùng (BR-T030, 2026-11-21)
 Chỉ dùng asset có sẵn trong repo, không tạo mới: `hero-v4/{hero-garden-v4,depth-01-sky,depth-02-hills,depth-03-foreground}.webp`, `hero-v4/{brainie,rootie}.webp`, `home/garden/{green-learn,green-play,green-quest,green-connect}.webp`. Đường mòn và sóng đồi là path SVG trang trí viết bằng mã (không phải artwork AI).
+
+## /about V4.3 — asset đã dùng (BR-T031, 2026-11-22)
+- Chép **đúng 15 file cần dùng** từ `brainroot-assets/Brainroot_About_V4_Production_Asset_Kit/` vào `public/assets/about-v4/` (không chép ZIP, tài liệu, preview hay file không dùng): `01_hero/about-journal-{desktop,mobile}.webp`, `02_story/{brainrot-scroll-scene,brainroot-reveal-scene}.webp`, `05_props/{open-journal,magnifying-glass,reusable-bottle,canvas-tote,books-and-globe,learning-table,community-board,community-gathering}.webp`, `06_backgrounds/ivory-grain-overlay.webp`, `08_ui/paper-tape-{peach,sage}.svg`. Test `br-t031` khẳng định thư mục chỉ chứa file được tham chiếu.
+- **2 ảnh phái sinh:** `deck-card-back.webp` và `deck-card-face.webp` (file 248×448 px) là phần **cắt + nắn phối cảnh** hai lá nằm trên cùng của `09_original_reference/official-deck-reference.webp` (giống `public/assets/hero-v4/fact-act-deck.webp`). Không vẽ lại, không thêm chữ. Mặt sau là thiết kế "Brain root" có Brainie/Rootie gốc; mặt trước là tranh phong cảnh không có chữ. Độ phân giải gốc: ảnh render 650×613 px, mỗi lá chỉ chiếm khoảng 124×225 px, được phóng 2× (Lanczos/bicubic) lên 248×448 px nên hơi mềm; hiển thị tối đa ~146 px rộng (lá được chọn, desktop). Quyền sử dụng: artwork thuộc bộ thẻ của nhóm, mới được duyệt cho phát triển/prototype nội bộ; **chưa xác nhận quyền phát hành công khai/thương mại** (`BR-T002` còn `BLOCKED`).
+- Dùng lại từ repo: `hero-v4/fact-act-deck.webp`, `hero-v4/brainie.webp`. Không dùng ảnh Trang chủ.
+- Ghi chú trên bảng tin, viền đào, gân trang sổ là CSS; không phải artwork AI.

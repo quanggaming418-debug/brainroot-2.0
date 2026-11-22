@@ -79,42 +79,23 @@ test('BR-T030 quest board: done/undo, notes, badges at 3/6/12 and local persiste
   assert.deepEqual(loadBoard(mock), {});
 });
 
-test('BR-T030 about V3: 5 story blocks, existing assets only, no report-style content', () => {
+// The V3 layout checks (hero tagline, trail scenes, invite CTA, footnote) were retired when /about moved to the
+// owner-approved V4.3 design (BR-T031, see tests/br-t031-about-v43.test.ts). The governance rules still hold.
+test('BR-T030 about governance: no report-style content on /about (layout now V4.3)', () => {
   const aboutJson = JSON.stringify(aboutData);
   const pageSource = fs.readFileSync('src/pages/AboutPage.tsx', 'utf8');
 
-  // Hero copy
-  assert.equal(aboutData.ABOUT_HERO.title.vi, 'Chơi để hiểu. Hiểu để hành động.');
-  assert.equal(aboutData.ABOUT_HERO.title.en, 'Play to understand. Understand to act.');
-  assert.equal(aboutData.ABOUT_HERO.slogan, 'From Brainrot to Brainroot.');
-
-  // Journey: 3 scenes, audience: exactly 3 groups
-  assert.deepEqual(aboutData.ABOUT_JOURNEY.scenes.map((s) => s.id), ['explore', 'experience', 'act']);
-  assert.equal(aboutData.ABOUT_AUDIENCE.groups.length, 3);
-  assert.equal(aboutData.ABOUT_INVITE.primary.to, '/games');
-  assert.equal(aboutData.ABOUT_INVITE.secondary.to, '/quest');
-
   // Removed: survey, team, roadmap, news, NGO/ESG, coming soon, contact, old blocks
-  assert.doesNotMatch(aboutJson, /n=200|97%|khảo sát|survey|Phan Minh Huyền|Giai đoạn|NGO|ESG|CSR|Sắp có|coming soon|Tin dự án|Liên hệ/i);
+  assert.doesNotMatch(aboutJson, /n=200|97%|khảo sát|survey|Phan Minh Huyền|Giai đoạn|Sắp có|coming soon|Tin dự án|Liên hệ/i);
+  // Acronyms as whole words only ("ngoài trời" is ordinary Vietnamese, not "NGO").
+  assert.doesNotMatch(aboutJson, /(NGO|ESG|CSR)/);
   assert.doesNotMatch(pageSource, /news|Tin dự án|NEWS|ABOUT_CONTACT|mailto/);
   for (const removed of ['ABOUT_SURVEY', 'ABOUT_TEAM', 'ABOUT_ROADMAP', 'ABOUT_PRODUCTS', 'ABOUT_WHAT_IS', 'ABOUT_TRANSPARENCY']) {
     assert.equal(removed in aboutData, false, removed);
   }
-  assert.match(aboutData.ABOUT_FOOTNOTE.vi, /Nội dung Learn lấy từ nguồn công khai/);
-  assert.match(aboutData.ABOUT_FOOTNOTE.en, /Learn content comes from public sources/);
-
-  // Every asset exists already in public/ (nothing new generated)
-  const assets = [
-    ...Object.values(aboutData.ABOUT_ASSETS),
-    ...aboutData.ABOUT_JOURNEY.scenes.map((s) => s.image),
-    ...aboutData.ABOUT_AUDIENCE.groups.map((g) => g.image),
-  ];
-  for (const a of assets) {
+  for (const a of Object.values(aboutData.ABOUT_ASSETS)) {
     assert.ok(fs.existsSync(path.join('public', a.replace(/^\/+/, ''))), `missing asset ${a}`);
   }
-  // Alt text on all page images
-  for (const scene of aboutData.ABOUT_JOURNEY.scenes) assert.ok(scene.alt.vi && scene.alt.en);
-  for (const g of aboutData.ABOUT_AUDIENCE.groups) assert.ok(g.alt.vi && g.alt.en);
 
   // The dossier keeps the moved data with the mandatory disclosure
   const dossier = fs.readFileSync('docs/HACKATHON_DOSSIER.md', 'utf8');
