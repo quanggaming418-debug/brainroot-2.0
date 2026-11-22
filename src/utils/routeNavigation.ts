@@ -9,7 +9,7 @@ export const ROUTE_TITLES: Readonly<Record<string, string>> = {
     'Trải nghiệm thử Brainroot - Truth or Dare — Green Play | Brainroot',
   '/games/o-an-quan-xanh':
     'Brainroot - Ô ăn quan xanh — Trò chơi dân gian & kỹ năng xanh | Brainroot',
-  '/quest': 'Green Quest — Thử thách xanh khởi đầu | Brainroot',
+  '/quest': 'Green Quest — 12 thử thách xanh | Brainroot',
   '/learn': 'Green Learn — 5 chủ đề kỹ năng xanh | Brainroot',
   '/connect': 'Green Connect — Kết nối cộng đồng giáo dục | Brainroot',
   '/about': 'Về Brainroot — From Brainrot to Brainroot',
@@ -25,7 +25,7 @@ export const ROUTE_TITLES_EN: Readonly<Record<string, string>> = {
     'Brainroot - Truth or Dare — Interactive Experience | Brainroot',
   '/games/o-an-quan-xanh':
     'Brainroot - Ô ăn quan xanh — Folk Game & Green Skills | Brainroot',
-  '/quest': 'Green Quest — Starter Green Challenge | Brainroot',
+  '/quest': 'Green Quest — 12 Green Challenges | Brainroot',
   '/learn': 'Green Learn — 5 Green Skills Topics | Brainroot',
   '/connect': 'Green Connect — Learning Community | Brainroot',
   '/about': 'About Brainroot — From Brainrot to Brainroot',

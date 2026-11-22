@@ -160,3 +160,44 @@
 - **Files:** `src/data/{learnFacts,quiz}.ts`, `src/features/learn/{quizEngine.ts,LearnQuiz.tsx}`, `src/pages/GreenLearnPage.tsx`, `src/styles/unified-world.css`, `tests/br-t029-learn-quiz.test.ts`, `docs/ASSET_AUDIT.md`, `planning/TASKS.md`.
 - **Tests:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` 47/47 PASS · `npm run build` PASS · trình duyệt: chơi hết 5 câu bằng phím 1, nguồn mở được, 0 tràn ngang ở 375px. Lint, reduced-motion, trình đọc màn hình: NOT RUN.
 - **Ghi chú:** năm nguồn để `null` khi file nội dung không nêu (không đoán). Đáp án EN của quiz là bản dịch của tôi từ lựa chọn VI. **NOT COMMITTED**, nhánh `codex/br-t029-learn-quiz`.
+
+## Session: 2026-11-21 — Claude Code — BR-T030 (Quest + Về Brainroot + Tin dự án)
+
+- **Files:** `src/data/{quests,aboutExtra}.ts`, `src/features/quest/questBoard.ts`, `src/pages/{GreenQuestPage,AboutPage}.tsx`, `src/styles/unified-world.css`, `src/utils/routeNavigation.ts`, `tests/br-t030-quest-about-news.test.ts`, `planning/TASKS.md`.
+- **Tests:** `npm run typecheck` PASS · `npx tsx --test tests/*.test.ts` 51/51 PASS · `npm run build` PASS · trình duyệt: đánh dấu 3 thử thách nhận huy hiệu và lưu localStorage, About hiển thị đủ khối, 0 tràn ngang ở 375px. Lint, reduced-motion, trình đọc màn hình: NOT RUN.
+- **Ghi chú:** số khảo sát chép nguyên văn nhưng nhóm chưa xác nhận lại file gốc/làm tròn. Tên sự kiện tiếng Việt giữ nguyên ở bản EN. Thử thách cũ (`greenQuestModel.ts`) còn trong mã nhưng không còn dùng ở giao diện. **NOT COMMITTED**, nhánh `codex/br-t030-quest-about-news`.
+
+### BR-T030 bổ sung (2026-11-21) — chỉnh About/News theo hướng người dùng
+- Chuyển khảo sát/đội ngũ/lộ trình/chi tiết sơ tuyển sang `docs/HACKATHON_DOSSIER.md`; xóa `src/data/aboutExtra.ts`; thêm `src/data/{about,news}.ts`; viết lại `src/pages/AboutPage.tsx`; sửa CSS và `tests/br-t030-quest-about-news.test.ts`.
+- Tests: typecheck PASS · unit 51/51 PASS · build PASS · trình duyệt 375px: 0 tràn ngang, không còn chuỗi khảo sát/đội ngũ/lộ trình trên trang. Lint, reduced-motion, bàn phím, alt ảnh (chưa có ảnh nào được đăng): NOT RUN.
+- Hạn chế: không đọc được PDF (thiếu poppler/pypdf), nội dung dựa trên file revision. **NOT COMMITTED.**
+
+### BR-T030 bổ sung 2 (2026-11-21) — /about V3
+- Files: `src/pages/AboutPage.tsx` (viết lại), `src/data/about.ts` (V3), `src/data/news.ts` (tất cả draft), `src/hooks/useRevealOnScroll.ts` (mới), `src/styles/about-v3.css` (mới, import trong `styles.css`), `src/styles/unified-world.css` (xóa CSS about cũ), `tests/br-t030-quest-about-news.test.ts`, `docs/ASSET_AUDIT.md`, `planning/TASKS.md`.
+- Tests: typecheck PASS · unit 51/51 PASS · build PASS · trình duyệt: 375px và ~1024px: 0 tràn ngang, 0 ảnh vỡ, mọi ảnh có alt, 1 h1, không còn chuỗi Tin dự án/Sắp có/NGO/ESG/khảo sát.
+- NOT RUN: chụp đúng 1440 và 768 px, reduced-motion trên trình duyệt (đã viết CSS/JS tắt parallax, đường vẽ, lắc mascot), bàn phím, Lighthouse.
+- Chưa làm theo mục 5.74 spec: đồng bộ tên "Thử thách"/"Green Quest" ở footer và ghi chú Ô ăn quan xanh trong footer (cần nhóm đồng ý). **NOT COMMITTED.**
+
+## Session: 2026-11-22 22:49+07:00 — Claude Code — BR-T031 (/about V4.3 integration)
+
+- **Task & goal:** đưa About V4.3 đã chốt (prototype Claude Design + asset kit V4) vào `/about` của React, kèm chỉnh sửa cuối cho mobile/desktop; không đổi Header/Footer, routing, cấu hình deploy, hệ VI/EN.
+- **Status before → after:** TODO → IN_REVIEW.
+- **Read context:** `AGENTS.md`, `.agents/rules/brainroot-{ui,content}.md`, `planning/{PROJECT_STATE,TASKS}.md`, `logs/HANDOFF.md`, `src/App.tsx`, `src/pages/AboutPage.tsx`, `src/data/about.ts`, `src/i18n/*`, `vite.config.ts`, `.github/workflows/deploy.yml`.
+- **Isolation:** trạng thái chưa commit của BR-T030 được sao lưu ngoài repo (`C:/Users/Windows/brainroot-backups/br-t030-uncommitted-2026-11-22/`: patch, tar file untracked, base commit). Làm trong git worktree `C:/Users/Windows/brainroot-worktrees/br-t031-about-v43` (nhánh `codex/br-t031-about-v43` từ `c29ae77`), dựng lại đúng trạng thái BR-T030 (so từng byte), stage trạng thái đó trong index của worktree để `git diff` chỉ còn thay đổi BR-T031. Checkout gốc không bị đụng tới.
+- **Files changed:**
+  - mới: `src/features/about/{storyTimeline.ts,AboutHero.tsx,AboutStory.tsx,AboutLearning.tsx,AboutAudience.tsx}`, `src/styles/about-v43.css`, `tests/br-t031-about-v43.test.ts`, `public/assets/about-v4/` (17 file).
+  - sửa: `src/pages/AboutPage.tsx`, `src/data/about.ts` (V4.3, VI/EN), `src/styles.css` (import about-v43 thay about-v3), `index.html` (thêm font Patrick Hand), `tests/br-t030-quest-about-news.test.ts` (bỏ kiểm tra riêng bố cục V3, giữ quy tắc nội dung; NGO/ESG/CSR chỉ bắt nguyên từ vì "ngoài trời" bị bắt nhầm).
+  - xóa: `src/styles/about-v3.css`, `src/hooks/useRevealOnScroll.ts` (không còn dùng; bản cũ có trong sao lưu).
+- **User-visible behavior changed:** `/about` hiển thị 4 chương V4.3; câu chuyện chạy theo cuộn và chạy ngược đúng khung khi cuộn lên; nút bước cuộn tới mốc cố định; bộ bài xòe/chọn/lật bằng chuột, chạm và bàn phím; reduced-motion = 3 trạng thái tĩnh.
+- **Tests actually executed:**
+  - `npm run typecheck`: PASS.
+  - `npx tsx --test <từng file>` (9 file): 62/62 PASS. Lưu ý: truyền nhiều file một lúc thì `tsx --test` chỉ chạy file đầu.
+  - `npm run build`: PASS; `vite build --base=/` (mô phỏng Cloudflare, xóa `404.html`): PASS.
+  - Playwright Chromium headless: 94/94 PASS ở 1440/768/390/320 — cuộn xuôi/ngược trùng khung 41/41 điểm, thứ tự bước 01→02→03, sticky top 0, khoảng cuộn sticky, sân khấu nằm trọn màn hình, nhật ký không bị cắt, nút ≥44×44, nhãn không tràn, cảnh Dành cho ai không tràn cột, không tràn ngang, 0 ảnh vỡ, 0 lỗi console (ngoài phản hồi `404.html` mong đợi của GitHub Pages), Tab/Enter/mũi tên/Home/End, focus-visible 3px, reduced-motion, VI⇄EN, mở thẳng `/about` với base `/brainroot-2.0/` và `/`, smoke `/`, `/games`, `/games/fact-act`, `/games/fact-act/play`, `/games/o-an-quan-xanh`, `/quest`, `/learn`, `/connect`.
+  - Nhịp khung khi cuộn qua câu chuyện (Chromium headless, không GPU): trước tối ưu 1440px có khung >34ms; sau khi bỏ translateZ/filter trên 8 mẩu nền còn 1/418 khung >20ms; cuộn toàn trang ngang V3.
+  - `npm run lint`: NOT RUN (chưa có script). Thiết bị thật, Safari/Firefox, Cloudflare/GitHub Pages thật, trình đọc màn hình: NOT RUN.
+- **Acceptance criteria:** giữ headline/slogan/thông điệp PASS; nhãn mobile ngắn + tên truy cập đầy đủ PASS; ba nút bằng nhau ≥44px PASS; không nhảy trạng thái khi cuộn ngược PASS; VI/EN đầy đủ PASS; không đổi Header/Footer/routing/deploy PASS; chỉ chép asset cần dùng PASS.
+- **Bugs / tradeoffs / risk:** không có asset hình người nên "Dành cho ai" thể hiện người tham gia qua dấu vết hoạt động; hai lá bài là ảnh tách từ render bộ bài chính thức (nguồn ~125px/lá); bỏ footnote và CTA của V3 theo thiết kế V4.3 đã chốt.
+- **Git commit SHA:** `NOT COMMITTED`.
+- **What remains / next task:** Product Owner duyệt bản React; commit BR-T030 rồi BR-T031 và mở PR; smoke test trên host thật sau merge.
+- **Owner approval required:** có — duyệt giao diện, quyền phát hành 2 ảnh lá bài tách từ render bộ bài (thuộc `BR-T002`), commit/PR/merge/deploy.

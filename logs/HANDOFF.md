@@ -228,3 +228,15 @@
   2. Quyết nhãn phân trang "Trang N", câu "thẻ vật lý" trong `games.ts`/`connectAbout.ts`, câu "Không lặp thẻ" chưa có nguồn.
   3. PR2 deployment (`VITE_BASE`, giữ Cloudflare + GitHub Pages), sửa canvas Three.js từ PR #7, i18n còn trộn tiếng Việt, tách three.js, tooling/CSP — chưa bắt đầu.
   4. Dọn nhánh remote đã dùng xong; ngắt kết nối Worker phụ `brainroot-2-0` nếu không dùng.
+
+## 2026-11-22 — BR-T031 /about V4.3 · Claude Code → Product Owner / Codex
+
+- **Trạng thái:** `IN_REVIEW`, `NOT COMMITTED`.
+- **Nơi làm việc:** worktree `C:/Users/Windows/brainroot-worktrees/br-t031-about-v43`, nhánh `codex/br-t031-about-v43` (từ `c29ae77`). Index của worktree đang stage trạng thái BR-T030 làm nền; thay đổi BR-T031 là phần chưa stage/untracked. Checkout gốc (`codex/br-t030-quest-about-news`) giữ nguyên 18 thay đổi chưa commit. Sao lưu BR-T030: `C:/Users/Windows/brainroot-backups/br-t030-uncommitted-2026-11-22/`.
+- **Kiểm thử:** typecheck PASS · unit 62/62 · build hai base PASS · Playwright Chromium 94/94 (1440/768/390/320). NOT RUN: lint, thiết bị/Safari thật, host thật, screen reader.
+- **Bước tiếp (cần Product Owner):**
+  1. Duyệt `/about` trên bản React (video + ảnh trước/sau).
+  2. Cho phép commit BR-T030 trên `codex/br-t030-quest-about-news` (checkout gốc).
+  3. Commit BR-T031 trong worktree lên trên commit BR-T030 và mở PR BR-T031 (xếp chồng sau PR BR-T030, hoặc gộp vào `main` sau khi BR-T030 merge).
+  4. Sau merge: smoke test `/about` trên Cloudflare Pages và GitHub Pages thật.
+- **Rủi ro:** sửa thêm About trong checkout gốc trước khi gộp sẽ xung đột với `AboutPage.tsx`/`about.ts` của BR-T031.
