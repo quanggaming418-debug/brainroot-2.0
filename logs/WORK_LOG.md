@@ -17,5 +17,6 @@
 | 2026-11-20 17:30 | AI Studio | Branding/Typography/Content/Footer Audit | IN_REVIEW | unit(28/28), typecheck(0 errs), vite build, Playwright 11 routes 1440/390 (Footer -36.5%/-39.5%, 0 forbidden hits): PASS; lint: NOT RUN; NOT COMMITTED | logs/AI_STUDIO_LOG.md |
 | 2026-11-20 18:10 | AI Studio | Public-Facing Footer & About Redesign | IN_REVIEW | unit(29/29), typecheck(0 errs), vite build, Playwright 1440/390 Footer (277px/457px) & About CTAs: PASS; lint: NOT RUN; NOT COMMITTED | logs/AI_STUDIO_LOG.md |
 | 2026-11-20 19:30 | AI Studio | BR-T025 (Truth or Dare V1 UI + VI/EN i18n) | IN_REVIEW | unit(39/39), typecheck(0 errs), vite build, Playwright 1440/390/320 + reduced-motion + ?mode=legacy (18 captures): PASS; lint: NOT RUN; NOT COMMITTED | logs/AI_STUDIO_LOG.md |
+| 2026-11-22 22:49 | Claude Code | BR-T031 (/about V4.3 integration) | IN_REVIEW | typecheck PASS; unit 62/62 PASS; build (base /brainroot-2.0/ và /) PASS; Playwright Chromium 1440/768/390/320 94/94 PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
 
 **Append format:** `YYYY-MM-DD HH:MM | AI Studio/Codex | BR-Txxx | DONE/BLOCKED/IN_REVIEW | command: result | logs/<AGENT>_LOG.md`.
