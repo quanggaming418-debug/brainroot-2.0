@@ -1,5 +1,17 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-23 12:15 — BR-T032/BR-T033 Ô ăn quan xanh V2 (tài liệu, trước G1) · Claude Code → Product Owner & nhóm Brainroot
+
+- **Trạng thái:** BR-T033 nghiệm thu **APPROVED WITH MINOR CORRECTIONS** (23/11); BR-T032 bản 1.1 nghiệm thu cùng. Chỉ tài liệu. **Commit cục bộ** trên nhánh dưới đây (chưa push/PR/merge/deploy), chờ nghiệm thu commit. **G1 chưa được phép bắt đầu.**
+- **Nhánh / gốc / file bẩn:** `codex/br-t033-oanquan-docs` tạo từ `origin/main` `759c65e` sau `git fetch origin` (PR #14 BR-T030 và PR #15 BR-T031 đã merge). File sửa: `docs/ASSET_AUDIT.md`, `docs/DECISIONS.md`, `planning/{OPEN_QUESTIONS,TASKS,PROJECT_STATE}.md`, `logs/{HANDOFF,CODEX_LOG,WORK_LOG}.md`. File mới: `docs/decisions/0006-oanquan-v2-2-5d-architecture.md`, `docs/oanquan-v2/` (9 file). Không đụng worktree `br-t031-about-v43` và hai thư mục chưa track `brainroot-assets*/`.
+- **Đã có:** tài liệu G0.5 nguyên văn (SHA-256 khớp gói); báo cáo readiness 1.1; ADR-0006 **ACCEPTED** (5 điều kiện: G2 sau G1 PASS; prototype UI cần task riêng; feature flag loại module/asset/dữ liệu khỏi production bundle; kiểm `dist/` ở G2; không luật mặc định); phụ lục Matrix C-01…C-03; `OQ-14…OQ-16`; nháp Asset Audit.
+- **Kiểm thử:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 62/62 PASS · `npm run build` PASS (chunk chính 1.042 kB, cảnh báo cũ) · `dist/` không chứa tài liệu/asset V2. Lint NOT RUN (không có script).
+- **Còn chặn G1:** 20 mục nhóm A (R0–R12, R14–R17, R24–R26) · `OQ-15` C-02 kho 5 lọ · `OQ-16` C-03 rải qua Ô Quan · giao Task ID G1 (chỉ sau khi có quyết định luật chính thức). ADR-0006 và thứ tự G2 sau G1 đã được Product Owner chốt.
+- **Không chặn G1 nhưng chặn G2/G3:** `OQ-14` C-01, nhóm B (R13, R18–R22), tablet/ngang, Asset Audit, Token V3, nguyên văn 100 thẻ.
+- **Việc đầu tiên cho agent tiếp theo:** không viết engine, không tạo task G1. Chờ Product Owner nghiệm thu commit BR-T033 và quyết định push/PR. Khi nhóm trả lời, ghi đáp án vào ADR/`OPEN_QUESTIONS` rồi mới đề xuất task G1.
+- **Đọc trước:** `docs/oanquan-v2/README.md`, `docs/oanquan-v2/BR-T032_TECHNICAL_READINESS_REPORT.md` §2.2, §4, §7.
+- **Cần Product Owner duyệt trước:** push/PR/merge, gửi phụ lục cho nhóm, mọi việc G1, mọi prototype UI độc lập (task riêng).
+
 ## 2026-11-21 — BR-T028 Truth or Dare 20 thẻ thật · Claude Code → Product Owner & Codex
 
 - **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED** (nhánh `codex/br-t028-tod-20-cards`, nền `0379bee`). Chờ Quang duyệt và cho phép commit/PR.

@@ -1,0 +1,102 @@
+/* Ô ĂN QUAN XANH — design tokens bàn giao G0.5 (23/11/2026)
+   Nguồn: UX/UI Brief v2.0 §3, §6, §7.1; giá trị đo từ mockup G0.5.
+   Dùng chung với src/styles/tokens.css của Brainroot: các biến --br-* dưới đây chỉ là bản sao để đối chiếu;
+   khi tích hợp, ưu tiên token Brainroot sẵn có nếu cùng giá trị, chỉ thêm các biến --oq-*.
+   Tương phản: đo lại khi dựng UI thật (quyết định nghiệm thu G0.5). */
+
+:root {
+  /* ---- Brainroot base (đối chiếu) ---- */
+  --br-ivory: #F8F3E9;
+  --br-paper: #FFFFFF;
+  --br-ink: #263B31;
+  --br-muted: #465D49;          /* chữ phụ, 6.50:1 trên ivory */
+  --br-peach: #E79A7C;          /* nút chính, chữ ink 5.31:1 */
+  --br-sage: #A6C6B6;
+  --br-forest: #2D563F;         /* nút forest, chữ trắng 8.35:1 */
+  --br-focus: #174E42;          /* focus ring ≥3px */
+  --br-danger: #A82A35;         /* chỉ lỗi hệ thống */
+
+  /* ---- Bề mặt game ---- */
+  --oq-surface: #FFFCF4;        /* khung/panel đặc (không dùng nền trong suốt trên bàn) */
+  --oq-surface-warm: #FBF6EA;
+  --oq-note: #F6EBD1;           /* hộp ghi chú */
+  --oq-success-tint: #E4F0E6;   /* "Điều nên nhớ", kết quả Đạt */
+  --oq-board-wood-1: #D9AF7F;
+  --oq-board-wood-2: #F2D4A7;
+  --oq-board-wood-3: #AC8157;
+  --oq-board-felt: #F5E7D0;     /* mặt bàn bên trong khung gỗ */
+  --oq-pit-well: #FBF5E8;       /* lòng ô (tâm) */
+  --oq-pit-well-edge: #F1E4CB;  /* lòng ô (mép) */
+  --oq-pit-rim-peach: #EBA586;  --oq-pit-rim-peach-shadow: #C47C5C;
+  --oq-pit-rim-mint: #A9D8C3;   --oq-pit-rim-mint-shadow: #78AF98;
+  --oq-answer-face: #1A4A38;    /* mặt đáp án thẻ */
+
+  /* ---- Cấp thẻ (chữ đã đạt AA) ---- */
+  --oq-level-1: #2D7C4D;  --oq-level-1-on: #FFFFFF;   /* 5.12 */
+  --oq-level-2: #F1B531;  --oq-level-2-on: #263B31;   /* 6.50 */
+  --oq-level-3: #B7422E;  --oq-level-3-on: #FFFFFF;   /* 5.48 */
+
+  /* ---- 5 chủ đề Dân (thứ tự R1 tạm: 1..5 lặp) ---- */
+  --oq-theme-green: #5E9A4B;   --oq-theme-green-tint: #DCEBD3;   /* Không gian xanh */
+  --oq-theme-energy: #C38611;  --oq-theme-energy-tint: #F7E6B8;  /* Năng lượng — ĐÃ DUYỆT thay #C98A12 (icon 3.12:1 trên trắng) */
+  --oq-theme-waste: #2F8A80;   --oq-theme-waste-tint: #D3EBE6;   /* Rác thải */
+  --oq-theme-water: #3F8FC0;   --oq-theme-water-tint: #D6E8F4;   /* Nước (icon) */
+  --oq-theme-water-strong: #367BA5;                               /* nền có chữ trắng, 4.63:1 */
+  --oq-theme-consume: #C96D4D; --oq-theme-consume-tint: #F6DDD2; /* Tiêu dùng */
+
+  /* ---- Trạng thái ô (6 token tương phản ĐÃ DUYỆT 23/11/2026) ---- */
+  --oq-state-valid: #D4620E;        /* viền ô hợp lệ (thay #F28A3E), 3.10 trên mặt bàn */
+  --oq-state-target: #AC7A0C;       /* viền ô đích thu hoạch (thay #F1B531); giữ quầng sáng vàng rgba(241,181,49,.65) */
+  --oq-state-target-glow: rgba(241, 181, 49, .65);
+  --oq-state-ghost: #E56522;        /* vòng xem trước đường đi (thay #E8793F) */
+  --oq-state-pending: #A9740F;      /* khung nét đứt "chờ xác nhận" S7b (thay #C98A12) */
+  --oq-state-pending-bg: #FFF7E0;
+  --oq-choice-border: #9C9273;      /* viền lựa chọn chưa chọn S2 (thay #B9B29C) */
+  --oq-state-selected: #2D563F;     /* ô đang chọn, 6.85 */
+  --oq-state-harvested: #2D7C4D;    /* viền "Đã thu hoạch", 4.20 */
+  /* Ô không chọn được: thành phần không hoạt động, được miễn tương phản; giữ màu token, chỉ đổi viền/nền */
+  --oq-state-disabled-rim: #DCD3C2;
+  --oq-state-disabled-dash: #BDB19B;
+  --oq-state-disabled-well: #EFE9DD;
+
+  /* ---- Chữ trong ô (đã sửa AA) ---- */
+  --oq-text-empty: #5F6856;         /* "Trống", 4.64 */
+  --oq-text-harvested: #297247;     /* "Đã thu hoạch", 4.65 */
+  --oq-badge-bg: #263B31;           /* huy hiệu số hạt, chữ trắng 11.98 */
+  --oq-badge-bg-zero: #6B7468;      /* huy hiệu 0 hạt, chữ trắng 4.86 */
+
+  /* ---- Chữ ----
+     Be Vietnam Pro 400/500/600/700/800/900. Nội dung ≥16/24; nhãn phụ ≥12px (không dùng cho thao tác). */
+  --oq-font: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --oq-fs-card-title-d: 24px;  --oq-fs-card-title-m: 22px;
+  --oq-fs-body: 16px;          --oq-fs-small: 12px;
+  --oq-fs-badge-d: 16px;       --oq-fs-badge-m: 13px;
+
+  /* ---- Khoảng cách, bo góc ---- */
+  --oq-space-1: 4px; --oq-space-2: 8px; --oq-space-3: 12px; --oq-space-4: 16px;
+  --oq-space-5: 24px; --oq-space-6: 32px; --oq-space-7: 48px; --oq-space-8: 64px;
+  --oq-radius-pit-d: 30px;     --oq-radius-pit-m: 18px;
+  --oq-radius-board-d: 46px;   --oq-radius-board-m: 34px;
+  --oq-radius-panel: 26px;     --oq-radius-pill: 999px;
+  --oq-touch-min: 44px;        /* vùng chạm tối thiểu; nút chiều rải ≥56px */
+
+  /* ---- Bóng ---- */
+  --oq-shadow-panel: 0 5px 0 #D9BE8E, 0 16px 28px rgba(0, 0, 0, .3);
+  --oq-shadow-pit: 0 5px 0 var(--oq-pit-rim-peach-shadow), 0 10px 14px rgba(80, 55, 25, .28);
+
+  /* ---- Chuyển động (tắt khi prefers-reduced-motion) ---- */
+  --oq-dur-sow-per-seed: 200ms;     /* 180–240ms/hạt, tuần tự */
+  --oq-dur-lift: 160ms;
+  --oq-dur-card-flip: 400ms;
+  --oq-dur-harvest: 600ms;
+  --oq-dur-valid-pulse: 2.8s;
+
+  /* ---- Lớp (z) ---- */
+  --oq-z-board: 0;      /* bàn có isolation:isolate */
+  --oq-z-overlay-path: 7;
+  --oq-z-panel: 20;     /* panel/khung trên bàn */
+  --oq-z-modal: 40;
+
+  /* ---- Vùng an toàn mobile ---- */
+  --oq-safe-bottom: env(safe-area-inset-bottom, 0px);
+}

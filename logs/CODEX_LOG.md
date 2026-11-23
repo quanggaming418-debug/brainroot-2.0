@@ -201,3 +201,31 @@
 - **Git commit SHA:** `NOT COMMITTED`.
 - **What remains / next task:** Product Owner duyệt bản React; commit BR-T030 rồi BR-T031 và mở PR; smoke test trên host thật sau merge.
 - **Owner approval required:** có — duyệt giao diện, quyền phát hành 2 ảnh lá bài tách từ render bộ bài (thuộc `BR-T002`), commit/PR/merge/deploy.
+
+## Session: 2026-11-23 12:15+07:00 — Claude Code — BR-T032 + BR-T033 (Ô ăn quan xanh V2, tài liệu trước G1)
+
+- **Task & goal:** BR-T032 audit kỹ thuật chỉ đọc cho Ô ăn quan xanh V2 từ hai gói handoff G0.5; BR-T033 đưa tài liệu cần thiết vào repo và chuẩn bị quyết định luật. Không viết engine/UI, không sửa route.
+- **Status before → after:** BR-T032 (mới) → IN_REVIEW (bản 1.0 APPROVED WITH CORRECTIONS, bản 1.1 chờ xác nhận); BR-T033 (mới) → IN_REVIEW.
+- **Read context:** `AGENTS.md`, `README.md`, `planning/{PROJECT_STATE,ROADMAP,TASKS,OPEN_QUESTIONS}.md`, `logs/HANDOFF.md`, `docs/{GAME_SPEC,DECISIONS,TECHNICAL_ARCHITECTURE,QUALITY_AND_TESTING,ASSET_AUDIT}.md`, `.agents/rules/*`; `src/App.tsx`, `src/features/oanquan/*`, `src/pages/OAnQuanXanhDetailPage.tsx`, `src/styles/tokens.css`, `vite.config.ts`, `.github/workflows/deploy.yml`; 2 gói handoff (giải nén ngoài repo, checksum 129/129 và 10/10), Word luật gốc, 5 PDF thẻ (chỉ trích được cấu trúc, lớp chữ mất dấu tiếng Việt).
+- **Git:** `git fetch origin` → `origin/main` = `759c65e` (PR #14 BR-T030, PR #15 BR-T031 đã merge). Tạo `codex/br-t033-oanquan-docs` bằng `git switch --no-track -c … origin/main`. Không đụng worktree BR-T031, `main` local, hai thư mục `brainroot-assets*/` chưa track.
+- **Files changed:**
+  - mới: `docs/oanquan-v2/{README.md, BR-T032_TECHNICAL_READINESS_REPORT.md, RULES_MATRIX_V1.3_ADDENDUM_C01-C03.md, ASSET_AUDIT_DRAFT.md}`; bản sao nguyên văn `docs/oanquan-v2/{BRAINROOT_OANQUAN_G05_HANDOFF.md, BRAINROOT_OANQUAN_UX_UI_BRIEF_V2_HANDOFF.md, BRAINROOT_OANQUAN_RULES_DECISION_MATRIX_V1.3.md, BRAINROOT_OANQUAN_G05_VISUAL_QA_REPORT.md, oanquan-tokens.css}` (SHA-256 khớp manifest gói); `docs/decisions/0006-oanquan-v2-2-5d-architecture.md`.
+  - sửa: `docs/DECISIONS.md` (dòng ADR-0006), `docs/ASSET_AUDIT.md` (mục trỏ tới bản nháp), `planning/OPEN_QUESTIONS.md` (OQ-08 trỏ Matrix; thêm OQ-14…OQ-16), `planning/TASKS.md` (BR-T032, BR-T033), `planning/PROJECT_STATE.md`, `logs/HANDOFF.md`, `logs/WORK_LOG.md`, log này.
+- **User-visible behavior changed:** không.
+- **Tests actually executed (nhánh BR-T033):**
+  - `npm run typecheck`: PASS.
+  - `npx --yes tsx --test tests/*.test.ts`: 62/62 PASS (chạy từng file cũng 62/62).
+  - `npm run build`: PASS; chunk `index-*.js` 1.042,08 kB (cảnh báo >500 kB đã có từ trước, do `three` import tĩnh).
+  - `grep` trong `dist/` tìm `oanquan-v2`, tên file token, tên thẻ mẫu: 0 kết quả.
+  - `npm run lint`: NOT RUN (không có script). Playwright/axe: NOT RUN (không có thay đổi UI).
+- **Acceptance criteria (BR-T033):** đồng bộ GitHub và nhánh từ `origin/main` PASS; sửa báo cáo (GitHub, C-01, C-02, C-03, R23, X-12) PASS; tài liệu G0.5 vào `docs/oanquan-v2/` PASS; ADR-0006 PROPOSED PASS; OQ C-01…C-03 PASS; TASKS BR-T032/T033 PASS; PROJECT_STATE + HANDOFF PASS; nháp Asset Audit PASS; phụ lục Matrix không chọn luật PASS; không thẻ/artwork/ZIP trong repo PASS; baseline PASS.
+- **Bugs / tradeoffs / risk:** hàng BR-T030/BR-T031 trong `TASKS.md` vẫn ghi `IN_REVIEW`/`NOT COMMITTED` dù đã merge (không sửa vì mỗi lượt chỉ cập nhật task của mình). Hai tài liệu handoff có nhắc tên một thẻ mẫu và link canvas riêng tư; ghi chú trong `docs/oanquan-v2/README.md`.
+- **Git commit SHA:** `NOT COMMITTED`.
+- **What remains / next task:** Product Owner nghiệm thu; nhóm trả lời nhóm A + C-02 + C-03; chỉ sau đó đề xuất task G1.
+- **Owner approval required:** có — nghiệm thu BR-T032 1.1/BR-T033, ADR-0006, commit/PR, gửi phụ lục cho nhóm.
+
+### BR-T033 nghiệm thu và commit (2026-11-23)
+- Product Owner: **APPROVED WITH MINOR CORRECTIONS**; chấp thuận ADR-0006 và cho phép commit cục bộ (không push/PR/merge/deploy).
+- Sửa: `docs/decisions/0006-oanquan-v2-2-5d-architecture.md` → ACCEPTED + mục "Điều kiện chấp thuận" (G2 sau G1 PASS; prototype UI độc lập cần task + phê duyệt riêng; feature flag phải loại module/asset/dữ liệu chưa công khai khỏi production bundle, không chỉ ẩn route; G2 phải kiểm bằng production build + file trong `dist/`; không luật gameplay mặc định). Đồng bộ trạng thái trong `docs/DECISIONS.md`, `docs/oanquan-v2/README.md`, báo cáo BR-T032 (checklist mục 7, 8 ✅), `planning/{TASKS,PROJECT_STATE}.md`, `logs/{HANDOFF,WORK_LOG}.md`.
+- Kiểm tra trước commit: `git status`, `git diff --check`, phạm vi file, không `src/`/`public/`/route/config, không stage `brainroot-assets*/`, không Word/PDF/ZIP/artwork. Kết quả: `git diff --check` không lỗi; chỉ file trong `docs/`, `planning/`, `logs/`. Kiểm thử 12:19: `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 62/62 PASS · `npm run build` PASS (chunk chính 1.042,08 kB, cảnh báo cũ) · `dist/` 0 kết quả cho tài liệu/asset/thẻ V2 · lint NOT RUN (không có script).
+- Không tạo task G1; G1 vẫn chặn bởi nhóm A + `OQ-15` + `OQ-16`.
