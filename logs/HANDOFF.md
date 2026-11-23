@@ -1,5 +1,14 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-23 — BR-T035 Ô ăn quan xanh V2: đại tu gameplay + hoạt ảnh · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t035-oanquan-gameplay-overhaul` xếp trên BR-T034 `7494d29` (chưa push).
+- **Mở chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html (chỉ dev).
+- **Luật:** `PLAYTEST_V1` trong `src/features/oanquan-v2/engine/rules.ts` (thay V0). Khác website tham khảo: bù hàng bằng mượn (tham khảo: trừ 5 điểm, thiếu thì xử thua); kết thúc khi hết hai quân Quan (tham khảo: khi hai Ô Quan trống hẳn) nên hạt còn trong Ô Quan không tính; mỗi lần ăn phải qua thẻ + Trọng tài.
+- **File:** sửa `engine/{engine,rules}.ts`, `ui/{Board,Challenge,OAnQuanV2App}.tsx`, `ui/oanquan-v2.css`, `tests/oanquan-v2-engine.test.ts`; mới `ui/{GameScreen,shared}.tsx`, `ui/playback.ts`.
+- **Kiểm thử:** typecheck PASS · unit 81/81 PASS · build PASS, `dist/` sạch V2 · Playwright 5 ván (desktop 1×/2×/4×, mobile 390/360, reduced motion) PASS. Lint, thiết bị thật: NOT RUN.
+- **Không stage:** `brainroot-assets*/`, `tools/`.
+
 ## 2026-11-23 18:10 — BR-T034 Ô ăn quan xanh V2 bản chơi thử · Claude Code → Product Owner
 
 - **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t034-oanquan-v2-playtest` xếp trên commit BR-T033 `40dddfa` (chưa push).

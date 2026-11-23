@@ -29,6 +29,7 @@ export function ChallengeCard(props: {
   answerer: string;
   referee: string;
   timerMode: TimerMode;
+  chainIndex?: number;
   onDone: (timedOut: boolean) => void;
 }) {
   const { card, timerMode } = props;
@@ -61,6 +62,7 @@ export function ChallengeCard(props: {
         <div className="oq2-card__head">
           <LevelPill level={card.level} />
           <span className="oq2-demo-tag">THẺ DEMO</span>
+          {props.chainIndex ? <span className="oq2-tag oq2-tag--chain">Ăn liên hoàn · thẻ thứ {props.chainIndex + 1}</span> : null}
           <span className={`oq2-timer${left !== null && left <= 5 ? ' is-urgent' : ''}`} role="timer" aria-live="off">
             {left === null ? 'Không bấm giờ' : `${left} giây`}
           </span>

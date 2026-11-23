@@ -17,10 +17,16 @@ export interface PendingCapture {
   readonly danSeeds: number;
   readonly hasQuan: boolean;
   readonly level: ChallengeLevel;
+  /** Chiều rải của lượt (chuỗi ăn đi tiếp theo chiều này). */
+  readonly direction: Direction;
+  /** 0 = lần ăn đầu tiên của lượt, 1+ = ăn liên hoàn. */
+  readonly chainIndex: number;
 }
 
 export type Phase = 'awaitingSow' | 'awaitingVerdict' | 'gameOver';
 export type EndReason = 'allQuanHarvested' | 'insufficientSeedsToRestock';
+export type SowStopReason = 'occupiedQuan' | 'twoEmpty' | 'capture' | 'dropLimit';
+export type ChainStopReason = 'gapNotEmpty' | 'twoEmpty' | 'refereeFail';
 
 export interface GameState {
   readonly rules: RulesConfig;
@@ -46,16 +52,17 @@ export type Action =
   | { readonly type: 'sow'; readonly pit: RingIndex; readonly direction: Direction }
   | { readonly type: 'commitRefereeResult'; readonly verdict: 'pass' | 'fail' };
 
-export type NoCaptureReason = 'gapIsQuan' | 'gapHasSeeds' | 'targetEmpty';
-
+/** Chuỗi sự kiện theo đúng thứ tự xảy ra, để UI phát lại từng bước. */
 export type EngineEvent =
-  | { readonly type: 'sowed'; readonly player: PlayerId; readonly origin: RingIndex; readonly direction: Direction; readonly picked: number; readonly drops: readonly RingIndex[] }
+  | { readonly type: 'pickup'; readonly player: PlayerId; readonly ring: RingIndex; readonly count: number; readonly relay: boolean; readonly direction: Direction }
+  | { readonly type: 'drop'; readonly ring: RingIndex; readonly handLeft: number; readonly intoQuanPit: boolean }
+  | { readonly type: 'sowEnded'; readonly last: RingIndex; readonly next: RingIndex; readonly reason: SowStopReason; readonly drops: number; readonly relays: number }
   | { readonly type: 'captureOpportunity'; readonly capture: PendingCapture }
-  | { readonly type: 'noCapture'; readonly reason: NoCaptureReason }
-  | { readonly type: 'refereeCommitted'; readonly verdict: 'pass' | 'fail'; readonly mover: PlayerId; readonly target: RingIndex; readonly harvestedDan: number; readonly harvestedQuan: number }
+  | { readonly type: 'refereeCommitted'; readonly verdict: 'pass' | 'fail'; readonly mover: PlayerId; readonly target: RingIndex; readonly harvestedDan: number; readonly harvestedQuan: number; readonly chainIndex: number }
+  | { readonly type: 'chainEnded'; readonly reason: ChainStopReason; readonly at: RingIndex }
   | { readonly type: 'restocked'; readonly player: PlayerId; readonly fromOwnStore: number; readonly borrowed: number }
   | { readonly type: 'turnChanged'; readonly from: PlayerId; readonly to: PlayerId; readonly turn: number }
-  | { readonly type: 'gameOver'; readonly reason: EndReason; readonly sweptToOwner: Readonly<Record<PlayerId, number>>; readonly scores: Readonly<Record<PlayerId, ScoreBreakdown>> };
+  | { readonly type: 'gameOver'; readonly reason: EndReason; readonly sweptToOwner: Readonly<Record<PlayerId, number>>; readonly danLeftInQuanPits: number; readonly scores: Readonly<Record<PlayerId, ScoreBreakdown>> };
 
 export interface StepResult {
   readonly state: GameState;
@@ -100,7 +107,6 @@ export function createGame(options: CreateGameOptions): GameState {
   const pits = Array.from({ length: RING_SIZE }, (_, i) =>
     isQuanPit(i) ? rules.setup.danSeedsPerQuanPit : rules.setup.danSeedsPerDanPit,
   );
-  const totalDan = pits.reduce((a, b) => a + b, 0);
   const state: GameState = {
     rules,
     pits,
@@ -113,13 +119,19 @@ export function createGame(options: CreateGameOptions): GameState {
     pending: null,
     turn: 1,
     endReason: null,
-    totalDan,
+    totalDan: pits.reduce((a, b) => a + b, 0),
   };
   assertInvariants(state);
   return state;
 }
 
 // ---------------------------------------------------------------- truy vấn
+
+/** Ô hoàn toàn trống: không hạt Dân và (nếu là Ô Quan) không còn quân Quan. */
+export function isEmptyPit(state: Pick<GameState, 'pits' | 'quanOnBoard'>, ring: number): boolean {
+  if (state.pits[ring] > 0) return false;
+  return !(isQuanPit(ring) && state.quanOnBoard[quanSlot(ring)]);
+}
 
 export function canSelectPit(state: GameState, pit: number): boolean {
   return state.phase === 'awaitingSow' &&
@@ -132,21 +144,19 @@ export function getLegalPits(state: GameState): RingIndex[] {
   return rowOf(state.current).filter((r) => state.pits[r] > 0);
 }
 
-/** Đường đi của hạt khi rải (để xem trước). Không tiết lộ kết quả ăn. */
+/**
+ * Đường đi của nắm hạt đầu tiên (để xem trước ở bước chọn chiều).
+ * Cố ý KHÔNG tính rải tiếp và kết quả ăn, để người chơi tự tính.
+ */
 export function previewSow(state: GameState, pit: RingIndex, direction: Direction): RingIndex[] {
   if (!canSelectPit(state, pit)) return [];
-  return sowPath(pit, direction, state.pits[pit]);
-}
-
-function sowPath(origin: RingIndex, direction: Direction, seeds: number): RingIndex[] {
-  const drops: RingIndex[] = [];
-  let pos: RingIndex = origin;
-  while (drops.length < seeds) {
+  const path: RingIndex[] = [];
+  let pos: RingIndex = pit;
+  for (let i = 0; i < state.pits[pit]; i++) {
     pos = step(pos, direction);
-    if (isQuanPit(pos)) continue; // bỏ qua Ô Quan khi rải
-    drops.push(pos); // ô xuất phát cũng nhận hạt nếu đi đủ vòng
+    path.push(pos);
   }
-  return drops;
+  return path;
 }
 
 export function challengeLevelFor(rules: RulesConfig, target: RingIndex, danSeeds: number): ChallengeLevel {
@@ -168,6 +178,20 @@ export function applyAction(state: GameState, action: Action): StepResult {
   }
 }
 
+function makeCapture(state: GameState, pits: readonly number[], target: RingIndex, direction: Direction, chainIndex: number): PendingCapture {
+  const danSeeds = pits[target];
+  const hasQuan = isQuanPit(target) ? state.quanOnBoard[quanSlot(target)] : false;
+  return {
+    mover: state.current,
+    target,
+    danSeeds,
+    hasQuan,
+    level: challengeLevelFor(state.rules, target, danSeeds),
+    direction,
+    chainIndex,
+  };
+}
+
 function applySow(state: GameState, pit: RingIndex, direction: Direction): StepResult {
   if (state.phase !== 'awaitingSow') throw new EngineError('NOT_SOW_PHASE', 'Đang chờ Trọng tài chốt kết quả.');
   if (direction !== 'cw' && direction !== 'ccw') throw new EngineError('BAD_DIRECTION', 'Chiều rải không hợp lệ.');
@@ -176,48 +200,55 @@ function applySow(state: GameState, pit: RingIndex, direction: Direction): StepR
   if (ownerOf(pit) !== state.current) throw new EngineError('NOT_OWN_ROW', 'Chỉ được chọn ô ở hàng của mình.');
   if (state.pits[pit] <= 0) throw new EngineError('EMPTY_PIT', 'Ô này không có hạt.');
 
+  const limit = state.rules.sowing.maxDropsPerTurn;
   const pits = [...state.pits];
-  const picked = pits[pit];
+  const events: EngineEvent[] = [];
+  const probe = { pits, quanOnBoard: state.quanOnBoard };
+
+  let pos: RingIndex = pit;
+  let hand = pits[pit];
   pits[pit] = 0;
-  const drops = sowPath(pit, direction, picked);
-  for (const r of drops) pits[r] += 1;
-  const last = drops[drops.length - 1];
+  events.push({ type: 'pickup', player: state.current, ring: pit, count: hand, relay: false, direction });
+  let drops = 0;
+  let relays = 0;
+  let stop: SowStopReason;
+  let next: RingIndex;
 
-  const events: EngineEvent[] = [{ type: 'sowed', player: state.current, origin: pit, direction, picked, drops }];
-  let next: GameState = { ...state, pits };
-
-  const gap = step(last, direction);
-  let reason: NoCaptureReason | null = null;
-  let capture: PendingCapture | null = null;
-  if (isQuanPit(gap)) {
-    reason = 'gapIsQuan';
-  } else if (pits[gap] > 0) {
-    reason = 'gapHasSeeds';
-  } else {
-    const target = step(gap, direction);
-    const danSeeds = pits[target];
-    const hasQuan = isQuanPit(target) ? next.quanOnBoard[quanSlot(target)] : false;
-    if (danSeeds === 0 && !hasQuan) {
-      reason = 'targetEmpty';
-    } else {
-      capture = {
-        mover: state.current,
-        target,
-        danSeeds,
-        hasQuan,
-        level: challengeLevelFor(state.rules, target, danSeeds),
-      };
+  for (;;) {
+    while (hand > 0) {
+      pos = step(pos, direction);
+      pits[pos] += 1; // Ô Quan cũng nhận hạt; quân Quan nằm yên tại chỗ
+      hand -= 1;
+      drops += 1;
+      events.push({ type: 'drop', ring: pos, handLeft: hand, intoQuanPit: isQuanPit(pos) });
     }
+    next = step(pos, direction);
+    if (drops >= limit) { stop = 'dropLimit'; break; }
+    if (!isQuanPit(next) && pits[next] > 0) {
+      // Rải tiếp: bốc hết ô Dân kế tiếp
+      hand = pits[next];
+      pits[next] = 0;
+      pos = next;
+      relays += 1;
+      events.push({ type: 'pickup', player: state.current, ring: next, count: hand, relay: true, direction });
+      continue;
+    }
+    if (!isEmptyPit(probe, next)) { stop = 'occupiedQuan'; break; } // Ô Quan còn quân hoặc còn hạt
+    const target = step(next, direction);
+    stop = isEmptyPit(probe, target) ? 'twoEmpty' : 'capture';
+    break;
   }
+  events.push({ type: 'sowEnded', last: pos, next, reason: stop, drops, relays });
 
-  if (capture) {
-    next = { ...next, phase: 'awaitingVerdict', pending: capture };
+  const after: GameState = { ...state, pits };
+  if (stop === 'capture') {
+    const capture = makeCapture(after, pits, step(next, direction), direction, 0);
+    const waiting: GameState = { ...after, phase: 'awaitingVerdict', pending: capture };
     events.push({ type: 'captureOpportunity', capture });
-    assertInvariants(next);
-    return { state: next, events };
+    assertInvariants(waiting);
+    return { state: waiting, events };
   }
-  events.push({ type: 'noCapture', reason: reason as NoCaptureReason });
-  return finishTurn(next, events);
+  return finishTurn(after, events);
 }
 
 function applyVerdict(state: GameState, verdict: 'pass' | 'fail'): StepResult {
@@ -226,30 +257,49 @@ function applyVerdict(state: GameState, verdict: 'pass' | 'fail'): StepResult {
   }
   if (verdict !== 'pass' && verdict !== 'fail') throw new EngineError('BAD_VERDICT', 'Kết quả phải là Đạt hoặc Chưa đạt.');
   const p = state.pending;
-  let next: GameState = { ...state, phase: 'awaitingSow', pending: null };
-  let harvestedDan = 0;
-  let harvestedQuan = 0;
-  if (verdict === 'pass') {
-    const pits = [...state.pits];
-    harvestedDan = pits[p.target];
-    pits[p.target] = 0;
-    const quanOnBoard: [boolean, boolean] = [state.quanOnBoard[0], state.quanOnBoard[1]];
-    if (isQuanPit(p.target) && quanOnBoard[quanSlot(p.target)]) {
-      quanOnBoard[quanSlot(p.target)] = false;
-      harvestedQuan = 1;
-    }
-    const s = state.stores[p.mover];
-    next = {
-      ...next,
-      pits,
-      quanOnBoard,
-      stores: { ...state.stores, [p.mover]: { dan: s.dan + harvestedDan, quan: s.quan + harvestedQuan } },
-    };
+  const events: EngineEvent[] = [];
+  if (verdict === 'fail') {
+    events.push({ type: 'refereeCommitted', verdict, mover: p.mover, target: p.target, harvestedDan: 0, harvestedQuan: 0, chainIndex: p.chainIndex });
+    events.push({ type: 'chainEnded', reason: 'refereeFail', at: p.target });
+    return finishTurn({ ...state, phase: 'awaitingSow', pending: null }, events);
   }
-  const events: EngineEvent[] = [{
-    type: 'refereeCommitted', verdict, mover: p.mover, target: p.target, harvestedDan, harvestedQuan,
-  }];
-  return finishTurn(next, events);
+
+  const pits = [...state.pits];
+  const harvestedDan = pits[p.target];
+  pits[p.target] = 0;
+  const quanOnBoard: [boolean, boolean] = [state.quanOnBoard[0], state.quanOnBoard[1]];
+  let harvestedQuan = 0;
+  if (isQuanPit(p.target) && quanOnBoard[quanSlot(p.target)]) {
+    quanOnBoard[quanSlot(p.target)] = false;
+    harvestedQuan = 1;
+  }
+  const s = state.stores[p.mover];
+  const after: GameState = {
+    ...state,
+    pits,
+    quanOnBoard,
+    stores: { ...state.stores, [p.mover]: { dan: s.dan + harvestedDan, quan: s.quan + harvestedQuan } },
+    phase: 'awaitingSow',
+    pending: null,
+  };
+  events.push({ type: 'refereeCommitted', verdict, mover: p.mover, target: p.target, harvestedDan, harvestedQuan, chainIndex: p.chainIndex });
+
+  // Ăn liên hoàn: sau ô vừa ăn là ô trống rồi tới ô có quân
+  const gap = step(p.target, p.direction);
+  if (!isEmptyPit(after, gap)) {
+    events.push({ type: 'chainEnded', reason: 'gapNotEmpty', at: gap });
+    return finishTurn(after, events);
+  }
+  const target = step(gap, p.direction);
+  if (isEmptyPit(after, target)) {
+    events.push({ type: 'chainEnded', reason: 'twoEmpty', at: gap });
+    return finishTurn(after, events);
+  }
+  const capture = makeCapture(after, pits, target, p.direction, p.chainIndex + 1);
+  const waiting: GameState = { ...after, phase: 'awaitingVerdict', pending: capture };
+  events.push({ type: 'captureOpportunity', capture });
+  assertInvariants(waiting);
+  return { state: waiting, events };
 }
 
 function finishTurn(state: GameState, events: EngineEvent[]): StepResult {
@@ -311,7 +361,10 @@ function endGame(state: GameState, reason: EndReason, events: EngineEvent[]): St
     endReason: reason,
   };
   assertInvariants(next);
-  events.push({ type: 'gameOver', reason, sweptToOwner: swept, scores: computeScores(next) });
+  events.push({
+    type: 'gameOver', reason, sweptToOwner: swept,
+    danLeftInQuanPits: pits[0] + pits[6], scores: computeScores(next),
+  });
   return { state: next, events };
 }
 

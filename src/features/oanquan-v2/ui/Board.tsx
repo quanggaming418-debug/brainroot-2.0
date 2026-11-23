@@ -5,6 +5,30 @@ import { QuanToken, SeedToken, ThemeIcon } from './Icons';
 
 export type BoardLayout = 'landscape' | 'portrait';
 
+export interface BoardMarks {
+  /** Ô đang được chọn (bước chọn chiều). */
+  readonly selected: number | null;
+  /** Đường đi xem trước của nắm hạt đầu. */
+  readonly path: readonly number[];
+  /** Ô xuất phát của lần bốc hiện tại. */
+  readonly origin: number | null;
+  /** Ô đang nhận hạt / đang bị bốc. */
+  readonly active: number | null;
+  /** Ô quyết định dừng lượt (sau hạt cuối). */
+  readonly stopAt: number | null;
+  readonly target: number | null;
+  readonly targetChip: string | null;
+  readonly harvested: number | null;
+  readonly shake: number | null;
+  /** Ô Quan vừa nhận hạt (hiệu ứng riêng). */
+  readonly quanPulse: number | null;
+}
+
+export const NO_MARKS: BoardMarks = {
+  selected: null, path: [], origin: null, active: null, stopAt: null,
+  target: null, targetChip: null, harvested: null, shake: null, quanPulse: null,
+};
+
 export interface BoardProps {
   readonly layout: BoardLayout;
   readonly pits: readonly number[];
@@ -12,13 +36,7 @@ export interface BoardProps {
   readonly playerNames: Readonly<Record<PlayerId, string>>;
   readonly interactive: boolean;
   readonly legal: ReadonlySet<number>;
-  readonly selected: number | null;
-  readonly path: readonly number[];
-  readonly activeDrop: number | null;
-  readonly target: number | null;
-  readonly targetChip: string | null;
-  readonly harvested: number | null;
-  readonly shake: number | null;
+  readonly marks: BoardMarks;
   readonly onSelect: (ring: RingIndex) => void;
   readonly onRejected: (ring: RingIndex) => void;
 }
@@ -54,13 +72,20 @@ const POS_WIDE: Record<number, [number, number][]> = {
   5: [[0.2, 0.3], [0.5, 0.3], [0.8, 0.3], [0.35, 0.72], [0.65, 0.72]],
   6: [[0.2, 0.3], [0.5, 0.3], [0.8, 0.3], [0.2, 0.72], [0.5, 0.72]],
 };
+const POS_ROW: Record<number, [number, number][]> = {
+  1: [[0.5, 0.5]],
+  2: [[0.38, 0.5], [0.62, 0.5]],
+  3: [[0.26, 0.5], [0.5, 0.5], [0.74, 0.5]],
+  4: [[0.17, 0.5], [0.39, 0.5], [0.61, 0.5], [0.83, 0.5]],
+  5: [[0.1, 0.5], [0.3, 0.5], [0.5, 0.5], [0.7, 0.5], [0.9, 0.5]],
+  6: [[0.1, 0.5], [0.3, 0.5], [0.5, 0.5], [0.7, 0.5], [0.9, 0.5]],
+};
 
-function Seeds({ count, wide }: { count: number; wide: boolean }) {
+function Seeds({ count, table, className = 'oq2-seeds' }: { count: number; table: Record<number, [number, number][]>; className?: string }) {
   if (count <= 0) return null;
-  const table = wide ? POS_WIDE : POS_SQUARE;
   const pos = table[count > 5 ? 6 : count];
   return (
-    <span className="oq2-seeds" aria-hidden="true">
+    <span className={className} aria-hidden="true">
       {pos.map(([x, y], i) => (
         <svg
           key={i}
@@ -76,10 +101,10 @@ function Seeds({ count, wide }: { count: number; wide: boolean }) {
 }
 
 export function Board(props: BoardProps) {
-  const { layout, pits, quanOnBoard, playerNames, interactive, legal, selected, path } = props;
+  const { layout, pits, quanOnBoard, playerNames, interactive, legal, marks } = props;
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
-  const lastInPath = path.length ? path[path.length - 1] : null;
-  const pathSet = new Set(path);
+  const lastInPath = marks.path.length ? marks.path[marks.path.length - 1] : null;
+  const pathSet = new Set(marks.path);
 
   const onKeyDown = (ring: number, e: KeyboardEvent<HTMLButtonElement>) => {
     if (!interactive) return;
@@ -109,17 +134,20 @@ export function Board(props: BoardProps) {
         if (!quan) classes.push(ring % 2 === 0 ? 'oq2-rim-mint' : 'oq2-rim-peach');
         if (isLegal) classes.push('is-legal');
         if (disabled && !quan) classes.push('is-disabled');
-        if (selected === r) classes.push('is-selected');
+        if (marks.selected === r) classes.push('is-selected');
         if (pathSet.has(r)) classes.push('is-path');
-        if (props.activeDrop === r) classes.push('is-drop');
-        if (props.target === r) classes.push('is-target');
-        if (props.harvested === r) classes.push('is-harvested');
-        if (props.shake === r) classes.push('is-shake');
+        if (marks.origin === r) classes.push('is-origin');
+        if (marks.active === r) classes.push('is-active');
+        if (marks.stopAt === r) classes.push('is-stop');
+        if (marks.target === r) classes.push('is-target');
+        if (marks.harvested === r) classes.push('is-harvested');
+        if (marks.shake === r) classes.push('is-shake');
+        if (marks.quanPulse === r) classes.push('is-quan-pulse');
 
         let label: string;
         if (quan) {
           const t = THEMES[theme];
-          label = `Ô Quan ${t.fullName}: ${quanHere ? 'còn quân Quan' : 'Quan đã thu hoạch'}, ${count} hạt Dân`;
+          label = `Ô Quan ${t.fullName}: ${quanHere ? 'còn quân Quan' : 'quân Quan đã được thu hoạch'}, ${count} hạt Dân`;
         } else {
           label = `Ô ${pitLabel(r)} · ${THEMES[theme].name} · hàng của ${playerNames[owner as PlayerId]} · ${count} hạt`;
           if (interactive) label += isLegal ? ' · chọn được' : ' · không chọn được';
@@ -135,7 +163,7 @@ export function Board(props: BoardProps) {
             data-ring={r}
             aria-label={label}
             aria-disabled={disabled || !interactive ? true : undefined}
-            aria-pressed={selected === r ? true : undefined}
+            aria-pressed={marks.selected === r ? true : undefined}
             tabIndex={interactive ? (isLegal ? 0 : -1) : -1}
             onClick={() => {
               if (!interactive) return;
@@ -156,6 +184,10 @@ export function Board(props: BoardProps) {
                 ) : (
                   <span className="oq2-quan-gone">Quan đã thu hoạch</span>
                 )}
+                <span className="oq2-quan-seedbox" aria-hidden="true">
+                  <Seeds count={count} table={POS_ROW} className="oq2-seeds oq2-seeds--row" />
+                  {count > 5 ? <span className="oq2-more">+{count - 5}</span> : null}
+                </span>
                 <span className="oq2-quan-count">{quanHere ? `Quan + ${count} hạt` : `${count} hạt`}</span>
               </>
             ) : (
@@ -166,14 +198,14 @@ export function Board(props: BoardProps) {
                 <span className={`oq2-badge${count === 0 ? ' is-zero' : ''}`} aria-hidden="true">{count}</span>
                 <span className="oq2-pit-name" aria-hidden="true">{pitLabel(r)}</span>
                 {count === 0 ? <span className="oq2-empty" aria-hidden="true">Trống</span> : null}
-                <Seeds count={count} wide={layout === 'portrait'} />
+                <Seeds count={count} table={layout === 'portrait' ? POS_WIDE : POS_SQUARE} />
                 {count > 5 ? <span className="oq2-more" aria-hidden="true">+{count - 5}</span> : null}
               </>
             )}
-            {pathSet.has(r) && props.activeDrop === null ? <span className="oq2-ghost" aria-hidden="true" /> : null}
-            {lastInPath === r && props.activeDrop === null ? <span className="oq2-chip oq2-chip--last" aria-hidden="true">Hạt cuối</span> : null}
-            {props.target === r && props.targetChip ? <span className="oq2-chip oq2-chip--target" aria-hidden="true">{props.targetChip}</span> : null}
-            {props.harvested === r ? <span className="oq2-chip oq2-chip--harvested" aria-hidden="true">Đã thu hoạch</span> : null}
+            {pathSet.has(r) ? <span className="oq2-ghost" aria-hidden="true" /> : null}
+            {lastInPath === r ? <span className="oq2-chip oq2-chip--last" aria-hidden="true">Hạt cuối</span> : null}
+            {marks.target === r && marks.targetChip ? <span className="oq2-chip oq2-chip--target" aria-hidden="true">{marks.targetChip}</span> : null}
+            {marks.harvested === r ? <span className="oq2-chip oq2-chip--harvested" aria-hidden="true">Đã thu hoạch</span> : null}
           </button>
         );
       })}

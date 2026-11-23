@@ -238,3 +238,12 @@
 - **Ghi chú luật:** chủ đề từng ô lấy theo giá trị tạm của mockup G0.5 (lớp nội dung, không phải luật engine). Thẻ là 14 thẻ DEMO tự viết, không trích PDF.
 - **Tests:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 81/81 PASS (19 test engine, mô phỏng 3.000 ván: 3.000 kết thúc, bất biến luôn giữ) · `npm run build` PASS, hash JS production không đổi, `grep` `dist/` không thấy mã/thẻ V2 · Playwright Chromium tự chơi trọn ván ở 1280×800, 390×844, 360×740, 768×1024, 844×390 (có reduced motion), 0 lỗi console, 0 tràn ngang, nút chính trong màn hình, điểm không đổi trước "Chốt kết quả" · bàn phím 1 lượt PASS. NOT RUN: lint, thiết bị/Safari thật, trình đọc màn hình.
 - **Git commit SHA:** `NOT COMMITTED`.
+
+## Session: 2026-11-23 — Claude Code — BR-T035 (Ô ăn quan xanh V2: đại tu gameplay, hoạt ảnh, tự chuyển lượt)
+
+- **Bối cảnh:** Product Owner chơi thử BR-T034 và không đạt: không rải tiếp, bỏ qua Ô Quan, phải bấm "Lượt tiếp", hoạt ảnh khó theo dõi.
+- **Khảo sát tham khảo:** đọc luật/hướng dẫn oanquan.online, chơi 6 nước với máy (khách, từ chối analytics): thấy rải qua Ô Quan, rải tiếp, ăn Ô Dân, ăn Ô Quan (+14), ăn liên hoàn, hạt vẫn rơi vào Ô Quan đã mất quân, chuyển lượt tự động, nắm hạt có số đếm, tốc độ x1/x2. Không thấy: bù dân, kết thúc ván. Không sao chép mã, ảnh hay tài nguyên.
+- **Nguyên nhân lỗi:** engine V0 cố định `skipQuanPits`/`relaySowing: false`; UI có màn `sowResult` bắt bấm; hoạt ảnh chỉ đổi class ô, số hạt nhảy cục.
+- **Sửa:** engine `PLAYTEST_V1` + sự kiện chi tiết (pickup/drop/sowEnded/captureOpportunity/refereeCommitted/chainEnded/...); `playback.ts` (thuần) đổi sự kiện → khung hình; `GameScreen.tsx` phát lại, tự chuyển lượt, S8 tự tiếp tục có Giữ lại; nút ↺/↻ trên ô; tốc độ 1×/2×/4×, Bỏ qua; reduced motion. Sửa lỗi crash khi Chốt (key RefereePanel chứa `game.turn`).
+- **Tests:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 81/81 PASS · `npm run build` PASS, `dist/` 0 kết quả cho mã/thẻ V2 · Playwright tự chơi 5 ván: 0 lỗi console, 0 lỗi bố cục. NOT RUN: lint, thiết bị thật.
+- **Git commit SHA:** `NOT COMMITTED`.
