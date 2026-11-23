@@ -6,8 +6,9 @@ import {
 import { DemoDeck, type DemoCard } from '../content/demoCards';
 import { themeOfRing } from '../content/themes';
 import { Board, NO_MARKS, type BoardMarks } from './Board';
-import { ChallengeCard, LevelPill, RefereePanel, type Verdict } from './Challenge';
-import { SeedToken, ThemeIcon } from './Icons';
+import { ChallengeCard, type Verdict } from './Challenge';
+import { HandSprite, type HandPose } from './Hand';
+import { SeedToken } from './Icons';
 import { applyFrame, buildFrames, frameDuration, snapshotOf, type Frame, type Snapshot } from './playback';
 import { RulesDialog, StatusChips, pitName, useLayout, useReducedMotion, type Setup } from './shared';
 
@@ -45,8 +46,8 @@ function describeEvents(events: readonly EngineEvent[], names: Record<PlayerId, 
         break;
       case 'refereeCommitted':
         out.push(e.verdict === 'pass'
-          ? `Trọng tài chốt Đạt: ${names[e.mover]} thu hoạch ${e.harvestedDan} hạt${e.harvestedQuan ? ' và 1 quân Quan' : ''} ở ${pitLabel(e.target)}.`
-          : `Trọng tài chốt Chưa đạt: hạt giữ nguyên ở ${pitLabel(e.target)}.`);
+          ? `Đạt: ${names[e.mover]} thu hoạch ${e.harvestedDan} hạt${e.harvestedQuan ? ' và 1 quân Quan' : ''} ở ${pitLabel(e.target)}.`
+          : `Chưa đạt: hạt giữ nguyên ở ${pitLabel(e.target)}.`);
         break;
       case 'chainEnded':
         if (e.reason !== 'refereeFail') out.push(CHAIN_END_TEXT[e.reason]);
@@ -64,6 +65,23 @@ function describeEvents(events: readonly EngineEvent[], names: Record<PlayerId, 
   }
   return out;
 }
+
+// ------------------------------------------------------------------ hướng trên màn hình
+
+type ScreenDir = 'left' | 'right' | 'up' | 'down';
+
+/** Chiều kim đồng hồ = ringIndex tăng. Đổi sang hướng người chơi thấy trên màn hình theo ô và bố cục. */
+function screenDir(ring: number, dir: Direction, layout: 'landscape' | 'portrait'): ScreenDir {
+  const cw = dir === 'cw';
+  if (layout === 'landscape') {
+    const topRow = ring >= 1 && ring <= 5; // hàng trên đi sang phải khi tăng ringIndex
+    return topRow === cw ? 'right' : 'left';
+  }
+  const rightCol = ring >= 1 && ring <= 5; // cột phải đi xuống khi tăng ringIndex
+  return rightCol === cw ? 'down' : 'up';
+}
+const DIR_ARROW: Record<ScreenDir, string> = { left: '←', right: '→', up: '↑', down: '↓' };
+const DIR_WORD: Record<ScreenDir, string> = { left: 'Sang trái', right: 'Sang phải', up: 'Lên trên', down: 'Xuống dưới' };
 
 // ------------------------------------------------------------------ tốc độ
 
@@ -85,18 +103,17 @@ function writeSpeed(v: Speed) {
 
 interface Visual {
   readonly marks: BoardMarks;
-  readonly hand: { readonly ring: RingIndex; readonly count: number } | null;
+  readonly hand: { readonly ring: RingIndex; readonly count: number; readonly pose: HandPose } | null;
   readonly message: string;
   readonly dropKey: number;
   readonly dropRing: RingIndex | null;
   readonly flyKey: number;
   readonly fly: { readonly from: RingIndex; readonly to: PlayerId; readonly dan: number; readonly quan: number } | null;
   readonly toast: string | null;
-  readonly result: Extract<Frame, { kind: 'result' }> | null;
 }
 
 const EMPTY_VISUAL: Visual = {
-  marks: NO_MARKS, hand: null, message: '', dropKey: 0, dropRing: null, flyKey: 0, fly: null, toast: null, result: null,
+  marks: NO_MARKS, hand: null, message: '', dropKey: 0, dropRing: null, flyKey: 0, fly: null, toast: null,
 };
 
 type After = 'afterSow' | 'afterVerdict';
@@ -118,16 +135,16 @@ function visualize(f: Frame, prev: Visual, names: Record<PlayerId, string>): Vis
     case 'pickup':
       return {
         ...base,
-        hand: { ring: f.ring, count: f.count },
+        hand: { ring: f.ring, count: f.count, pose: 'pick' },
         marks: { ...NO_MARKS, origin: f.relay ? prev.marks.origin : f.ring, active: f.ring },
         message: f.relay ? `Rải tiếp! Bốc ${f.count} hạt ở ${pitLabel(f.ring)}.` : `${names[f.player]} bốc ${f.count} hạt ở ${pitLabel(f.ring)}.`,
       };
     case 'move':
-      return { ...base, hand: { ring: f.ring, count: f.hand }, marks: { ...prev.marks, active: f.ring, quanPulse: null } };
+      return { ...base, hand: { ring: f.ring, count: f.hand, pose: 'carry' }, marks: { ...prev.marks, active: f.ring, quanPulse: null } };
     case 'drop':
       return {
         ...base,
-        hand: { ring: f.ring, count: f.handLeft },
+        hand: { ring: f.ring, count: f.handLeft, pose: 'drop' },
         marks: { ...prev.marks, active: f.ring, quanPulse: f.intoQuanPit ? f.ring : null },
         dropKey: prev.dropKey + 1,
         dropRing: f.ring,
@@ -136,13 +153,13 @@ function visualize(f: Frame, prev: Visual, names: Record<PlayerId, string>): Vis
           : `Thả 1 hạt vào ${pitLabel(f.ring)} · còn ${f.handLeft} hạt trong tay.`,
       };
     case 'sowEnd':
-      return { ...base, hand: null, marks: { ...NO_MARKS, origin: prev.marks.origin, active: f.last, stopAt: f.next }, message: SOW_END_TEXT[f.reason] };
+      return { ...base, hand: { ring: f.last, count: 0, pose: 'retract' }, marks: { ...NO_MARKS, origin: prev.marks.origin, active: f.last, stopAt: f.next }, message: SOW_END_TEXT[f.reason] };
     case 'capture':
       return {
         ...base,
         hand: null,
         marks: { ...NO_MARKS, stopAt: null, target: f.capture.target, targetChip: `${f.capture.chainIndex ? 'Ăn tiếp' : 'Ăn'} ${f.capture.danSeeds}${f.capture.hasQuan ? ' + Quan' : ' hạt'} · Cấp ${f.capture.level}` },
-        message: `${f.capture.chainIndex ? 'Ăn liên hoàn!' : 'Cơ hội ăn!'} ${pitName(f.capture.target)} · thẻ Cấp ${f.capture.level}. ${names[other(f.capture.mover)]} rút thẻ, ${names[f.capture.mover]} trả lời.`,
+        message: `${f.capture.chainIndex ? 'Ăn liên hoàn!' : 'Cơ hội ăn!'} ${pitName(f.capture.target)} · thẻ Cấp ${f.capture.level}. ${names[f.capture.mover]} trả lời.`,
       };
     case 'harvest':
       return {
@@ -154,16 +171,14 @@ function visualize(f: Frame, prev: Visual, names: Record<PlayerId, string>): Vis
       };
     case 'keep':
       return { ...base, marks: { ...NO_MARKS, shake: f.target }, message: 'Chưa đạt: hạt vẫn ở ô này.' };
-    case 'result':
-      return { ...base, marks: prev.marks, result: f, message: prev.message };
     case 'chainEnd':
-      return { ...base, result: null, marks: { ...NO_MARKS, stopAt: f.at }, message: CHAIN_END_TEXT[f.reason] };
+      return { ...base, marks: { ...NO_MARKS, stopAt: f.at }, message: CHAIN_END_TEXT[f.reason] };
     case 'restock':
-      return { ...base, result: null, marks: NO_MARKS, message: `Hàng của ${names[f.player]} trống: đặt lại mỗi ô 1 hạt (${f.fromOwnStore} từ kho mình${f.borrowed ? `, mượn ${f.borrowed} hạt của đối thủ` : ''}).` };
+      return { ...base, marks: NO_MARKS, message: `Hàng của ${names[f.player]} trống: đặt lại mỗi ô 1 hạt (${f.fromOwnStore} từ kho mình${f.borrowed ? `, mượn ${f.borrowed} hạt của đối thủ` : ''}).` };
     case 'turn':
-      return { ...base, result: null, hand: null, marks: NO_MARKS, toast: `Đến lượt ${names[f.to]}`, message: `Đến lượt ${names[f.to]}.` };
+      return { ...base, hand: null, marks: NO_MARKS, toast: `Đến lượt ${names[f.to]}`, message: `Đến lượt ${names[f.to]}.` };
     case 'gameOver':
-      return { ...base, result: null, hand: null, marks: NO_MARKS, toast: 'Ván kết thúc!', message: f.reason === 'allQuanHarvested' ? 'Cả hai quân Quan đã được thu hoạch: ván kết thúc.' : 'Không đủ hạt để đặt lại hàng: ván kết thúc sớm.' };
+      return { ...base, hand: null, marks: NO_MARKS, toast: 'Ván kết thúc!', message: f.reason === 'allQuanHarvested' ? 'Cả hai quân Quan đã được thu hoạch: ván kết thúc.' : 'Không đủ hạt để đặt lại hàng: ván kết thúc sớm.' };
     default:
       return base;
   }
@@ -197,7 +212,7 @@ function advance(a: Anim, names: Record<PlayerId, string>, to?: number): Anim {
 function nextStopIndex(a: Anim): number {
   for (let k = a.i + 1; k < a.frames.length; k++) {
     const kind = a.frames[k].kind;
-    if (kind === 'capture' || kind === 'result' || kind === 'gameOver' || kind === 'turn') return k;
+    if (kind === 'capture' || kind === 'gameOver' || kind === 'turn') return k;
   }
   return a.frames.length;
 }
@@ -221,15 +236,14 @@ function FxLayer({ vis, boardEl, reduced, moveMs, dropMs, flyMs }: {
   const flyCount = vis.fly ? Math.min(8, vis.fly.dan) : 0;
   return (
     <div className="oq2-fx" aria-hidden="true">
-      {hand ? (
+      {hand && vis.hand ? (
         <div
-          className="oq2-hand"
+          key={vis.hand.pose === 'retract' ? `r${vis.dropKey}` : 'h'}
+          className={`oq2-hand oq2-hand--${vis.hand.pose}`}
           style={{ transform: `translate(${hand.x}px, ${hand.y}px)`, transitionDuration: reduced ? '0ms' : `${moveMs}ms` } as CSSProperties}
         >
-          <span className="oq2-hand__bowl">
-            <svg viewBox="-6 -6 12 12" className="oq2-hand__seed"><SeedToken /></svg>
-          </span>
-          <b className="oq2-hand__count">{vis.hand?.count}</b>
+          <div className="oq2-hand__sprite"><HandSprite pose={vis.hand.pose} ms={reduced ? 0 : Math.min(moveMs, 220)} /></div>
+          {vis.hand.pose !== 'retract' ? <b className="oq2-hand__count">{vis.hand.count}</b> : null}
         </div>
       ) : null}
       {drop && !reduced ? (
@@ -310,8 +324,7 @@ type Stage =
   | { kind: 'select' }
   | { kind: 'direction'; pit: RingIndex; hover: Direction | null }
   | { kind: 'playing' }
-  | { kind: 'card'; uid: number; capture: PendingCapture; card: DemoCard }
-  | { kind: 'referee'; uid: number; capture: PendingCapture; card: DemoCard; timedOut: boolean; before: GameState; committed: StepResult | null };
+  | { kind: 'card'; uid: number; capture: PendingCapture; card: DemoCard };
 
 export function GameScreen({ setup, onEnd, onQuit }: {
   setup: Setup;
@@ -337,7 +350,7 @@ export function GameScreen({ setup, onEnd, onQuit }: {
   const [, forceRender] = useState(0);
   const deck = useMemo(() => new DemoDeck(Math.random), []);
   const boardWrapRef = useRef<HTMLDivElement>(null);
-  const lastCardRef = useRef<DemoCard | null>(null);
+  const resolvedUidRef = useRef(0);
   const uidRef = useRef(0);
   const dockRef = useRef<HTMLElement>(null);
   const [dockH, setDockH] = useState(0);
@@ -372,7 +385,6 @@ export function GameScreen({ setup, onEnd, onQuit }: {
     }
     if (s.phase === 'awaitingVerdict' && s.pending) {
       const card = deck.draw(themeOfRing(s.pending.target), s.pending.level);
-      lastCardRef.current = card;
       uidRef.current += 1;
       setStage({ kind: 'card', uid: uidRef.current, capture: s.pending, card });
       return;
@@ -421,42 +433,38 @@ export function GameScreen({ setup, onEnd, onQuit }: {
     play(result, before, 'afterSow');
   };
 
-  const commitVerdict = (v: Verdict) => {
-    if (stage.kind !== 'referee' || stage.committed || game.phase !== 'awaitingVerdict') return;
+  /** Ghi nhan ket qua the dung mot lan (chan xu ly trung theo uid the) roi phat lai ngay. */
+  const resolveCard = (v: Verdict) => {
+    if (stage.kind !== 'card' || game.phase !== 'awaitingVerdict') return;
+    if (resolvedUidRef.current === stage.uid) return;
+    resolvedUidRef.current = stage.uid;
     const before = game;
     const result = applyAction(game, { type: 'commitRefereeResult', verdict: v });
     setGame(result.state);
-    setStage({ ...stage, before, committed: result });
     setLessons((l) => (l.includes(stage.card.remember) ? l : [...l, stage.card.remember]));
-  };
-  const refereeContinue = () => {
-    if (stage.kind !== 'referee' || !stage.committed) return;
-    play(stage.committed, stage.before, 'afterVerdict');
+    play(result, before, 'afterVerdict');
   };
 
   const skip = () => setAnim((a) => (a && !a.done ? { ...advance(a, names, nextStopIndex(a)), paused: false } : a));
-  const continueNow = () => setAnim((a) => (a ? { ...advance(a, names), paused: false } : a));
-  const togglePause = () => setAnim((a) => (a ? { ...a, paused: !a.paused } : a));
 
   // --- hiển thị
   const view: Snapshot = anim ? anim.view
-    : stage.kind === 'referee' && stage.committed ? snapshotOf(stage.before)
-      : snapshotOf(game);
+    : snapshotOf(game);
   const vis = anim?.vis ?? EMPTY_VISUAL;
   let marks: BoardMarks = vis.marks;
   if (!anim && stage.kind === 'direction') {
     marks = { ...NO_MARKS, selected: stage.pit, path: stage.hover ? previewSow(game, stage.pit, stage.hover) : [] };
-  } else if (!anim && (stage.kind === 'card' || stage.kind === 'referee')) {
+  } else if (!anim && stage.kind === 'card') {
     const c = stage.capture;
     marks = { ...NO_MARKS, target: c.target, targetChip: `Ăn ${c.danSeeds}${c.hasQuan ? ' + Quan' : ' hạt'} · Cấp ${c.level}` };
   }
   const interactive = !anim && (stage.kind === 'select' || stage.kind === 'direction');
-  const overlay = stage.kind === 'card' || stage.kind === 'referee' || rulesOpen;
+  const overlay = stage.kind === 'card' || rulesOpen;
   const mover = view.current;
   const message = anim ? vis.message
-    : stage.kind === 'direction' ? `Đã chọn ${pitLabel(stage.pit)} (${game.pits[stage.pit]} hạt). Chọn chiều rải: ↻ hoặc ↺.`
-      : stage.kind === 'card' || stage.kind === 'referee'
-        ? `${stage.capture.chainIndex ? 'Ăn liên hoàn' : 'Cơ hội ăn'} ${pitName(stage.capture.target)}: ${names[stage.capture.mover]} trả lời, ${names[other(stage.capture.mover)]} làm Trọng tài.`
+    : stage.kind === 'direction' ? `Đã chọn ${pitLabel(stage.pit)} (${game.pits[stage.pit]} hạt). Chọn hướng rải: ${layout === 'landscape' ? '← hoặc →' : '↑ hoặc ↓'}.`
+      : stage.kind === 'card'
+        ? `${stage.capture.chainIndex ? 'Ăn liên hoàn' : 'Cơ hội ăn'} ${pitName(stage.capture.target)}: ${names[stage.capture.mover]} trả lời thẻ.`
         : notice || `Lượt của ${names[game.current]}: chọn một Ô Dân có hạt ở hàng của mình.`;
   const turnFrame = anim && !anim.done && (anim.frames[anim.i].kind === 'turn' || anim.frames[anim.i].kind === 'restock');
   const stepIdx = stage.kind === 'select' || turnFrame ? 0 : stage.kind === 'direction' ? 1
@@ -476,20 +484,30 @@ export function GameScreen({ setup, onEnd, onQuit }: {
   // Nút chiều rải gắn ngay trên ô đã chọn
   const selectedCenter = stage.kind === 'direction' && !anim
     ? centerOf(boardWrapRef.current?.querySelector(`[data-ring="${stage.pit}"]`) ?? null) : null;
-  const dirButton = (dir: Direction, extra = '') => (
-    <button
-      type="button"
-      className={`oq2-btn oq2-dir${extra}`}
-      aria-label={dir === 'cw' ? 'Rải theo chiều kim đồng hồ' : 'Rải ngược chiều kim đồng hồ'}
-      onMouseEnter={() => stage.kind === 'direction' && setStage({ ...stage, hover: dir })}
-      onFocus={() => stage.kind === 'direction' && setStage({ ...stage, hover: dir })}
-      onMouseLeave={() => stage.kind === 'direction' && setStage({ ...stage, hover: null })}
-      onClick={() => stage.kind === 'direction' && sow(stage.pit, dir)}
-    >
-      <span aria-hidden="true">{dir === 'cw' ? '↻' : '↺'}</span>
-      <em>{dir === 'cw' ? 'Chiều kim đồng hồ' : 'Ngược chiều'}</em>
-    </button>
-  );
+  const dirButton = (dir: Direction, extra = '') => {
+    const sd = stage.kind === 'direction' ? screenDir(stage.pit, dir, layout) : 'left';
+    return (
+      <button
+        type="button"
+        className={`oq2-btn oq2-dir oq2-dir--${sd}${extra}`}
+        aria-label={`Rải ${DIR_WORD[sd].toLowerCase()}`}
+        onMouseEnter={() => stage.kind === 'direction' && setStage({ ...stage, hover: dir })}
+        onFocus={() => stage.kind === 'direction' && setStage({ ...stage, hover: dir })}
+        onMouseLeave={() => stage.kind === 'direction' && setStage({ ...stage, hover: null })}
+        onClick={() => stage.kind === 'direction' && sow(stage.pit, dir)}
+      >
+        <span aria-hidden="true">{DIR_ARROW[sd]}</span>
+        <em>{DIR_WORD[sd]}</em>
+      </button>
+    );
+  };
+  // Thứ tự hiển thị: trái trước phải, trên trước dưới
+  const orderedDirs: Direction[] = stage.kind === 'direction'
+    ? (['cw', 'ccw'] as Direction[]).sort((x, y) => {
+      const rank = (d: Direction) => { const v = screenDir(stage.pit, d, layout); return v === 'left' || v === 'up' ? 0 : 1; };
+      return rank(x) - rank(y);
+    })
+    : ['cw', 'ccw'];
 
   return (
     <div className={`oq2-game oq2-game--${layout}`} data-stage={anim ? 'playing' : stage.kind} data-frame={curFrame?.kind ?? ''} style={{ '--oq2-dockh': `${dockH}px` } as CSSProperties}>
@@ -523,24 +541,13 @@ export function GameScreen({ setup, onEnd, onQuit }: {
         {vis.toast || toast ? <div className="oq2-toast" role="status">{vis.toast ?? toast}</div> : null}
         {selectedCenter && stage.kind === 'direction' ? (
           <div className="oq2-pitdirs" style={{ left: selectedCenter.x, top: selectedCenter.y } as CSSProperties}>
-            {dirButton('ccw', ' oq2-dir--mini oq2-dir--left')}
-            {dirButton('cw', ' oq2-dir--mini oq2-dir--right')}
+            {orderedDirs.map((d) => <span key={d} style={{ display: 'contents' }}>{dirButton(d, ' oq2-dir--mini')}</span>)}
           </div>
         ) : null}
       </div>
 
       <footer className="oq2-dock" inert={overlay} ref={dockRef}>
-        {vis.result ? (
-          <ResultBanner
-            frame={vis.result}
-            card={lastCardRef.current}
-            names={names}
-            paused={!!anim?.paused}
-            holdMs={curFrame ? frameDuration(curFrame, speed, reduced) : 0}
-            onContinue={continueNow}
-            onTogglePause={togglePause}
-          />
-        ) : (
+        {(
           <>
             <ol className="oq2-stepper" aria-label="Các bước của lượt">
               {['Chọn ô', 'Chọn chiều', 'Rải', 'Thẻ'].map((s, i) => (
@@ -553,9 +560,8 @@ export function GameScreen({ setup, onEnd, onQuit }: {
             <div className="oq2-dock__actions">
               {stage.kind === 'direction' && !anim ? (
                 <>
-                  <div className="oq2-dirs" role="group" aria-label="Chiều rải">
-                    {dirButton('cw')}
-                    {dirButton('ccw')}
+                  <div className="oq2-dirs" role="group" aria-label="Hướng rải">
+                    {orderedDirs.map((d) => <span key={d} style={{ display: 'contents' }}>{dirButton(d)}</span>)}
                   </div>
                   <button type="button" className="oq2-btn oq2-btn--ghost" onClick={() => setStage({ kind: 'select' })}>Đổi ô</button>
                 </>
@@ -588,65 +594,14 @@ export function GameScreen({ setup, onEnd, onQuit }: {
           key={`card${stage.uid}`}
           card={stage.card}
           answerer={names[stage.capture.mover]}
-          referee={names[other(stage.capture.mover)]}
+          opponent={names[other(stage.capture.mover)]}
           timerMode={setup.timer}
           chainIndex={stage.capture.chainIndex}
-          onDone={(timedOut) => setStage({ kind: 'referee', uid: stage.uid, capture: stage.capture, card: stage.card, timedOut, before: game, committed: null })}
-        />
-      ) : null}
-      {stage.kind === 'referee' ? (
-        <RefereePanel
-          key={`ref${stage.uid}`}
-          card={stage.card}
-          answerer={names[stage.capture.mover]}
-          referee={names[other(stage.capture.mover)]}
-          pitName={pitName(stage.capture.target)}
-          timedOut={stage.timedOut}
-          onCommit={commitVerdict}
-          onContinue={refereeContinue}
+          feedbackMs={reduced ? 500 : Math.round(1000 / Math.min(speed, 2))}
+          onResolve={resolveCard}
         />
       ) : null}
       {rulesOpen ? <RulesDialog onClose={() => setRulesOpen(false)} /> : null}
     </div>
-  );
-}
-
-// ------------------------------------------------------------------ S8 (tự tiếp tục)
-
-function ResultBanner({ frame, card, names, paused, holdMs, onContinue, onTogglePause }: {
-  frame: Extract<Frame, { kind: 'result' }>;
-  card: DemoCard | null;
-  names: Record<PlayerId, string>;
-  paused: boolean;
-  holdMs: number;
-  onContinue: () => void;
-  onTogglePause: () => void;
-}) {
-  const pass = frame.verdict === 'pass';
-  const theme = themeOfRing(frame.target);
-  const gained = frame.dan + frame.quan * 10;
-  return (
-    <section className={`oq2-result ${pass ? 'is-pass' : 'is-fail'}`} aria-labelledby="oq2-result-title" role="status">
-      <span className="oq2-result__icon" aria-hidden="true">{pass ? '✓' : '↺'}</span>
-      <div className="oq2-result__body">
-        <h2 id="oq2-result-title">
-          {pass ? `Đạt! ${names[frame.mover]} thu hoạch ${pitName(frame.target)}` : `Chưa đạt. Hạt vẫn ở ${pitName(frame.target)}.`}
-        </h2>
-        <p className="oq2-result__line">
-          <span className={`oq2-theme-chip oq2-theme--${theme}`} aria-hidden="true"><ThemeIcon theme={theme} size={14} /></span>
-          {pass ? <strong className="oq2-result__gain">+{gained} điểm</strong> : <span>Giữ nguyên ô</span>}
-          <span className="oq2-chip oq2-chip--referee">Trọng tài {names[other(frame.mover)]} chốt: {pass ? 'Đạt' : 'Chưa đạt'}</span>
-          {card ? <span className="oq2-result__card">{card.title} · <LevelPill level={card.level} /></span> : null}
-        </p>
-        {card ? <p className="oq2-remember"><b>Điều nên nhớ</b> <span className="oq2-tag">bản tóm tắt · DEMO</span> {card.remember}</p> : null}
-      </div>
-      <div className="oq2-result__actions">
-        <button type="button" className="oq2-btn oq2-btn--primary" onClick={onContinue}>Tiếp tục</button>
-        <button type="button" className="oq2-btn oq2-btn--small" aria-pressed={paused} onClick={onTogglePause}>{paused ? 'Tự tiếp tục' : 'Giữ lại'}</button>
-      </div>
-      <span className="oq2-result__timer" aria-hidden="true">
-        <span key={`${frame.target}-${frame.verdict}`} style={{ animationDuration: `${holdMs}ms`, animationPlayState: paused ? 'paused' : 'running' } as CSSProperties} />
-      </span>
-    </section>
   );
 }

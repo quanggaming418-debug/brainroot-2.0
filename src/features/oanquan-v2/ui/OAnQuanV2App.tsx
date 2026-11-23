@@ -88,7 +88,7 @@ function SetupScreen({ initial, onStart, onBack }: { initial: Setup; onStart: (s
               {option('timer', 'untimed', timer, setTimer, 'Không bấm giờ', 'Trả lời xong thì bấm Xong')}
             </div>
           </fieldset>
-          <p className="oq2-note">Trọng tài: đối thủ chấm trên cùng máy (luật bản thử). Thẻ trong bản này là thẻ DEMO tự viết, không phải bộ thẻ chính thức.</p>
+          <p className="oq2-note">Hai người chơi chung một máy. Trắc nghiệm tự chấm, câu hỏi mở thì đối thủ chấm nhanh ngay trên thẻ. Thẻ trong bản này là thẻ DEMO tự viết, không phải bộ thẻ chính thức.</p>
         </div>
         <div className="oq2-setup__bar">
           <button type="button" className="oq2-btn oq2-btn--ghost" onClick={onBack}>Quay lại</button>

@@ -8,6 +8,13 @@ import type { Theme } from './themes';
  */
 export interface DemoCard {
   readonly id: string;
+  /** 'choice' = trắc nghiệm tự chấm; 'open' = câu hỏi mở, đối phương đánh giá. */
+  readonly kind: 'choice' | 'open';
+  readonly options?: readonly string[];
+  /** Chỉ số đáp án đúng (chỉ với 'choice'). */
+  readonly correct?: number;
+  /** Giải thích ngắn sau khi chấm (chỉ với 'choice'). */
+  readonly explain?: string;
   readonly theme: Theme;
   readonly level: ChallengeLevel;
   /** Thời gian trả lời (metadata của thẻ DEMO). */
@@ -27,7 +34,9 @@ const T1 = 20;
 const T2 = 30;
 const T3 = 45;
 
-export const DEMO_CARDS: readonly DemoCard[] = [
+type BaseCard = Omit<DemoCard, 'kind'>;
+
+const BASE_CARDS: readonly BaseCard[] = [
   {
     id: 'DEMO-green-1', theme: 'green', level: 1, timeSec: T1,
     title: 'Góc cây trong lớp',
@@ -155,6 +164,50 @@ export const DEMO_CARDS: readonly DemoCard[] = [
     remember: 'Khi vào thiên nhiên, hãy để lại nơi đó như lúc mình đến.',
   },
 ];
+
+/** Thẻ DEMO trắc nghiệm: thay phần thử thách của thẻ cấp 1 bằng câu có đáp án xác định. */
+const CHOICE: Readonly<Record<string, Pick<DemoCard, 'title' | 'challenge' | 'options' | 'correct' | 'explain'>>> = {
+  'DEMO-green-1': {
+    title: 'Góc cây trong lớp',
+    challenge: 'Cách nào giúp góc cây trong lớp xanh tốt lâu dài?',
+    options: ['Đặt cây vào góc tối nhất cho đỡ vướng', 'Phân công tưới cây theo lịch, đặt nơi có ánh sáng', 'Tưới thật nhiều một lần rồi để cả tuần'],
+    correct: 1,
+    explain: 'Chăm đều đặn và đủ ánh sáng giúp cây sống lâu.',
+  },
+  'DEMO-energy-1': {
+    title: 'Phòng học trống',
+    challenge: 'Giờ ra chơi, cả lớp ra ngoài. Việc nào tiết kiệm điện nhất?',
+    options: ['Tắt đèn và quạt khi ra khỏi phòng', 'Để đèn quạt bật cho mát khi quay lại', 'Chỉ tắt quạt, để đèn sáng'],
+    correct: 0,
+    explain: 'Tắt thiết bị khi không dùng là cách tiết kiệm đơn giản nhất.',
+  },
+  'DEMO-waste-1': {
+    title: 'Sau buổi sinh hoạt',
+    challenge: 'Cách nào giúp giảm rác cho buổi sinh hoạt lần sau?',
+    options: ['Mua thêm cốc nhựa dùng một lần cho tiện', 'Gói riêng từng phần bánh trong túi nhựa', 'Mỗi người mang bình nước cá nhân'],
+    correct: 2,
+    explain: 'Dùng đồ tái sử dụng giúp giảm rác ngay từ đầu.',
+  },
+  'DEMO-water-1': {
+    title: 'Vòi nước lúc đánh răng',
+    challenge: 'Đánh răng thế nào để bớt lãng phí nước?',
+    options: ['Để vòi chảy nhỏ suốt lúc chải', 'Khóa vòi khi chải, dùng cốc để súc miệng', 'Mở vòi thật to cho nhanh sạch'],
+    correct: 1,
+    explain: 'Chỉ mở nước khi cần dùng.',
+  },
+  'DEMO-consume-1': {
+    title: 'Đồ dùng học tập mới',
+    challenge: 'Trước khi mua bút vở mới, câu hỏi nào hữu ích nhất?',
+    options: ['Bạn nào cũng mua thì mình mua theo', 'Cửa hàng nào đang có quà tặng kèm?', 'Đồ cũ của mình còn dùng được không?'],
+    correct: 2,
+    explain: 'Cân nhắc nhu cầu thật giúp tránh mua thứ không cần.',
+  },
+};
+
+export const DEMO_CARDS: readonly DemoCard[] = BASE_CARDS.map((c): DemoCard => {
+  const ch = CHOICE[c.id];
+  return ch ? { ...c, ...ch, kind: 'choice' } : { ...c, kind: 'open' };
+});
 
 /** Bộ rút thẻ DEMO: không lặp cho tới khi dùng hết một nhóm (chủ đề, cấp). */
 export class DemoDeck {

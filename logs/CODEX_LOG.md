@@ -247,3 +247,10 @@
 - **Sửa:** engine `PLAYTEST_V1` + sự kiện chi tiết (pickup/drop/sowEnded/captureOpportunity/refereeCommitted/chainEnded/...); `playback.ts` (thuần) đổi sự kiện → khung hình; `GameScreen.tsx` phát lại, tự chuyển lượt, S8 tự tiếp tục có Giữ lại; nút ↺/↻ trên ô; tốc độ 1×/2×/4×, Bỏ qua; reduced motion. Sửa lỗi crash khi Chốt (key RefereePanel chứa `game.turn`).
 - **Tests:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 81/81 PASS · `npm run build` PASS, `dist/` 0 kết quả cho mã/thẻ V2 · Playwright tự chơi 5 ván: 0 lỗi console, 0 lỗi bố cục. NOT RUN: lint, thiết bị thật.
 - **Git commit SHA:** `NOT COMMITTED`.
+
+## Session: 2026-11-23 — Claude Code — BR-T036 (thẻ một bước, bàn tay hoạt họa)
+
+- **Yêu cầu Product Owner:** bỏ Trọng tài nhiều bước (Xong, Mở đáp án modal, Xem lại, Chốt, Tiếp tục); trắc nghiệm tự chấm; câu mở đối phương chấm ngay trên thẻ; bàn tay SVG original 4 pose.
+- **Làm:** BR-T035 được commit cục bộ `ba91740` để bảo toàn rồi tách nhánh BR-T036. Thẻ `ChallengeCard` một bước với khóa chống chấm trùng (khóa trong thẻ + uid ở GameScreen), phản hồi 0,5–1 s theo tốc độ/giảm chuyển động; bỏ khung kết quả S8 và khung hình `result`; `Hand.tsx` + hand state (pick/carry/drop/retract) theo sự kiện engine. Engine không đổi.
+- **Tests:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 82/82 PASS · `npm run build` PASS, `dist/` sạch V2 · Playwright 5 ván: 1 lần bấm mỗi thẻ, bấm đúp bị chặn, 0 lỗi console/bố cục. NOT RUN: lint, thiết bị thật.
+- **Git commit SHA:** `NOT COMMITTED`.

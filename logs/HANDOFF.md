@@ -1,5 +1,12 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-23 — BR-T036 thẻ một bước + bàn tay hoạt họa · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t036-oanquan-streamlined-challenge` trên BR-T035 `ba91740` (đã commit cục bộ để bảo toàn; chưa push).
+- **Mở chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html
+- **Thay đổi:** bỏ Trọng tài/S7; `ui/Challenge.tsx` một thẻ (trắc nghiệm tự chấm, câu mở đối phương chấm); `ui/Hand.tsx` bàn tay 4 pose; `content/demoCards.ts` thêm 5 thẻ trắc nghiệm; `ui/GameScreen.tsx`, `playback.ts`, CSS cập nhật.
+- **Kiểm thử:** typecheck PASS · unit 82/82 PASS · build PASS, dist sạch V2 · Playwright 5 ván PASS. Lint, thiết bị thật: NOT RUN.
+
 ## 2026-11-23 — BR-T035 Ô ăn quan xanh V2: đại tu gameplay + hoạt ảnh · Claude Code → Product Owner
 
 - **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t035-oanquan-gameplay-overhaul` xếp trên BR-T034 `7494d29` (chưa push).

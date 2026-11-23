@@ -76,8 +76,8 @@ export function RulesDialog({ onClose }: { onClose: () => void }) {
           <li><strong>Rải tiếp:</strong> ô ngay sau hạt cuối là Ô Dân có hạt thì bốc hết ô đó, rải tiếp cùng chiều.</li>
           <li><strong>Dừng:</strong> ô ngay sau hạt cuối là Ô Quan còn quân hoặc còn hạt, hoặc gặp hai ô trống liên tiếp.</li>
           <li><strong>Cơ hội ăn:</strong> ô ngay sau hạt cuối trống và ô kế tiếp có quân (kể cả Ô Quan). Sau mỗi lần ăn, nếu lại gặp ô trống rồi ô có quân thì được ăn tiếp (ăn liên hoàn).</li>
-          <li>Mỗi lần ăn cần trả lời một thẻ: Ô Dân 1–3 hạt Cấp 1; từ 4 hạt Cấp 2; Ô Quan Cấp 3. Người rải trả lời, đối thủ làm Trọng tài.</li>
-          <li>Trọng tài chốt <strong>Đạt</strong>: thu hoạch ô đó và xét tiếp chuỗi. <strong>Chưa đạt</strong>: ô giữ nguyên, hết lượt. Phần đã chốt không hoàn tác.</li>
+          <li>Mỗi lần ăn mở một thẻ: Ô Dân 1–3 hạt Cấp 1; từ 4 hạt Cấp 2; Ô Quan Cấp 3. Người đang đi trả lời. Trắc nghiệm được tự chấm; câu hỏi mở thì đối thủ bấm Đạt hoặc Chưa đạt ngay trên thẻ.</li>
+          <li><strong>Đạt</strong>: thu hoạch ô đó và xét tiếp chuỗi (có thể mở thẻ tiếp theo). <strong>Chưa đạt</strong>: ô giữ nguyên, hết lượt. Kết quả ghi một lần, không hoàn tác.</li>
           <li>Hàng mình trống: lấy 5 hạt từ kho mình (thiếu thì mượn đối thủ, ghi nợ). Cả hai kho không đủ 5 hạt: ván kết thúc.</li>
           <li>Ván kết thúc khi hai quân Quan đã được thu hoạch. Hạt còn trên hàng ai thì về người đó; hạt còn trong Ô Quan và Quan chưa ăn không tính cho ai.</li>
           <li>Điểm = số hạt + 10 điểm mỗi quân Quan, trừ hạt đã mượn. Bằng điểm là hòa.</li>

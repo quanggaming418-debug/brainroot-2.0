@@ -24,7 +24,6 @@ export type Frame =
   | { readonly kind: 'capture'; readonly capture: PendingCapture }
   | { readonly kind: 'harvest'; readonly target: RingIndex; readonly mover: PlayerId; readonly dan: number; readonly quan: number }
   | { readonly kind: 'keep'; readonly target: RingIndex }
-  | { readonly kind: 'result'; readonly verdict: 'pass' | 'fail'; readonly target: RingIndex; readonly mover: PlayerId; readonly dan: number; readonly quan: number }
   | { readonly kind: 'chainEnd'; readonly reason: ChainStopReason; readonly at: RingIndex }
   | { readonly kind: 'restock'; readonly player: PlayerId; readonly fromOwnStore: number; readonly borrowed: number }
   | { readonly kind: 'turn'; readonly to: PlayerId }
@@ -37,9 +36,8 @@ const BASE: Record<Frame['kind'], number> = {
   drop: 190,
   sowEnd: 900,
   capture: 1100,
-  harvest: 950,
-  keep: 850,
-  result: 3200,
+  harvest: 900,
+  keep: 800,
   chainEnd: 500,
   restock: 1000,
   turn: 1100,
@@ -47,7 +45,7 @@ const BASE: Record<Frame['kind'], number> = {
 };
 
 /** Khung "chờ người đọc" không rút ngắn quá nhiều khi tăng tốc. */
-const READING: ReadonlySet<Frame['kind']> = new Set(['sowEnd', 'capture', 'result', 'turn', 'gameOver', 'restock']);
+const READING: ReadonlySet<Frame['kind']> = new Set(['sowEnd', 'capture', 'turn', 'gameOver', 'restock']);
 
 export function frameDuration(f: Frame, speed: number, reduced: boolean): number {
   const base = BASE[f.kind];
@@ -80,7 +78,6 @@ export function buildFrames(events: readonly EngineEvent[]): Frame[] {
         frames.push(e.verdict === 'pass'
           ? { kind: 'harvest', target: e.target, mover: e.mover, dan: e.harvestedDan, quan: e.harvestedQuan }
           : { kind: 'keep', target: e.target });
-        frames.push({ kind: 'result', verdict: e.verdict, target: e.target, mover: e.mover, dan: e.harvestedDan, quan: e.harvestedQuan });
         break;
       case 'chainEnded':
         if (e.reason !== 'refereeFail') frames.push({ kind: 'chainEnd', reason: e.reason, at: e.at });

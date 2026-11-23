@@ -349,3 +349,23 @@ test('phát lại khung hình từ sự kiện luôn khớp trạng thái engine
     }
   }
 });
+
+// --------------------------------------------------------------- thẻ DEMO (BR-T036)
+
+test('thẻ DEMO hợp lệ: trắc nghiệm có đáp án xác định, câu mở có đáp án mẫu; có đủ hai loại', async () => {
+  const { DEMO_CARDS, DemoDeck } = await import('../src/features/oanquan-v2/content/demoCards');
+  const kinds = new Set(DEMO_CARDS.map((c) => c.kind));
+  assert.deepEqual([...kinds].sort(), ['choice', 'open']);
+  for (const c of DEMO_CARDS) {
+    assert.match(c.id, /^DEMO-/);
+    if (c.kind === 'choice') {
+      assert.ok(c.options && c.options.length >= 2 && c.options.length <= 4, c.id);
+      assert.ok(Number.isInteger(c.correct) && (c.correct as number) >= 0 && (c.correct as number) < (c.options as string[]).length, c.id);
+      assert.ok(c.explain, c.id);
+    } else {
+      assert.ok(c.refereeGuide && c.keyPoints.length > 0, c.id);
+    }
+  }
+  const deck = new DemoDeck(() => 0.5);
+  for (let i = 0; i < 40; i++) assert.ok(deck.draw('water', 1));
+});

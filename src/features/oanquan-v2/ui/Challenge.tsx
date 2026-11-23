@@ -7,6 +7,7 @@ export type TimerMode = 'standard' | 'extended' | 'untimed';
 export type Verdict = 'pass' | 'fail';
 
 const LEVEL_NAME: Record<number, string> = { 1: 'Nhận biết', 2: 'Ra quyết định', 3: 'Giải quyết vấn đề' };
+const LETTERS = ['A', 'B', 'C', 'D'];
 
 export function LevelPill({ level }: { level: 1 | 2 | 3 }) {
   return (
@@ -17,208 +18,150 @@ export function LevelPill({ level }: { level: 1 | 2 | 3 }) {
   );
 }
 
-function useFocusOnMount<T extends HTMLElement>() {
-  const ref = useRef<T>(null);
-  useEffect(() => { ref.current?.focus(); }, []);
-  return ref;
-}
-
-/** S6 — thẻ thử thách (đáp án ẩn). */
+/**
+ * Một thẻ thử thách duy nhất (không có modal lồng, không có bước xác nhận):
+ * - Trắc nghiệm: chọn đáp án → hệ thống tự chấm.
+ * - Câu hỏi mở: đối phương bấm Đạt / Chưa đạt ngay trên thẻ; đáp án mẫu mở nội tuyến (tùy chọn).
+ * Kết quả được báo đúng một lần qua onResolve sau một phản hồi ngắn.
+ */
 export function ChallengeCard(props: {
   card: DemoCard;
   answerer: string;
-  referee: string;
+  opponent: string;
   timerMode: TimerMode;
-  chainIndex?: number;
-  onDone: (timedOut: boolean) => void;
+  chainIndex: number;
+  /** Thời gian phản hồi ngắn trước khi đóng thẻ (ms). */
+  feedbackMs: number;
+  onResolve: (verdict: Verdict) => void;
 }) {
   const { card, timerMode } = props;
   const total = timerMode === 'untimed' ? null : Math.round(card.timeSec * (timerMode === 'extended' ? 1.5 : 1));
   const [left, setLeft] = useState<number | null>(total);
-  const titleRef = useFocusOnMount<HTMLHeadingElement>();
-  const doneRef = useRef(false);
-  const onDoneRef = useRef(props.onDone);
-  onDoneRef.current = props.onDone;
+  const [picked, setPicked] = useState<number | null>(null);
+  const [graded, setGraded] = useState<Verdict | null>(null);
+  const [showGuide, setShowGuide] = useState(false);
+  const [timedOut, setTimedOut] = useState(false);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const lockRef = useRef(false);
+  const resolveRef = useRef(props.onResolve);
+  resolveRef.current = props.onResolve;
+  const feedbackRef = useRef(props.feedbackMs);
+  feedbackRef.current = props.feedbackMs;
+  const isChoice = card.kind === 'choice';
+
+  useEffect(() => { titleRef.current?.focus(); }, []);
+
+  /** Ghi nhận kết quả đúng một lần; mọi nguồn (nhấp đúp, hết giờ, phím) đều đi qua đây. */
+  const resolve = (v: Verdict, choice: number | null = null) => {
+    if (lockRef.current) return;
+    lockRef.current = true;
+    setPicked(choice);
+    setGraded(v);
+    window.setTimeout(() => resolveRef.current(v), feedbackRef.current);
+  };
 
   useEffect(() => {
-    if (left === null) return;
+    if (left === null || lockRef.current) return;
     if (left <= 0) {
-      if (!doneRef.current) { doneRef.current = true; onDoneRef.current(true); }
+      setTimedOut(true);
+      if (isChoice) resolve('fail');
       return;
     }
     const t = window.setTimeout(() => setLeft((v) => (v === null ? v : v - 1)), 1000);
     return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [left]);
 
-  const finish = () => {
-    if (doneRef.current) return;
-    doneRef.current = true;
-    onDoneRef.current(false);
-  };
+  useEffect(() => {
+    if (!isChoice) return;
+    const onKey = (e: KeyboardEvent) => {
+      const n = Number(e.key);
+      if (n >= 1 && n <= (card.options?.length ?? 0)) resolve(n - 1 === card.correct ? 'pass' : 'fail', n - 1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isChoice, card]);
+
+  const done = graded !== null;
+  const timeUp = timedOut && left !== null && left <= 0;
 
   return (
     <section className="oq2-sheet" role="dialog" aria-modal="true" aria-labelledby="oq2-card-title">
-      <div className="oq2-card" data-level={card.level}>
+      <div className={`oq2-card oq2-card--q${done ? (graded === 'pass' ? ' is-pass' : ' is-fail') : ''}`} data-level={card.level} data-kind={card.kind}>
         <div className="oq2-card__head">
           <LevelPill level={card.level} />
           <span className="oq2-demo-tag">THẺ DEMO</span>
           {props.chainIndex ? <span className="oq2-tag oq2-tag--chain">Ăn liên hoàn · thẻ thứ {props.chainIndex + 1}</span> : null}
-          <span className={`oq2-timer${left !== null && left <= 5 ? ' is-urgent' : ''}`} role="timer" aria-live="off">
-            {left === null ? 'Không bấm giờ' : `${left} giây`}
+          <span className={`oq2-timer${left !== null && left <= 5 && !done ? ' is-urgent' : ''}`} role="timer" aria-live="off">
+            {left === null ? 'Không bấm giờ' : timeUp ? 'Hết giờ' : `${left} giây`}
           </span>
         </div>
-        <p className="oq2-card__theme"><ThemeIcon theme={card.theme} size={16} /> {THEMES[card.theme].name}</p>
+        <p className="oq2-card__theme"><ThemeIcon theme={card.theme} size={16} /> {THEMES[card.theme].name} · {props.answerer} trả lời</p>
         <h2 className="oq2-card__title" id="oq2-card-title" tabIndex={-1} ref={titleRef}>{card.title}</h2>
-        <h3 className="oq2-card__label">Bối cảnh</h3>
         <p className="oq2-card__text">{card.context}</p>
         <div className="oq2-card__challenge">
           <h3 className="oq2-card__label">Thử thách</h3>
           <p className="oq2-card__text">{card.challenge}</p>
         </div>
-        <p className="oq2-card__roles">
-          Người trả lời: <strong>{props.answerer}</strong> · Trọng tài: <strong>{props.referee}</strong> · Đáp án đang ẩn
-        </p>
-      </div>
-      <div className="oq2-sheet__actions">
-        <button type="button" className="oq2-btn oq2-btn--primary" onClick={finish}>Xong</button>
-      </div>
-    </section>
-  );
-}
 
-type RefState = 'hidden' | 'a' | 'b' | 'c' | 'd';
-
-/** S7 — Trọng tài: (a) chưa chọn → (b) đã chọn, chờ xác nhận → (c) xem lại → (d) đã chốt. */
-export function RefereePanel(props: {
-  card: DemoCard;
-  answerer: string;
-  referee: string;
-  pitName: string;
-  timedOut: boolean;
-  onCommit: (verdict: Verdict) => void;
-  onContinue: () => void;
-}) {
-  const [stage, setStage] = useState<RefState>('hidden');
-  const [choice, setChoice] = useState<Verdict | null>(null);
-  const [ticks, setTicks] = useState<boolean[]>(() => props.card.keyPoints.map(() => false));
-  const [announce, setAnnounce] = useState('');
-  const headRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => { headRef.current?.focus(); }, [stage === 'hidden', stage === 'c', stage === 'd']);
-
-  const choose = (v: Verdict) => {
-    if (stage === 'd') return;
-    setChoice(v);
-    setStage('b');
-    setAnnounce(`Đã chọn: ${v === 'pass' ? 'Đạt' : 'Chưa đạt'}, chưa ghi vào ván.`);
-  };
-  const commit = () => {
-    if (!choice || stage === 'd') return;
-    props.onCommit(choice);
-    setStage('d');
-    setAnnounce(`Đã chốt: ${choice === 'pass' ? 'Đạt' : 'Chưa đạt'}.`);
-  };
-  const vName = (v: Verdict | null) => (v === 'pass' ? 'Đạt' : v === 'fail' ? 'Chưa đạt' : '');
-  const steps = ['Chọn kết quả', 'Xem lại', 'Đã chốt'];
-  const stepIdx = stage === 'c' ? 1 : stage === 'd' ? 2 : 0;
-
-  return (
-    <section className="oq2-sheet oq2-sheet--referee" role="dialog" aria-modal="true" aria-labelledby="oq2-ref-title">
-      {stage === 'hidden' ? (
-        <div className="oq2-card oq2-card--plain">
-          <h2 className="oq2-card__title" id="oq2-ref-title" tabIndex={-1} ref={headRef}>
-            {props.timedOut ? 'Hết giờ' : `${props.answerer} đã trả lời xong`}
-          </h2>
-          <p className="oq2-card__text">
-            {props.referee} (Trọng tài) mở đáp án mẫu. Cả hai người cùng xem. Kết quả chỉ ghi vào ván khi bấm “Chốt kết quả”.
-          </p>
-          <div className="oq2-sheet__actions">
-            <button type="button" className="oq2-btn oq2-btn--forest" onClick={() => setStage('a')}>Mở đáp án mẫu</button>
-          </div>
-        </div>
-      ) : (
-        <div className="oq2-referee">
-          <div className="oq2-answer">
-            <p className="oq2-answer__eyebrow">ĐÁP ÁN · CẤP {props.card.level} · <span className="oq2-demo-tag oq2-demo-tag--dark">THẺ DEMO</span></p>
-            <h3 className="oq2-answer__title">{props.card.title}</h3>
-            <p className="oq2-answer__label">TRỌNG TÀI DUYỆT KHI</p>
-            <p className="oq2-answer__text">{props.card.refereeGuide}</p>
-          </div>
-          <div className="oq2-judge">
-            <ol className="oq2-stepper oq2-stepper--small" aria-label="Các bước chấm">
-              {steps.map((s, i) => (
-                <li key={s} className={i === stepIdx ? 'is-current' : i < stepIdx ? 'is-done' : ''} aria-current={i === stepIdx ? 'step' : undefined}>
-                  <span>{i + 1}</span>{s}
-                </li>
-              ))}
-            </ol>
-            <h2 className="oq2-judge__title" id="oq2-ref-title" tabIndex={-1} ref={headRef}>
-              {stage === 'c' ? 'Xem lại trước khi chốt' : stage === 'd' ? `Đã chốt: ${vName(choice)}` : `${props.referee} chấm câu trả lời của ${props.answerer}`}
-            </h2>
-
-            {stage === 'c' ? (
-              <dl className="oq2-review">
-                <div><dt>Thẻ</dt><dd>{props.card.title} · Cấp {props.card.level}</dd></div>
-                <div><dt>Người trả lời</dt><dd>{props.answerer}</dd></div>
-                <div><dt>Ô thử thách</dt><dd>{props.pitName}</dd></div>
-                <div><dt>Lựa chọn</dt><dd>{vName(choice)}</dd></div>
-                <div><dt>Ý đã ghi lại</dt><dd>{props.card.keyPoints.filter((_, i) => ticks[i]).join('; ') || 'Không ghi ý nào'}</dd></div>
-                <div><dt>Nếu chốt</dt><dd>{choice === 'pass' ? `${props.answerer} thu hoạch ô ${props.pitName}.` : 'Hạt giữ nguyên ở ô, đổi lượt.'}</dd></div>
-              </dl>
-            ) : (
-              <fieldset className="oq2-checklist" disabled={stage === 'd'}>
-                <legend>Checklist chỉ ghi lại ý đã nghe. Trọng tài tự quyết kết quả.</legend>
-                {props.card.keyPoints.map((k, i) => (
-                  <label key={k} className="oq2-check">
-                    <input type="checkbox" checked={ticks[i]} onChange={() => setTicks((t) => t.map((v, j) => (j === i ? !v : v)))} />
-                    <span>{k}</span>
-                  </label>
-                ))}
-              </fieldset>
-            )}
-
-            <div className="oq2-judge__actions">
-            {stage === 'a' || stage === 'b' ? (
-              <div className="oq2-verdicts">
-                <button type="button" className={`oq2-btn oq2-verdict${choice === 'pass' ? ' is-chosen' : ''}`} aria-pressed={choice === 'pass'} onClick={() => choose('pass')}>
-                  <span aria-hidden="true">✓</span> Đạt{choice === 'pass' ? <small>Đang chọn</small> : null}
+        {isChoice ? (
+          <div className="oq2-options-q" role="group" aria-label="Chọn một đáp án">
+            {card.options?.map((o, i) => {
+              const state = !done ? '' : i === card.correct ? ' is-right' : i === picked ? ' is-wrong' : ' is-dim';
+              return (
+                <button
+                  key={o}
+                  type="button"
+                  className={`oq2-btn oq2-choice${state}`}
+                  disabled={done}
+                  onClick={() => resolve(i === card.correct ? 'pass' : 'fail', i)}
+                >
+                  <b aria-hidden="true">{LETTERS[i]}</b>
+                  <span>{o}</span>
+                  {done && i === card.correct ? <i aria-hidden="true">✓</i> : null}
+                  {done && i === picked && i !== card.correct ? <i aria-hidden="true">✕</i> : null}
                 </button>
-                <button type="button" className={`oq2-btn oq2-verdict${choice === 'fail' ? ' is-chosen' : ''}`} aria-pressed={choice === 'fail'} onClick={() => choose('fail')}>
-                  <span aria-hidden="true">✕</span> Chưa đạt{choice === 'fail' ? <small>Đang chọn</small> : null}
-                </button>
-              </div>
-            ) : null}
-
-            {stage === 'a' ? <p className="oq2-note">Kết quả chỉ ghi vào ván khi bấm “Chốt kết quả”.</p> : null}
-
-            {stage === 'b' ? (
-              <div className="oq2-pending">
-                <p><strong>Đã chọn: {vName(choice)}</strong><br />Chưa ghi vào ván. Có thể đổi lựa chọn.</p>
-                <div className="oq2-pending__actions">
-                  <button type="button" className="oq2-btn oq2-btn--ghost" onClick={() => setStage('c')}>Xem lại</button>
-                  <button type="button" className="oq2-btn oq2-btn--forest" onClick={commit}>Chốt kết quả</button>
+              );
+            })}
+          </div>
+        ) : (
+          <>
+            <div className="oq2-guide">
+              <button type="button" className="oq2-btn oq2-btn--small oq2-btn--ghost" aria-expanded={showGuide} onClick={() => setShowGuide((v) => !v)}>
+                {showGuide ? 'Ẩn đáp án mẫu' : 'Xem đáp án mẫu'}
+              </button>
+              {showGuide ? (
+                <div className="oq2-guide__body">
+                  <p><b>Đáp án mẫu:</b> {card.refereeGuide}</p>
+                  <ul>{card.keyPoints.map((k) => <li key={k}>{k}</li>)}</ul>
+                  <p className="oq2-note">Tiêu chí tham khảo, {props.opponent} tự quyết.</p>
                 </div>
-              </div>
-            ) : null}
-
-            {stage === 'c' ? (
-              <div className="oq2-pending__actions">
-                <button type="button" className="oq2-btn oq2-btn--ghost" onClick={() => setStage('b')}>Sửa lựa chọn</button>
-                <button type="button" className="oq2-btn oq2-btn--forest" onClick={commit}>Chốt kết quả</button>
-              </div>
-            ) : null}
-
-            {stage === 'd' ? (
-              <div className="oq2-locked">
-                <p>Trọng tài {props.referee} đã chốt: <strong>{vName(choice)}</strong>. Đã ghi vào ván, không hoàn tác.</p>
-                <button type="button" className="oq2-btn oq2-btn--primary" onClick={props.onContinue}>Tiếp tục</button>
-              </div>
-            ) : null}
+              ) : null}
             </div>
-          </div>
-        </div>
-      )}
-      <p className="oq2-sr" aria-live="polite">{announce}</p>
+            <div className="oq2-verdicts" role="group" aria-label={`${props.opponent} đánh giá câu trả lời`}>
+              <button type="button" className={`oq2-btn oq2-verdict${graded === 'pass' ? ' is-chosen' : ''}`} disabled={done} onClick={() => resolve('pass')}>
+                <span aria-hidden="true">✓</span> Đạt
+              </button>
+              <button type="button" className={`oq2-btn oq2-verdict oq2-verdict--fail${graded === 'fail' ? ' is-chosen' : ''}`} disabled={done} onClick={() => resolve('fail')}>
+                <span aria-hidden="true">✕</span> Chưa đạt
+              </button>
+            </div>
+            <p className="oq2-card__roles">{props.opponent} đánh giá câu trả lời của {props.answerer}.</p>
+          </>
+        )}
+
+        {done ? (
+          <p className={`oq2-feedback ${graded === 'pass' ? 'is-pass' : 'is-fail'}`} role="status">
+            <strong>
+              {isChoice
+                ? graded === 'pass' ? 'Chính xác!' : timeUp ? 'Hết giờ.' : 'Chưa đúng.'
+                : graded === 'pass' ? 'Đạt!' : 'Chưa đạt.'}
+            </strong>{' '}
+            {isChoice ? card.explain : card.remember}
+          </p>
+        ) : null}
+      </div>
     </section>
   );
 }
