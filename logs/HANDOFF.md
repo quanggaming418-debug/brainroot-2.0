@@ -1,5 +1,14 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-23 18:10 — BR-T034 Ô ăn quan xanh V2 bản chơi thử · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t034-oanquan-v2-playtest` xếp trên commit BR-T033 `40dddfa` (chưa push).
+- **Mở chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html (chỉ dev; không có trong `dist/`).
+- **File mới:** `src/features/oanquan-v2/{engine,content,ui}/`, `tests/oanquan-v2-engine.test.ts`, `dev/oanquan-v2.html`, `.claude/launch.json` (cấu hình dev server cho Claude Code). Không sửa file production nào.
+- **Kiểm thử:** typecheck PASS · unit 81/81 PASS · build PASS, `dist/` sạch V2 · Playwright tự chơi trọn ván ở 5 kích thước PASS · bàn phím 1 lượt PASS. Lint, thiết bị thật, trình đọc màn hình: NOT RUN.
+- **Không stage:** `brainroot-assets*/`, `tools/oanquan-rules-form/` (Google Form đã dừng).
+- **Việc tiếp:** Product Owner chơi thử; quyết định commit; sau đó mới tính tới đưa ra production (cần thẻ đã duyệt quyền, ASSET_AUDIT, cờ build theo ADR-0006).
+
 ## 2026-11-23 12:15 — BR-T032/BR-T033 Ô ăn quan xanh V2 (tài liệu, trước G1) · Claude Code → Product Owner & nhóm Brainroot
 
 - **Trạng thái:** BR-T033 nghiệm thu **APPROVED WITH MINOR CORRECTIONS** (23/11); BR-T032 bản 1.1 nghiệm thu cùng. Chỉ tài liệu. **Commit cục bộ** trên nhánh dưới đây (chưa push/PR/merge/deploy), chờ nghiệm thu commit. **G1 chưa được phép bắt đầu.**

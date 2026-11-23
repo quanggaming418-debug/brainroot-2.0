@@ -229,3 +229,12 @@
 - Sửa: `docs/decisions/0006-oanquan-v2-2-5d-architecture.md` → ACCEPTED + mục "Điều kiện chấp thuận" (G2 sau G1 PASS; prototype UI độc lập cần task + phê duyệt riêng; feature flag phải loại module/asset/dữ liệu chưa công khai khỏi production bundle, không chỉ ẩn route; G2 phải kiểm bằng production build + file trong `dist/`; không luật gameplay mặc định). Đồng bộ trạng thái trong `docs/DECISIONS.md`, `docs/oanquan-v2/README.md`, báo cáo BR-T032 (checklist mục 7, 8 ✅), `planning/{TASKS,PROJECT_STATE}.md`, `logs/{HANDOFF,WORK_LOG}.md`.
 - Kiểm tra trước commit: `git status`, `git diff --check`, phạm vi file, không `src/`/`public/`/route/config, không stage `brainroot-assets*/`, không Word/PDF/ZIP/artwork. Kết quả: `git diff --check` không lỗi; chỉ file trong `docs/`, `planning/`, `logs/`. Kiểm thử 12:19: `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 62/62 PASS · `npm run build` PASS (chunk chính 1.042,08 kB, cảnh báo cũ) · `dist/` 0 kết quả cho tài liệu/asset/thẻ V2 · lint NOT RUN (không có script).
 - Không tạo task G1; G1 vẫn chặn bởi nhóm A + `OQ-15` + `OQ-16`.
+
+## Session: 2026-11-23 18:10+07:00 — Claude Code — BR-T034 (Ô ăn quan xanh V2: G1 engine + G2 dev preview)
+
+- **Task & goal:** theo quyết định mới của Product Owner (bỏ khảo sát nhóm, duyệt luật bản thử PLAYTEST V0), dựng engine G1 và bản chơi thử dev-only. Không sửa route production, không Three.js, không push/deploy.
+- **Status before → after:** TODO → IN_REVIEW.
+- **Files:** mới `src/features/oanquan-v2/engine/{ring,rules,engine,index}.ts`, `content/{themes,demoCards}.ts`, `ui/{Board,Challenge,Icons,OAnQuanV2App,main}.tsx`, `ui/oanquan-v2.css`, `tests/oanquan-v2-engine.test.ts`, `dev/oanquan-v2.html`, `.claude/launch.json`; sửa `planning/{TASKS,PROJECT_STATE}.md`, `logs/{HANDOFF,WORK_LOG,CODEX_LOG}.md`.
+- **Ghi chú luật:** chủ đề từng ô lấy theo giá trị tạm của mockup G0.5 (lớp nội dung, không phải luật engine). Thẻ là 14 thẻ DEMO tự viết, không trích PDF.
+- **Tests:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 81/81 PASS (19 test engine, mô phỏng 3.000 ván: 3.000 kết thúc, bất biến luôn giữ) · `npm run build` PASS, hash JS production không đổi, `grep` `dist/` không thấy mã/thẻ V2 · Playwright Chromium tự chơi trọn ván ở 1280×800, 390×844, 360×740, 768×1024, 844×390 (có reduced motion), 0 lỗi console, 0 tràn ngang, nút chính trong màn hình, điểm không đổi trước "Chốt kết quả" · bàn phím 1 lượt PASS. NOT RUN: lint, thiết bị/Safari thật, trình đọc màn hình.
+- **Git commit SHA:** `NOT COMMITTED`.
