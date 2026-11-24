@@ -75,14 +75,25 @@ Nguồn: `artwork/assetkit/Brainroot_OAnQuanXanh_V2_AssetKit/production/backgrou
 2. Khi có dòng được duyệt: chuyển nội dung tương ứng vào `docs/ASSET_AUDIT.md`, ghi đúng nhãn AI.
 3. Chỉ sau đó task G2 mới được chép file (đã chuyển đổi định dạng, ghi hash mới) vào repo.
 
-## 5. ArtPack V3 — ĐÃ CÓ TRONG REPO từ BR-T037 (cập nhật BR-T042, trước khi tạo PR)
+## 5. ArtPack V3 — ĐÃ CÓ TRONG REPO từ BR-T037 (cập nhật BR-T042; nguồn gốc xác nhận 24/11/2026)
 
-Mục 1–3 ở trên là Token Art V2 / Asset Kit V2 (placeholder, **không** có trong repo). Các tệp dưới đây thuộc **ArtPack V3** (gói ngày 23/11/2026) và **đã nằm trong `src/features/oanquan-v2/assets/`**; chúng chỉ được đóng gói vào `dist/` khi bật V2 (`VITE_OQV2_MODE=demo|full`), nhưng **sẽ công khai ngay khi push vì repo GitHub là công khai**.
+Mục 1–3 ở trên là Token Art V2 / Asset Kit V2 (placeholder, **không** có trong repo). Các tệp dưới đây thuộc **ArtPack V3** (gói ngày 23/11/2026) và **đã nằm trong `src/features/oanquan-v2/assets/`**; chúng chỉ được đóng gói vào `dist/` khi bật V2 (`VITE_OQV2_MODE=demo|full`), nhưng **công khai ngay khi push vì repo GitHub là công khai** (đã được Product Owner cho phép trong phạm vi RC1, xem bên dưới).
 
-Tình trạng nguồn gốc/quyền (theo README và `ASSET_MANIFEST.json` của gói V3, không nằm trong repo):
-- **Linh vật:** hai master do Product Owner cung cấp (khớp từng byte với `public/assets/hero-v4/`, đã công khai trong `origin/main`); 12 pose là PNG tách nền từ bảng biểu cảm PO đã đồng ý. Quyền công bố thương mại: `BR-T002` / `OQ-20` còn mở.
-- **Nền vườn (2), bàn tay (5), SVG (19):** gói V3 **không ghi tác giả, công cụ tạo hay giấy phép**. Nền vườn có khả năng là ảnh AI (cùng họ với nền Asset Kit V2 đã ghi "AI-generated"). Không có metadata nhúng (đã quét PNG/WebP/SVG: không EXIF/XMP, không công cụ, không URL/font ngoài). **Quyền = CHƯA XÁC MINH** cho tới khi Product Owner xác nhận (`OQ-20`).
-- Âm thanh: tổng hợp bằng Web Audio trong mã, không dùng tệp âm thanh bên thứ ba.
+Nguồn gốc theo **xác nhận của Product Owner (24/11/2026)**, thay cho ghi chú "chưa xác minh" trước đó:
+
+| Nhóm | Nguồn gốc (PO xác nhận) | Ghi chú |
+|---|---|---|
+| Linh vật Brainie và Rootie (master) | **Hình gốc do Product Owner cung cấp** | Khớp từng byte với `public/assets/hero-v4/` đã có trong `origin/main` |
+| Bảng biểu cảm → 12 pose PNG | **Tạo bằng ChatGPT** dựa trên hai linh vật gốc; PO đã duyệt | Pose tách nền từ bảng đã duyệt, không vẽ lại |
+| Nền vườn (2), bàn tay hoạt họa (5) | **Tạo bằng ChatGPT** trong quá trình phát triển Brainroot | Ảnh do AI tạo |
+| SVG (19), icon chủ đề, hiệu ứng | Xây dựng trong quá trình tạo ArtPack V3 **với ChatGPT** | Không có metadata/URL/font ngoài (đã quét) |
+| Âm thanh | Tổng hợp bằng Web Audio trong mã nguồn | Không dùng tệp âm thanh bên thứ ba |
+
+**Khai báo AI:** các tài nguyên do ChatGPT tạo (bảng biểu cảm/pose, nền vườn, bàn tay, SVG/icon/hiệu ứng) là **nội dung do AI tạo**; cần khai báo công cụ AI trong hồ sơ Hackathon nếu BTC yêu cầu (`docs/HACKATHON_COMPLIANCE.md`). Điều khoản tham chiếu do PO nêu: OpenAI Terms of Use (https://openai.com/policies/terms-of-use/); dự án không tự diễn giải điều khoản ở đây.
+
+**Phạm vi quyền (OQ-20):** Phạm vi xác nhận (Product Owner, 24/11/2026): **công bố các tài nguyên thuộc RC1 trên repository GitHub công khai và website Brainroot phục vụ Hackathon**. **KHÔNG** phải xác minh quyền khai thác thương mại và **KHÔNG** phải giấy phép tái sử dụng cho bên thứ ba: dự án không cấp quyền tái sử dụng các tài nguyên này cho ai khác.
+- Đã được phép: giữ trong repo GitHub công khai và phục vụ trên website Brainroot cho Hackathon.
+- **Chưa xác minh / không tuyên bố:** quyền khai thác thương mại, quyền sở hữu bản quyền đối với đầu ra AI ở các khu vực pháp lý, giấy phép tái sử dụng cho bên thứ ba, quyền thương mại của hình Brainie/Rootie (`BR-T002` vẫn mở).
 
 | Tệp (trong `assets/`) | SHA-256 (đầu) | Kích thước | Vai trò |
 |---|---|---|---|

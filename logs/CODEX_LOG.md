@@ -303,3 +303,8 @@
 - **Kiểm tra hết giờ (đồng hồ thật, không giả lập): thẻ TRẮC NGHIỆM — hiện "Hết giờ", tự chấm Chưa đúng, hiện đáp án đúng, khóa các lựa chọn, đóng thẻ sau phản hồi, điểm không đổi, ván tiếp tục; thẻ CÂU MỞ — đồng hồ dừng ở "Hết giờ", thẻ KHÔNG tự đóng, đối thủ vẫn bấm Đạt/Chưa đạt được và thẻ đóng đúng một lần. Không phát hiện bug, không sửa mã.
 - **Thêm:** `scripts/build-full.mjs` + `npm run build:full` (thử với mã tham chiếu thử trong thư mục gitignore rồi xóa: Cloudflare base `/`, không `404.html`, 95 tệp; GitHub base `/brainroot-2.0/`, có `404.html`, 96 tệp; cả hai `--full` OK 100 thẻ; thiếu `OQV2_PUBLICATION_APPROVAL` → dừng). Kế hoạch Cloudflare ở playbook §6.
 - **Git commit SHA:** xem commit "BR-T042" trên nhánh `codex/br-t042-release-candidate`.
+
+## Session: 2026-11-24 — Claude Code — Asset Audit/OQ-20 theo xác nhận nguồn gốc ArtPack V3
+
+- Ghi nguồn gốc theo xác nhận của PO (ChatGPT cho pose/nền/bàn tay/SVG; hình gốc của PO cho Brainie/Rootie; Web Audio cho âm thanh), phạm vi công bố RC1/Hackathon, và các điều **không** tuyên bố (quyền thương mại, cấp phép lại, sở hữu bản quyền đầu ra AI). Không đổi mã, UI, asset hay nội dung.
+- **Git commit SHA:** xem commit tiếp theo trên `codex/br-t042-release-candidate`.

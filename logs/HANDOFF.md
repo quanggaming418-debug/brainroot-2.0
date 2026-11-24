@@ -2,6 +2,12 @@
 
 > **Trạng thái hiện hành nằm ở mục BR-T042 (nghiệm thu cuối) ngay dưới đây và `planning/PROJECT_STATE.md`.** Các mục cũ hơn là lịch sử bàn giao (append-only), không phải chỉ dẫn hiện hành.
 
+## 2026-11-24 — Xác nhận nguồn gốc ArtPack V3 và cho phép push/PR · Claude Code → Product Owner
+
+- **Xác nhận của PO:** Brainie/Rootie là hình gốc của PO; bảng biểu cảm, nền vườn, bàn tay, SVG/icon/hiệu ứng tạo bằng ChatGPT (AI) và PO đã duyệt; âm thanh tổng hợp Web Audio. PO có quyền dùng và cho phép công bố trong phạm vi RC1 trên repo GitHub công khai + website Brainroot phục vụ Hackathon. **Không** xác minh quyền thương mại, **không** cấp phép tái sử dụng cho bên thứ ba.
+- **Cập nhật:** `docs/oanquan-v2/ASSET_AUDIT_DRAFT.md` §5, `OQ-20` (RESOLVED phạm vi RC1), `PROJECT_STATE.md`, `RELEASE_PLAYBOOK.md`.
+- **Quyết định:** giữ `.claude/launch.json`; giữ toàn bộ lịch sử commit; merge commit, không squash; giữ Cloudflare Pages project `brainroot`, không tạo project mới. Chưa merge, chưa đổi Cloudflare, chưa deploy FULL.
+
 ## 2026-11-24 — Chuẩn bị GitHub PR (sau RC1 `2b6b78b`) · Claude Code → Product Owner
 
 - **Trạng thái:** chưa push/PR/merge/deploy; chưa đổi cấu hình Cloudflare. Commit tài liệu chuẩn bị PR trên `codex/br-t042-release-candidate`.

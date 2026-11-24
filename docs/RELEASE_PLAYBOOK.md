@@ -40,7 +40,7 @@ Repository vẫn chứa: mã V2, art ArtPack V3 (`src/features/oanquan-v2/assets
 ## 4. Điều kiện còn thiếu trước khi công bố
 1. Lệnh trực tiếp của Product Owner cho push/PR/merge/deploy.
 2. `OQ-19` — quyền công bố 100 thẻ gốc bằng văn bản (mở khóa chế độ FULL); hiện chỉ nội bộ.
-3. `OQ-20` / `BR-T002` — quyền công bố art V3, Brainie/Rootie, âm thanh.
+3. `BR-T002` — quyền thương mại art V3/Brainie/Rootie (công bố trong phạm vi RC1/Hackathon đã được Product Owner xác nhận ở `OQ-20`, 24/11/2026; không phải quyền thương mại, không phải giấy phép cho bên thứ ba). Art V3 là nội dung do AI (ChatGPT) tạo: khai báo AI nếu BTC yêu cầu.
 4. `BR-T005` — thẻ công khai Fact–Act đã duyệt; thông tin liên hệ chính thức cho `/connect`, `/about`.
 5. Kiểm tra trên thiết bị thật (iOS Safari, Android Chrome, âm thanh, cảm ứng) và smoke test URL thật sau deploy.
 6. Nghe thử âm thanh bởi người; dịch thẻ sang tiếng Anh nếu cần (`OQ-21`).
@@ -95,4 +95,4 @@ npx wrangler pages deploy dist-full --project-name brainroot --branch <productio
 Phương án thay thế nếu không muốn tắt deploy tự động: giữ Git deploy cho OFF/DEMO và chỉ dùng chế độ FULL ở nơi khác (ví dụ GitHub Pages dự phòng bằng `npm run build:full -- --host=github`) — nhưng GitHub Pages triển khai từ CI nên cũng không có bộ thẻ; vì vậy FULL luôn là thao tác thủ công từ máy có dữ liệu.
 
 ## 7. Trước khi push (rà soát PR đơn nhất)
-Xem `planning/PROJECT_STATE.md` và nội dung PR dự thảo do BR-T042 chuẩn bị. Các điều kiện còn mở trước khi push vào repo **công khai**: OQ-20 (quyền công bố art V3, trong đó nguồn gốc của nền vườn/bàn tay/SVG chưa được ghi trong gói) và khai báo AI nếu BTC yêu cầu (`docs/HACKATHON_COMPLIANCE.md`).
+Xem `planning/PROJECT_STATE.md` và nội dung PR dự thảo do BR-T042 chuẩn bị. Quyền công bố art V3 trên repo công khai và website cho Hackathon đã được Product Owner xác nhận (24/11/2026, `OQ-20`), nguồn gốc ghi ở `docs/oanquan-v2/ASSET_AUDIT_DRAFT.md` §5; không bao gồm quyền thương mại hay cấp phép lại. Còn lại: khai báo AI nếu BTC yêu cầu (`docs/HACKATHON_COMPLIANCE.md`).
