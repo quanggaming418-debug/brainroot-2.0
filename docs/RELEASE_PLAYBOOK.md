@@ -5,12 +5,12 @@ Cloudflare Pages là host chính; GitHub Pages là host dự phòng. **Không pu
 ## 1. Cấu hình theo host
 | | Cloudflare Pages (chính) | GitHub Pages (dự phòng) |
 |---|---|---|
-| Build | `npm ci && npm run build`, output `dist` | workflow `.github/workflows/deploy.yml` (typecheck + build) |
+| Build | Production FULL: `npm run build:full`, upload `dist-full/` qua Wrangler. Preview Git: `npm ci && npm run build`, output `dist` | workflow `.github/workflows/deploy.yml` (typecheck + build) |
 | Base URL | `/` — tự đặt khi `CF_PAGES=1` (Cloudflare đặt sẵn), hoặc `VITE_BASE_PATH=/` | `/brainroot-2.0/` (mặc định) |
 | SPA / deep-link | Cloudflare tự fallback về `index.html` **khi không có `404.html`**; lệnh build của dashboard Cloudflare xóa `dist/404.html` (`rm -f dist/404.html` trong build command; repo không tự xóa); `npm run build:full` (host cloudflare) tự xóa | `public/404.html` đưa trình duyệt về entry rồi `main.tsx` khôi phục route/query/hash |
 | Chế độ V2 | biến môi trường Pages: `VITE_OQV2_MODE` | đặt trong workflow (`env:`) nếu muốn bật; mặc định OFF |
 
-Đã kiểm thử bằng máy chủ mô phỏng hai host trên 4 bản build (gh/cf × cờ tắt/bật): deep-link `/games/fact-act`, `/learn`, `/about`, `/games/o-an-quan-xanh`, `/games/o-an-quan-xanh/play?x=1#h` và 404 đều đúng. **Chưa** kiểm tra trên host thật.
+Đã kiểm thử bằng máy chủ mô phỏng hai host trên 4 bản build (gh/cf × cờ tắt/bật): deep-link `/games/fact-act`, `/learn`, `/about`, `/games/o-an-quan-xanh`, `/games/o-an-quan-xanh/play?x=1#h` và 404 đều đúng. Xem trạng thái production và bằng chứng release mới nhất trong `planning/PROJECT_STATE.md`.
 
 ## 2. Ba chế độ phát hành (BR-T042)
 Chọn bằng biến build `VITE_OQV2_MODE`. **Mặc định OFF.** (`VITE_ENABLE_OQV2=true` cũ chỉ còn nghĩa là DEMO, không bao giờ là FULL.)
@@ -37,63 +37,41 @@ Giao diện V2 có VI/EN theo ngôn ngữ chung của website (`useI18n`); đổ
 ## 3. Cờ tắt không có nghĩa là repo được bảo mật
 Repository vẫn chứa: mã V2, art ArtPack V3 (`src/features/oanquan-v2/assets/`), tài liệu `docs/oanquan-v2/`, thẻ DEMO. Nếu repo công khai, những thứ này hiển thị. Đã quét toàn bộ lịch sử git và cây làm việc: **không** có 100 thẻ thật/đáp án/PDF/`internal-data` (`internal-data/` gitignore; không PDF nào được theo dõi). Chỉ một tiêu đề thẻ mẫu ("Ma Trận Rửa Bát") đã có sẵn trong tài liệu G0.5 từ BR-T033.
 
-## 4. Điều kiện còn thiếu trước khi công bố
-1. Lệnh trực tiếp của Product Owner cho push/PR/merge/deploy.
-2. `OQ-19` — quyền công bố 100 thẻ gốc bằng văn bản (mở khóa chế độ FULL); hiện chỉ nội bộ.
-3. `BR-T002` — quyền thương mại art V3/Brainie/Rootie (công bố trong phạm vi RC1/Hackathon đã được Product Owner xác nhận ở `OQ-20`, 24/11/2026; không phải quyền thương mại, không phải giấy phép cho bên thứ ba). Art V3 là nội dung do AI (ChatGPT) tạo: khai báo AI nếu BTC yêu cầu.
-4. `BR-T005` — thẻ công khai Fact–Act đã duyệt; thông tin liên hệ chính thức cho `/connect`, `/about`.
-5. Kiểm tra trên thiết bị thật (iOS Safari, Android Chrome, âm thanh, cảm ứng) và smoke test URL thật sau deploy.
-6. Nghe thử âm thanh bởi người; dịch thẻ sang tiếng Anh nếu cần (`OQ-21`).
+## 4. Phạm vi duyệt RC1
 
-## 5. Các bước dự kiến (chỉ chạy khi có lệnh)
-1. Product Owner nghiệm thu BR-T041 → commit BR-T041 cục bộ.
-2. `git push -u origin codex/br-t041-release-readiness` (chuỗi commit tuyến tính trên `759c65e`).
-3. Mở PR vào `main`; CI GitHub chạy typecheck + build (bản A). Review diff.
-4. Merge PR. GitHub Pages deploy tự động (bản A, V2 tắt).
-5. Cloudflare Pages: build `npm run build`, output `dist`; biến môi trường theo chế độ OFF, hoặc `VITE_OQV2_MODE=demo` cho DEMO.
-6. Smoke test: trang chủ, `/games`, `/games/fact-act/play`, `/learn`, `/quest`, `/connect`, `/about`; refresh các deep-link; bản B: chơi một ván và bấm "Về trang chủ".
-7. Rollback: đặt `VITE_OQV2_MODE=off` (hoặc bỏ biến) và build lại, hoặc redeploy bản trước.
+- Product Owner đã duyệt công bố 100 thẻ gốc, đáp án và tiêu chí đánh giá cho Hackathon, tham chiếu `BR-RC1-PUBLICATION-20261124` (OQ-19). Quyết định bao gồm deploy Cloudflare production thủ công và tắt automatic production deployments.
+- Quyền ArtPack V3 cho RC1/Hackathon đã được duyệt theo OQ-20. Quyền thương mại theo BR-T002, nội dung Fact–Act theo BR-T005 và dịch bộ thẻ theo OQ-21 theo dõi ở các mục riêng.
+- Dùng QA thiết bị thật cho iOS Safari, Android Chrome, cảm ứng và âm thanh khi có thiết bị.
+
+## 5. Preview Git và GitHub Pages
+
+Cloudflare Preview vẫn build từ các nhánh ngoài `main`, mặc định OFF. GitHub Pages là host dự phòng, mặc định OFF. Deploy FULL từ artifact cục bộ để Git không cần chứa bộ dữ liệu nguồn.
 
 ## 6. Build FULL và triển khai Cloudflare Pages (RC1)
 
-### 6.0 Hiện trạng Cloudflare (Product Owner xác minh qua Cloudflare API, 24/11/2026)
-- Pages project **`brainroot`** (Git, `brainroot-55i.pages.dev`), production branch **`main`**, output `dist`, root `/`; production automatic deployment **bật**; preview deployment **mọi nhánh** (preview `https://<nhánh>.brainroot-55i.pages.dev`).
-- Môi trường build: **Node 22.23.4, npm 10.9.9, Bun 1.4.4**. Build command hiện tại: `npm ci && sed -i "s#base: '/brainroot-2.0/'#base: '/'#" vite.config.ts && npm run build && rm -f dist/404.html`.
-- **Bước cài đặt dependency do Cloudflare tự chọn trình quản lý gói theo lockfile**: có `bun.lock` thì chạy `bun install --frozen-lockfile` TRƯỚC build command. Đó là nguyên nhân Pages đỏ ở PR #16 (`bun.lock` cũ lệch `package.json`: thiếu `@axe-core/playwright`). Đã xử lý bằng cách **xóa `bun.lock`** (repo không dùng Bun: không script, workflow hay tài liệu nào nhắc tới) và ghi `bun.lock`/`bun.lockb` vào `.gitignore`; **npm + `package-lock.json` là nguồn dependency duy nhất**. Không thêm `bun.lock` trở lại.
-- Hệ quả cho cấu hình repo: `sed` trong build command tìm đúng chuỗi `base: '/brainroot-2.0/'` — chuỗi này không còn trong `vite.config.ts` (base nay lấy từ `CF_PAGES`/`VITE_BASE_PATH`), nên `sed` là no-op vô hại; base `/` vẫn đúng nhờ `CF_PAGES=1`. `rm -f dist/404.html` an toàn dù tệp đã tồn tại hay chưa. Có thể rút gọn build command thành `npm ci && npm run build && rm -f dist/404.html` khi Product Owner muốn (không bắt buộc, chưa thay đổi).
-- Workers Builds `brainroot-2-0` (dịch vụ Workers riêng nối cùng repo) đỏ trên mọi nhánh không phải `main` trong lịch sử; được xử lý riêng ở cấp cấu hình Cloudflare, không liên quan mã nguồn.
-- Repo GitHub **công khai**: mọi thứ push lên là công khai.
+### 6.0 Cấu hình đã xác minh ngày 24/11/2026
 
-### 6.1 Bản OFF / DEMO (qua Git, không cần dữ liệu nội bộ)
-- Cloudflare build bằng cloud từ Git (`npm run build`, output `dist`), `CF_PAGES=1` do Cloudflare tự đặt (base `/`). Không đặt biến V2 → **OFF**; hoặc `VITE_OQV2_MODE=demo` → DEMO.
-- **Không** đặt `VITE_OQV2_MODE=full` hay `OQV2_PUBLICATION_APPROVAL` trong Cloudflare: cloud build không có bộ thẻ nên sẽ thất bại (đúng thiết kế), và không bao giờ đưa dữ liệu lên Git.
-- Khi mở PR/đẩy nhánh, Pages tự tạo preview của nhánh ở chế độ OFF (không có V2, không có thẻ) nếu chưa đặt biến V2; kể cả có đặt `VITE_ENABLE_OQV2=true` thì chỉ ra DEMO.
+- Pages project `brainroot` giữ Git integration và URL [brainroot-55i.pages.dev](https://brainroot-55i.pages.dev/). Production branch `main`, automatic production deployments **tắt**, automatic preview deployments **mọi nhánh ngoài production**. Pages vẫn báo check cho các preview PR.
+- Build command của preview giữ nguyên, output `dist`. `CF_PAGES=1` đặt base `/`; build command xử lý `dist/404.html`. npm và `package-lock.json` là nguồn dependency, không thêm lại `bun.lock`.
+- Bản production FULL hiện hành là deployment `73b053ec-6147-45e0-97f0-f1ae25a85a3b` từ commit `5d8e24c853a1fd324858fbb4b7172b757869ff5b`. Rollback OFF đã ghi nhận là `2c9ff6e9-911c-4df0-a933-3d99cc7a44e5` từ `d65b0f9`.
+- Worker phụ `brainroot-2-0` chỉ phục vụ bản tĩnh trên hostname Worker riêng. Đã ngắt kết nối Git ở chính Worker để dừng build dư thừa, giữ Worker và deployment đã có.
 
-### 6.2 Bản FULL: giữ project `brainroot` và URL hiện tại, deploy thủ công bằng Wrangler
-Theo tài liệu Cloudflare (Pages → Configuration → Git integration → *Disable automatic deployments*): project đang nối Git **không thể** chuyển sang Direct Upload, nhưng có thể **tắt automatic deployments trên mọi nhánh**, rồi dùng Wrangler deploy trực tiếp lên chính project đó. Không tạo project mới, không xóa project cũ.
+### 6.1 Quy trình phát hành FULL
 
-Hệ quả cần Product Owner chấp nhận trước khi tắt: sau khi tắt, **mọi** deploy (cả OFF/DEMO) phải làm thủ công; PR không còn tự có preview; check "Cloudflare Pages" trên GitHub sẽ không chạy.
-
-Quy trình (chỉ khi có văn bản cho phép công bố 100 thẻ, `OQ-19`; **chưa thực hiện, chưa đổi cấu hình Cloudflare**):
-1. (Product Owner, dashboard) Workers & Pages → `brainroot` → Settings → Build → Branch control → *Automatic deployments: Disabled* (production và preview).
-2. Trên máy có `internal-data/cards.internal.json` (không commit):
+1. Xác minh scope công bố đã được Product Owner phê duyệt. Lưu ID deployment production hiện tại và cấu hình Branch control để rollback. Kiểm tra `main` là production branch và automatic production deployments đang tắt.
+2. Trên máy có bộ thẻ, chạy các lệnh bên dưới. Wrangler cần quyền Pages write. Nếu phiên hết hạn, chạy `npx wrangler login` và để Product Owner hoàn thành xác thực trình duyệt. Giữ tệp bộ thẻ và output FULL ngoài Git. Cloudflare Git build dùng OFF/DEMO, vì không có dữ liệu nguồn.
 
 ```powershell
-$env:OQV2_PUBLICATION_APPROVAL = "<mã/tham chiếu văn bản cho phép>"
+$env:OQV2_PUBLICATION_APPROVAL = "<tham chiếu phê duyệt>"
 npm ci
-npm run build:full          # Cloudflare: base "/", đã xóa 404.html  →  dist-full/  (đã tự chạy --full isolation)
-npx wrangler login          # lần đầu; tương tác, do Product Owner thực hiện
-# Thử trước trên URL preview (KHÔNG phải production):
-npx wrangler pages deploy dist-full --project-name brainroot --branch rc1-full
-# Sau khi nghiệm thu, đẩy lên production (dùng đúng tên production branch đã kiểm tra trong dashboard):
-npx wrangler pages deploy dist-full --project-name brainroot --branch <production-branch>
+npm run build:full
+node scripts/check-oqv2-isolation.mjs dist-full --full
+npx wrangler pages deploy dist-full --project-name brainroot --branch main
 ```
-3. Preview `https://rc1-full.brainroot-55i.pages.dev` là **URL công khai** (nếu chưa bật Cloudflare Access): chỉ deploy FULL lên đó khi đã có quyền công bố, hoặc bật Access cho preview trước (chưa kiểm tra tính năng này trên tài khoản).
-4. Smoke test: `/`, `/games/o-an-quan-xanh/play` (chip "Bộ 100 thẻ"), refresh deep-link, một ván trọn vẹn, "Về trang chủ".
-5. Rollback: dashboard → Deployments → Rollback về bản trước, hoặc `wrangler pages deploy` lại bản OFF/DEMO.
-6. Sau khi dùng: xóa `dist-full/` khỏi máy dùng chung (đã gitignore, không commit).
 
-Phương án thay thế nếu không muốn tắt deploy tự động: giữ Git deploy cho OFF/DEMO và chỉ dùng chế độ FULL ở nơi khác (ví dụ GitHub Pages dự phòng bằng `npm run build:full -- --host=github`) — nhưng GitHub Pages triển khai từ CI nên cũng không có bộ thẻ; vì vậy FULL luôn là thao tác thủ công từ máy có dữ liệu.
+3. Xác nhận deployment thành công và là production hiện hành của project. Kiểm tra URL chính, CTA ở trang chủ, thư viện và trang chi tiết, nhãn bộ 100 thẻ, đổi VI/EN, tải lại deep-link, hoàn thành một ván và quay về trang chủ. Dùng `/?preview=oanquan3d` để mở prototype rollback.
+4. Nếu cần rollback, chọn deployment trước đó trong Pages → Deployments → Rollback. Giữ automatic production deployments tắt khi rollback thủ công để Git không tự ghi đè production.
+5. Preview Git tiếp tục theo Branch control của project. Chỉ upload FULL lên các URL thuộc phạm vi được duyệt.
 
 ## 7. Trước khi push (rà soát PR đơn nhất)
 Xem `planning/PROJECT_STATE.md` và nội dung PR dự thảo do BR-T042 chuẩn bị. Quyền công bố art V3 trên repo công khai và website cho Hackathon đã được Product Owner xác nhận (24/11/2026, `OQ-20`), nguồn gốc ghi ở `docs/oanquan-v2/ASSET_AUDIT_DRAFT.md` §5; không bao gồm quyền thương mại hay cấp phép lại. Còn lại: khai báo AI nếu BTC yêu cầu (`docs/HACKATHON_COMPLIANCE.md`).

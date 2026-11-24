@@ -13,6 +13,7 @@ export interface GameProductSummary {
   readonly statusTone: 'peach' | 'sage';
   readonly description: string;
   readonly ctaLabel: string;
+  readonly ctaTo?: string;
   readonly secondaryCtaLabel?: string;
   readonly secondaryCtaTo?: string;
   readonly mediaLayout: 'media-left' | 'media-right';
