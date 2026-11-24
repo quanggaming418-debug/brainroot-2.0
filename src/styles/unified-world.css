@@ -1266,6 +1266,10 @@
   align-items: start;
 }
 
+.oq-hero__workspace--full {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .oq-tabletop {
   border-radius: 28px;
   overflow: hidden;

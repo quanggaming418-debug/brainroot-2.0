@@ -11,7 +11,7 @@ export function GameProductShowcase({ product }: GameProductShowcaseProps) {
   const isMediaRight = product.mediaLayout === 'media-right';
   const headingId = `game-showcase-${product.id}`;
   const primaryTo =
-    product.id === 'fact-act' ? '/games/fact-act/play' : product.slug;
+    product.ctaTo ?? (product.id === 'fact-act' ? '/games/fact-act/play' : product.slug);
 
   return (
     <article

@@ -24,6 +24,7 @@ import { GREEN_LEARN_INTRO, GREEN_LEARN_TOPICS, type LearnTopicCard } from '../d
 import { ABOUT_PAGE_CONTENT, GREEN_CONNECT_CONTENT } from '../data/connectAbout';
 import { GREEN_QUEST_LITE_CHALLENGE, type GreenQuestChallenge } from '../features/quest/greenQuestModel';
 import { publicUrl } from '../utils/publicUrl';
+import { OQV2_MODE } from '../utils/featureFlags';
 
 export function getSiteMetaDescription(locale: Locale): string {
   if (locale === 'en') {
@@ -142,7 +143,55 @@ export function getEcosystemAreas(locale: Locale): readonly EcosystemArea[] {
   ];
 }
 
+export function getOAnQuanFullCopy(locale: Locale) {
+  if (OQV2_MODE !== 'full') return null;
+  return {
+    playTo: '/games/o-an-quan-xanh/play',
+    detailTo: '/games/o-an-quan-xanh',
+    ...(locale === 'vi' ? {
+      playLabel: 'Chơi Ô ăn quan xanh',
+      detailLabel: 'Tìm hiểu trò chơi',
+      statusLabel: 'Bản Hackathon · Bộ 100 thẻ',
+      description: 'Chơi Ô ăn quan xanh cùng một người bạn và giải thử thách từ 100 thẻ giáo dục tiếng Việt về 5 chủ đề môi trường.',
+      illustration: 'Minh họa ý tưởng bàn chơi.',
+      explorerNote: 'Chọn một chủ đề và cấp độ để xem trọng tâm học tập.',
+      featuredSummary: 'Chơi Brainroot - Truth or Dare hoặc cùng một người bạn giải thử thách trong Ô ăn quan xanh.',
+      guestDescription: 'Bạn có thể chơi Brainroot - Truth or Dare và Ô ăn quan xanh ngay trên trình duyệt, không cần tài khoản.',
+    } : {
+      playLabel: 'Play Green Ô Ăn Quan',
+      detailLabel: 'About the game',
+      statusLabel: 'Hackathon edition · 100-card deck',
+      description: 'Play Green Ô Ăn Quan with a friend and take on challenges from 100 Vietnamese-language cards across five environmental topics.',
+      illustration: 'Early concept illustration of the board.',
+      explorerNote: 'Select a topic and a level to see their learning focus.',
+      featuredSummary: 'Play Brainroot - Truth or Dare or team up with a friend for environmental challenges in Green Ô Ăn Quan.',
+      guestDescription: 'You can play Brainroot - Truth or Dare and Green Ô Ăn Quan in your browser without an account.',
+    }),
+  };
+}
+
 export function getFeaturedGreenPlayCopy(locale: Locale) {
+  const copy = getFeaturedGreenPlayPreviewCopy(locale);
+  const full = getOAnQuanFullCopy(locale);
+  if (!full) return copy;
+
+  return {
+    ...copy,
+    summary: full.featuredSummary,
+    items: copy.items.map((item) => item.id === 'o-an-quan-xanh' ? {
+      ...item,
+      badge: full.statusLabel,
+      description: full.description,
+      primaryActionLabel: full.playLabel,
+      primaryActionTo: full.playTo,
+      secondaryActionLabel: full.detailLabel,
+      secondaryActionTo: full.detailTo,
+      disclosure: full.illustration,
+    } : item),
+  };
+}
+
+function getFeaturedGreenPlayPreviewCopy(locale: Locale) {
   if (locale === 'vi') return FEATURED_GREEN_PLAY;
   return {
     id: FEATURED_GREEN_PLAY.id,
@@ -300,6 +349,33 @@ export function getBreadcrumbsUiCopy(locale: Locale) {
 }
 
 export function getGreenPlayLibraryCopy(locale: Locale) {
+  const copy = getGreenPlayLibraryPreviewCopy(locale);
+  const full = getOAnQuanFullCopy(locale);
+  if (!full) return copy;
+
+  return {
+    ...copy,
+    products: copy.products.map((product) => product.id === 'o-an-quan-xanh' ? {
+      ...product,
+      statusLabel: full.statusLabel,
+      description: full.description,
+      ctaLabel: full.playLabel,
+      ctaTo: full.playTo,
+      secondaryCtaLabel: full.detailLabel,
+      secondaryCtaTo: full.detailTo,
+      media: { ...product.media, disclosureCaption: full.illustration },
+      specs: product.specs.slice(0, 2),
+    } : product),
+    phygital: {
+      ...copy.phygital,
+      pillars: copy.phygital.pillars.map((pillar, index) => index === 0
+        ? { ...pillar, description: full.guestDescription }
+        : pillar),
+    },
+  };
+}
+
+function getGreenPlayLibraryPreviewCopy(locale: Locale) {
   if (locale === 'vi') {
     return {
       pavilionEyebrow: 'KHÁM PHÁ THƯ VIỆN',
