@@ -1,5 +1,131 @@
 # HANDOFF — Current baton pass
 
+> **Trạng thái hiện hành nằm ở mục BR-T042 (nghiệm thu cuối) ngay dưới đây và `planning/PROJECT_STATE.md`.** Các mục cũ hơn là lịch sử bàn giao (append-only), không phải chỉ dẫn hiện hành.
+
+## 2026-11-24 — PR #16: nguyên nhân Cloudflare Pages đỏ = `bun.lock` cũ · Claude Code → Product Owner
+
+- **Nguyên nhân (log Cloudflare, do PO xác minh):** Cloudflare chọn Bun vì có `bun.lock`; `bun install --frozen-lockfile` thất bại (lockfile lệch `package.json`, thiếu `@axe-core/playwright`) **trước** build command. Giả thuyết `404.html` của tôi ở lượt trước là **sai**: build command thật dùng `rm -f`.
+- **Xử lý:** repo không dùng Bun → `git rm bun.lock` + `.gitignore` bun.lock/bun.lockb; npm + `package-lock.json` là nguồn duy nhất. Cập nhật `RELEASE_PLAYBOOK.md` theo cấu hình Cloudflare thực tế. Thay đổi `vite.config.ts` ở `b4d54d4` giữ nguyên (vô hại, tương thích `rm -f`).
+
+## 2026-11-24 — PR #16: kiểm tra checks · Claude Code → Product Owner
+
+- **PR:** https://github.com/quanggaming418-debug/brainroot-2.0/pull/16 (nhánh `codex/br-t042-release-candidate` → `main`, merge commit, chưa merge).
+- **Cloudflare Pages `brainroot` đỏ ở `b5a6730` — do PR này:** cấu hình build của repo ở BR-T041 tự xóa `dist/404.html` khi `CF_PAGES=1`; lệnh build trong dashboard (theo ghi chú cũ: `--base=/` rồi xóa `404.html`) lại xóa lần nữa, `rm dist/404.html` thất bại khi tệp đã mất (tái hiện cục bộ: exit 1; trên `main` exit 0). Sửa: repo không tự xóa nữa (build:full tự xóa cho bản thủ công). **Giả thuyết dựa trên bằng chứng gián tiếp**; lệnh dashboard chính xác chưa đọc được (cần log Cloudflare).
+- **Workers Builds `brainroot-2-0` đỏ — KHÔNG do PR này:** đỏ trên mọi nhánh không phải `main` trong lịch sử (9/9 nhánh đã kiểm), xanh trên `main`. Nguyên nhân cụ thể nằm trong log dashboard; không sửa mã.
+- Không đổi cấu hình Cloudflare, không deploy FULL.
+
+## 2026-11-24 — Xác nhận nguồn gốc ArtPack V3 và cho phép push/PR · Claude Code → Product Owner
+
+- **Xác nhận của PO:** Brainie/Rootie là hình gốc của PO; bảng biểu cảm, nền vườn, bàn tay, SVG/icon/hiệu ứng tạo bằng ChatGPT (AI) và PO đã duyệt; âm thanh tổng hợp Web Audio. PO có quyền dùng và cho phép công bố trong phạm vi RC1 trên repo GitHub công khai + website Brainroot phục vụ Hackathon. **Không** xác minh quyền thương mại, **không** cấp phép tái sử dụng cho bên thứ ba.
+- **Cập nhật:** `docs/oanquan-v2/ASSET_AUDIT_DRAFT.md` §5, `OQ-20` (RESOLVED phạm vi RC1), `PROJECT_STATE.md`, `RELEASE_PLAYBOOK.md`.
+- **Quyết định:** giữ `.claude/launch.json`; giữ toàn bộ lịch sử commit; merge commit, không squash; giữ Cloudflare Pages project `brainroot`, không tạo project mới. Chưa merge, chưa đổi Cloudflare, chưa deploy FULL.
+
+## 2026-11-24 — Chuẩn bị GitHub PR (sau RC1 `2b6b78b`) · Claude Code → Product Owner
+
+- **Trạng thái:** chưa push/PR/merge/deploy; chưa đổi cấu hình Cloudflare. Commit tài liệu chuẩn bị PR trên `codex/br-t042-release-candidate`.
+- **Rà soát trước push (repo công khai):** diff +9.1k dòng, 104 tệp, 10 commit tuyến tính. Không có thẻ/đáp án (chỉ tiêu đề mẫu "Ma Trận Rửa Bát" đã có trong tài liệu G0.5), PDF, ZIP, `internal-data/`, `dist-full/`, email, bí mật, SĐT, link form. Đã xóa một đường dẫn máy cục bộ khỏi báo cáo BR-T032 (lịch sử commit cũ vẫn chứa dòng đó, không viết lại lịch sử).
+- **Còn mở:** nguồn gốc/giấy phép nền vườn, bàn tay, 19 SVG ArtPack V3 chưa được ghi trong gói (OQ-20); khai báo AI nếu BTC yêu cầu; `.claude/launch.json` (cấu hình dev tool) đang nằm trong diff, tùy chọn gỡ.
+- **Cloudflare (chỉ đọc):** project `brainroot`, Git-integrated, preview theo nhánh; có thêm Workers Builds `brainroot-2-0`. Chưa xác minh được production branch/biến môi trường (cần dashboard).
+
+## 2026-11-24 — BR-T042 nghiệm thu cuối · Release Candidate 1 · Claude Code → Product Owner
+
+- **Trạng thái:** `ACCEPTED_LOCAL`, commit cục bộ trên `codex/br-t042-release-candidate` (xếp trên T041 `d074776`). Không push/PR/merge/deploy.
+- **Hết giờ:** trắc nghiệm → tự chấm Chưa đúng, hiện đáp án, đóng thẻ, ván tiếp tục; câu mở → thẻ giữ nguyên, đối thủ vẫn chấm. Không có bug.
+- **FULL:** `$env:OQV2_PUBLICATION_APPROVAL="<mã văn bản>"; npm run build:full` → `dist-full/` (Cloudflare, base `/`); `-- --host=github` cho GitHub Pages. Triển khai FULL cần Direct Upload (Cloudflare cloud build không có `internal-data/`). Xem `docs/RELEASE_PLAYBOOK.md` §6.
+- **Backlog sau Hackathon:** `OQ-21` dịch 100 thẻ sang tiếng Anh.
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`, `dist-full/`.
+
+## 2026-11-24 — BR-T042 Release Candidate · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t042-release-candidate` trên BR-T041 `d074776`. Không push/PR/merge/deploy.
+- **Chế độ:** `VITE_OQV2_MODE=off|demo|full`; mặc định OFF. FULL chỉ khi có văn bản cho phép: đặt `OQV2_PUBLICATION_APPROVAL` + `OQV2_DECK_FILE`; thiếu → build lỗi. Kiểm tra: `check-oqv2-isolation.mjs` (OFF) / `--leak-only` (DEMO) / `--full`. Xem `docs/RELEASE_PLAYBOOK.md`.
+- **i18n:** V2 có VI/EN theo ngôn ngữ chung của website; thẻ giữ tiếng Việt (OQ-21).
+- **Kiểm thử:** xem `logs/CODEX_LOG.md` (BR-T042). Chưa: nghe âm thanh, thiết bị thật, deploy.
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`.
+
+## 2026-11-24 — BR-T041 chuẩn bị phát hành · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t041-release-readiness` trên BR-T040 `0d66393`. Không push/PR/merge/deploy.
+- **Chuỗi commit vs `origin/main` (`759c65e`):** +8, −0, tuyến tính (T033…T040).
+- **Việc tiếp:** Product Owner ra lệnh push/PR/merge; xem `docs/RELEASE_PLAYBOOK.md`.
+- **Cấu hình:** Cloudflare Pages `CF_PAGES=1` tự đặt base `/` và bỏ `404.html`; GitHub Pages base `/brainroot-2.0/`; V2 bật bằng `VITE_ENABLE_OQV2=true` (chỉ thẻ DEMO).
+- **Kiểm thử:** typecheck, unit 88/88, lint, axe 0 vi phạm, build 4 biến thể, deep-link 2 host mô phỏng, cô lập 2 chế độ. NOT RUN: thiết bị thật, deploy thật.
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`.
+
+## 2026-11-24 — BR-T040 tích hợp website chính · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t040-main-site-integration` trên BR-T039 `d1e3483`; không push/PR/merge/deploy.
+- **Chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/ → Trò chơi → Ô ăn quan xanh → nút chơi (hoặc trực tiếp `/brainroot-2.0/games/o-an-quan-xanh/play`). Local dùng đủ 100 thẻ gốc.
+- **Bật/tắt:** production mặc định tắt. `VITE_ENABLE_OQV2=true npm run build` để bật (chỉ thẻ DEMO). `VITE_ENABLE_OQV2=false npm run dev` để thử cấu hình tắt ở dev. Kiểm tra: `node scripts/check-oqv2-isolation.mjs`.
+- **Điều kiện trước production:** Điều kiện trước khi bật V2 ở production: (1) Product Owner cho phép bật `VITE_ENABLE_OQV2=true`; (2) thẻ chính thức được duyệt công bố (hiện production chỉ có thẻ DEMO tự viết, 100 thẻ gốc chỉ nội bộ — OQ-18); (3) quyết định bộ thẻ riêng cho 2 Ô Quan (OQ-17, đang ánh xạ tạm); (4) luật PLAYTEST_V1 được nhóm chốt (OQ-08, OQ-15, OQ-16 còn mở); (5) quyền sử dụng/bản quyền asset V3 và Brainie/Rootie cho phát hành (BR-T002); (6) QA thiết bị thật + axe/lint; (7) quyết định số phận prototype 3D / `/games/o-an-quan-xanh` theo ADR-0006 (5 điều kiện nghiệm thu thay thế).
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`.
+
+## 2026-11-24 — BR-T039 hoàn thiện sản phẩm · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t039-oanquan-polish` trên BR-T038 `687ca55`; không push/PR/merge/deploy.
+- **Chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html
+- **Thay đổi:** `ui/audio.ts` (mới), `ui/{GameScreen,shared,OAnQuanV2App,Board,playback}.ts(x)`, `ui/oanquan-v2.css`. Engine, thẻ, linh vật không đổi.
+- **Còn mở:** axe/lint chưa chạy; âm thanh chưa được người nghe đánh giá; thiết bị thật chưa thử.
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`.
+
+## 2026-11-24 — BR-T038 100 thẻ gốc vào bản chơi thử (nội bộ) · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t038-oanquan-content` trên BR-T037 `0d5db05`; không push/PR/merge/deploy.
+- **Mở chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html (thanh dev hiện "thẻ nội bộ" khi nạp được bộ thật; "thẻ DEMO" khi thiếu).
+- **Dữ liệu thật:** chỉ ở `internal-data/cards.internal.json` (gitignore, KHÔNG commit, không vào `dist/`). Máy khác muốn chơi bằng bộ thật phải tự có tệp này; không có thì tự dùng thẻ DEMO.
+- **Quy tắc tự chấm:** chỉ thẻ có phương án trong phần Thử thách + đáp án "Chọn X" + không yêu cầu giải thích (6 thẻ). Còn lại đối phương bấm Đạt/Chưa đạt, đáp án mẫu nội tuyến.
+- **Quyết định cần có:** `OQ-17` (bộ thẻ riêng cho 2 Ô Quan; hiện ánh xạ TẠM sang thẻ Cấp 3), `OQ-18` (quyền công bố + chốt 6 thẻ trắc nghiệm).
+- **Kiểm thử:** typecheck PASS · unit 88/88 PASS · build PASS, quét `dist/` 0 nội dung thẻ · Playwright 3 ván PASS. Lint, thiết bị thật: NOT RUN.
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`.
+
+## 2026-11-24 — BR-T037 ArtPack V3 vào bản chơi thử · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t037-oanquan-v3-assets` trên BR-T036 `4c6a4eb` (BR-T035 `ba91740`, BR-T036 `4c6a4eb` đã commit cục bộ để bảo toàn; chưa push).
+- **Mở chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html
+- **Linh vật:** hai master trong gói khớp từng byte với `public/assets/hero-v4/{brainie,rootie}.webp` đã có trong repo → dùng thẳng file repo cho trạng thái mặc định; 10 pose khác lấy từ `mascots/poses/` (tách từ bảng đã duyệt). Không sửa, không sinh mới, không dùng mẫu cũ.
+- **Asset:** 38 file trong `src/features/oanquan-v2/assets/` (chỉ dev); `src/features/oanquan-v2/ui/assets.ts` là nơi khai báo đường dẫn.
+- **Chưa dùng:** `board/board_base_no_pits.svg`, `board/pit_*.svg` (tỉ lệ khác bàn hiện tại, sẽ méo khi kéo giãn), `hand/hand_sprite_strip_5x.png` (đã dùng 5 PNG rời).
+- **Kiểm thử:** typecheck PASS · unit 82/82 PASS · build PASS, `dist/` không có asset V3 · Playwright 3 ván (1440×900, 390×844, 360×740 reduced motion) PASS. Lint, thiết bị thật: NOT RUN.
+- **OQ-14 đã chốt (24/11):** quân Quan = bệ gỗ + Brainie/Rootie nguyên mẫu.
+- **Tiếp theo:** BR-T038 (100 thẻ gốc) chờ Product Owner cung cấp tài liệu nguồn; không tự soạn câu hỏi.
+
+## 2026-11-23 — BR-T036 thẻ một bước + bàn tay hoạt họa · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t036-oanquan-streamlined-challenge` trên BR-T035 `ba91740` (đã commit cục bộ để bảo toàn; chưa push).
+- **Mở chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html
+- **Thay đổi:** bỏ Trọng tài/S7; `ui/Challenge.tsx` một thẻ (trắc nghiệm tự chấm, câu mở đối phương chấm); `ui/Hand.tsx` bàn tay 4 pose; `content/demoCards.ts` thêm 5 thẻ trắc nghiệm; `ui/GameScreen.tsx`, `playback.ts`, CSS cập nhật.
+- **Kiểm thử:** typecheck PASS · unit 82/82 PASS · build PASS, dist sạch V2 · Playwright 5 ván PASS. Lint, thiết bị thật: NOT RUN.
+
+## 2026-11-23 — BR-T035 Ô ăn quan xanh V2: đại tu gameplay + hoạt ảnh · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t035-oanquan-gameplay-overhaul` xếp trên BR-T034 `7494d29` (chưa push).
+- **Mở chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html (chỉ dev).
+- **Luật:** `PLAYTEST_V1` trong `src/features/oanquan-v2/engine/rules.ts` (thay V0). Khác website tham khảo: bù hàng bằng mượn (tham khảo: trừ 5 điểm, thiếu thì xử thua); kết thúc khi hết hai quân Quan (tham khảo: khi hai Ô Quan trống hẳn) nên hạt còn trong Ô Quan không tính; mỗi lần ăn phải qua thẻ + Trọng tài.
+- **File:** sửa `engine/{engine,rules}.ts`, `ui/{Board,Challenge,OAnQuanV2App}.tsx`, `ui/oanquan-v2.css`, `tests/oanquan-v2-engine.test.ts`; mới `ui/{GameScreen,shared}.tsx`, `ui/playback.ts`.
+- **Kiểm thử:** typecheck PASS · unit 81/81 PASS · build PASS, `dist/` sạch V2 · Playwright 5 ván (desktop 1×/2×/4×, mobile 390/360, reduced motion) PASS. Lint, thiết bị thật: NOT RUN.
+- **Không stage:** `brainroot-assets*/`, `tools/`.
+
+## 2026-11-23 18:10 — BR-T034 Ô ăn quan xanh V2 bản chơi thử · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t034-oanquan-v2-playtest` xếp trên commit BR-T033 `40dddfa` (chưa push).
+- **Mở chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html (chỉ dev; không có trong `dist/`).
+- **File mới:** `src/features/oanquan-v2/{engine,content,ui}/`, `tests/oanquan-v2-engine.test.ts`, `dev/oanquan-v2.html`, `.claude/launch.json` (cấu hình dev server cho Claude Code). Không sửa file production nào.
+- **Kiểm thử:** typecheck PASS · unit 81/81 PASS · build PASS, `dist/` sạch V2 · Playwright tự chơi trọn ván ở 5 kích thước PASS · bàn phím 1 lượt PASS. Lint, thiết bị thật, trình đọc màn hình: NOT RUN.
+- **Không stage:** `brainroot-assets*/`, `tools/oanquan-rules-form/` (Google Form đã dừng).
+- **Việc tiếp:** Product Owner chơi thử; quyết định commit; sau đó mới tính tới đưa ra production (cần thẻ đã duyệt quyền, ASSET_AUDIT, cờ build theo ADR-0006).
+
+## 2026-11-23 12:15 — BR-T032/BR-T033 Ô ăn quan xanh V2 (tài liệu, trước G1) · Claude Code → Product Owner & nhóm Brainroot
+
+- **Trạng thái:** BR-T033 nghiệm thu **APPROVED WITH MINOR CORRECTIONS** (23/11); BR-T032 bản 1.1 nghiệm thu cùng. Chỉ tài liệu. **Commit cục bộ** trên nhánh dưới đây (chưa push/PR/merge/deploy), chờ nghiệm thu commit. **G1 chưa được phép bắt đầu.**
+- **Nhánh / gốc / file bẩn:** `codex/br-t033-oanquan-docs` tạo từ `origin/main` `759c65e` sau `git fetch origin` (PR #14 BR-T030 và PR #15 BR-T031 đã merge). File sửa: `docs/ASSET_AUDIT.md`, `docs/DECISIONS.md`, `planning/{OPEN_QUESTIONS,TASKS,PROJECT_STATE}.md`, `logs/{HANDOFF,CODEX_LOG,WORK_LOG}.md`. File mới: `docs/decisions/0006-oanquan-v2-2-5d-architecture.md`, `docs/oanquan-v2/` (9 file). Không đụng worktree `br-t031-about-v43` và hai thư mục chưa track `brainroot-assets*/`.
+- **Đã có:** tài liệu G0.5 nguyên văn (SHA-256 khớp gói); báo cáo readiness 1.1; ADR-0006 **ACCEPTED** (5 điều kiện: G2 sau G1 PASS; prototype UI cần task riêng; feature flag loại module/asset/dữ liệu khỏi production bundle; kiểm `dist/` ở G2; không luật mặc định); phụ lục Matrix C-01…C-03; `OQ-14…OQ-16`; nháp Asset Audit.
+- **Kiểm thử:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 62/62 PASS · `npm run build` PASS (chunk chính 1.042 kB, cảnh báo cũ) · `dist/` không chứa tài liệu/asset V2. Lint NOT RUN (không có script).
+- **Còn chặn G1:** 20 mục nhóm A (R0–R12, R14–R17, R24–R26) · `OQ-15` C-02 kho 5 lọ · `OQ-16` C-03 rải qua Ô Quan · giao Task ID G1 (chỉ sau khi có quyết định luật chính thức). ADR-0006 và thứ tự G2 sau G1 đã được Product Owner chốt.
+- **Không chặn G1 nhưng chặn G2/G3:** `OQ-14` C-01, nhóm B (R13, R18–R22), tablet/ngang, Asset Audit, Token V3, nguyên văn 100 thẻ.
+- **Việc đầu tiên cho agent tiếp theo:** không viết engine, không tạo task G1. Chờ Product Owner nghiệm thu commit BR-T033 và quyết định push/PR. Khi nhóm trả lời, ghi đáp án vào ADR/`OPEN_QUESTIONS` rồi mới đề xuất task G1.
+- **Đọc trước:** `docs/oanquan-v2/README.md`, `docs/oanquan-v2/BR-T032_TECHNICAL_READINESS_REPORT.md` §2.2, §4, §7.
+- **Cần Product Owner duyệt trước:** push/PR/merge, gửi phụ lục cho nhóm, mọi việc G1, mọi prototype UI độc lập (task riêng).
+
 ## 2026-11-21 — BR-T028 Truth or Dare 20 thẻ thật · Claude Code → Product Owner & Codex
 
 - **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED** (nhánh `codex/br-t028-tod-20-cards`, nền `0379bee`). Chờ Quang duyệt và cho phép commit/PR.

@@ -201,3 +201,118 @@
 - **Git commit SHA:** `NOT COMMITTED`.
 - **What remains / next task:** Product Owner duyệt bản React; commit BR-T030 rồi BR-T031 và mở PR; smoke test trên host thật sau merge.
 - **Owner approval required:** có — duyệt giao diện, quyền phát hành 2 ảnh lá bài tách từ render bộ bài (thuộc `BR-T002`), commit/PR/merge/deploy.
+
+## Session: 2026-11-23 12:15+07:00 — Claude Code — BR-T032 + BR-T033 (Ô ăn quan xanh V2, tài liệu trước G1)
+
+- **Task & goal:** BR-T032 audit kỹ thuật chỉ đọc cho Ô ăn quan xanh V2 từ hai gói handoff G0.5; BR-T033 đưa tài liệu cần thiết vào repo và chuẩn bị quyết định luật. Không viết engine/UI, không sửa route.
+- **Status before → after:** BR-T032 (mới) → IN_REVIEW (bản 1.0 APPROVED WITH CORRECTIONS, bản 1.1 chờ xác nhận); BR-T033 (mới) → IN_REVIEW.
+- **Read context:** `AGENTS.md`, `README.md`, `planning/{PROJECT_STATE,ROADMAP,TASKS,OPEN_QUESTIONS}.md`, `logs/HANDOFF.md`, `docs/{GAME_SPEC,DECISIONS,TECHNICAL_ARCHITECTURE,QUALITY_AND_TESTING,ASSET_AUDIT}.md`, `.agents/rules/*`; `src/App.tsx`, `src/features/oanquan/*`, `src/pages/OAnQuanXanhDetailPage.tsx`, `src/styles/tokens.css`, `vite.config.ts`, `.github/workflows/deploy.yml`; 2 gói handoff (giải nén ngoài repo, checksum 129/129 và 10/10), Word luật gốc, 5 PDF thẻ (chỉ trích được cấu trúc, lớp chữ mất dấu tiếng Việt).
+- **Git:** `git fetch origin` → `origin/main` = `759c65e` (PR #14 BR-T030, PR #15 BR-T031 đã merge). Tạo `codex/br-t033-oanquan-docs` bằng `git switch --no-track -c … origin/main`. Không đụng worktree BR-T031, `main` local, hai thư mục `brainroot-assets*/` chưa track.
+- **Files changed:**
+  - mới: `docs/oanquan-v2/{README.md, BR-T032_TECHNICAL_READINESS_REPORT.md, RULES_MATRIX_V1.3_ADDENDUM_C01-C03.md, ASSET_AUDIT_DRAFT.md}`; bản sao nguyên văn `docs/oanquan-v2/{BRAINROOT_OANQUAN_G05_HANDOFF.md, BRAINROOT_OANQUAN_UX_UI_BRIEF_V2_HANDOFF.md, BRAINROOT_OANQUAN_RULES_DECISION_MATRIX_V1.3.md, BRAINROOT_OANQUAN_G05_VISUAL_QA_REPORT.md, oanquan-tokens.css}` (SHA-256 khớp manifest gói); `docs/decisions/0006-oanquan-v2-2-5d-architecture.md`.
+  - sửa: `docs/DECISIONS.md` (dòng ADR-0006), `docs/ASSET_AUDIT.md` (mục trỏ tới bản nháp), `planning/OPEN_QUESTIONS.md` (OQ-08 trỏ Matrix; thêm OQ-14…OQ-16), `planning/TASKS.md` (BR-T032, BR-T033), `planning/PROJECT_STATE.md`, `logs/HANDOFF.md`, `logs/WORK_LOG.md`, log này.
+- **User-visible behavior changed:** không.
+- **Tests actually executed (nhánh BR-T033):**
+  - `npm run typecheck`: PASS.
+  - `npx --yes tsx --test tests/*.test.ts`: 62/62 PASS (chạy từng file cũng 62/62).
+  - `npm run build`: PASS; chunk `index-*.js` 1.042,08 kB (cảnh báo >500 kB đã có từ trước, do `three` import tĩnh).
+  - `grep` trong `dist/` tìm `oanquan-v2`, tên file token, tên thẻ mẫu: 0 kết quả.
+  - `npm run lint`: NOT RUN (không có script). Playwright/axe: NOT RUN (không có thay đổi UI).
+- **Acceptance criteria (BR-T033):** đồng bộ GitHub và nhánh từ `origin/main` PASS; sửa báo cáo (GitHub, C-01, C-02, C-03, R23, X-12) PASS; tài liệu G0.5 vào `docs/oanquan-v2/` PASS; ADR-0006 PROPOSED PASS; OQ C-01…C-03 PASS; TASKS BR-T032/T033 PASS; PROJECT_STATE + HANDOFF PASS; nháp Asset Audit PASS; phụ lục Matrix không chọn luật PASS; không thẻ/artwork/ZIP trong repo PASS; baseline PASS.
+- **Bugs / tradeoffs / risk:** hàng BR-T030/BR-T031 trong `TASKS.md` vẫn ghi `IN_REVIEW`/`NOT COMMITTED` dù đã merge (không sửa vì mỗi lượt chỉ cập nhật task của mình). Hai tài liệu handoff có nhắc tên một thẻ mẫu và link canvas riêng tư; ghi chú trong `docs/oanquan-v2/README.md`.
+- **Git commit SHA:** `NOT COMMITTED`.
+- **What remains / next task:** Product Owner nghiệm thu; nhóm trả lời nhóm A + C-02 + C-03; chỉ sau đó đề xuất task G1.
+- **Owner approval required:** có — nghiệm thu BR-T032 1.1/BR-T033, ADR-0006, commit/PR, gửi phụ lục cho nhóm.
+
+### BR-T033 nghiệm thu và commit (2026-11-23)
+- Product Owner: **APPROVED WITH MINOR CORRECTIONS**; chấp thuận ADR-0006 và cho phép commit cục bộ (không push/PR/merge/deploy).
+- Sửa: `docs/decisions/0006-oanquan-v2-2-5d-architecture.md` → ACCEPTED + mục "Điều kiện chấp thuận" (G2 sau G1 PASS; prototype UI độc lập cần task + phê duyệt riêng; feature flag phải loại module/asset/dữ liệu chưa công khai khỏi production bundle, không chỉ ẩn route; G2 phải kiểm bằng production build + file trong `dist/`; không luật gameplay mặc định). Đồng bộ trạng thái trong `docs/DECISIONS.md`, `docs/oanquan-v2/README.md`, báo cáo BR-T032 (checklist mục 7, 8 ✅), `planning/{TASKS,PROJECT_STATE}.md`, `logs/{HANDOFF,WORK_LOG}.md`.
+- Kiểm tra trước commit: `git status`, `git diff --check`, phạm vi file, không `src/`/`public/`/route/config, không stage `brainroot-assets*/`, không Word/PDF/ZIP/artwork. Kết quả: `git diff --check` không lỗi; chỉ file trong `docs/`, `planning/`, `logs/`. Kiểm thử 12:19: `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 62/62 PASS · `npm run build` PASS (chunk chính 1.042,08 kB, cảnh báo cũ) · `dist/` 0 kết quả cho tài liệu/asset/thẻ V2 · lint NOT RUN (không có script).
+- Không tạo task G1; G1 vẫn chặn bởi nhóm A + `OQ-15` + `OQ-16`.
+
+## Session: 2026-11-23 18:10+07:00 — Claude Code — BR-T034 (Ô ăn quan xanh V2: G1 engine + G2 dev preview)
+
+- **Task & goal:** theo quyết định mới của Product Owner (bỏ khảo sát nhóm, duyệt luật bản thử PLAYTEST V0), dựng engine G1 và bản chơi thử dev-only. Không sửa route production, không Three.js, không push/deploy.
+- **Status before → after:** TODO → IN_REVIEW.
+- **Files:** mới `src/features/oanquan-v2/engine/{ring,rules,engine,index}.ts`, `content/{themes,demoCards}.ts`, `ui/{Board,Challenge,Icons,OAnQuanV2App,main}.tsx`, `ui/oanquan-v2.css`, `tests/oanquan-v2-engine.test.ts`, `dev/oanquan-v2.html`, `.claude/launch.json`; sửa `planning/{TASKS,PROJECT_STATE}.md`, `logs/{HANDOFF,WORK_LOG,CODEX_LOG}.md`.
+- **Ghi chú luật:** chủ đề từng ô lấy theo giá trị tạm của mockup G0.5 (lớp nội dung, không phải luật engine). Thẻ là 14 thẻ DEMO tự viết, không trích PDF.
+- **Tests:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 81/81 PASS (19 test engine, mô phỏng 3.000 ván: 3.000 kết thúc, bất biến luôn giữ) · `npm run build` PASS, hash JS production không đổi, `grep` `dist/` không thấy mã/thẻ V2 · Playwright Chromium tự chơi trọn ván ở 1280×800, 390×844, 360×740, 768×1024, 844×390 (có reduced motion), 0 lỗi console, 0 tràn ngang, nút chính trong màn hình, điểm không đổi trước "Chốt kết quả" · bàn phím 1 lượt PASS. NOT RUN: lint, thiết bị/Safari thật, trình đọc màn hình.
+- **Git commit SHA:** `NOT COMMITTED`.
+
+## Session: 2026-11-23 — Claude Code — BR-T035 (Ô ăn quan xanh V2: đại tu gameplay, hoạt ảnh, tự chuyển lượt)
+
+- **Bối cảnh:** Product Owner chơi thử BR-T034 và không đạt: không rải tiếp, bỏ qua Ô Quan, phải bấm "Lượt tiếp", hoạt ảnh khó theo dõi.
+- **Khảo sát tham khảo:** đọc luật/hướng dẫn oanquan.online, chơi 6 nước với máy (khách, từ chối analytics): thấy rải qua Ô Quan, rải tiếp, ăn Ô Dân, ăn Ô Quan (+14), ăn liên hoàn, hạt vẫn rơi vào Ô Quan đã mất quân, chuyển lượt tự động, nắm hạt có số đếm, tốc độ x1/x2. Không thấy: bù dân, kết thúc ván. Không sao chép mã, ảnh hay tài nguyên.
+- **Nguyên nhân lỗi:** engine V0 cố định `skipQuanPits`/`relaySowing: false`; UI có màn `sowResult` bắt bấm; hoạt ảnh chỉ đổi class ô, số hạt nhảy cục.
+- **Sửa:** engine `PLAYTEST_V1` + sự kiện chi tiết (pickup/drop/sowEnded/captureOpportunity/refereeCommitted/chainEnded/...); `playback.ts` (thuần) đổi sự kiện → khung hình; `GameScreen.tsx` phát lại, tự chuyển lượt, S8 tự tiếp tục có Giữ lại; nút ↺/↻ trên ô; tốc độ 1×/2×/4×, Bỏ qua; reduced motion. Sửa lỗi crash khi Chốt (key RefereePanel chứa `game.turn`).
+- **Tests:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 81/81 PASS · `npm run build` PASS, `dist/` 0 kết quả cho mã/thẻ V2 · Playwright tự chơi 5 ván: 0 lỗi console, 0 lỗi bố cục. NOT RUN: lint, thiết bị thật.
+- **Git commit SHA:** `NOT COMMITTED`.
+
+## Session: 2026-11-23 — Claude Code — BR-T036 (thẻ một bước, bàn tay hoạt họa)
+
+- **Yêu cầu Product Owner:** bỏ Trọng tài nhiều bước (Xong, Mở đáp án modal, Xem lại, Chốt, Tiếp tục); trắc nghiệm tự chấm; câu mở đối phương chấm ngay trên thẻ; bàn tay SVG original 4 pose.
+- **Làm:** BR-T035 được commit cục bộ `ba91740` để bảo toàn rồi tách nhánh BR-T036. Thẻ `ChallengeCard` một bước với khóa chống chấm trùng (khóa trong thẻ + uid ở GameScreen), phản hồi 0,5–1 s theo tốc độ/giảm chuyển động; bỏ khung kết quả S8 và khung hình `result`; `Hand.tsx` + hand state (pick/carry/drop/retract) theo sự kiện engine. Engine không đổi.
+- **Tests:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 82/82 PASS · `npm run build` PASS, `dist/` sạch V2 · Playwright 5 ván: 1 lần bấm mỗi thẻ, bấm đúp bị chặn, 0 lỗi console/bố cục. NOT RUN: lint, thiết bị thật.
+- **Git commit SHA:** `NOT COMMITTED`.
+
+## Session: 2026-11-24 — Claude Code — BR-T037 (ArtPack V3 vào bản chơi thử dev-only)
+
+- **Nguồn:** `Brainroot_OAnQuan_V3_AssetPack_FOR_CLAUDE.zip` (49 file). Đọc README + PROMPT trước khi sửa mã.
+- **Kiểm chứng linh vật:** SHA-256 của `mascots/masters/brainie.webp` = `1a0fca92…` và `rootie.webp` = `dd0c2f7b…` trùng khớp với `public/assets/hero-v4/*.webp` đã có trong repo → trạng thái mặc định dùng thẳng file repo; 10 pose còn lại lấy từ `mascots/poses/` (tách từ bảng biểu cảm đã duyệt). Không dùng mascot từ art-kit cũ, không sinh ảnh mới.
+- **Đã tích hợp:** nền vườn (desktop/mobile), 5 icon chủ đề, hạt Dân, bệ Quan + linh vật, bàn tay 5 pose (thêm khung `reach` vào `playback.ts`), FX (vòng rơi hạt, lấp lánh thu hoạch, vòng ăn quân, lá góc bàn, vòng nguyệt quế), khung thẻ 3 cấp, giỏ kho, linh vật dẫn chuyện (`MascotCoach`) và trên thẻ.
+- **Chưa dùng:** `board_base_no_pits.svg` và `pit_*.svg` (tỉ lệ khác bàn hiện tại, kéo giãn sẽ méo bo góc), `hand_sprite_strip_5x.png` (đã dùng 5 PNG rời).
+- **Tests:** typecheck PASS · unit 82/82 PASS · build PASS; `dist/` không chứa tên file V3 nào và không có chuỗi `oq2-`/`oanquan-v2`; Playwright tự chơi 1440×900, 390×844, 360×740 (reduced motion) PASS. NOT RUN: lint, thiết bị thật.
+- **Git commit SHA:** `NOT COMMITTED`.
+
+## Session: 2026-11-24 — Claude Code — BR-T038 (nội dung giáo dục gốc, chỉ nội bộ)
+
+- **Nguồn:** ZIP "Ô ăn quan xanh" (1 Word + 5 PDF, mỗi PDF 41 trang: 20 mặt thẻ + 20 mặt đáp án + 1 trang bìa). Trích bằng PyMuPDF (giữ đủ dấu tiếng Việt), ghép mặt thẻ ↔ mặt đáp án theo số thẻ + tiêu đề + cấp; 0 lỗi ghép.
+- **Dữ liệu:** `internal-data/cards.internal.json` (gitignore). 100 thẻ, 5 chủ đề × (7 Cấp 1 + 7 Cấp 2 + 6 Cấp 3); thời gian: 35×15s, 35×20s, 26×30s, 4×45s (green-19, green-20, water-20, waste-19). Mỗi thẻ có id, chủ đề, cấp, tiêu đề, bối cảnh, thử thách, thời gian, đáp án "Trọng tài duyệt khi", tham chiếu tệp + trang thẻ/đáp án.
+- **Kiểm tra bằng mắt:** dựng ảnh trang PDF cho các thẻ 45s (green-19, water-20), thẻ trắc nghiệm có phương án trong ngoặc/chấm phẩy (waste-12), thẻ mở có A/B (consume-09), thẻ có phương án nằm ở Bối cảnh (energy-08): chữ trong JSON khớp mặt thẻ/đáp án.
+- **Mã:** `content/internalDeck.ts` (schema, validate, parseChoice, toGameCard, CardDeck), `content/activeDeck.ts` (nạp dev-only + fallback DEMO), sửa `GameScreen.tsx`, `Challenge.tsx`, `shared.tsx`, `OAnQuanV2App.tsx`, `oanquan-v2.css`, `content/demoCards.ts` (thêm 3 trường tùy chọn). Engine không đổi. Test mới `tests/oanquan-v2-internal-deck.test.ts`.
+- **Tests:** typecheck PASS (0 lỗi); unit 88/88 PASS (82 cũ + 6 mới, gồm kiểm tra bộ nội bộ: 100 thẻ, id duy nhất, 7/7/6 mỗi chủ đề, thời gian 15/20/30/45s, ghép đáp án, 6 thẻ trắc nghiệm); build PASS, hash JS production `index-PSpSIzUV.js` KHÔNG đổi, quét `dist/` (33 tệp) 0 chuỗi nội dung thẻ/đáp án, không có `internal-data`/`cards.internal`; Playwright tự chơi 1280×800 (4×), 390×844, 360×740 reduced motion với bộ thật: 0 lỗi console, 1 lần bấm mỗi thẻ, timer = thời gian riêng của thẻ, không lặp thẻ, không mascot che chữ; fallback DEMO khi thiếu tệp nội bộ PASS. lint NOT RUN; thiết bị thật NOT RUN.
+- **Git commit SHA:** `NOT COMMITTED`.
+
+## Session: 2026-11-24 — Claude Code — BR-T039 (final product polish & game feel)
+
+- **Đã làm:** bàn desktop rộng 1060→1320px; màn bắt đầu có nền vườn, linh vật nổi nhẹ, 3 bước chơi; màn kết thúc có thẻ điểm hai người + nhãn "Đại sứ Môi trường" cho người thắng, bảng điểm chi tiết gập lại; giỏ kho bảo tồn nảy lên khi nhận hạt; sửa chữ "Trống" chồng lên hạt bay khi thu hoạch; tên người chơi không bị cắt trên mobile; rút ngắn thời gian chờ (sowEnd 900→700, capture 1100→900, turn 1100→800, restock 1000→800, keep 800→700, chainEnd 500→400); âm thanh Web Audio tổng hợp (`ui/audio.ts`, không file ngoài) với nút bật/tắt `aria-pressed`, lưu localStorage; hoạt ảnh trang trí tắt khi reduced motion.
+- **Tests:** typecheck PASS; unit 88/88 PASS; build PASS (hash JS production `index-PSpSIzUV.js` không đổi); quét `dist/` (33 tệp): 0 nội dung thẻ, không `internal-data`/`oq2-`/`oanquan-v2`/`AudioContext`; Playwright tự chơi desktop 1440×900 và mobile 390×844 / 360×740 reduced motion với 100 thẻ thật: 0 lỗi console, 1 lần bấm mỗi thẻ. lint NOT RUN; axe NOT RUN; thiết bị thật NOT RUN; âm thanh chưa nghe thử bởi người.
+- **Git commit SHA:** `NOT COMMITTED` (BR-T038: `687ca55`).
+
+## Session: 2026-11-24 — Claude Code — BR-T040 (tích hợp website chính)
+
+- **Đã làm:** route `/games/o-an-quan-xanh/play` (lazy, trong AppLayout: SiteHeader + nav "Trò chơi" giữ nguyên, ẩn footer, một `main` duy nhất) và nút "Chơi Ô ăn quan xanh (bản chơi thử)" ở `/games/o-an-quan-xanh`; nút "← Về trang chủ" ở màn bắt đầu và kết thúc; cờ `VITE_ENABLE_OQV2` (`utils/featureFlags.ts`, `.env.example`), plugin `oqv2Gate` trong `vite.config.ts` thay module V2 bằng stub khi cờ tắt để cả asset cũng không vào `dist/`; `scripts/check-oqv2-isolation.mjs`; prototype 3D, `/?preview=oanquan3d`, trang chi tiết giữ nguyên. Thẻ nội bộ chỉ nạp khi `import.meta.env.DEV`, production (kể cả bật cờ) chỉ dùng thẻ DEMO.
+- **Tests:** typecheck PASS; unit 88/88 PASS; build mặc định (cờ tắt) PASS + isolation OK (77 tệp, 0 dấu vết V2/thẻ); build cờ bật PASS (chunk OAnQuanV2Page 84 kB, DEMO cards, 0 thẻ nội bộ, 0 tham chiếu internal-data); preview production tắt: 8 route cũ 200, `/play` → 404, không có nút chơi, 0 lỗi console/request (desktop+mobile); preview bật: chơi tới thẻ, nhãn "THẺ DEMO", 0 lỗi; dev local: Playwright home → /games → chi tiết → game → hết ván (100 thẻ thật) → "Về trang chủ", desktop 1440×900 và mobile 390×844: 0 lỗi, 1 lần bấm/thẻ, 1 `main`. lint/axe/thiết bị thật NOT RUN.
+- **Điều kiện còn thiếu:** Điều kiện trước khi bật V2 ở production: (1) Product Owner cho phép bật `VITE_ENABLE_OQV2=true`; (2) thẻ chính thức được duyệt công bố (hiện production chỉ có thẻ DEMO tự viết, 100 thẻ gốc chỉ nội bộ — OQ-18); (3) quyết định bộ thẻ riêng cho 2 Ô Quan (OQ-17, đang ánh xạ tạm); (4) luật PLAYTEST_V1 được nhóm chốt (OQ-08, OQ-15, OQ-16 còn mở); (5) quyền sử dụng/bản quyền asset V3 và Brainie/Rootie cho phát hành (BR-T002); (6) QA thiết bị thật + axe/lint; (7) quyết định số phận prototype 3D / `/games/o-an-quan-xanh` theo ADR-0006 (5 điều kiện nghiệm thu thay thế).
+- **Git commit SHA:** `NOT COMMITTED` (BR-T039: `d1e3483`).
+
+## Session: 2026-11-24 — Claude Code — BR-T041 (release readiness & closeout)
+
+- **Lỗi đã sửa:** ESLint tối thiểu + `npm run lint`; 8 lỗi axe thật: tương phản `.gp-pillar__index`, `.gp-compare-card__tag`, `.gp-topic-card__index`, nút Play/primary của Truth or Dare, số bước About (desktop + mobile), chữ chủ đề ở màn bắt đầu V2; tên truy cập lệch chữ nhìn thấy (WCAG 2.5.3) ở nút sách luật Truth or Dare (EN) và 12 ô bàn V2 (chữ trong ô vẽ bằng CSS); build Cloudflare không có base `/`/bỏ `404.html` (trước đó không có trong repo).
+- **Tests:** typecheck PASS; unit 88/88 PASS; lint PASS (0 lỗi/0 cảnh báo); axe 0 vi phạm (11 trang × VI/EN × desktop/mobile reduced motion + setup/bàn/thẻ V2) sau khi sửa lỗi; 0 lỗi console/HTTP; build gh/cf × tắt/bật PASS; deep-link reload đúng trên mô phỏng GitHub Pages (404.html) và Cloudflare Pages (fallback SPA); script cô lập: cờ tắt OK (gh 77 tệp, cf 76), cờ bật không rò rỉ (gh 96, cf 95); quét toàn bộ lịch sử git: 0 thẻ nội bộ (1 tiêu đề thẻ mẫu "Ma Trận Rửa Bát" đã có sẵn trong tài liệu G0.5 từ BR-T033). NOT RUN: thiết bị thật, deploy thật.
+- **Git commit SHA:** `NOT COMMITTED` (BR-T040: `0d66393`).
+
+## Session: 2026-11-24 — Claude Code — BR-T042 (Release Candidate)
+
+- **Đã làm:** chế độ OFF/DEMO/FULL (`VITE_OQV2_MODE`, `scripts/oqv2-release.ts`, module ảo `virtual:oqv2-deck`); FULL cần `OQV2_PUBLICATION_APPROVAL` + `OQV2_DECK_FILE` hợp lệ, thiếu → build thất bại, không fallback DEMO; FULL bỏ siêu dữ liệu nguồn (tên PDF/số trang) khỏi bundle; i18n VI/EN toàn bộ giao diện V2 (`ui/i18n.ts`, dùng `useI18n` chung, thông điệp dạng hàm nên đổi ngôn ngữ không mất ván); nội dung thẻ giữ tiếng Việt gốc (không dịch, ghi chú hiển thị ở bản EN); `check-oqv2-isolation.mjs` thêm `--full`; sửa lỗi thật: vùng cuộn nhật ký không focus được bằng bàn phím (axe).
+- **Tests:** typecheck PASS; unit 96/96 PASS (+8: chế độ OFF/DEMO/FULL, FULL từ chối khi thiếu quyền/dữ liệu, i18n VI/EN đủ khóa); lint PASS (0/0); axe 0 vi phạm: 44 trang × VI/EN × desktop/mobile reduced motion + V2 thiết lập/bàn/thẻ + MÀN KẾT THÚC V2 (4 tổ hợp, gồm bảng điểm và nhật ký mở) + Green Learn Quiz mọi bước (5 câu + kết quả, 4 tổ hợp); 0 lỗi console/HTTP; bàn phím: chọn ô + chiều + chấm thẻ chỉ bằng phím, focus vào tiêu đề thẻ; timer đếm lùi (20 → 18 s sau 2,3 s); nút âm thanh bằng bàn phím, lưu lựa chọn sau tải lại, AudioContext tạo sau thao tác; đổi VI↔EN giữa ván và giữa lúc mở thẻ: bàn, điểm, lượt, thẻ đang mở giữ nguyên, nhật ký dịch lại; build 3 chế độ × 2 host (6 biến thể) PASS; cô lập: OFF sạch hoàn toàn, DEMO không rò rỉ, FULL đủ 100 thẻ và không lộ tên tệp nguồn/PDF; deep-link reload đúng ở 6 biến thể trên máy chủ mô phỏng GitHub Pages/Cloudflare Pages. KHÔNG thực hiện/KHÔNG tuyên bố: nghe âm thanh (chỉ kiểm tra tự động không lỗi), thiết bị thật, deploy thật. Các bản FULL chỉ build thử trong thư mục tạm với mã tham chiếu thử, không commit, không triển khai.
+- **Git commit SHA:** `NOT COMMITTED` (BR-T041: `d074776`).
+
+## Session: 2026-11-24 — Claude Code — BR-T042 nghiệm thu cuối (RC1)
+
+- **Kiểm tra hết giờ (đồng hồ thật, không giả lập): thẻ TRẮC NGHIỆM — hiện "Hết giờ", tự chấm Chưa đúng, hiện đáp án đúng, khóa các lựa chọn, đóng thẻ sau phản hồi, điểm không đổi, ván tiếp tục; thẻ CÂU MỞ — đồng hồ dừng ở "Hết giờ", thẻ KHÔNG tự đóng, đối thủ vẫn bấm Đạt/Chưa đạt được và thẻ đóng đúng một lần. Không phát hiện bug, không sửa mã.
+- **Thêm:** `scripts/build-full.mjs` + `npm run build:full` (thử với mã tham chiếu thử trong thư mục gitignore rồi xóa: Cloudflare base `/`, không `404.html`, 95 tệp; GitHub base `/brainroot-2.0/`, có `404.html`, 96 tệp; cả hai `--full` OK 100 thẻ; thiếu `OQV2_PUBLICATION_APPROVAL` → dừng). Kế hoạch Cloudflare ở playbook §6.
+- **Git commit SHA:** xem commit "BR-T042" trên nhánh `codex/br-t042-release-candidate`.
+
+## Session: 2026-11-24 — Claude Code — Asset Audit/OQ-20 theo xác nhận nguồn gốc ArtPack V3
+
+- Ghi nguồn gốc theo xác nhận của PO (ChatGPT cho pose/nền/bàn tay/SVG; hình gốc của PO cho Brainie/Rootie; Web Audio cho âm thanh), phạm vi công bố RC1/Hackathon, và các điều **không** tuyên bố (quyền thương mại, cấp phép lại, sở hữu bản quyền đầu ra AI). Không đổi mã, UI, asset hay nội dung.
+- **Git commit SHA:** xem commit tiếp theo trên `codex/br-t042-release-candidate`.
+
+## Session: 2026-11-24 — Claude Code — PR #16: sửa hồi quy Cloudflare Pages
+
+- Cloudflare Pages build đỏ ở `b5a6730` do `vite.config.ts` (BR-T041) tự xóa `dist/404.html` khi `CF_PAGES=1`. Tái hiện: `CF_PAGES=1 npm run build -- --base=/ && rm dist/404.html` → exit 1 trên nhánh, exit 0 trên `main`. Sửa: bỏ việc xóa trong vite config; `scripts/build-full.mjs` (host cloudflare) tự xóa. Kiểm tra: lệnh kiểu dashboard exit 0, build GitHub giữ `404.html`, build:full cô lập OK, 96/96 test, lint, tsc.
+
+## Session: 2026-11-24 — Claude Code — PR #16: xóa bun.lock
+
+- Cloudflare Pages đỏ do `bun install --frozen-lockfile` (bun.lock lệch package.json). Kiểm tra Bun: 0 tham chiếu trong script/workflow/tài liệu; GitHub Actions dùng `npm ci`. Xóa `bun.lock`, ignore bun.lock/bun.lockb. Chuẩn lockfile: `package-lock.json`. Đính chính: giả thuyết `404.html` ở mục trước không phải nguyên nhân.

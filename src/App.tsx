@@ -17,7 +17,12 @@ import { HomePage } from './pages/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { OAnQuanXanhDetailPage } from './pages/OAnQuanXanhDetailPage';
 import { ScreenshotsGalleryPage } from './pages/ScreenshotsGalleryPage';
+import { OQV2_ENABLED } from './utils/featureFlags';
 import { isHomeRoute } from './utils/routeNavigation';
+
+const OAnQuanV2Page = OQV2_ENABLED
+  ? lazy(() => import('./features/oanquan-v2/ui/OAnQuanV2Page'))
+  : null;
 
 const OAnQuan3DPrototype = lazy(
   () => import('./features/oanquan/OAnQuan3DPrototype'),
@@ -51,6 +56,16 @@ function AppLayout() {
             path="/games/o-an-quan-xanh"
             element={<OAnQuanXanhDetailPage />}
           />
+          {OAnQuanV2Page ? (
+            <Route
+              path="/games/o-an-quan-xanh/play"
+              element={
+                <Suspense fallback={<div className="oq3d-loading">Đang tải trò chơi…</div>}>
+                  <OAnQuanV2Page />
+                </Suspense>
+              }
+            />
+          ) : null}
           <Route path="/quest" element={<GreenQuestPage />} />
           <Route path="/learn" element={<GreenLearnPage />} />
           <Route path="/connect" element={<GreenConnectPage />} />
@@ -60,7 +75,7 @@ function AppLayout() {
         </Routes>
       </main>
 
-      <SiteFooter />
+      {OAnQuanV2Page && location.pathname.startsWith('/games/o-an-quan-xanh/play') ? null : <SiteFooter />}
     </div>
   );
 }

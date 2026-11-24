@@ -18,5 +18,17 @@
 | 2026-11-20 18:10 | AI Studio | Public-Facing Footer & About Redesign | IN_REVIEW | unit(29/29), typecheck(0 errs), vite build, Playwright 1440/390 Footer (277px/457px) & About CTAs: PASS; lint: NOT RUN; NOT COMMITTED | logs/AI_STUDIO_LOG.md |
 | 2026-11-20 19:30 | AI Studio | BR-T025 (Truth or Dare V1 UI + VI/EN i18n) | IN_REVIEW | unit(39/39), typecheck(0 errs), vite build, Playwright 1440/390/320 + reduced-motion + ?mode=legacy (18 captures): PASS; lint: NOT RUN; NOT COMMITTED | logs/AI_STUDIO_LOG.md |
 | 2026-11-22 22:49 | Claude Code | BR-T031 (/about V4.3 integration) | IN_REVIEW | typecheck PASS; unit 62/62 PASS; build (base /brainroot-2.0/ và /) PASS; Playwright Chromium 1440/768/390/320 94/94 PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-23 12:15 | Claude Code | BR-T032 + BR-T033 (Ô ăn quan V2, docs only) | IN_REVIEW | typecheck PASS; unit 62/62 PASS; build PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-23 | Claude Code | BR-T033 (nghiệm thu + ADR-0006 ACCEPTED) | IN_REVIEW (chờ nghiệm thu commit) | typecheck PASS; unit 62/62 PASS; build PASS; lint NOT RUN; commit cục bộ, chưa push | logs/CODEX_LOG.md |
+| 2026-11-23 18:10 | Claude Code | BR-T034 (Ô ăn quan V2 G1 engine + G2 dev preview) | IN_REVIEW | typecheck PASS; unit 81/81 PASS; build PASS (dist sạch V2); Playwright trọn ván 5 kích thước PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-23 | Claude Code | BR-T035 (Ô ăn quan V2: PLAYTEST V1 + phát lại hoạt ảnh) | IN_REVIEW | typecheck PASS; unit 81/81 PASS; build PASS (dist sạch V2); Playwright 5 ván PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-23 | Claude Code | BR-T036 (thẻ một bước + bàn tay SVG) | IN_REVIEW | typecheck PASS; unit 82/82 PASS; build PASS (dist sạch V2); Playwright 5 ván PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-24 | Claude Code | BR-T037 (ArtPack V3 vào dev preview) | IN_REVIEW | typecheck PASS; unit 82/82 PASS; build PASS (dist sạch V3); Playwright 3 ván PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-24 | Claude Code | BR-T038 (100 thẻ gốc, dev-only nội bộ) | IN_REVIEW | typecheck PASS; unit 88/88 PASS; build PASS (dist sạch nội dung thẻ, hash JS không đổi); Playwright 3 ván PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-24 | Claude Code | BR-T039 (polish + âm thanh) | IN_REVIEW | typecheck PASS; unit 88/88 PASS; build PASS (dist sạch); Playwright desktop+mobile PASS; lint/axe NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-24 | Claude Code | BR-T040 (tích hợp website chính) | IN_REVIEW | typecheck PASS; unit 88/88 PASS; build cờ tắt + isolation OK; build cờ bật PASS; luồng home→game→home PASS; lint/axe NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-24 | Claude Code | BR-T041 (release readiness) | IN_REVIEW | typecheck/unit 88/lint/axe PASS; build 4 biến thể + cô lập PASS; thiết bị thật NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-24 | Claude Code | BR-T042 (release candidate: OFF/DEMO/FULL + i18n VI/EN) | IN_REVIEW | typecheck/unit 96/lint/axe PASS; 6 biến thể build + cô lập 3 chế độ PASS; âm thanh/thiết bị thật/deploy NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-24 | Claude Code | BR-T042 final acceptance (RC1) | ACCEPTED_LOCAL | hết giờ trắc nghiệm/câu mở PASS (không bug); build:full thử PASS; COMMITTED local, chưa push/deploy | logs/CODEX_LOG.md |
 
 **Append format:** `YYYY-MM-DD HH:MM | AI Studio/Codex | BR-Txxx | DONE/BLOCKED/IN_REVIEW | command: result | logs/<AGENT>_LOG.md`.

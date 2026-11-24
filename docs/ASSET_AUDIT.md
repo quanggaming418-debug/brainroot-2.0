@@ -32,3 +32,7 @@ Chỉ dùng asset có sẵn trong repo, không tạo mới: `hero-v4/{hero-garde
 - **2 ảnh phái sinh:** `deck-card-back.webp` và `deck-card-face.webp` (file 248×448 px) là phần **cắt + nắn phối cảnh** hai lá nằm trên cùng của `09_original_reference/official-deck-reference.webp` (giống `public/assets/hero-v4/fact-act-deck.webp`). Không vẽ lại, không thêm chữ. Mặt sau là thiết kế "Brain root" có Brainie/Rootie gốc; mặt trước là tranh phong cảnh không có chữ. Độ phân giải gốc: ảnh render 650×613 px, mỗi lá chỉ chiếm khoảng 124×225 px, được phóng 2× (Lanczos/bicubic) lên 248×448 px nên hơi mềm; hiển thị tối đa ~146 px rộng (lá được chọn, desktop). Quyền sử dụng: artwork thuộc bộ thẻ của nhóm, mới được duyệt cho phát triển/prototype nội bộ; **chưa xác nhận quyền phát hành công khai/thương mại** (`BR-T002` còn `BLOCKED`).
 - Dùng lại từ repo: `hero-v4/fact-act-deck.webp`, `hero-v4/brainie.webp`. Không dùng ảnh Trang chủ.
 - Ghi chú trên bảng tin, viền đào, gân trang sổ là CSS; không phải artwork AI.
+
+## Ô ăn quan xanh V2 — đang chờ duyệt (BR-T033, 2026-11-23)
+- Bản nháp kiểm kê: `docs/oanquan-v2/ASSET_AUDIT_DRAFT.md` (Token Art V2 placeholder và nền Asset Kit V2 do AI tạo; SVG/texture của Asset Kit V2; Brainie/Rootie/lá dùng lại).
+- **Chưa có file nào trong repo, `public/` hay bundle production.** Mục này chỉ được chuyển thành khai báo chính thức khi nhóm/Product Owner duyệt từng dòng.

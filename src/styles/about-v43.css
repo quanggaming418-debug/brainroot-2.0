@@ -291,3 +291,11 @@
 @media (prefers-reduced-motion: reduce) {
   .about-v43 *, .about-v43 *::before, .about-v43 *::after { animation: none !important; transition: none !important; }
 }
+
+
+/* BR-T041: tương phản chữ số bước >= 4.5:1 */
+.about-v43 .av-step:not([aria-current='step']) .av-step__num { color: #c9d0c4; opacity: 1; }
+@media (max-width: 900px) {
+  .about-v43 .av-step__num { opacity: 1; }
+  .about-v43 .av-step[aria-current='step'] .av-step__num { color: var(--av-ink); }
+}

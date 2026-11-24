@@ -214,7 +214,7 @@ export default function TruthOrDareExperience() {
               type="button"
               className="tod-round-icon-btn"
               data-testid="tod-btn-rules"
-              aria-label={copy.rulesIconTitle}
+              aria-label={`${labels.rules}: ${copy.rulesIconTitle}`}
               title={copy.rulesIconTitle}
               onClick={() => setRulebookOpen(true)}
             >
