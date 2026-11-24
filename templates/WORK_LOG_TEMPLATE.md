@@ -1,16 +1,19 @@
-## Session: YYYY-MM-DD HH:MM+07:00 — AGENT — BR-Txxx
+## Session — YYYY-MM-DD HH:MM±HH:MM — AGENT — BR-Txxx
 
-- **Task & goal:**
-- **Status before → after:** TODO → IN_PROGRESS / IN_REVIEW / DONE / BLOCKED
-- **Read context:** PRD, flow IDs, project state, handoff, relevant source files
-- **Files changed:** `path` — summary (avoid pasted secrets/PII)
-- **User-visible behavior changed:**
-- **Tests actually executed:**
-  - `exact command`: PASS / FAIL / NOT RUN; evidence path if any
-- **Acceptance criteria:** AC-1 PASS/FAIL, AC-2 PASS/FAIL
-- **Bugs / tradeoffs / risk:**
-- **Git commit SHA:** `hash` or `NOT COMMITTED`
-- **What remains / next task:**
-- **Owner approval required:** yes/no, details
+- **Agent và model** — Ghi tên và model nếu biết.
+- **Task, mục tiêu và trạng thái** — Task ID, trước → sau.
+- **Git baseline** — Repo/worktree, branch, HEAD baseline, remote và trạng thái ban đầu.
+- **Context đã đọc** — Quy tắc, state, quyết định, session liên quan.
+- **Phạm vi và dependency** — Phần được giao, phạm vi tệp và điều kiện cần.
+- **Thay đổi và lý do** — Tệp tạo/sửa/xóa theo đường dẫn repo tương đối.
+- **Quyết định kỹ thuật và trade-off** —
+- **Lỗi, nguyên nhân và bản sửa** — Ghi khi có.
+- **Hành vi người dùng hoặc giao diện** —
+- **Kiểm thử thực tế** — Lệnh, môi trường, `PASS/FAIL/NOT RUN`, bằng chứng hoặc lý do.
+- **Acceptance criteria** — Kết quả từng tiêu chí.
+- **Rủi ro và giới hạn** —
+- **Trạng thái Git** — Working tree, commit SHA hoặc `NOT COMMITTED`, push, PR, merge và phần việc chỉ có local.
+- **Triển khai** — Trạng thái, host, mode, artifact, deployment ID và rollback nếu có.
+- **Còn lại và bàn giao** — Blocker, bước chính xác tiếp theo và quyền còn cần.
 
-> Do not claim `DONE` or `PASS` if work/test was merely planned, assumed or simulated.
+Ghi số lượng, checksum và tham chiếu kiểm thử. Giữ secrets, PII và nội dung bộ thẻ ngoài log. Khi chưa có SHA, ghi `NOT COMMITTED` hoặc bổ sung SHA trong lần bàn giao kế tiếp.

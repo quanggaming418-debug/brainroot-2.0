@@ -1,7 +1,7 @@
 # ROADMAP — Brainroot 2.0
 
 **Status:** PROPOSED, not approved. Dates are competition checkpoints from ULIS sources, not guaranteed engineering commitments.  
-**Current milestone:** R0 sơ tuyển. Site mới chưa có mã nguồn trong bộ tài liệu này.
+**Current state:** Xem [PROJECT_STATE.md](PROJECT_STATE.md). Các mốc dưới đây giữ nguyên bối cảnh đề xuất. Tiêu chí viewport hiện hành cho mọi task theo [AGENTS.md](../AGENTS.md).
 
 ## 0. Definition of priorities
 - `Must / P0`: không có thì không thể chứng minh một trải nghiệm giáo dục hoàn chỉnh.

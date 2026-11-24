@@ -1,6 +1,6 @@
 # Ready-to-paste prompt — Codex (implementation/review task)
 
-Repository = **Brainroot 2.0**; read `AGENTS.md` and current `planning/PROJECT_STATE.md`, `planning/TASKS.md`, `planning/ROADMAP.md`, `logs/HANDOFF.md` before editing. Read `docs/PRD.md`, `docs/USER_FLOWS.md`, `docs/GAME_SPEC.md`, `docs/CONTENT_GUIDELINES.md`, `docs/ACCESS_CONTROL.md` and any relevant `.agents/rules` (these are supplementary documents, not automatically enforced).
+Repository = **Brainroot 2.0**; read `AGENTS.md` and follow its mandatory start-of-task protocol, including the current shared snapshot, decisions and handoff, before editing. Read `docs/PRD.md`, `docs/USER_FLOWS.md`, `docs/GAME_SPEC.md`, `docs/CONTENT_GUIDELINES.md`, `docs/ACCESS_CONTROL.md` and any relevant `.agents/rules` (these are supplementary documents, not automatically enforced).
 
 First do a **read-only discovery**: `git status`, inspect scripts/dependencies, check accepted requirements, identify the exact Task ID and scope. Do not rewrite AI Studio's UI or duplicate another agent's active task. If source/asset/approved rules missing, report BLOCKED and record it rather than fabricating content.
 

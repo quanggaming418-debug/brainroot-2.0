@@ -1,6 +1,6 @@
 # AGENTS.md — Brainroot 2.0
 
-Hướng dẫn bắt buộc cho coding agents làm việc trong repo mới. Root file dùng chung cho Google AI Studio Build Mode và Codex; **không nhân bản nguyên tắc sang nhiều nguồn dễ mâu thuẫn**.
+Nguồn quy tắc chung duy nhất tại root cho Claude Code, Codex, Google Antigravity và các phiên Google AI Studio Build Mode còn dùng repository. `CLAUDE.md` và rule Always On của Antigravity dẫn về tệp này. Quyết định rõ ràng mới nhất của Product Owner thay thế chỉ dẫn lịch sử mâu thuẫn.
 
 ## Mission & restrictions
 - Sứ mệnh: nâng cao nhận thức và kết nối giới trẻ về **kỹ năng xanh thông qua sản phẩm giáo dục tương tác**; không xây một game portal giải trí thuần túy.
@@ -15,10 +15,12 @@ Hướng dẫn bắt buộc cho coding agents làm việc trong repo mới. Root
 - Test desktop ở 1280×720, 1366×768, 1440×900, 1920×1080. Màn hình nhỏ chỉ smoke test truy cập và lỗi chạy, không dùng làm tiêu chí tối ưu giao diện.
 
 ## Start-of-task protocol — ALWAYS
-1. Nếu có terminal/Git: `git status --short`; đọc `README.md`, `planning/PROJECT_STATE.md`, `planning/ROADMAP.md`, `planning/TASKS.md`, `logs/HANDOFF.md`.
-2. Đọc tài liệu chuyên môn có liên quan từ `docs/` (PRD/flows/design/game/data/accessibility/security) và rule `.agents/rules/` nếu phù hợp.
-3. Xác định một `TASK-ID`, acceptance criteria, file dự định sửa, rủi ro và kiểm thử. Không tự ý mở rộng scope.
-4. Nếu requirement mơ hồ/mâu thuẫn, cập nhật `planning/OPEN_QUESTIONS.md`, dùng giải pháp an toàn tối thiểu hoặc báo để owner quyết định. Không tự biến giả định thành yêu cầu chính thức.
+Trước khi sửa bất kỳ tệp nào:
+
+1. Đọc `AGENTS.md`, `planning/PROJECT_STATE.md`, `planning/TASKS.md`, `planning/OPEN_QUESTIONS.md` và phần hiện hành của `logs/HANDOFF.md`. Dùng `logs/WORK_LOG.md` để tìm các phiên log liên quan trực tiếp. Đọc README, roadmap, tài liệu chuyên môn và rule chuyên biệt khi liên quan.
+2. Xác minh root workspace, working tree, branch, HEAD và trạng thái remote bằng Git. Khi thiếu công cụ hoặc quyền truy cập, ghi phần chưa xác minh. Đối chiếu snapshot với bằng chứng Git và production mới hơn khi chúng liên quan đến task.
+3. Kiểm tra quyết định mới nhất của Product Owner. Xác định Task ID, phạm vi, dependency, acceptance criteria, rủi ro và cách kiểm thử. Ghi câu hỏi thực sự chưa chốt vào `planning/OPEN_QUESTIONS.md`.
+4. Khi có thay đổi chưa commit của agent khác, giữ nguyên và báo xung đột ở các tệp tranh chấp.
 
 ## Implement safely
 - **Không** tạo dữ liệu khảo sát giả như dữ liệu thực; số đo AQI phải có nguồn, loại dữ liệu, timestamp và fallbacks.
@@ -30,23 +32,21 @@ Hướng dẫn bắt buộc cho coding agents làm việc trong repo mới. Root
 - Giữ keyboard access, reduced motion và khả năng thu phóng; không coi canvas/3D là cách duy nhất để hoàn thành flow.
 
 ## End-of-task protocol — ALWAYS
-1. Chạy các kiểm tra có sẵn liên quan (`typecheck`, `lint`, `unit`, `e2e`, `build` nếu dự án có); **không ghi PASS nếu không chạy thật**.
-2. Đối chiếu mọi acceptance criteria của Task ID; ghi `PASS/FAIL/NOT RUN` kèm lệnh và kết quả.
-3. Cập nhật **chỉ một** Task ID trong `planning/TASKS.md`, sau đó `planning/PROJECT_STATE.md`.
-4. Append vào log riêng: AI Studio → `logs/AI_STUDIO_LOG.md`; Codex → `logs/CODEX_LOG.md`, theo `templates/WORK_LOG_TEMPLATE.md`. Có thể thêm một dòng vào `logs/WORK_LOG.md` làm index.
-5. Nếu chuyển ca/agent, cập nhật `logs/HANDOFF.md`: task tiếp, file liên quan, trạng thái kiểm thử, blockers. Không xóa lịch sử.
-6. Không tự `commit`, `push`, tạo service/cloud, migrate dữ liệu production, deploy, mua dịch vụ hay đổi secret khi chưa có yêu cầu/cho phép rõ ràng. Ghi rõ trạng thái commit `NOT COMMITTED` nếu chưa được cho phép.
-7. Nếu `git status` có thay đổi từ người khác, không overwrite; báo xung đột và dừng file tranh chấp.
+Áp dụng khi kết thúc hoặc bàn giao mỗi phiên, kể cả khi dở dang, gián đoạn, BLOCKED hoặc có kiểm thử thất bại. Sau khi tiếp tục từ một gián đoạn bất ngờ, ghi trạng thái bàn giao trước khi làm tiếp.
 
-## Collaboration: Google AI Studio + Codex
-- Một Task ID chỉ có **một agent đang sửa**; dùng branch hoặc working tree riêng và người phụ trách duyệt merge.
-- AI Studio Build Mode ưu tiên dựng giao diện, visual prototypes, motion; Codex ưu tiên review và chuẩn hóa frontend, schema, security, logic, tests. Phân công theo Task ID và có review.
-- **GitHub/repository là nguồn sự thật**, không tin bản snapshot AI Studio đang đồng bộ nếu chưa kiểm tra commit/changes. Không push trực tiếp chồng lên nhánh người khác.
-- AI Studio không mặc nhiên thực hiện được `git status` hoặc toàn bộ test local. Ghi `NOT RUN` và nhờ Codex xác minh sau sync; không giả vờ đã test.
-- Nếu AI Studio không truy cập/cập nhật được `AGENTS.md`, `TASKS.md` hoặc log trong phiên hiện tại, phải đưa nội dung liên quan trực tiếp vào prompt, xuất code và yêu cầu Codex cập nhật TASKS/HANDOFF/AI_STUDIO_LOG sau khi xác minh changes.
-- `.agents/rules/` chỉ là tài liệu hướng dẫn chuyên biệt; đừng mặc định AI Studio tự động phát hiện các rule theo chuẩn Antigravity IDE.
-- Log là **biên bản công việc**, không phải kho lý luận riêng của model. Không ghi secrets, PII, mô tả nội bộ nhạy cảm.
-- `AGENTS.md` là quy tắc; `ROADMAP` là kế hoạch; `TASKS` là công việc; `HANDOFF` là ca tiếp theo. Không sao chép trùng nội dung dài.
+1. Chạy kiểm thử liên quan. Đối chiếu từng acceptance criterion và ghi lệnh, bằng chứng, kết quả thực tế `PASS/FAIL/NOT RUN`.
+2. Cập nhật đúng một Task ID trong `planning/TASKS.md`, tiếp theo là snapshot trong `planning/PROJECT_STATE.md`. Ghi quyết định sản phẩm mới nếu có theo `planning/OPEN_QUESTIONS.md`.
+3. Append một phiên đầy đủ vào log riêng theo `templates/WORK_LOG_TEMPLATE.md`: Claude Code → `logs/CLAUDE_CODE_LOG.md`, Codex → `logs/CODEX_LOG.md`, Antigravity → `logs/ANTIGRAVITY_LOG.md`, AI Studio → `logs/AI_STUDIO_LOG.md`. Append một dòng vào `logs/WORK_LOG.md`.
+4. Cập nhật phần bàn giao hiện hành trong `logs/HANDOFF.md` với task, branch, thay đổi local, trạng thái kiểm thử, blockers và bước tiếp theo. Giữ nguyên các mục lịch sử.
+5. Rà Git diff và ghi rõ trạng thái commit, push, PR, merge và deploy. Chỉ đánh dấu hoàn thành sau khi đã ghi đủ hồ sơ bắt buộc.
+
+## Git collaboration
+- Mỗi Task ID có một agent sửa tại một thời điểm. Khi làm song song, dùng branch hoặc worktree riêng với phạm vi tệp tách biệt. Không sửa đồng thời trên cùng working tree.
+- Không dùng force push, `git reset --hard` hoặc `git clean` tùy tiện. Phân biệt thay đổi chỉ ở local, commit trên nhánh remote và nội dung đã vào `main`.
+- Chỉ commit, push, mở PR, merge, deploy, tạo tài nguyên cloud, migrate dữ liệu production, mua dịch vụ, đổi cấu hình cloud hoặc secret khi có quyền rõ ràng trong phạm vi task. Khi được commit, đưa hồ sơ cùng thay đổi tương ứng vào commit hoặc PR. Khi chưa được commit, giữ hồ sơ trong workspace và ghi `NOT COMMITTED`. Không tạo commit chỉ để ghi SHA của chính commit chứa log.
+- Nếu AI Studio thiếu terminal hoặc quyền ghi repository, cung cấp handoff theo template và đánh dấu các kiểm tra chưa chạy. Agent tiếp nhận xác minh diff rồi bổ sung hồ sơ còn thiếu, giữ tên agent thực hiện trong log.
+- Mỗi tệp quản lý có một vai trò: `PROJECT_STATE` cho snapshot hiện hành, `TASKS` cho trạng thái nhiệm vụ, `ROADMAP` cho lộ trình, `OPEN_QUESTIONS` cho quyết định và câu hỏi, `HANDOFF` cho ca tiếp theo, `WORK_LOG` cho index, `docs/RELEASE_PLAYBOOK.md` cho phát hành. Các session lịch sử là append-only, kể cả mục Claude Code đã ghi trong `CODEX_LOG.md`.
+- Log chỉ chứa bằng chứng kỹ thuật cần thiết như đường dẫn repo tương đối, số lượng, checksum và tham chiếu kiểm thử. Giữ API key, token, PII, bộ thẻ và đáp án ngoài log. Giữ dữ liệu nội bộ, PDF, ZIP, `dist-full/` và secrets ngoài Git.
 
 ## Reference docs
 `docs/PRD.md`, `docs/USER_FLOWS.md`, `docs/GAME_SPEC.md`, `docs/CONTENT_GUIDELINES.md`, `docs/ACCESS_CONTROL.md`, `docs/ACCESSIBILITY.md`, `docs/HACKATHON_COMPLIANCE.md`.

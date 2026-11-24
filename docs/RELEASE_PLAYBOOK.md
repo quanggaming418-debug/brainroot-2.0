@@ -41,7 +41,7 @@ Repository vẫn chứa: mã V2, art ArtPack V3 (`src/features/oanquan-v2/assets
 
 - Product Owner đã duyệt công bố 100 thẻ gốc, đáp án và tiêu chí đánh giá cho Hackathon, tham chiếu `BR-RC1-PUBLICATION-20261124` (OQ-19). Quyết định bao gồm deploy Cloudflare production thủ công và tắt automatic production deployments.
 - Quyền ArtPack V3 cho RC1/Hackathon đã được duyệt theo OQ-20. Quyền thương mại theo BR-T002, nội dung Fact–Act theo BR-T005 và dịch bộ thẻ theo OQ-21 theo dõi ở các mục riêng.
-- Dùng QA thiết bị thật cho iOS Safari, Android Chrome, cảm ứng và âm thanh khi có thiết bị.
+- Theo ma trận Desktop-only trong [QUALITY_AND_TESTING.md](QUALITY_AND_TESTING.md). Màn hình nhỏ chỉ smoke truy cập.
 
 ## 5. Preview Git và GitHub Pages
 
