@@ -1,11 +1,11 @@
 # PROJECT_STATE — Read before every agent run
 
-- **Updated:** 2026-11-24 · BR-T043 · Product Owner chốt Desktop-only toàn website.
+- **Updated:** 2026-11-24 · BR-T043 · Desktop-only phát hành Cloudflare production.
 
 ## Trạng thái hiện hành (24/11/2026)
 
 - **Desktop-only (BR-T043):** bố cục desktop tối thiểu 1280 CSS px trên toàn site, bao gồm hai trò chơi. Tạm dừng phát triển và tối ưu Mobile/Tablet đến khi Product Owner yêu cầu. Giữ responsive trong source; bật lại bằng `VITE_LAYOUT_MODE=responsive`. Theo [AGENTS.md](../AGENTS.md) và [ma trận desktop](../docs/QUALITY_AND_TESTING.md#current-viewport-coverage) cho các lượt sau.
-- **Cloudflare Pages:** RC1 FULL đang phục vụ tại [brainroot-55i.pages.dev](https://brainroot-55i.pages.dev/) trên project `brainroot`, production branch `main`. Deployment `73b053ec-6147-45e0-97f0-f1ae25a85a3b`, SHA build `5d8e24c853a1fd324858fbb4b7172b757869ff5b` (PR #17). Rollback OFF `2c9ff6e9-911c-4df0-a933-3d99cc7a44e5` từ `d65b0f9` (PR #16).
+- **Cloudflare Pages:** Cloudflare production FULL `10feaa4b-e3a9-46e6-bf9c-452958c9430e`, build từ `main` `78d96b727b16869f0bcd44c61915a15b75c1ff5e` (PR #18). Rollback về FULL `73b053ec-6147-45e0-97f0-f1ae25a85a3b`. [Website production](https://brainroot-55i.pages.dev/)
 - **Branch control:** automatic production deployments tắt, automatic preview deployments giữ tất cả nhánh ngoài production. GitHub Pages là host dự phòng, mặc định OFF. Worker tĩnh phụ `brainroot-2-0` dùng hostname riêng, đã ngắt Git và tiếp tục phục vụ deployment hiện có.
 - **Sản phẩm:** Ô ăn quan xanh V2 là phiên bản chơi chính với luật Hackathon `PLAYTEST_V1`. CTA ở trang chủ, thư viện và trang chi tiết dẫn tới `/games/o-an-quan-xanh/play`. Prototype 3D vẫn ở `/?preview=oanquan3d` cho rollback. Hai Ô Quan giữ Brainie/Rootie, ánh xạ Cấp 3 và cơ chế 6 thẻ tự chấm, 94 thẻ đối phương đánh giá đã duyệt.
 - **Quyền công bố:** OQ-19 RESOLVED cho website phục vụ Hackathon theo `BR-RC1-PUBLICATION-20261124`; 100 thẻ, đáp án và tiêu chí có trong bundle trình duyệt. JSON, PDF nguồn và `dist-full/` ở ngoài Git. OQ-20 duyệt ArtPack V3 trong phạm vi RC1/Hackathon; BR-T002 thương mại và BR-T005 Fact–Act vẫn riêng.
