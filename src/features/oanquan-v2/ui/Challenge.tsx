@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import type { DemoCard } from '../content/demoCards';
 import { THEMES } from '../content/themes';
-import { ThemeIcon } from './Icons';
+import { Mascot, ThemeIcon } from './Icons';
+import { CARD_FRAME, type MascotId } from './assets';
 
 export type TimerMode = 'standard' | 'extended' | 'untimed';
 export type Verdict = 'pass' | 'fail';
@@ -30,6 +31,7 @@ export function ChallengeCard(props: {
   opponent: string;
   timerMode: TimerMode;
   chainIndex: number;
+  mascot: MascotId;
   /** Thời gian phản hồi ngắn trước khi đóng thẻ (ms). */
   feedbackMs: number;
   onResolve: (verdict: Verdict) => void;
@@ -88,7 +90,12 @@ export function ChallengeCard(props: {
 
   return (
     <section className="oq2-sheet" role="dialog" aria-modal="true" aria-labelledby="oq2-card-title">
-      <div className={`oq2-card oq2-card--q${done ? (graded === 'pass' ? ' is-pass' : ' is-fail') : ''}`} data-level={card.level} data-kind={card.kind}>
+      <div
+        className={`oq2-card oq2-card--q${done ? (graded === 'pass' ? ' is-pass' : ' is-fail') : ''}`}
+        data-level={card.level}
+        data-kind={card.kind}
+        style={{ '--oq2-cardframe': `url(${CARD_FRAME[card.level]})` } as React.CSSProperties}
+      >
         <div className="oq2-card__head">
           <LevelPill level={card.level} />
           <span className="oq2-demo-tag">THẺ DEMO</span>
@@ -97,7 +104,8 @@ export function ChallengeCard(props: {
             {left === null ? 'Không bấm giờ' : timeUp ? 'Hết giờ' : `${left} giây`}
           </span>
         </div>
-        <p className="oq2-card__theme"><ThemeIcon theme={card.theme} size={16} /> {THEMES[card.theme].name} · {props.answerer} trả lời</p>
+        <p className="oq2-card__theme"><ThemeIcon theme={card.theme} size={18} /> {THEMES[card.theme].name} · {props.answerer} trả lời</p>
+        <span className="oq2-card__mascot"><Mascot who={props.mascot} pose={done ? (graded === 'pass' ? 'cheer' : 'thinking') : 'guide'} size={92} /></span>
         <h2 className="oq2-card__title" id="oq2-card-title" tabIndex={-1} ref={titleRef}>{card.title}</h2>
         <p className="oq2-card__text">{card.context}</p>
         <div className="oq2-card__challenge">

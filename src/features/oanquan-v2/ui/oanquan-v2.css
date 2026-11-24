@@ -568,8 +568,6 @@ body:has(.oqv2) { margin: 0; background: #f8f3e9; }
 
 
 /* ================================================================ BR-T036: thẻ một bước + bàn tay */
-.oq2-hand__sprite { position: absolute; left: -50px; top: -150px; width: 100px; height: 180px; transform: rotate(-24deg); transform-origin: 50px 150px; filter: drop-shadow(0 6px 5px rgba(80, 55, 25, 0.22)); pointer-events: none; }
-.oq2-handsvg { display: block; overflow: visible; }
 .oq2-hand__count {
   position: absolute; left: 22px; top: -112px; min-width: 26px; height: 26px; padding: 0 6px; border-radius: 999px;
   display: grid; place-items: center; background: var(--oq-state-ghost); color: #fff; font-size: 15px; font-weight: 900;
@@ -577,7 +575,6 @@ body:has(.oqv2) { margin: 0; background: #f8f3e9; }
 }
 .oq2-hand--retract { animation: oq2-retract 0.7s ease-in both; }
 @keyframes oq2-retract { 0% { opacity: 1; translate: 0 0; } 100% { opacity: 0; translate: 26px -46px; } }
-.oq2-game--portrait .oq2-hand__sprite { transform: rotate(-24deg) scale(0.62); }
 .oq2-game--portrait .oq2-hand__count { left: 12px; top: -78px; }
 
 .oq2-card--q { transition: border-color 0.2s; }
@@ -614,3 +611,110 @@ body:has(.oqv2) { margin: 0; background: #f8f3e9; }
 .oq2-dir--mini.oq2-dir--up { left: -28px; top: -92px; }
 .oq2-dir--mini.oq2-dir--down { left: -28px; top: 36px; }
 .oq2-dir span { font-size: 26px; line-height: 1; }
+
+/* ================================================================ BR-T037: ArtPack V3 */
+
+/* nền vườn thay gradient tự vẽ */
+.oq2-game {
+  background-image: linear-gradient(180deg, rgba(255, 247, 234, 0.58) 0%, rgba(255, 247, 234, 0.12) 30%, rgba(35, 79, 61, 0.14) 100%), var(--oq2-garden);
+  background-size: cover, cover;
+  background-position: center top, center;
+  background-repeat: no-repeat;
+}
+
+/* icon chủ đề V3 (đã có nền tròn riêng) */
+.oq2-topic-icon { display: block; object-fit: contain; filter: drop-shadow(0 1px 1px rgba(53, 77, 60, 0.22)); }
+.oq2-topic-icon--mascot { filter: drop-shadow(0 1px 2px rgba(53, 77, 60, 0.25)); }
+.oq2-theme-chip { background: transparent; box-shadow: none; padding: 0; width: auto; height: auto; }
+.oq2-pit .oq2-theme-chip { top: 2px; left: 2px; }
+.oq2-game--portrait .oq2-pit .oq2-theme-chip .oq2-topic-icon { width: 22px; height: 22px; }
+.oq2-card__theme .oq2-topic-icon, .oq2-result__line .oq2-topic-icon { border-radius: 50%; }
+
+/* quân Quan: bệ gỗ + linh vật gốc */
+.oq2-quan-token { position: relative; display: grid; place-items: center; width: min(46cqh, 72cqw); height: min(46cqh, 72cqw); }
+.oq2-quan-mount { position: absolute; inset: 0; width: 100%; height: 100%; }
+.oq2-quan-mascot { position: relative; width: 74%; height: 74%; object-fit: contain; filter: drop-shadow(0 3px 3px rgba(80, 55, 25, 0.3)); }
+.oq2-board[data-layout='landscape'] .oq2-quan-token { width: min(40cqh, 66cqw); height: min(40cqh, 66cqw); }
+.oq2-board[data-layout='portrait'] .oq2-quan-token { width: min(74cqh, 26cqw); height: min(74cqh, 26cqw); }
+
+/* bàn tay PNG 5 pose: cùng một chỗ, chỉ hiện pose đang chạy */
+.oq2-hand__sprite { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none; }
+.oq2-handimg {
+  position: absolute; left: -46px; top: -132px; width: 152px; height: auto;
+  opacity: 0; transition: opacity 90ms linear;
+  filter: drop-shadow(0 7px 6px rgba(80, 55, 25, 0.28));
+}
+.oq2-handimg.is-on { opacity: 1; }
+.oq2-hand__count { left: 44px; top: -112px; }
+.oq2-game--portrait .oq2-handimg { left: -32px; top: -92px; width: 108px; }
+.oq2-game--portrait .oq2-hand__count { left: 30px; top: -78px; }
+
+/* linh vật dẫn chuyện cạnh bàn */
+.oq2-mascot-img { display: block; width: auto; object-fit: contain; }
+.oq2-coach {
+  position: absolute; right: 6px; bottom: 2px; z-index: 5; pointer-events: none;
+  display: grid; justify-items: center; gap: 2px;
+  filter: drop-shadow(0 6px 6px rgba(53, 77, 60, 0.25));
+  transition: transform 0.25s ease;
+}
+.oq2-coach--cheer, .oq2-coach--win { animation: oq2-coach-pop 0.5s ease-out; }
+.oq2-coach__line {
+  order: -1; padding: 3px 12px; border-radius: 999px; background: #fffdf7; border: 2px solid var(--forest);
+  font-size: 13px; font-weight: 800; color: var(--forest); white-space: nowrap;
+}
+@keyframes oq2-coach-pop { 0% { transform: scale(0.8) translateY(8px); } 60% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.oq2-game--portrait .oq2-coach { right: 2px; bottom: 0; }
+.oq2-game--portrait .oq2-coach__line { font-size: 11px; padding: 2px 8px; }
+
+/* linh vật trên thẻ thử thách */
+.oq2-card--q { position: relative; }
+.oq2-card__mascot { position: absolute; right: 10px; top: -62px; pointer-events: none; filter: drop-shadow(0 5px 5px rgba(53, 77, 60, 0.25)); }
+@media (max-width: 760px) {
+  .oq2-card__mascot { right: -6px; top: -34px; }
+  .oq2-card__mascot .oq2-mascot-img { height: 66px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oq2-coach, .oq2-handimg { transition: none !important; animation: none !important; }
+}
+
+/* BR-T037: FX, lá góc bàn, khung thẻ, giỏ kho, vòng nguyệt quế */
+.oq2-board-leaf { position: absolute; width: 78px; height: auto; opacity: 0.95; pointer-events: none; z-index: 1; }
+.oq2-board-leaf--a { left: -26px; bottom: -18px; transform: rotate(8deg); }
+.oq2-board-leaf--b { right: -22px; top: -20px; transform: rotate(186deg); }
+.oq2-game--portrait .oq2-board-leaf { width: 54px; }
+
+.oq2-fx-capture { position: absolute; inset: -7px; width: calc(100% + 14px); height: calc(100% + 14px); pointer-events: none; animation: oq2-capture-spin 9s linear infinite; }
+@keyframes oq2-capture-spin { to { transform: rotate(360deg); } }
+.oq2-fx-ring { position: absolute; width: 86px; margin: -16px 0 0 -43px; pointer-events: none; animation-name: oq2-ring; animation-timing-function: ease-out; animation-fill-mode: both; }
+@keyframes oq2-ring { 0% { opacity: 0; scale: 0.35; } 35% { opacity: 0.95; } 100% { opacity: 0; scale: 1.15; } }
+.oq2-fx-sparkle { position: absolute; width: 74px; margin: -37px 0 0 -37px; pointer-events: none; animation-name: oq2-sparkle; animation-timing-function: ease-out; animation-fill-mode: both; }
+@keyframes oq2-sparkle { 0% { opacity: 0; scale: 0.3; rotate: -40deg; } 40% { opacity: 1; } 100% { opacity: 0; scale: 1.5; rotate: 40deg; } }
+
+.oq2-card--q {
+  border: 7px solid var(--oq-level-1); padding: 32px 34px 28px; border-radius: 30px;
+  background-color: #fffdf5;
+  background-image: var(--oq2-cardframe);
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.oq2-card--q.is-pass { box-shadow: 0 0 0 4px rgba(45, 124, 77, 0.45), 0 16px 28px rgba(0, 0, 0, 0.3); border-radius: 30px; }
+.oq2-card--q.is-fail { box-shadow: 0 0 0 4px rgba(138, 106, 60, 0.45), 0 16px 28px rgba(0, 0, 0, 0.3); border-radius: 30px; }
+@media (max-width: 760px) { .oq2-card--q { padding: 30px 28px 26px; } }
+
+.oq2-plate__basket { display: inline-flex; align-items: center; gap: 4px; }
+.oq2-plate__basket img { width: 18px; height: 18px; }
+
+.oq2-victory { position: relative; display: grid; place-items: center; height: 168px; margin-bottom: -6px; }
+.oq2-victory__wreath { position: absolute; height: 168px; opacity: 0.95; }
+.oq2-victory__mascots { position: relative; display: flex; align-items: flex-end; gap: 0; margin-top: 10px; }
+.oq2-victory__mascots .oq2-mascot-img { filter: drop-shadow(0 5px 5px rgba(53, 77, 60, 0.25)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .oq2-fx-capture, .oq2-fx-ring, .oq2-fx-sparkle { animation: none !important; }
+  .oq2-fx-ring, .oq2-fx-sparkle { display: none; }
+}
+
+.oq2-card--q[data-level='2'] { border-color: var(--oq-level-2); }
+.oq2-card--q[data-level='3'] { border-color: var(--oq-level-3); }

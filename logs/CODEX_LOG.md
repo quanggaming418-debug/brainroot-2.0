@@ -254,3 +254,12 @@
 - **Làm:** BR-T035 được commit cục bộ `ba91740` để bảo toàn rồi tách nhánh BR-T036. Thẻ `ChallengeCard` một bước với khóa chống chấm trùng (khóa trong thẻ + uid ở GameScreen), phản hồi 0,5–1 s theo tốc độ/giảm chuyển động; bỏ khung kết quả S8 và khung hình `result`; `Hand.tsx` + hand state (pick/carry/drop/retract) theo sự kiện engine. Engine không đổi.
 - **Tests:** `npm run typecheck` PASS · `npx --yes tsx --test tests/*.test.ts` 82/82 PASS · `npm run build` PASS, `dist/` sạch V2 · Playwright 5 ván: 1 lần bấm mỗi thẻ, bấm đúp bị chặn, 0 lỗi console/bố cục. NOT RUN: lint, thiết bị thật.
 - **Git commit SHA:** `NOT COMMITTED`.
+
+## Session: 2026-11-24 — Claude Code — BR-T037 (ArtPack V3 vào bản chơi thử dev-only)
+
+- **Nguồn:** `Brainroot_OAnQuan_V3_AssetPack_FOR_CLAUDE.zip` (49 file). Đọc README + PROMPT trước khi sửa mã.
+- **Kiểm chứng linh vật:** SHA-256 của `mascots/masters/brainie.webp` = `1a0fca92…` và `rootie.webp` = `dd0c2f7b…` trùng khớp với `public/assets/hero-v4/*.webp` đã có trong repo → trạng thái mặc định dùng thẳng file repo; 10 pose còn lại lấy từ `mascots/poses/` (tách từ bảng biểu cảm đã duyệt). Không dùng mascot từ art-kit cũ, không sinh ảnh mới.
+- **Đã tích hợp:** nền vườn (desktop/mobile), 5 icon chủ đề, hạt Dân, bệ Quan + linh vật, bàn tay 5 pose (thêm khung `reach` vào `playback.ts`), FX (vòng rơi hạt, lấp lánh thu hoạch, vòng ăn quân, lá góc bàn, vòng nguyệt quế), khung thẻ 3 cấp, giỏ kho, linh vật dẫn chuyện (`MascotCoach`) và trên thẻ.
+- **Chưa dùng:** `board_base_no_pits.svg` và `pit_*.svg` (tỉ lệ khác bàn hiện tại, kéo giãn sẽ méo bo góc), `hand_sprite_strip_5x.png` (đã dùng 5 PNG rời).
+- **Tests:** typecheck PASS · unit 82/82 PASS · build PASS; `dist/` không chứa tên file V3 nào và không có chuỗi `oq2-`/`oanquan-v2`; Playwright tự chơi 1440×900, 390×844, 360×740 (reduced motion) PASS. NOT RUN: lint, thiết bị thật.
+- **Git commit SHA:** `NOT COMMITTED`.

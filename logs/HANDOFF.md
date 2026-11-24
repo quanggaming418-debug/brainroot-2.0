@@ -1,5 +1,16 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-24 — BR-T037 ArtPack V3 vào bản chơi thử · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t037-oanquan-v3-assets` trên BR-T036 `4c6a4eb` (BR-T035 `ba91740`, BR-T036 `4c6a4eb` đã commit cục bộ để bảo toàn; chưa push).
+- **Mở chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html
+- **Linh vật:** hai master trong gói khớp từng byte với `public/assets/hero-v4/{brainie,rootie}.webp` đã có trong repo → dùng thẳng file repo cho trạng thái mặc định; 10 pose khác lấy từ `mascots/poses/` (tách từ bảng đã duyệt). Không sửa, không sinh mới, không dùng mẫu cũ.
+- **Asset:** 38 file trong `src/features/oanquan-v2/assets/` (chỉ dev); `src/features/oanquan-v2/ui/assets.ts` là nơi khai báo đường dẫn.
+- **Chưa dùng:** `board/board_base_no_pits.svg`, `board/pit_*.svg` (tỉ lệ khác bàn hiện tại, sẽ méo khi kéo giãn), `hand/hand_sprite_strip_5x.png` (đã dùng 5 PNG rời).
+- **Kiểm thử:** typecheck PASS · unit 82/82 PASS · build PASS, `dist/` không có asset V3 · Playwright 3 ván (1440×900, 390×844, 360×740 reduced motion) PASS. Lint, thiết bị thật: NOT RUN.
+- **OQ-14 đã chốt (24/11):** quân Quan = bệ gỗ + Brainie/Rootie nguyên mẫu.
+- **Tiếp theo:** BR-T038 (100 thẻ gốc) chờ Product Owner cung cấp tài liệu nguồn; không tự soạn câu hỏi.
+
 ## 2026-11-23 — BR-T036 thẻ một bước + bàn tay hoạt họa · Claude Code → Product Owner
 
 - **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t036-oanquan-streamlined-challenge` trên BR-T035 `ba91740` (đã commit cục bộ để bảo toàn; chưa push).

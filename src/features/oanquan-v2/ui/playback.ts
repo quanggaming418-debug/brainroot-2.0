@@ -17,6 +17,7 @@ export function snapshotOf(s: GameState): Snapshot {
 }
 
 export type Frame =
+  | { readonly kind: 'reach'; readonly ring: RingIndex }
   | { readonly kind: 'pickup'; readonly ring: RingIndex; readonly count: number; readonly relay: boolean; readonly player: PlayerId }
   | { readonly kind: 'move'; readonly ring: RingIndex; readonly hand: number }
   | { readonly kind: 'drop'; readonly ring: RingIndex; readonly handLeft: number; readonly intoQuanPit: boolean }
@@ -31,7 +32,8 @@ export type Frame =
 
 /** Thời lượng gốc (ms) ở tốc độ 1×. */
 const BASE: Record<Frame['kind'], number> = {
-  pickup: 560,
+  reach: 320,
+  pickup: 460,
   move: 260,
   drop: 190,
   sowEnd: 900,
@@ -61,6 +63,7 @@ export function buildFrames(events: readonly EngineEvent[]): Frame[] {
     switch (e.type) {
       case 'pickup':
         hand = e.count;
+        frames.push({ kind: 'reach', ring: e.ring });
         frames.push({ kind: 'pickup', ring: e.ring, count: e.count, relay: e.relay, player: e.player });
         break;
       case 'drop':

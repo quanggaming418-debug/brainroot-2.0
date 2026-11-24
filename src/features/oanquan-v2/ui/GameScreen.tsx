@@ -5,10 +5,11 @@ import {
 } from '../engine';
 import { DemoDeck, type DemoCard } from '../content/demoCards';
 import { themeOfRing } from '../content/themes';
-import { Board, NO_MARKS, type BoardMarks } from './Board';
+import { Board, NO_MARKS, type BoardLayout, type BoardMarks } from './Board';
 import { ChallengeCard, type Verdict } from './Challenge';
-import { HandSprite, type HandPose } from './Hand';
-import { SeedToken } from './Icons';
+import { HandSprite } from './Hand';
+import { Mascot, SeedToken } from './Icons';
+import { BASKET, FX, GARDEN_DESKTOP, GARDEN_MOBILE, QUAN_MASCOT, type HandPose, type MascotId, type MascotPose } from './assets';
 import { applyFrame, buildFrames, frameDuration, snapshotOf, type Frame, type Snapshot } from './playback';
 import { RulesDialog, StatusChips, pitName, useLayout, useReducedMotion, type Setup } from './shared';
 
@@ -132,6 +133,12 @@ interface Anim {
 function visualize(f: Frame, prev: Visual, names: Record<PlayerId, string>): Visual {
   const base = { ...prev, toast: null, fly: null, dropRing: null };
   switch (f.kind) {
+    case 'reach':
+      return {
+        ...base,
+        hand: { ring: f.ring, count: prev.hand?.count ?? 0, pose: 'reach' },
+        marks: { ...prev.marks, active: f.ring },
+      };
     case 'pickup':
       return {
         ...base,
@@ -243,8 +250,26 @@ function FxLayer({ vis, boardEl, reduced, moveMs, dropMs, flyMs }: {
           style={{ transform: `translate(${hand.x}px, ${hand.y}px)`, transitionDuration: reduced ? '0ms' : `${moveMs}ms` } as CSSProperties}
         >
           <div className="oq2-hand__sprite"><HandSprite pose={vis.hand.pose} ms={reduced ? 0 : Math.min(moveMs, 220)} /></div>
-          {vis.hand.pose !== 'retract' ? <b className="oq2-hand__count">{vis.hand.count}</b> : null}
+          {vis.hand.pose !== 'retract' && vis.hand.pose !== 'reach' ? <b className="oq2-hand__count">{vis.hand.count}</b> : null}
         </div>
+      ) : null}
+      {drop && !reduced ? (
+        <img
+          key={`ring${vis.dropKey}`}
+          src={FX.dropRing}
+          alt=""
+          className="oq2-fx-ring"
+          style={{ left: drop.x, top: drop.y, animationDuration: `${Math.max(dropMs * 1.6, 260)}ms` } as CSSProperties}
+        />
+      ) : null}
+      {flyFrom && !reduced ? (
+        <img
+          key={`sp${vis.flyKey}`}
+          src={FX.harvestSparkle}
+          alt=""
+          className="oq2-fx-sparkle"
+          style={{ left: flyFrom.x, top: flyFrom.y, animationDuration: `${flyMs}ms` } as CSSProperties}
+        />
       ) : null}
       {drop && !reduced ? (
         <svg
@@ -309,7 +334,7 @@ function PlayerPlate({ id, view, rules, names, active }: {
         <small>{id === 'P1' ? 'Hàng dưới' : 'Hàng trên'}{active ? <em className="oq2-plate__turn"> · ĐANG ĐI</em> : null}</small>
       </span>
       <span className="oq2-plate__store" aria-hidden="true">
-        <span>{s.danInStore} hạt</span>
+        <span className="oq2-plate__basket"><img src={BASKET} alt="" />{s.danInStore} hạt</span>
         {s.quanCount ? <span>+ {s.quanCount} Quan</span> : null}
         {s.debtOwed ? <span className="oq2-debt">nợ {s.debtOwed}</span> : null}
       </span>
@@ -510,7 +535,7 @@ export function GameScreen({ setup, onEnd, onQuit }: {
     : ['cw', 'ccw'];
 
   return (
-    <div className={`oq2-game oq2-game--${layout}`} data-stage={anim ? 'playing' : stage.kind} data-frame={curFrame?.kind ?? ''} style={{ '--oq2-dockh': `${dockH}px` } as CSSProperties}>
+    <div className={`oq2-game oq2-game--${layout}`} data-stage={anim ? 'playing' : stage.kind} data-frame={curFrame?.kind ?? ''} style={{ '--oq2-dockh': `${dockH}px`, '--oq2-garden': `url(${layout === 'portrait' ? GARDEN_MOBILE : GARDEN_DESKTOP})` } as CSSProperties}>
       <header className="oq2-header" inert={overlay}>
         <span className="oq2-header__brand">Brainroot<span aria-hidden="true">.</span> <em>Ô ăn quan xanh</em></span>
         <StatusChips />
@@ -527,6 +552,7 @@ export function GameScreen({ setup, onEnd, onQuit }: {
       </div>
 
       <div className="oq2-stage" inert={overlay} ref={boardWrapRef}>
+        <MascotCoach layout={layout} frame={curFrame} stage={stage.kind} names={names} mover={mover} />
         <Board
           layout={layout}
           pits={view.pits}
@@ -597,11 +623,57 @@ export function GameScreen({ setup, onEnd, onQuit }: {
           opponent={names[other(stage.capture.mover)]}
           timerMode={setup.timer}
           chainIndex={stage.capture.chainIndex}
+          mascot={QUAN_MASCOT[themeOfRing(stage.capture.target) === 'biodiversity' ? 'biodiversity' : 'climate']}
           feedbackMs={reduced ? 500 : Math.round(1000 / Math.min(speed, 2))}
           onResolve={resolveCard}
         />
       ) : null}
       {rulesOpen ? <RulesDialog onClose={() => setRulesOpen(false)} /> : null}
+    </div>
+  );
+}
+
+// ------------------------------------------------------------------ linh vật dẫn chuyện
+
+/** Linh vật đứng cạnh bàn, đổi tư thế theo khoảnh khắc; không che bàn (pointer-events:none). */
+function MascotCoach({ layout, frame, stage, names, mover }: {
+  layout: BoardLayout;
+  frame: Frame | null;
+  stage: string;
+  names: Record<PlayerId, string>;
+  mover: PlayerId;
+}) {
+  let pose: MascotPose = 'idle';
+  let who: MascotId = mover === 'P1' ? 'brainie' : 'rootie';
+  let line = '';
+  const k = frame?.kind;
+  if (k === 'capture') {
+    pose = 'guide';
+    line = 'Cơ hội ăn!';
+  } else if (k === 'harvest') {
+    pose = 'cheer';
+    who = (frame as Extract<Frame, { kind: 'harvest' }>).mover === 'P1' ? 'brainie' : 'rootie';
+    line = 'Thu hoạch!';
+  } else if (k === 'keep') {
+    pose = 'thinking';
+    line = 'Lần sau nhé!';
+  } else if (k === 'gameOver') {
+    pose = 'win';
+    line = 'Hết ván!';
+  } else if (k === 'restock') {
+    pose = 'thinking';
+    line = 'Đặt lại hàng';
+  } else if (stage === 'card') {
+    pose = 'thinking';
+  } else if (k === 'pickup' || k === 'reach') {
+    pose = 'happy';
+  }
+  const size = layout === 'portrait' ? 62 : 104;
+  return (
+    <div className={`oq2-coach oq2-coach--${pose}`} aria-hidden="true">
+      <Mascot who={who} pose={pose} size={size} />
+      {line ? <span className="oq2-coach__line">{line}</span> : null}
+      <span className="oq2-sr">{names[mover]}</span>
     </div>
   );
 }

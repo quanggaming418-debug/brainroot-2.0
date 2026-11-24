@@ -15,7 +15,7 @@
 | OQ-11 | AI Buddy có truy xuất content paid được không? | Không, chỉ approved public KB trừ khi entitlement được kiểm tra | Product owner | OPEN |
 | OQ-12 | Nền tảng hosting/cost ceiling và ai sở hữu tài khoản kỹ thuật? | Không tự lập resource cloud có phí | Technical lead | OPEN |
 | OQ-13 | Nhóm đã xác nhận lại hồ sơ thành viên UET theo quy chế BTC chưa? | Chỉ ghi thực trạng khi BTC xác nhận | Leader | OPEN |
-| OQ-14 | **(C-01, Ô ăn quan V2)** Quân Quan là mô hình hai linh vật (Word mục 2) hay hai vật phẩm riêng theo chủ đề Quan (mockup G0.5)? Không chặn G1; phải quyết trước G2 và trước khi chốt Token V3. Xem phụ lục Matrix C-01. | Giữ vật phẩm riêng của mockup làm hình tạm (Token V2 placeholder); không coi là quyết định | Nhóm Brainroot / Product Owner | OPEN |
+| OQ-14 | **(C-01, Ô ăn quan V2)** Quân Quan là linh vật hay vật phẩm riêng? **RESOLVED 2026-11-24 (Product Owner):** hai quân Quan = bệ gỗ kết hợp Brainie và Rootie nguyên mẫu (Biến đổi khí hậu ↔ Brainie, Đa dạng sinh học ↔ Rootie); không quay lại thiết kế vật phẩm riêng. Hai file master `brainie.webp`/`rootie.webp` giữ nguyên, không chỉnh. | Đã triển khai ở BR-T037 | Product Owner | RESOLVED |
 | OQ-15 | **(C-02, Ô ăn quan V2, chặn G1)** Kho bảo tồn là một kho chung hay 5 lọ theo chủ đề (ô bị thu hoạch hoặc loại hạt)? Thu hoạch Ô Quan vào lọ nào? Liên quan R10, R17, R24, R26. Xem phụ lục Matrix C-02. | Không viết engine cho tới khi có đáp án | Nhóm Brainroot | OPEN |
 | OQ-16 | **(C-03, Ô ăn quan V2, chặn G1)** Khi rải đi qua Ô Quan có thả hạt vào Ô Quan không? Hạt cuối rơi vào Ô Quan thì sao? Liên quan R0, R5, R10, R11, R15, R16. Xem phụ lục Matrix C-03. | Không viết engine cho tới khi có đáp án | Nhóm Brainroot | OPEN |
 

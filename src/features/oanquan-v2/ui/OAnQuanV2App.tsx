@@ -4,7 +4,8 @@ import { THEMES } from '../content/themes';
 import { publicUrl } from '../../../utils/publicUrl';
 import type { TimerMode } from './Challenge';
 import { GameScreen } from './GameScreen';
-import { ThemeIcon } from './Icons';
+import { Mascot, ThemeIcon } from './Icons';
+import { FX } from './assets';
 import { RulesDialog, StatusChips, type Setup } from './shared';
 
 // ------------------------------------------------------------------ S1, S2
@@ -118,6 +119,13 @@ function EndScreen({ game, names, lessons, log, onReplay, onNew }: {
     <main className="oq2-end" id="main-content">
       <div className="oq2-end__box">
         <StatusChips />
+        <div className="oq2-victory" aria-hidden="true">
+          <img className="oq2-victory__wreath" src={FX.victoryWreath} alt="" />
+          <span className="oq2-victory__mascots">
+            <Mascot who="brainie" pose={w === 'P1' || w === 'draw' ? 'win' : 'happy'} size={86} />
+            <Mascot who="rootie" pose={w === 'P2' || w === 'draw' ? 'win' : 'happy'} size={86} />
+          </span>
+        </div>
         <h1 tabIndex={-1} ref={h}>{w === 'draw' ? 'Hòa — cả hai là Đại sứ Môi trường' : `Đại sứ Môi trường: ${names[w as PlayerId]}`}</h1>
         <p className="oq2-lead">
           {game.endReason === 'allQuanHarvested' ? 'Cả hai quân Quan đã được thu hoạch.' : 'Không còn đủ hạt để đặt lại hàng trống, ván kết thúc sớm.'}{game.pits[0] + game.pits[6] ? ` ${game.pits[0] + game.pits[6]} hạt còn trong Ô Quan không tính cho ai.` : ''}

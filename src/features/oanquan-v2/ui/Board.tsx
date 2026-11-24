@@ -2,6 +2,7 @@ import { useRef, type CSSProperties, type KeyboardEvent } from 'react';
 import { isQuanPit, ownerOf, pitLabel, type PlayerId, type RingIndex } from '../engine';
 import { THEMES, themeOfRing } from '../content/themes';
 import { QuanToken, SeedToken, ThemeIcon } from './Icons';
+import { FX } from './assets';
 
 export type BoardLayout = 'landscape' | 'portrait';
 
@@ -175,7 +176,7 @@ export function Board(props: BoardProps) {
             {quan ? (
               <>
                 <span className="oq2-quan-label">
-                  <ThemeIcon theme={theme} size={14} />
+                  <ThemeIcon theme={theme} size={18} />
                   <span className="oq2-quan-name oq2-quan-name--full">{THEMES[theme].name}</span>
                   <span className="oq2-quan-name oq2-quan-name--short">{THEMES[theme].short}</span>
                 </span>
@@ -193,7 +194,7 @@ export function Board(props: BoardProps) {
             ) : (
               <>
                 <span className={`oq2-theme-chip oq2-theme--${theme}`} aria-hidden="true">
-                  <ThemeIcon theme={theme} size={14} />
+                  <ThemeIcon theme={theme} size={28} />
                 </span>
                 <span className={`oq2-badge${count === 0 ? ' is-zero' : ''}`} aria-hidden="true">{count}</span>
                 <span className="oq2-pit-name" aria-hidden="true">{pitLabel(r)}</span>
@@ -204,13 +205,14 @@ export function Board(props: BoardProps) {
             )}
             {pathSet.has(r) ? <span className="oq2-ghost" aria-hidden="true" /> : null}
             {lastInPath === r ? <span className="oq2-chip oq2-chip--last" aria-hidden="true">Hạt cuối</span> : null}
+            {marks.target === r ? <img className="oq2-fx-capture" src={FX.captureRing} alt="" aria-hidden="true" /> : null}
             {marks.target === r && marks.targetChip ? <span className="oq2-chip oq2-chip--target" aria-hidden="true">{marks.targetChip}</span> : null}
             {marks.harvested === r ? <span className="oq2-chip oq2-chip--harvested" aria-hidden="true">Đã thu hoạch</span> : null}
           </button>
         );
       })}
-      <span className="oq2-board-leaf oq2-board-leaf--a" aria-hidden="true" />
-      <span className="oq2-board-leaf oq2-board-leaf--b" aria-hidden="true" />
+      <img className="oq2-board-leaf oq2-board-leaf--a" src={FX.leafCorner} alt="" aria-hidden="true" />
+      <img className="oq2-board-leaf oq2-board-leaf--b" src={FX.leafCorner} alt="" aria-hidden="true" />
     </div>
   );
 }
