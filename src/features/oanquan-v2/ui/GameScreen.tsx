@@ -6,6 +6,7 @@ import {
 import type { DemoCard } from '../content/demoCards';
 import { CardDeck } from '../content/internalDeck';
 import { loadActiveDeck } from '../content/activeDeck';
+import { play as sfx, type Sfx } from './audio';
 import { themeOfRing } from '../content/themes';
 import { Board, NO_MARKS, type BoardLayout, type BoardMarks } from './Board';
 import { ChallengeCard, type Verdict } from './Challenge';
@@ -13,7 +14,7 @@ import { HandSprite } from './Hand';
 import { Mascot, SeedToken } from './Icons';
 import { BASKET, FX, GARDEN_DESKTOP, GARDEN_MOBILE, QUAN_MASCOT, type HandPose, type MascotId, type MascotPose } from './assets';
 import { applyFrame, buildFrames, frameDuration, snapshotOf, type Frame, type Snapshot } from './playback';
-import { RulesDialog, StatusChips, pitName, useLayout, useReducedMotion, type Setup } from './shared';
+import { RulesDialog, SoundToggle, StatusChips, pitName, useLayout, useReducedMotion, type Setup } from './shared';
 
 // ------------------------------------------------------------------ văn bản
 
@@ -336,7 +337,7 @@ function PlayerPlate({ id, view, rules, names, active }: {
         <small>{id === 'P1' ? 'Hàng dưới' : 'Hàng trên'}{active ? <em className="oq2-plate__turn"> · ĐANG ĐI</em> : null}</small>
       </span>
       <span className="oq2-plate__store" aria-hidden="true">
-        <span className="oq2-plate__basket"><img src={BASKET} alt="" />{s.danInStore} hạt</span>
+        <span className="oq2-plate__basket"><img src={BASKET} alt="" /><b key={s.danInStore} className="oq2-plate__jar-n">{s.danInStore}</b> hạt</span>
         {s.quanCount ? <span>+ {s.quanCount} Quan</span> : null}
         {s.debtOwed ? <span className="oq2-debt">nợ {s.debtOwed}</span> : null}
       </span>
@@ -431,6 +432,21 @@ export function GameScreen({ setup, onEnd, onQuit }: {
     return () => window.clearTimeout(t);
   }, [anim, speed, reduced, names, finish]);
 
+  // Âm thanh theo từng khung hoạt ảnh
+  const sfxFrames = anim?.frames;
+  const sfxIndex = anim?.i;
+  useEffect(() => {
+    if (!sfxFrames || sfxIndex === undefined) return;
+    const f = sfxFrames[sfxIndex];
+    if (!f) return;
+    const map: Partial<Record<Frame['kind'], Sfx>> = {
+      pickup: 'pickup', drop: 'drop', sowEnd: 'sowEnd', capture: 'capture', harvest: 'harvest',
+      keep: 'keep', turn: 'turn', restock: 'turn', gameOver: 'win',
+    };
+    const name = map[f.kind];
+    if (name) sfx(name);
+  }, [sfxFrames, sfxIndex]);
+
   useEffect(() => {
     if (!toast) return;
     const t = window.setTimeout(() => setToast(null), 1400);
@@ -454,6 +470,7 @@ export function GameScreen({ setup, onEnd, onQuit }: {
 
   const sow = (pit: RingIndex, dir: Direction) => {
     const before = game;
+    sfx('ui');
     const result = applyAction(game, { type: 'sow', pit, direction: dir });
     setGame(result.state);
     setNotice('');
@@ -465,6 +482,7 @@ export function GameScreen({ setup, onEnd, onQuit }: {
     if (stage.kind !== 'card' || game.phase !== 'awaitingVerdict') return;
     if (resolvedUidRef.current === stage.uid) return;
     resolvedUidRef.current = stage.uid;
+    sfx(v === 'pass' ? 'correct' : 'wrong');
     const before = game;
     const result = applyAction(game, { type: 'commitRefereeResult', verdict: v });
     setGame(result.state);
@@ -501,7 +519,7 @@ export function GameScreen({ setup, onEnd, onQuit }: {
   const dropMs = frameDuration({ kind: 'drop', ring: 1, handLeft: 0, intoQuanPit: false }, speed, reduced);
   const flyMs = frameDuration({ kind: 'harvest', target: 1, mover: 'P1', dan: 0, quan: 0 }, speed, reduced);
 
-  const onSelectPit = (ring: RingIndex) => setStage({ kind: 'direction', pit: ring, hover: null });
+  const onSelectPit = (ring: RingIndex) => { sfx('select'); setStage({ kind: 'direction', pit: ring, hover: null }); };
   const onRejected = (ring: RingIndex) => {
     if (isQuanPit(ring)) setNotice('Không được bốc Ô Quan để rải.');
     else if (game.pits[ring] === 0) setNotice(`Ô ${pitLabel(ring)} không có hạt.`);
@@ -542,6 +560,7 @@ export function GameScreen({ setup, onEnd, onQuit }: {
         <span className="oq2-header__brand">Brainroot<span aria-hidden="true">.</span> <em>Ô ăn quan xanh</em></span>
         <StatusChips />
         <span className="oq2-header__actions">
+          <SoundToggle />
           <button type="button" className="oq2-btn oq2-btn--small" onClick={() => setRulesOpen(true)}>Luật</button>
           <button type="button" className="oq2-btn oq2-btn--small" aria-expanded={logOpen} onClick={() => setLogOpen((v) => !v)}>Nhật ký</button>
           <button type="button" className="oq2-btn oq2-btn--small" onClick={() => { if (window.confirm('Rời ván? Ván hiện tại sẽ không được lưu.')) onQuit(); }}>Rời ván</button>

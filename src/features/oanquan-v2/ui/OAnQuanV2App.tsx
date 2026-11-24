@@ -6,8 +6,9 @@ import { publicUrl } from '../../../utils/publicUrl';
 import type { TimerMode } from './Challenge';
 import { GameScreen } from './GameScreen';
 import { Mascot, ThemeIcon } from './Icons';
-import { FX } from './assets';
-import { RulesDialog, StatusChips, type Setup } from './shared';
+import { BASKET, FX } from './assets';
+import { RulesDialog, SoundToggle, StatusChips, type Setup } from './shared';
+import { GARDEN_DESKTOP, GARDEN_MOBILE } from './assets';
 
 // ------------------------------------------------------------------ S1, S2
 
@@ -17,7 +18,8 @@ function StartScreen({ onPlay, onRules }: { onPlay: () => void; onRules: () => v
   const h = useRef<HTMLHeadingElement>(null);
   useEffect(() => { h.current?.focus(); }, []);
   return (
-    <main className="oq2-start" id="main-content">
+    <main className="oq2-start" id="main-content" style={{ '--oq2-garden': `url(${GARDEN_DESKTOP})`, '--oq2-garden-m': `url(${GARDEN_MOBILE})` } as React.CSSProperties}>
+      <SoundToggle className="oq2-start__snd" />
       <div className="oq2-start__copy">
         <p className="oq2-eyebrow">BRAINROOT · GREEN PLAY · BẢN CHƠI THỬ NỘI BỘ</p>
         <h1 tabIndex={-1} ref={h}>Ô ăn quan <span>xanh</span></h1>
@@ -27,6 +29,11 @@ function StartScreen({ onPlay, onRules }: { onPlay: () => void; onRules: () => v
           <button type="button" className="oq2-btn oq2-btn--primary oq2-btn--lg" onClick={onPlay}>Chơi 2 người</button>
           <button type="button" className="oq2-btn oq2-btn--ghost" onClick={onRules}>Xem luật tóm tắt</button>
         </div>
+        <ol className="oq2-start__steps" aria-label="Cách chơi trong 3 bước">
+          <li><b>1</b><span>Chọn ô và hướng rải hạt</span></li>
+          <li><b>2</b><span>Ăn quân, trả lời thẻ thử thách xanh</span></li>
+          <li><b>3</b><span>Thu hoạch hạt vào kho bảo tồn</span></li>
+        </ol>
         <ul className="oq2-start__themes" aria-label="5 chủ đề">
           {(['green', 'energy', 'waste', 'water', 'consume'] as const).map((t) => (
             <li key={t} className={`oq2-theme--${t}`}><ThemeIcon theme={t} size={16} /> {THEMES[t].name}</li>
@@ -119,7 +126,7 @@ function EndScreen({ game, names, lessons, log, onReplay, onNew }: {
     ['Hạt cho mượn (cộng)', (p) => (scores[p].debtLent ? `+${scores[p].debtLent}` : '0')],
   ];
   return (
-    <main className="oq2-end" id="main-content">
+    <main className="oq2-end" id="main-content" style={{ '--oq2-garden-end': `url(${GARDEN_DESKTOP})` } as React.CSSProperties}>
       <div className="oq2-end__box">
         <StatusChips />
         <div className="oq2-victory" aria-hidden="true">
@@ -134,6 +141,20 @@ function EndScreen({ game, names, lessons, log, onReplay, onNew }: {
           {game.endReason === 'allQuanHarvested' ? 'Cả hai quân Quan đã được thu hoạch.' : 'Không còn đủ hạt để đặt lại hàng trống, ván kết thúc sớm.'}{game.pits[0] + game.pits[6] ? ` ${game.pits[0] + game.pits[6]} hạt còn trong Ô Quan không tính cho ai.` : ''}
           {' '}Cảm ơn hai bạn đã cùng thu hoạch.
         </p>
+        <div className="oq2-endcards">
+          {(['P1', 'P2'] as PlayerId[]).map((p) => (
+            <div key={p} className={`oq2-endcard${w === p ? ' is-winner' : ''}`}>
+              {w === p ? <span className="oq2-endcard__crown">Đại sứ Môi trường</span> : null}
+              <span className={`oq2-avatar oq2-avatar--${p}`} aria-hidden="true">{names[p].trim().charAt(0).toUpperCase()}</span>
+              <strong>{names[p]}</strong>
+              <b className="oq2-endcard__score">{scores[p].total}</b>
+              <small>điểm</small>
+              <span className="oq2-endcard__jar"><img src={BASKET} alt="" />{scores[p].danInStore} hạt trong kho{scores[p].quanCount ? ` · ${scores[p].quanCount} quân Quan` : ''}</span>
+            </div>
+          ))}
+        </div>
+        <details className="oq2-end__detail">
+          <summary>Bảng điểm chi tiết</summary>
         <table className="oq2-score">
           <caption className="oq2-sr">Bảng điểm cuối ván</caption>
           <thead><tr><th scope="col">Mục</th><th scope="col">{names.P1}</th><th scope="col">{names.P2}</th></tr></thead>
@@ -142,6 +163,7 @@ function EndScreen({ game, names, lessons, log, onReplay, onNew }: {
             <tr className="oq2-score__total"><th scope="row">Tổng điểm</th><td>{scores.P1.total}</td><td>{scores.P2.total}</td></tr>
           </tbody>
         </table>
+        </details>
         {lessons.length ? (
           <section aria-labelledby="oq2-lessons">
             <h2 id="oq2-lessons">Bài học đáng nhớ <span className="oq2-tag">{DECK_LABEL}</span></h2>

@@ -1,4 +1,5 @@
 import { loadActiveDeck } from '../content/activeDeck';
+import { useSound } from './audio';
 import { useEffect, useRef, useState } from 'react';
 import { isQuanPit, pitLabel, type PlayerId, type RingIndex } from '../engine';
 import { THEMES, themeOfRing } from '../content/themes';
@@ -88,3 +89,24 @@ export function RulesDialog({ onClose }: { onClose: () => void }) {
     </div>
   );
 }
+
+/** Nút bật/tắt âm thanh (lưu trên máy này). */
+export function SoundToggle({ className = '' }: { className?: string }) {
+  const [on, setOn] = useSound();
+  return (
+    <button
+      type="button"
+      className={`oq2-btn oq2-btn--small oq2-snd${on ? ' is-on' : ''} ${className}`.trim()}
+      aria-pressed={on}
+      aria-label={on ? 'Âm thanh: bật. Bấm để tắt' : 'Âm thanh: tắt. Bấm để bật'}
+      onClick={() => setOn(!on)}
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none" />
+        {on ? <><path d="M16.5 8.5a5 5 0 0 1 0 7" /><path d="M19 6a8.5 8.5 0 0 1 0 12" /></> : <path d="M17 9l5 6M22 9l-5 6" />}
+      </svg>
+      <span className="oq2-snd__txt">{on ? 'Âm thanh' : 'Tắt tiếng'}</span>
+    </button>
+  );
+}
+

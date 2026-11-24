@@ -730,3 +730,92 @@ body:has(.oqv2) { margin: 0; background: #f8f3e9; }
   .oq2-card--q[data-internal='true'] { padding: 26px 20px 22px; }
   .oq2-card--q[data-internal='true'] .oq2-card__text { font-size: 15px; }
 }
+
+/* ================================================================ BR-T039 — hoàn thiện sản phẩm */
+/* bàn lớn hơn, bớt khoảng trống */
+.oq2-board[data-layout='landscape'] { width: min(100cqw, 100cqh * 3.164, 1320px); }
+.oq2-plates { max-width: 1320px; }
+.oq2-stage { padding: 2px 0 6px; }
+
+/* kho bảo tồn: giỏ hạt nảy lên khi nhận hạt */
+.oq2-plate__basket { font-weight: 800; }
+.oq2-plate__basket img { width: 22px; height: 22px; }
+.oq2-plate__jar-n { display: inline-block; font-weight: 900; animation: oq2-jar 0.6s cubic-bezier(.2,1.6,.4,1); }
+@keyframes oq2-jar { 0% { transform: scale(1); color: inherit; } 35% { transform: scale(1.7); color: #2d7c4d; } 100% { transform: scale(1); } }
+.oq2-plate__store > span:first-child { background: #e4f0e6; color: #1f5a37; }
+.oq2-plate.is-active { box-shadow: 0 4px 0 #d9be8e, 0 0 0 4px rgba(231, 154, 124, 0.45); }
+
+/* nút âm thanh */
+.oq2-snd { gap: 6px; }
+.oq2-snd:not(.is-on) { background: #ece6d8; border-style: dashed; }
+.oq2-start__snd { position: absolute; top: calc(var(--oq-devbar-h) + 12px); right: 16px; z-index: 3; }
+@media (max-width: 760px) { .oq2-snd__txt { display: none; } .oq2-snd { padding: 0 12px; } }
+
+/* ---- màn bắt đầu: vườn xanh + 3 bước */
+.oq2-start {
+  position: relative; isolation: isolate;
+  background: linear-gradient(90deg, rgba(248, 243, 233, 0.94) 0%, rgba(248, 243, 233, 0.82) 46%, rgba(248, 243, 233, 0.12) 100%), var(--oq2-garden) center / cover no-repeat;
+}
+.oq2-start h1 { text-shadow: 0 2px 0 rgba(255, 255, 255, 0.7); }
+.oq2-start__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; width: min(460px, 100%); }
+.oq2-start__steps li { display: flex; align-items: center; gap: 12px; padding: 8px 14px; border-radius: 16px; background: rgba(255, 253, 247, 0.92); box-shadow: 0 3px 0 rgba(217, 190, 142, 0.7); font-weight: 600; }
+.oq2-start__steps b { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--peach); color: var(--ink); font-weight: 900; }
+.oq2-start__art { min-height: 420px; }
+.oq2-mascot { width: min(52%, 300px); animation: oq2-float 4.2s ease-in-out infinite; }
+.oq2-mascot--b { animation-delay: -2.1s; }
+@keyframes oq2-float { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-14px) rotate(1.5deg); } }
+@media (max-width: 760px) {
+  .oq2-start { grid-template-columns: 1fr; padding-top: 64px; gap: 8px; background: linear-gradient(180deg, rgba(248, 243, 233, 0.94) 0%, rgba(248, 243, 233, 0.8) 55%, rgba(248, 243, 233, 0.25) 100%), var(--oq2-garden-m) center / cover no-repeat; }
+  .oq2-start__art { min-height: 220px; order: -1; }
+  .oq2-mascot { width: min(40%, 150px); }
+  .oq2-start__steps li { padding: 6px 12px; }
+}
+
+/* ---- màn cuối ván: danh hiệu */
+.oq2-end { background: linear-gradient(180deg, rgba(248, 243, 233, 0.35), rgba(248, 243, 233, 0.55)), var(--oq2-garden-end, none) center / cover; position: relative; }
+.oq2-end__box { position: relative; overflow: hidden; }
+.oq2-end__box::before, .oq2-end__box::after { content: ''; position: absolute; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle, rgba(241, 181, 49, 0.35), transparent 70%); pointer-events: none; animation: oq2-glow 3.6s ease-in-out infinite; }
+.oq2-end__box::before { left: -30px; top: -30px; }
+.oq2-end__box::after { right: -30px; top: 40px; animation-delay: -1.8s; }
+@keyframes oq2-glow { 0%, 100% { opacity: 0.35; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.15); } }
+.oq2-end h1 { text-align: center; }
+.oq2-end .oq2-lead { text-align: center; margin-inline: auto; }
+.oq2-endcards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.oq2-endcard { position: relative; display: grid; justify-items: center; gap: 2px; padding: 22px 12px 14px; border-radius: 22px; background: #f6efe0; border: 3px solid transparent; }
+.oq2-endcard.is-winner { background: #fff6d6; border-color: #f1b531; box-shadow: 0 6px 0 #d9a21f, 0 0 0 5px rgba(241, 181, 49, 0.25); transform: translateY(-2px); }
+.oq2-endcard__crown { position: absolute; top: -14px; padding: 3px 12px; border-radius: 999px; background: #f1b531; color: #3b2a00; font-size: 12px; font-weight: 900; letter-spacing: 0.04em; white-space: nowrap; }
+.oq2-endcard strong { font-size: 17px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.oq2-endcard__score { font-size: 48px; font-weight: 900; line-height: 1; color: #1f5a37; animation: oq2-bump 0.7s ease-out; }
+.oq2-endcard small { color: var(--muted); font-weight: 700; }
+.oq2-endcard__jar { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; padding: 3px 10px; border-radius: 999px; background: #e4f0e6; font-size: 13px; font-weight: 700; color: #1f5a37; text-align: center; }
+.oq2-endcard__jar img { width: 20px; height: 20px; }
+.oq2-victory__mascots .oq2-mascot-img { animation: oq2-float 3.4s ease-in-out infinite; }
+@media (max-width: 480px) { .oq2-endcard__score { font-size: 38px; } .oq2-endcard { padding: 20px 6px 12px; } }
+
+/* ---- thanh người chơi trên mobile: tên không bị cắt */
+@media (max-width: 460px) {
+  .oq2-plate .oq2-avatar { display: none; }
+  .oq2-plate__who strong { font-size: 14px; }
+  .oq2-game--portrait .oq2-plate { grid-template-columns: minmax(0, 1fr) auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oq2-mascot, .oq2-victory__mascots .oq2-mascot-img, .oq2-end__box::before, .oq2-end__box::after, .oq2-endcard__score, .oq2-plate__jar-n { animation: none; }
+}
+
+.oq2-mascot { width: min(46%, 280px); }
+.oq2-mascot--a { left: 2%; }
+.oq2-mascot--b { right: 2%; }
+
+.oq2-end__detail summary { cursor: pointer; font-weight: 800; padding: 6px 0; }
+.oq2-plate__jar-n { margin-right: 3px; }
+.oq2-victory { height: 130px; }
+.oq2-victory__wreath { height: 130px; }
+.oq2-end__box { overflow: clip; }
+@media (max-width: 480px) {
+  .oq2-end .oq2-chips { display: none; }
+  .oq2-end .oq2-lead { font-size: 14px; }
+  .oq2-end h1 { font-size: 24px; }
+  .oq2-endcard__jar { font-size: 12px; padding: 3px 8px; }
+  .oq2-victory, .oq2-victory__wreath { height: 104px; }
+}

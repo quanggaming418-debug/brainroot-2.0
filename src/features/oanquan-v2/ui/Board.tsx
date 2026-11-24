@@ -198,7 +198,7 @@ export function Board(props: BoardProps) {
                 </span>
                 <span className={`oq2-badge${count === 0 ? ' is-zero' : ''}`} aria-hidden="true">{count}</span>
                 <span className="oq2-pit-name" aria-hidden="true">{pitLabel(r)}</span>
-                {count === 0 ? <span className="oq2-empty" aria-hidden="true">Trống</span> : null}
+                {count === 0 && marks.harvested !== r ? <span className="oq2-empty" aria-hidden="true">Trống</span> : null}
                 <Seeds count={count} table={layout === 'portrait' ? POS_WIDE : POS_SQUARE} />
                 {count > 5 ? <span className="oq2-more" aria-hidden="true">+{count - 5}</span> : null}
               </>

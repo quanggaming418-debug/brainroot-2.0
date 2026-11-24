@@ -1,5 +1,13 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-24 — BR-T039 hoàn thiện sản phẩm · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t039-oanquan-polish` trên BR-T038 `687ca55`; không push/PR/merge/deploy.
+- **Chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html
+- **Thay đổi:** `ui/audio.ts` (mới), `ui/{GameScreen,shared,OAnQuanV2App,Board,playback}.ts(x)`, `ui/oanquan-v2.css`. Engine, thẻ, linh vật không đổi.
+- **Còn mở:** axe/lint chưa chạy; âm thanh chưa được người nghe đánh giá; thiết bị thật chưa thử.
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`.
+
 ## 2026-11-24 — BR-T038 100 thẻ gốc vào bản chơi thử (nội bộ) · Claude Code → Product Owner
 
 - **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t038-oanquan-content` trên BR-T037 `0d5db05`; không push/PR/merge/deploy.
