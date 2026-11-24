@@ -1,3 +1,4 @@
+import { mobileMedia } from '../../utils/layoutViewport';
 import { useEffect, useRef, type RefObject } from 'react';
 import { ABOUT_ASSETS, ABOUT_HERO } from '../../data/about';
 import type { Locale } from '../../i18n/I18nContext';
@@ -51,7 +52,7 @@ export function AboutHero({ locale, eyebrow }: { readonly locale: Locale; readon
     <section className="av-hero" ref={heroRef} aria-labelledby="about-page-title">
       <div className="av-hero__art">
         <picture>
-          <source media="(max-width: 900px)" srcSet={publicUrl(ABOUT_ASSETS.heroMobile)} width={960} height={795} />
+          <source media={mobileMedia('(max-width: 900px)')} srcSet={publicUrl(ABOUT_ASSETS.heroMobile)} width={960} height={795} />
           <img
             className="av-hero__img"
             src={publicUrl(ABOUT_ASSETS.heroDesktop)}

@@ -1,5 +1,6 @@
 import { useEffect, type RefObject } from 'react';
 import { getLayerTransform, shouldEnableParallax } from '../utils/parallax';
+import { layoutViewportWidth } from '../utils/layoutViewport';
 
 /**
  * Applies subtle 3-layer scroll parallax on desktop viewports using rAF.
@@ -21,7 +22,7 @@ export function useHeroParallax(containerRef: RefObject<HTMLDivElement | null>):
     const update = () => {
       rafId = null;
       const enabled = shouldEnableParallax({
-        viewportWidth: window.innerWidth,
+        viewportWidth: layoutViewportWidth(window.innerWidth),
         prefersReducedMotion: mediaQuery.matches,
       });
 

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Locale } from '../../i18n/I18nContext';
+import { layoutViewportWidth } from '../../utils/layoutViewport';
 import {
   RULEBOOK_SPREADS,
   TOD_ASSETS,
@@ -42,7 +43,7 @@ export function HardcoverRulebookModal({
     null,
   );
   const [isMobileView, setIsMobileView] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth < 768 : false,
+    typeof window !== 'undefined' && layoutViewportWidth(window.innerWidth) < 768,
   );
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const shellRef = useRef<HTMLDivElement>(null);
@@ -59,7 +60,7 @@ export function HardcoverRulebookModal({
   );
 
   useEffect(() => {
-    const syncWidth = () => setIsMobileView(window.innerWidth < 768);
+    const syncWidth = () => setIsMobileView(layoutViewportWidth(window.innerWidth) < 768);
     window.addEventListener('resize', syncWidth, { passive: true });
     return () => window.removeEventListener('resize', syncWidth);
   }, []);

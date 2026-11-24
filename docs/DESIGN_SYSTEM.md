@@ -22,7 +22,7 @@
 ## Layout & component language
 - Spacing scale: 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 px; content max-width tùy mục (văn bản 65–75 ký tự/hàng).
 - Cards: 2–3 kiểu rõ ràng (game card, editorial card, status card), không bo góc tất cả giống nhau.
-- Mobile-first: games playable ở 360–390px, desktop 1280px; test 320px tối thiểu nếu hỗ trợ.
+- Giao diện desktop tối thiểu 1280 CSS px theo [AGENTS.md](../AGENTS.md). Màn hình nhỏ dùng cùng bố cục và zoom/cuộn.
 - Components: Header, Hero, MascotLayer, GameCard, QuizCard, SourceCitation, Stepper, EmptyState, ErrorState, ConsentModal, Dialog, Toast, Footer.
 
 ## Brainie / Rootie
@@ -36,7 +36,7 @@
 - Game: motion có ý nghĩa trạng thái (flip/reveal/choice/result); game vẫn dùng được khi tắt animation.
 - Cấm: auto-scrolling liên tục, chớp/nhấp nháy, hover-only functionality, scroll-jacking, video nền không thể tạm dừng.
 - Tôn trọng `prefers-reduced-motion`; chỉ thêm Three.js/R3F cho scene có giá trị trải nghiệm rõ, lazy load và static fallback.
-- Motion budget cần test máy mobile tầm trung; dùng transform/opacity thay vì animate layout quá nặng.
+- Kiểm thử ngân sách motion trên desktop; dùng transform/opacity thay vì animate layout quá nặng.
 
 ## Visual reference interpretation
 - Video 1: lấy editorial hierarchy/typography, không sao chép layout/copy cụ thể.
@@ -46,6 +46,6 @@
 - Reference assets thuộc chủ sở hữu tương ứng; **không copy code, artwork, trademark**.
 
 ## Design review gates
-- Mobile/home, game/trial, result, about, error screen đều có mockup và trạng thái focus/hover/disabled.
-- Test mascot artwork thật, color contrast, reduced-motion, keyboard, small-screen layout trước merge.
+- Home, game/trial, result, about, error screen có mockup desktop và trạng thái focus/hover/disabled.
+- Kiểm thử artwork linh vật, độ tương phản, reduced motion, bàn phím và các viewport desktop theo [QUALITY_AND_TESTING.md](QUALITY_AND_TESTING.md).
 - Không fake working interactions: CTA phải dẫn tới route hay thông báo rõ trạng thái sắp ra mắt.

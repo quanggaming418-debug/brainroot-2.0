@@ -19,7 +19,7 @@
 
 ## Testing
 - Automated: axe-core on home, game catalog, play/result, auth/room when built.
-- Manual: keyboard-only, zoom 200%, screen-reader basics with available tool, small viewport, reduced-motion.
+- Manual: keyboard-only, browser zoom including 200%, screen-reader basics with available tools, and reduced motion. Under the [Desktop-only decision](../AGENTS.md), small-screen QA is an access smoke. Record reflow limitations of the desktop layout when assessing WCAG.
 - User testing: recruit participants with relevant access needs, obtain consent, record barriers anonymously. Blindfolded non-disabled participants are NOT a substitute.
 
 ## Acceptance gates

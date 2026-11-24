@@ -5,7 +5,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 
 export default tseslint.config(
-  { ignores: ['dist/**', 'node_modules/**', 'reference/**', 'tools/**', 'brainroot-assets*/**', 'internal-data/**', 'scripts/capture.ts'] },
+  { ignores: ['dist/**', 'dist-full/**', 'node_modules/**', 'reference/**', 'tools/**', 'brainroot-assets*/**', 'internal-data/**', 'scripts/capture.ts'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

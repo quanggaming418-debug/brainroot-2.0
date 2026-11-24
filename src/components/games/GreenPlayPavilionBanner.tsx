@@ -1,3 +1,4 @@
+import { mobileMedia } from '../../utils/layoutViewport';
 import { useI18n } from '../../i18n/I18nContext';
 import { getGreenPlayLibraryCopy } from '../../i18n/siteCopy';
 import { publicUrl } from '../../utils/publicUrl';
@@ -11,7 +12,7 @@ export function GreenPlayPavilionBanner() {
   return (
     <header className="green-play-pavilion" aria-labelledby="green-play-pavilion-title">
       <picture className="green-play-pavilion__visual" aria-hidden="true">
-        <source media="(max-width: 767px)" srcSet={publicUrl('/assets/green-play/vis-006-pavilion-mobile.webp')} />
+        <source media={mobileMedia('(max-width: 767px)')} srcSet={publicUrl('/assets/green-play/vis-006-pavilion-mobile.webp')} />
         <img
           src={publicUrl('/assets/green-play/vis-006-pavilion-desktop.webp')}
           width={1600}

@@ -1,3 +1,4 @@
+import { mobileMedia } from '../../utils/layoutViewport';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Breadcrumbs } from '../../components/common/Breadcrumbs';
 import { useI18n } from '../../i18n/I18nContext';
@@ -151,7 +152,7 @@ export default function TruthOrDareExperience() {
       >
         {/* Layered Storybook 2.5D Meadow Backdrop */}
         <picture className="tod-tabletop__bg" aria-hidden="true">
-          <source media="(max-width: 720px)" srcSet={TOD_ASSETS.tabletopMobile} />
+          <source media={mobileMedia('(max-width: 720px)')} srcSet={TOD_ASSETS.tabletopMobile} />
           <img src={TOD_ASSETS.tabletopDesktop} alt="" decoding="async" />
         </picture>
 

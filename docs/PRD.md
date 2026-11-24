@@ -22,7 +22,7 @@
 | ID | Persona | Job-to-be-done | Hành vi đặc thù |
 |---|---|---|---|
 | P-01 | Khách mới, mọi lứa tuổi phù hợp | Thấy Brainroot là gì và chơi thử nhanh | Không muốn đăng ký trước khi hiểu giá trị |
-| P-02 | Học sinh/sinh viên | Học qua chơi, khám phá kỹ năng xanh, chia sẻ hoạt động | Mobile-first; nhu cầu nội dung dễ hiểu; có thể dưới 18 tuổi |
+| P-02 | Học sinh/sinh viên | Học qua chơi, khám phá kỹ năng xanh, chia sẻ hoạt động | Ưu tiên desktop theo AGENTS.md; nhu cầu nội dung dễ hiểu; có thể dưới 18 tuổi |
 | P-03 | Người mua bộ bài | Mở khóa nội dung số bổ trợ đã mua | Mã kích hoạt, quyền truy cập, hỗ trợ mất mã |
 | P-04 | Giáo viên/leader CLB | Tổ chức phiên chơi để truyền đạt và đánh giá bài học | Tạo phiên, mã phòng, kết quả tập thể |
 | P-05 | Content editor/admin | Xuất bản kiến thức đúng và quản lý game | Duyệt nguồn, quyền, câu hỏi và tài liệu |
@@ -59,7 +59,7 @@
 ## 6. Functional requirements (IDs để agent tham chiếu)
 | ID | Priority | Requirement | Acceptance criteria (có thể kiểm thử) |
 |---|---|---|---|
-| BR-FR-001 | P0 | Public landing: mission/slogan/CTA | Không cần login; trên desktop/mobile đọc rõ và CTA điều hướng đúng |
+| BR-FR-001 | P0 | Public landing: mission/slogan/CTA | Không cần login; trên desktop đọc rõ và CTA điều hướng đúng; màn hình nhỏ truy cập bố cục desktop |
 | BR-FR-002 | P0 | Game catalog: Fact–Act & Ô ăn quan xanh | Card hiển thị tên, loại, quyền, trạng thái; không gắn link chết |
 | BR-FR-003 | P0 | One playable educational loop | Start → question/action → answer/reflect → feedback → finish; không crash; ≥1 dữ liệu thật đã duyệt |
 | BR-FR-004 | P0 | Explain evidence | Mỗi câu có lời giải và nguồn hoặc ghi rõ nội dung phản tư không có đáp án đơn nhất |
@@ -76,9 +76,9 @@
 *P0/P1/P2/P3 là mức ưu tiên; R0/R1/R2/R3 là mốc phát hành. Phân công R2 cho Hackathon phải được leader/BTC xác nhận.*
 
 ## 7. Non-functional requirements (định hướng; chưa phải chứng nhận đạt)
-- Mobile-first, tối thiểu thử Chrome Android, Safari iOS, desktop Chromium.
+- Desktop-only theo [AGENTS.md](../AGENTS.md). Ma trận desktop và smoke truy cập màn hình nhỏ ở [QUALITY_AND_TESTING.md](QUALITY_AND_TESTING.md).
 - Mục tiêu **WCAG 2.2 AA** cho màn hình cốt lõi; automated axe + kiểm tra bàn phím/manual. Không tuyên bố đạt chuẩn trước kiểm toán.
-- Performance budget proposed: LCP mobile mục tiêu ≤2,5s, CLS ≤0,1 trong điều kiện đo được ghi rõ; hero animation defer/lazy load, ảnh có dimensions.
+- Performance budget proposed: ghi LCP và CLS trên desktop cùng điều kiện đo; hero animation defer/lazy load, ảnh có dimensions.
 - Bảo mật: server authorization, rate limiting, không lộ secret, dữ liệu học sinh bảo vệ riêng; no public leaderboards có danh tính trẻ vị thành niên theo mặc định.
 - Fault tolerance: external AQI/API/LLM fail phải hiện dữ liệu không có hoặc hướng dẫn offline, không để vỡ các game chính.
 - Observability: log lỗi và event cần thiết, không thu PII vượt nhu cầu.
@@ -101,7 +101,7 @@
 | Scope phình to sát sơ tuyển | R0 giữ đúng 1 end-to-end game | Leader duyệt R0 |
 | Nội dung môi trường chưa kiểm chứng | `CONTENT_GUIDELINES.md`, nguồn + reviewer | Không publish nếu status != approved |
 | Mâu thuẫn giữa game free và bán bộ bài | Role & access matrix | Chốt bundle/entitlement trước paid feature |
-| UI trông AI-generated, load chậm | Design tokens, mascot gốc, motion budget | Review mobile + reduced motion |
+| UI trông AI-generated, load chậm | Design tokens, mascot gốc, motion budget | Review desktop + reduced motion |
 | Thể lệ về baseline 24h | Tag/screenshot/commit/khai báo | Mỗi R2 task có evidence trước-sau |
 | Người dùng trẻ & định vị | Dữ liệu tối thiểu, opt-in, không public PII | Privacy review |
 
