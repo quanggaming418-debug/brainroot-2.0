@@ -1,5 +1,5 @@
 import { loadActiveDeck } from '../content/activeDeck';
-import { useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, type ComponentProps } from 'react';
 import { computeScores, winner, type GameState, type PlayerId } from '../engine';
 import { THEMES } from '../content/themes';
 import { publicUrl } from '../../../utils/publicUrl';
@@ -12,13 +12,27 @@ import { GARDEN_DESKTOP, GARDEN_MOBILE } from './assets';
 
 // ------------------------------------------------------------------ S1, S2
 
+/** Khi nhúng vào website chính: dùng <section> thay <main> (trang đã có main#main-content) và có lối về trang chủ. */
+export interface EmbedOptions { readonly onHome: () => void }
+const EmbedCtx = createContext<EmbedOptions | null>(null);
+function Main(props: ComponentProps<'main'>) {
+  const embed = useContext(EmbedCtx);
+  if (embed) { const { id: _id, ...rest } = props; void _id; return <section {...rest} />; }
+  return <main {...props} />;
+}
+function HomeLink({ className = '' }: { className?: string }) {
+  const embed = useContext(EmbedCtx);
+  if (!embed) return null;
+  return <button type="button" className={`oq2-btn oq2-btn--ghost ${className}`.trim()} onClick={embed.onHome}>← Về trang chủ</button>;
+}
+
 const DECK_LABEL = loadActiveDeck().source === 'internal' ? 'thẻ nội bộ' : 'thẻ DEMO';
 
 function StartScreen({ onPlay, onRules }: { onPlay: () => void; onRules: () => void }) {
   const h = useRef<HTMLHeadingElement>(null);
   useEffect(() => { h.current?.focus(); }, []);
   return (
-    <main className="oq2-start" id="main-content" style={{ '--oq2-garden': `url(${GARDEN_DESKTOP})`, '--oq2-garden-m': `url(${GARDEN_MOBILE})` } as React.CSSProperties}>
+    <Main className="oq2-start" id="main-content" style={{ '--oq2-garden': `url(${GARDEN_DESKTOP})`, '--oq2-garden-m': `url(${GARDEN_MOBILE})` } as React.CSSProperties}>
       <SoundToggle className="oq2-start__snd" />
       <div className="oq2-start__copy">
         <p className="oq2-eyebrow">BRAINROOT · GREEN PLAY · BẢN CHƠI THỬ NỘI BỘ</p>
@@ -28,6 +42,7 @@ function StartScreen({ onPlay, onRules }: { onPlay: () => void; onRules: () => v
         <div className="oq2-start__actions">
           <button type="button" className="oq2-btn oq2-btn--primary oq2-btn--lg" onClick={onPlay}>Chơi 2 người</button>
           <button type="button" className="oq2-btn oq2-btn--ghost" onClick={onRules}>Xem luật tóm tắt</button>
+          <HomeLink />
         </div>
         <ol className="oq2-start__steps" aria-label="Cách chơi trong 3 bước">
           <li><b>1</b><span>Chọn ô và hướng rải hạt</span></li>
@@ -44,7 +59,7 @@ function StartScreen({ onPlay, onRules }: { onPlay: () => void; onRules: () => v
         <img src={publicUrl('/assets/hero-v4/brainie.webp')} alt="" className="oq2-mascot oq2-mascot--a" />
         <img src={publicUrl('/assets/hero-v4/rootie.webp')} alt="" className="oq2-mascot oq2-mascot--b" />
       </div>
-    </main>
+    </Main>
   );
 }
 
@@ -62,7 +77,7 @@ function SetupScreen({ initial, onStart, onBack }: { initial: Setup; onStart: (s
     </label>
   );
   return (
-    <main className="oq2-setup" id="main-content">
+    <Main className="oq2-setup" id="main-content">
       <form
         className="oq2-setup__form"
         onSubmit={(e) => {
@@ -106,7 +121,7 @@ function SetupScreen({ initial, onStart, onBack }: { initial: Setup; onStart: (s
           <button type="submit" className="oq2-btn oq2-btn--primary">Bắt đầu ván</button>
         </div>
       </form>
-    </main>
+    </Main>
   );
 }
 
@@ -126,7 +141,7 @@ function EndScreen({ game, names, lessons, log, onReplay, onNew }: {
     ['Hạt cho mượn (cộng)', (p) => (scores[p].debtLent ? `+${scores[p].debtLent}` : '0')],
   ];
   return (
-    <main className="oq2-end" id="main-content" style={{ '--oq2-garden-end': `url(${GARDEN_DESKTOP})` } as React.CSSProperties}>
+    <Main className="oq2-end" id="main-content" style={{ '--oq2-garden-end': `url(${GARDEN_DESKTOP})` } as React.CSSProperties}>
       <div className="oq2-end__box">
         <StatusChips />
         <div className="oq2-victory" aria-hidden="true">
@@ -179,9 +194,10 @@ function EndScreen({ game, names, lessons, log, onReplay, onNew }: {
         <div className="oq2-end__actions">
           <button type="button" className="oq2-btn oq2-btn--primary" onClick={onReplay}>Chơi lại</button>
           <button type="button" className="oq2-btn oq2-btn--ghost" onClick={onNew}>Thiết lập ván mới</button>
+          <HomeLink />
         </div>
       </div>
-    </main>
+    </Main>
   );
 }
 
@@ -193,19 +209,24 @@ type Screen =
   | { kind: 'game'; id: number }
   | { kind: 'end'; game: GameState; lessons: string[]; log: string[] };
 
-export function OAnQuanV2App() {
+export function OAnQuanV2App({ embed = null }: { embed?: EmbedOptions | null } = {}) {
   const [screen, setScreen] = useState<Screen>({ kind: 'start' });
   const [setup, setSetup] = useState<Setup>({ names: { P1: 'Người chơi 1', P2: 'Người chơi 2' }, first: 'P1', timer: 'standard' });
   const [rulesOpen, setRulesOpen] = useState(false);
   const [gameId, setGameId] = useState(1);
 
   return (
-    <div className="oqv2">
-      <a className="oq2-skip" href="#main-content">Bỏ qua tới nội dung chính</a>
-      <div className="oq2-devbar" role="note">
-        <span className="oq2-devbar__long">BẢN XEM TRƯỚC CHỈ CHẠY Ở MÔI TRƯỜNG DEV · luật bản thử PLAYTEST V1 · {DECK_LABEL} · không phải bản phát hành</span>
-        <span className="oq2-devbar__short">DEV · PLAYTEST V1 · {DECK_LABEL} · chưa phát hành</span>
-      </div>
+    <EmbedCtx.Provider value={embed}>
+    <div className={`oqv2${embed ? ' oqv2--embedded' : ''}`}>
+      {embed ? null : (
+        <>
+          <a className="oq2-skip" href="#main-content">Bỏ qua tới nội dung chính</a>
+          <div className="oq2-devbar" role="note">
+            <span className="oq2-devbar__long">BẢN XEM TRƯỚC CHỈ CHẠY Ở MÔI TRƯỜNG DEV · luật bản thử PLAYTEST V1 · {DECK_LABEL} · không phải bản phát hành</span>
+            <span className="oq2-devbar__short">DEV · PLAYTEST V1 · {DECK_LABEL} · chưa phát hành</span>
+          </div>
+        </>
+      )}
       {screen.kind === 'start' ? <StartScreen onPlay={() => setScreen({ kind: 'setup' })} onRules={() => setRulesOpen(true)} /> : null}
       {screen.kind === 'setup' ? (
         <SetupScreen
@@ -234,5 +255,6 @@ export function OAnQuanV2App() {
       ) : null}
       {rulesOpen ? <RulesDialog onClose={() => setRulesOpen(false)} /> : null}
     </div>
+    </EmbedCtx.Provider>
   );
 }

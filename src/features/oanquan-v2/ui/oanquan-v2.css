@@ -819,3 +819,8 @@ body:has(.oqv2) { margin: 0; background: #f8f3e9; }
   .oq2-endcard__jar { font-size: 12px; padding: 3px 8px; }
   .oq2-victory, .oq2-victory__wreath { height: 104px; }
 }
+
+.oqv2--embedded .oq2-header__brand { display: none; }
+.oqv2--embedded { min-height: calc(100dvh - var(--oq-devbar-h)); }
+.oqv2--embedded .oq2-start__snd { top: 12px; }
+.oqv2--embedded { --oq-devbar-h: var(--oqv2-host-h, 72px); }

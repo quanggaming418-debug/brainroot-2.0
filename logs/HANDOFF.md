@@ -1,5 +1,13 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-24 — BR-T040 tích hợp website chính · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t040-main-site-integration` trên BR-T039 `d1e3483`; không push/PR/merge/deploy.
+- **Chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/ → Trò chơi → Ô ăn quan xanh → nút chơi (hoặc trực tiếp `/brainroot-2.0/games/o-an-quan-xanh/play`). Local dùng đủ 100 thẻ gốc.
+- **Bật/tắt:** production mặc định tắt. `VITE_ENABLE_OQV2=true npm run build` để bật (chỉ thẻ DEMO). `VITE_ENABLE_OQV2=false npm run dev` để thử cấu hình tắt ở dev. Kiểm tra: `node scripts/check-oqv2-isolation.mjs`.
+- **Điều kiện trước production:** Điều kiện trước khi bật V2 ở production: (1) Product Owner cho phép bật `VITE_ENABLE_OQV2=true`; (2) thẻ chính thức được duyệt công bố (hiện production chỉ có thẻ DEMO tự viết, 100 thẻ gốc chỉ nội bộ — OQ-18); (3) quyết định bộ thẻ riêng cho 2 Ô Quan (OQ-17, đang ánh xạ tạm); (4) luật PLAYTEST_V1 được nhóm chốt (OQ-08, OQ-15, OQ-16 còn mở); (5) quyền sử dụng/bản quyền asset V3 và Brainie/Rootie cho phát hành (BR-T002); (6) QA thiết bị thật + axe/lint; (7) quyết định số phận prototype 3D / `/games/o-an-quan-xanh` theo ADR-0006 (5 điều kiện nghiệm thu thay thế).
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`.
+
 ## 2026-11-24 — BR-T039 hoàn thiện sản phẩm · Claude Code → Product Owner
 
 - **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t039-oanquan-polish` trên BR-T038 `687ca55`; không push/PR/merge/deploy.

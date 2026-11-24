@@ -1,5 +1,7 @@
 import { publicUrl } from '../utils/publicUrl';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { OQV2_ENABLED } from '../utils/featureFlags';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { EmptyUnavailableState } from '../components/common/EmptyUnavailableState';
 import { ProductStatusLabel } from '../components/common/ProductStatusLabel';
@@ -45,6 +47,13 @@ export function OAnQuanXanhDetailPage() {
             </h1>
             <ProductStatusLabel label={copy.statusLabel} tone="sage" />
             <p className="gp-detail-hero__tagline">{copy.tagline}</p>
+            {OQV2_ENABLED ? (
+              <p>
+                <Link className="gp-button gp-button--primary oq-play-cta" to="/games/o-an-quan-xanh/play">
+                  {locale === 'en' ? 'Play Green Ô Ăn Quan (playtest)' : 'Chơi Ô ăn quan xanh (bản chơi thử)'}
+                </Link>
+              </p>
+            ) : null}
             <p className="gp-detail-hero__overview oq-hero__overview">
               {copy.overview}
             </p>
