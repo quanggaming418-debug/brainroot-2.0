@@ -9,6 +9,7 @@
 // Kết quả nằm ở dist-full/ (đã gitignore). Không đẩy PDF/dữ liệu nội bộ lên Git: bộ thẻ chỉ được đọc lúc build trên máy này.
 // Dữ liệu FULL nằm trong mã gửi tới trình duyệt nên người dùng truy xuất được.
 import { spawnSync } from 'node:child_process';
+import { rmSync } from 'node:fs';
 
 const arg = (name, fallback) => process.argv.find((a) => a.startsWith(`--${name}=`))?.split('=').slice(1).join('=') ?? fallback;
 const host = arg('host', 'cloudflare');
@@ -38,5 +39,7 @@ const run = (cmd, args, e = env) => {
 console.log(`[build-full] host=${host} deck=${deck} → ${outDir}/`);
 run('npx', ['tsc', '--noEmit']);
 run('npx', ['vite', 'build', '--outDir', outDir, '--emptyOutDir']);
+// Cloudflare Pages chỉ dùng fallback SPA khi KHÔNG có 404.html (lệnh build của dashboard Git cũng xóa nó).
+if (host === 'cloudflare') rmSync(`${outDir}/404.html`, { force: true });
 run('node', ['scripts/check-oqv2-isolation.mjs', outDir, '--full']);
 console.log(`[build-full] Xong. Triển khai thư mục ${outDir}/ (xem docs/RELEASE_PLAYBOOK.md §6). Không commit thư mục này.`);

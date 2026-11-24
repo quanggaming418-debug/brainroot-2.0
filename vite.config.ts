@@ -1,5 +1,3 @@
-import { rmSync } from 'node:fs';
-import { join, resolve } from 'node:path';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import { loadDevDeck, loadFullDeck, resolveOqv2Mode, type Oqv2Env, type Oqv2Mode } from './scripts/oqv2-release.ts';
@@ -39,30 +37,15 @@ function oqv2Gate(mode: Oqv2Mode, root: string, env: Oqv2Env): Plugin {
   };
 }
 
-/**
- * Cloudflare Pages (host chính) phục vụ ở gốc `/` và tự dùng fallback SPA khi KHÔNG có 404.html.
- * GitHub Pages (dự phòng) phục vụ dưới `/brainroot-2.0/` và cần public/404.html để khôi phục deep-link.
- * Cloudflare tự đặt CF_PAGES=1 khi build; có thể ép bằng VITE_BASE_PATH.
- */
-function rootBaseCleanup(base: string): Plugin {
-  let outDir = '';
-  return {
-    name: 'brainroot-root-base-cleanup',
-    apply: 'build',
-    configResolved(c) { outDir = resolve(c.root, c.build.outDir); },
-    closeBundle() {
-      if (base === '/') rmSync(join(outDir, '404.html'), { force: true });
-    },
-  };
-}
-
 export default defineConfig(({ command, mode }) => {
   const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env } as Oqv2Env & Record<string, string | undefined>;
   const oqMode = resolveOqv2Mode(env, command);
+  // Cloudflare Pages (host chính) phục vụ ở gốc `/` (Cloudflare tự đặt CF_PAGES=1); GitHub Pages (dự phòng) dưới `/brainroot-2.0/`.
+  // KHÔNG xóa dist/404.html ở đây: lệnh build của dashboard Cloudflare đã tự xóa nó (`rm dist/404.html`); xóa trước sẽ làm lệnh đó thất bại.
   const base = env.VITE_BASE_PATH ?? (env.CF_PAGES === '1' ? '/' : '/brainroot-2.0/');
   return {
     base,
     define: { __OQV2_MODE__: JSON.stringify(oqMode) },
-    plugins: [oqv2Gate(oqMode, process.cwd(), env), rootBaseCleanup(base), react()],
+    plugins: [oqv2Gate(oqMode, process.cwd(), env), react()],
   };
 });

@@ -308,3 +308,7 @@
 
 - Ghi nguồn gốc theo xác nhận của PO (ChatGPT cho pose/nền/bàn tay/SVG; hình gốc của PO cho Brainie/Rootie; Web Audio cho âm thanh), phạm vi công bố RC1/Hackathon, và các điều **không** tuyên bố (quyền thương mại, cấp phép lại, sở hữu bản quyền đầu ra AI). Không đổi mã, UI, asset hay nội dung.
 - **Git commit SHA:** xem commit tiếp theo trên `codex/br-t042-release-candidate`.
+
+## Session: 2026-11-24 — Claude Code — PR #16: sửa hồi quy Cloudflare Pages
+
+- Cloudflare Pages build đỏ ở `b5a6730` do `vite.config.ts` (BR-T041) tự xóa `dist/404.html` khi `CF_PAGES=1`. Tái hiện: `CF_PAGES=1 npm run build -- --base=/ && rm dist/404.html` → exit 1 trên nhánh, exit 0 trên `main`. Sửa: bỏ việc xóa trong vite config; `scripts/build-full.mjs` (host cloudflare) tự xóa. Kiểm tra: lệnh kiểu dashboard exit 0, build GitHub giữ `404.html`, build:full cô lập OK, 96/96 test, lint, tsc.

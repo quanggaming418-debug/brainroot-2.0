@@ -7,7 +7,7 @@ Cloudflare Pages là host chính; GitHub Pages là host dự phòng. **Không pu
 |---|---|---|
 | Build | `npm ci && npm run build`, output `dist` | workflow `.github/workflows/deploy.yml` (typecheck + build) |
 | Base URL | `/` — tự đặt khi `CF_PAGES=1` (Cloudflare đặt sẵn), hoặc `VITE_BASE_PATH=/` | `/brainroot-2.0/` (mặc định) |
-| SPA / deep-link | Cloudflare tự fallback về `index.html` **khi không có `404.html`**; build bỏ `dist/404.html` khi base là `/` | `public/404.html` đưa trình duyệt về entry rồi `main.tsx` khôi phục route/query/hash |
+| SPA / deep-link | Cloudflare tự fallback về `index.html` **khi không có `404.html`**; lệnh build của dashboard Cloudflare xóa `dist/404.html` (cấu hình có sẵn, repo **không** tự xóa vì xóa trước sẽ làm `rm dist/404.html` thất bại); `npm run build:full` (host cloudflare) tự xóa | `public/404.html` đưa trình duyệt về entry rồi `main.tsx` khôi phục route/query/hash |
 | Chế độ V2 | biến môi trường Pages: `VITE_OQV2_MODE` | đặt trong workflow (`env:`) nếu muốn bật; mặc định OFF |
 
 Đã kiểm thử bằng máy chủ mô phỏng hai host trên 4 bản build (gh/cf × cờ tắt/bật): deep-link `/games/fact-act`, `/learn`, `/about`, `/games/o-an-quan-xanh`, `/games/o-an-quan-xanh/play?x=1#h` và 404 đều đúng. **Chưa** kiểm tra trên host thật.
@@ -64,7 +64,7 @@ Repository vẫn chứa: mã V2, art ArtPack V3 (`src/features/oanquan-v2/assets
 - Repo GitHub **công khai**: mọi thứ push lên (mã, art, tài liệu, lịch sử commit) là công khai.
 
 ### 6.1 Bản OFF / DEMO (qua Git, không cần dữ liệu nội bộ)
-- Cloudflare build bằng cloud từ Git (`npm run build`, output `dist`), `CF_PAGES=1` do Cloudflare tự đặt. Không đặt biến V2 → **OFF**; hoặc `VITE_OQV2_MODE=demo` → DEMO.
+- Cloudflare build bằng cloud từ Git (`npm run build`, output `dist`), `CF_PAGES=1` do Cloudflare tự đặt (base `/`). Không đặt biến V2 → **OFF**; hoặc `VITE_OQV2_MODE=demo` → DEMO.
 - **Không** đặt `VITE_OQV2_MODE=full` hay `OQV2_PUBLICATION_APPROVAL` trong Cloudflare: cloud build không có bộ thẻ nên sẽ thất bại (đúng thiết kế), và không bao giờ đưa dữ liệu lên Git.
 - Khi mở PR/đẩy nhánh, Pages tự tạo preview của nhánh ở chế độ OFF (không có V2, không có thẻ) nếu chưa đặt biến V2; kể cả có đặt `VITE_ENABLE_OQV2=true` thì chỉ ra DEMO.
 
@@ -80,7 +80,7 @@ Quy trình (chỉ khi có văn bản cho phép công bố 100 thẻ, `OQ-19`; **
 ```powershell
 $env:OQV2_PUBLICATION_APPROVAL = "<mã/tham chiếu văn bản cho phép>"
 npm ci
-npm run build:full          # Cloudflare: base "/", không có 404.html  →  dist-full/  (đã tự chạy --full isolation)
+npm run build:full          # Cloudflare: base "/", đã xóa 404.html  →  dist-full/  (đã tự chạy --full isolation)
 npx wrangler login          # lần đầu; tương tác, do Product Owner thực hiện
 # Thử trước trên URL preview (KHÔNG phải production):
 npx wrangler pages deploy dist-full --project-name brainroot --branch rc1-full

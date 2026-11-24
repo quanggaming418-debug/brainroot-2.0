@@ -2,6 +2,13 @@
 
 > **Trạng thái hiện hành nằm ở mục BR-T042 (nghiệm thu cuối) ngay dưới đây và `planning/PROJECT_STATE.md`.** Các mục cũ hơn là lịch sử bàn giao (append-only), không phải chỉ dẫn hiện hành.
 
+## 2026-11-24 — PR #16: kiểm tra checks · Claude Code → Product Owner
+
+- **PR:** https://github.com/quanggaming418-debug/brainroot-2.0/pull/16 (nhánh `codex/br-t042-release-candidate` → `main`, merge commit, chưa merge).
+- **Cloudflare Pages `brainroot` đỏ ở `b5a6730` — do PR này:** cấu hình build của repo ở BR-T041 tự xóa `dist/404.html` khi `CF_PAGES=1`; lệnh build trong dashboard (theo ghi chú cũ: `--base=/` rồi xóa `404.html`) lại xóa lần nữa, `rm dist/404.html` thất bại khi tệp đã mất (tái hiện cục bộ: exit 1; trên `main` exit 0). Sửa: repo không tự xóa nữa (build:full tự xóa cho bản thủ công). **Giả thuyết dựa trên bằng chứng gián tiếp**; lệnh dashboard chính xác chưa đọc được (cần log Cloudflare).
+- **Workers Builds `brainroot-2-0` đỏ — KHÔNG do PR này:** đỏ trên mọi nhánh không phải `main` trong lịch sử (9/9 nhánh đã kiểm), xanh trên `main`. Nguyên nhân cụ thể nằm trong log dashboard; không sửa mã.
+- Không đổi cấu hình Cloudflare, không deploy FULL.
+
 ## 2026-11-24 — Xác nhận nguồn gốc ArtPack V3 và cho phép push/PR · Claude Code → Product Owner
 
 - **Xác nhận của PO:** Brainie/Rootie là hình gốc của PO; bảng biểu cảm, nền vườn, bàn tay, SVG/icon/hiệu ứng tạo bằng ChatGPT (AI) và PO đã duyệt; âm thanh tổng hợp Web Audio. PO có quyền dùng và cho phép công bố trong phạm vi RC1 trên repo GitHub công khai + website Brainroot phục vụ Hackathon. **Không** xác minh quyền thương mại, **không** cấp phép tái sử dụng cho bên thứ ba.
