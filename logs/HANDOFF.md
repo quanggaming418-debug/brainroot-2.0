@@ -2,6 +2,11 @@
 
 > **Trạng thái hiện hành nằm ở mục BR-T042 (nghiệm thu cuối) ngay dưới đây và `planning/PROJECT_STATE.md`.** Các mục cũ hơn là lịch sử bàn giao (append-only), không phải chỉ dẫn hiện hành.
 
+## 2026-11-24 — PR #16: nguyên nhân Cloudflare Pages đỏ = `bun.lock` cũ · Claude Code → Product Owner
+
+- **Nguyên nhân (log Cloudflare, do PO xác minh):** Cloudflare chọn Bun vì có `bun.lock`; `bun install --frozen-lockfile` thất bại (lockfile lệch `package.json`, thiếu `@axe-core/playwright`) **trước** build command. Giả thuyết `404.html` của tôi ở lượt trước là **sai**: build command thật dùng `rm -f`.
+- **Xử lý:** repo không dùng Bun → `git rm bun.lock` + `.gitignore` bun.lock/bun.lockb; npm + `package-lock.json` là nguồn duy nhất. Cập nhật `RELEASE_PLAYBOOK.md` theo cấu hình Cloudflare thực tế. Thay đổi `vite.config.ts` ở `b4d54d4` giữ nguyên (vô hại, tương thích `rm -f`).
+
 ## 2026-11-24 — PR #16: kiểm tra checks · Claude Code → Product Owner
 
 - **PR:** https://github.com/quanggaming418-debug/brainroot-2.0/pull/16 (nhánh `codex/br-t042-release-candidate` → `main`, merge commit, chưa merge).

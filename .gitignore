@@ -12,3 +12,7 @@ playwright-report/
 # BR-T038: internal educational deck (never commit; dev-only)
 /internal-data/
 /dist-full/
+
+# npm + package-lock.json là nguồn dependency duy nhất. Cloudflare tự chọn Bun nếu thấy bun.lock (BR-T042, PR #16).
+bun.lock
+bun.lockb

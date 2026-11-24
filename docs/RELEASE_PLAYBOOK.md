@@ -7,7 +7,7 @@ Cloudflare Pages là host chính; GitHub Pages là host dự phòng. **Không pu
 |---|---|---|
 | Build | `npm ci && npm run build`, output `dist` | workflow `.github/workflows/deploy.yml` (typecheck + build) |
 | Base URL | `/` — tự đặt khi `CF_PAGES=1` (Cloudflare đặt sẵn), hoặc `VITE_BASE_PATH=/` | `/brainroot-2.0/` (mặc định) |
-| SPA / deep-link | Cloudflare tự fallback về `index.html` **khi không có `404.html`**; lệnh build của dashboard Cloudflare xóa `dist/404.html` (cấu hình có sẵn, repo **không** tự xóa vì xóa trước sẽ làm `rm dist/404.html` thất bại); `npm run build:full` (host cloudflare) tự xóa | `public/404.html` đưa trình duyệt về entry rồi `main.tsx` khôi phục route/query/hash |
+| SPA / deep-link | Cloudflare tự fallback về `index.html` **khi không có `404.html`**; lệnh build của dashboard Cloudflare xóa `dist/404.html` (`rm -f dist/404.html` trong build command; repo không tự xóa); `npm run build:full` (host cloudflare) tự xóa | `public/404.html` đưa trình duyệt về entry rồi `main.tsx` khôi phục route/query/hash |
 | Chế độ V2 | biến môi trường Pages: `VITE_OQV2_MODE` | đặt trong workflow (`env:`) nếu muốn bật; mặc định OFF |
 
 Đã kiểm thử bằng máy chủ mô phỏng hai host trên 4 bản build (gh/cf × cờ tắt/bật): deep-link `/games/fact-act`, `/learn`, `/about`, `/games/o-an-quan-xanh`, `/games/o-an-quan-xanh/play?x=1#h` và 404 đều đúng. **Chưa** kiểm tra trên host thật.
@@ -56,12 +56,13 @@ Repository vẫn chứa: mã V2, art ArtPack V3 (`src/features/oanquan-v2/assets
 
 ## 6. Build FULL và triển khai Cloudflare Pages (RC1)
 
-### 6.0 Hiện trạng Cloudflare (đọc từ nguồn công khai, KHÔNG thay đổi gì)
-Đọc qua GitHub check-runs công khai của commit `759c65e` / `ca4d0d5` và HTTP GET trang công khai; chưa đăng nhập Cloudflare, chưa có `wrangler`.
-- Pages project: **`brainroot`**, nối Git với repo này; domain **`brainroot-55i.pages.dev`**. Mỗi commit/nhánh được build tự động; mỗi nhánh có preview `https://<nhánh-đã-chuẩn-hóa>.brainroot-55i.pages.dev` (ví dụ `codex-br-t031-about-v43`). Trang chủ thật phục vụ ở gốc `/`, deep-link `/games/fact-act` và `/404.html` đều trả 200 (đúng với SPA fallback khi không có `404.html`, khớp với cấu hình `CF_PAGES=1` của repo).
-- Có thêm một check **"Workers Builds: brainroot-2-0"** (dịch vụ Cloudflare Workers riêng, script `brainroot-2-0`) cũng nối với repo; thành công trên `main`, thất bại trên nhánh `ca4d0d5`. Chưa rõ vai trò; cần Product Owner xem trong dashboard, có thể là cấu hình thừa.
-- **Chưa xác minh được** (cần dashboard hoặc API có đăng nhập): production branch, build command, biến môi trường (có đặt `VITE_OQV2_MODE`/`VITE_ENABLE_OQV2` không), Node version, trạng thái "Automatic deployments", có bật Access cho preview không.
-- Repo GitHub **công khai**: mọi thứ push lên (mã, art, tài liệu, lịch sử commit) là công khai.
+### 6.0 Hiện trạng Cloudflare (Product Owner xác minh qua Cloudflare API, 24/11/2026)
+- Pages project **`brainroot`** (Git, `brainroot-55i.pages.dev`), production branch **`main`**, output `dist`, root `/`; production automatic deployment **bật**; preview deployment **mọi nhánh** (preview `https://<nhánh>.brainroot-55i.pages.dev`).
+- Môi trường build: **Node 22.23.4, npm 10.9.9, Bun 1.4.4**. Build command hiện tại: `npm ci && sed -i "s#base: '/brainroot-2.0/'#base: '/'#" vite.config.ts && npm run build && rm -f dist/404.html`.
+- **Bước cài đặt dependency do Cloudflare tự chọn trình quản lý gói theo lockfile**: có `bun.lock` thì chạy `bun install --frozen-lockfile` TRƯỚC build command. Đó là nguyên nhân Pages đỏ ở PR #16 (`bun.lock` cũ lệch `package.json`: thiếu `@axe-core/playwright`). Đã xử lý bằng cách **xóa `bun.lock`** (repo không dùng Bun: không script, workflow hay tài liệu nào nhắc tới) và ghi `bun.lock`/`bun.lockb` vào `.gitignore`; **npm + `package-lock.json` là nguồn dependency duy nhất**. Không thêm `bun.lock` trở lại.
+- Hệ quả cho cấu hình repo: `sed` trong build command tìm đúng chuỗi `base: '/brainroot-2.0/'` — chuỗi này không còn trong `vite.config.ts` (base nay lấy từ `CF_PAGES`/`VITE_BASE_PATH`), nên `sed` là no-op vô hại; base `/` vẫn đúng nhờ `CF_PAGES=1`. `rm -f dist/404.html` an toàn dù tệp đã tồn tại hay chưa. Có thể rút gọn build command thành `npm ci && npm run build && rm -f dist/404.html` khi Product Owner muốn (không bắt buộc, chưa thay đổi).
+- Workers Builds `brainroot-2-0` (dịch vụ Workers riêng nối cùng repo) đỏ trên mọi nhánh không phải `main` trong lịch sử; được xử lý riêng ở cấp cấu hình Cloudflare, không liên quan mã nguồn.
+- Repo GitHub **công khai**: mọi thứ push lên là công khai.
 
 ### 6.1 Bản OFF / DEMO (qua Git, không cần dữ liệu nội bộ)
 - Cloudflare build bằng cloud từ Git (`npm run build`, output `dist`), `CF_PAGES=1` do Cloudflare tự đặt (base `/`). Không đặt biến V2 → **OFF**; hoặc `VITE_OQV2_MODE=demo` → DEMO.

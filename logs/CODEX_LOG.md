@@ -312,3 +312,7 @@
 ## Session: 2026-11-24 — Claude Code — PR #16: sửa hồi quy Cloudflare Pages
 
 - Cloudflare Pages build đỏ ở `b5a6730` do `vite.config.ts` (BR-T041) tự xóa `dist/404.html` khi `CF_PAGES=1`. Tái hiện: `CF_PAGES=1 npm run build -- --base=/ && rm dist/404.html` → exit 1 trên nhánh, exit 0 trên `main`. Sửa: bỏ việc xóa trong vite config; `scripts/build-full.mjs` (host cloudflare) tự xóa. Kiểm tra: lệnh kiểu dashboard exit 0, build GitHub giữ `404.html`, build:full cô lập OK, 96/96 test, lint, tsc.
+
+## Session: 2026-11-24 — Claude Code — PR #16: xóa bun.lock
+
+- Cloudflare Pages đỏ do `bun install --frozen-lockfile` (bun.lock lệch package.json). Kiểm tra Bun: 0 tham chiếu trong script/workflow/tài liệu; GitHub Actions dùng `npm ci`. Xóa `bun.lock`, ignore bun.lock/bun.lockb. Chuẩn lockfile: `package-lock.json`. Đính chính: giả thuyết `404.html` ở mục trước không phải nguyên nhân.
