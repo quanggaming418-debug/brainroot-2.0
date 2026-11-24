@@ -1,3 +1,4 @@
+import { layoutViewportWidth } from '../../../utils/layoutViewport';
 import { loadActiveDeck } from '../content/activeDeck';
 import { useSound } from './audio';
 import { useEffect, useRef, useState } from 'react';
@@ -15,7 +16,7 @@ export interface Setup {
 
 export function useLayout(): BoardLayout {
   const get = (): BoardLayout => {
-    const w = window.innerWidth;
+    const w = layoutViewportWidth(window.innerWidth);
     const h = window.innerHeight;
     return w < 700 || (h > w * 1.05 && w < 1000) ? 'portrait' : 'landscape';
   };

@@ -330,3 +330,12 @@
 - **Git:** PR #17. SHA build production `5d8e24c853a1fd324858fbb4b7172b757869ff5b`. Dữ liệu gốc và `dist-full/` nằm ngoài Git.
 - **What remains:** Thiết bị thật iOS/Android và nghe kiểm thử âm thanh: NOT RUN. Luật Hackathon và phạm vi công bố đã duyệt.
 - **Owner approval:** `BR-RC1-PUBLICATION-20261124`, 24/11/2026.
+
+## Session: 2026-11-24 19:02+07:00 — Codex — BR-T043 Desktop-only toàn website
+
+- **Task:** Product Owner ưu tiên desktop trong toàn dự án. Đưa cơ chế viewport, media query, lựa chọn ảnh và layout JS về cùng cấu hình Vite.
+- **Files:** `vite.config.ts`, `src/utils/layoutViewport.ts`, các điểm chọn layout/ảnh; quy tắc bắt đầu ở `AGENTS.md` và ma trận trong `docs/QUALITY_AND_TESTING.md`. ESLint bỏ qua artifact sinh tự động `dist-full/`.
+- **PASS:** `npm run typecheck`, `npm run lint`, `npm test` (96/96), `npm run build` + cô lập OFF, `npm run build:full` + cô lập FULL 100 thẻ. Build thử `VITE_LAYOUT_MODE=responsive` giữ breakpoint gốc.
+- **Acceptance:** Playwright Chromium FULL: 1280×720, 1366×768, 1440×900, 1920×1080 đều PASS 11 tuyến, deep-link và sách luật hai trang. Ván hoàn chỉnh ở 1280×720: 22 nước, 11 lượt chấm thẻ, đổi VI/EN và quay về trang chủ. Smoke màn hình nhỏ mở bàn ngang trong bố cục 1280 px. Build responsive riêng khôi phục menu mobile, bàn dọc và sách một trang.
+- **Release:** triển khai Cloudflare FULL thủ công sau merge. Desktop-only mặc định; `VITE_LAYOUT_MODE=responsive` để khôi phục khi Product Owner yêu cầu.
+- **Limitations:** kiểm tra màn hình nhỏ chỉ là smoke mô phỏng Chromium. Không đánh giá lại thiết kế responsive.

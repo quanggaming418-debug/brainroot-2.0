@@ -1,3 +1,4 @@
+import { mobileMedia } from '../../utils/layoutViewport';
 import { publicUrl } from '../../utils/publicUrl';
 import { Link } from 'react-router-dom';
 import type { GameProductSummary } from '../../data/games';
@@ -56,7 +57,7 @@ export function GameProductShowcase({ product }: GameProductShowcaseProps) {
             <picture className="game-showcase__picture">
               {product.media.mobileSrc ? (
                 <source
-                  media="(max-width: 767px)"
+                  media={mobileMedia('(max-width: 767px)')}
                   srcSet={product.media.mobileSrc}
                 />
               ) : null}

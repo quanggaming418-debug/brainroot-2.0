@@ -5,8 +5,14 @@ Hướng dẫn bắt buộc cho coding agents làm việc trong repo mới. Root
 ## Mission & restrictions
 - Sứ mệnh: nâng cao nhận thức và kết nối giới trẻ về **kỹ năng xanh thông qua sản phẩm giáo dục tương tác**; không xây một game portal giải trí thuần túy.
 - Giữ slogan **From Brainrot to Brainroot**, nhận diện **#E79A7C** và **#A6C6B6**, artwork Brainie/Rootie hợp pháp của nhóm; không tự bịa logo/brand asset.
-- Pilot ưu tiên ULIS/Hà Nội, nhưng website công khai phục vụ mọi người; thiết kế mobile-first, tiếp cận, không ép đăng nhập mới xem/được chơi thử.
+- Pilot ưu tiên ULIS/Hà Nội, nhưng website công khai phục vụ mọi người; phát triển Desktop-only, bảo đảm tiếp cận, không ép đăng nhập mới xem/được chơi thử.
 - **Website cũ chỉ là tài liệu tham chiếu**, không sao chép repository cũ vào repo mới nếu không được chủ dự án duyệt.
+
+## Chế độ phát triển Desktop-only — quyết định Product Owner 24/11/2026
+- Áp dụng toàn website và các trò chơi. Ưu tiên desktop UI/UX, art direction, animation, gameplay, trải nghiệm giáo dục và hiệu năng desktop. Tạm dừng phát triển, sửa lỗi bố cục riêng và tối ưu Mobile/Tablet đến khi Product Owner yêu cầu khôi phục.
+- Dùng bố cục desktop tối thiểu 1280 CSS px; màn hình nhỏ vẫn truy cập được bằng zoom hoặc cuộn. Giữ mã responsive và asset mobile, giữ chức năng zoom. Tránh chặn truy cập hoặc hiện thông báo về chế độ này.
+- Chỉ đổi cấu hình Responsive theo yêu cầu của Product Owner. `VITE_LAYOUT_MODE=responsive` khôi phục viewport và breakpoint gốc, xem [QUALITY_AND_TESTING.md](docs/QUALITY_AND_TESTING.md).
+- Test desktop ở 1280×720, 1366×768, 1440×900, 1920×1080. Màn hình nhỏ chỉ smoke test truy cập và lỗi chạy, không dùng làm tiêu chí tối ưu giao diện.
 
 ## Start-of-task protocol — ALWAYS
 1. Nếu có terminal/Git: `git status --short`; đọc `README.md`, `planning/PROJECT_STATE.md`, `planning/ROADMAP.md`, `planning/TASKS.md`, `logs/HANDOFF.md`.
@@ -21,7 +27,7 @@ Hướng dẫn bắt buộc cho coding agents làm việc trong repo mới. Root
 - Tránh sao chép thương hiệu, giao diện, bộ câu hỏi, media có bản quyền của Kahoot/Wordle/Worldle hay source không rõ license.
 - Không đòi đăng nhập cho khách xem nội dung công khai, dùng chơi thử, hoặc người tham gia phòng bằng mã ở phiên demo phù hợp.
 - AI helper chỉ được trả lời theo content đã duyệt, phải từ chối trả lời ngoài phạm vi/không biết; không lộ thẻ paid.
-- Tối ưu cả mobile, keyboard access, reduced motion; không coi canvas/3D là cách duy nhất để hoàn thành flow.
+- Giữ keyboard access, reduced motion và khả năng thu phóng; không coi canvas/3D là cách duy nhất để hoàn thành flow.
 
 ## End-of-task protocol — ALWAYS
 1. Chạy các kiểm tra có sẵn liên quan (`typecheck`, `lint`, `unit`, `e2e`, `build` nếu dự án có); **không ghi PASS nếu không chạy thật**.

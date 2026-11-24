@@ -1,3 +1,4 @@
+import { mobileMedia } from '../utils/layoutViewport';
 import { publicUrl } from '../utils/publicUrl';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -235,7 +236,7 @@ export function OAnQuanXanhDetailPage() {
                 <div className="gp-detail-hero__concept-frame">
                   <picture className="game-showcase__picture">
                     <source
-                      media="(max-width: 767px)"
+                      media={mobileMedia('(max-width: 767px)')}
                       srcSet={publicUrl('/assets/green-play/vis-008-o-an-quan-concept-sm.webp')}
                     />
                     <img
