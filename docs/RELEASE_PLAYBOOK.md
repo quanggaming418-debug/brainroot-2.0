@@ -53,7 +53,7 @@ Cloudflare Preview vẫn build từ các nhánh ngoài `main`, mặc định OFF
 
 - Pages project `brainroot` giữ Git integration và URL [brainroot-55i.pages.dev](https://brainroot-55i.pages.dev/). Production branch `main`, automatic production deployments **tắt**, automatic preview deployments **mọi nhánh ngoài production**. Pages vẫn báo check cho các preview PR.
 - Build command của preview giữ nguyên, output `dist`. `CF_PAGES=1` đặt base `/`; build command xử lý `dist/404.html`. npm và `package-lock.json` là nguồn dependency, không thêm lại `bun.lock`.
-- **Production:** Cloudflare production FULL `10feaa4b-e3a9-46e6-bf9c-452958c9430e`, build từ `main` `78d96b727b16869f0bcd44c61915a15b75c1ff5e` (PR #18). Rollback về FULL `73b053ec-6147-45e0-97f0-f1ae25a85a3b`. Automatic production deployments tắt; preview Git tiếp tục. Lần rollout Desktop-only dùng mặc định `VITE_LAYOUT_MODE`; chỉ bật `responsive` khi Product Owner yêu cầu.
+- **Production:** Cloudflare production FULL `10feaa4b-e3a9-46e6-bf9c-452958c9430e`, build từ `main` `78d96b727b16869f0bcd44c61915a15b75c1ff5e` (PR #18). Rollback về FULL `73b053ec-6147-45e0-97f0-f1ae25a85a3b`. Automatic production deployments tắt; preview Git tiếp tục. Desktop-only là mặc định. Chỉ đặt `VITE_LAYOUT_MODE=responsive` khi Product Owner yêu cầu.
 - Worker phụ `brainroot-2-0` chỉ phục vụ bản tĩnh trên hostname Worker riêng. Đã ngắt kết nối Git ở chính Worker để dừng build dư thừa, giữ Worker và deployment đã có.
 
 ### 6.1 Quy trình phát hành FULL
