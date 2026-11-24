@@ -2,6 +2,13 @@
 
 > **Trạng thái hiện hành nằm ở mục BR-T042 (nghiệm thu cuối) ngay dưới đây và `planning/PROJECT_STATE.md`.** Các mục cũ hơn là lịch sử bàn giao (append-only), không phải chỉ dẫn hiện hành.
 
+## 2026-11-24 — Chuẩn bị GitHub PR (sau RC1 `2b6b78b`) · Claude Code → Product Owner
+
+- **Trạng thái:** chưa push/PR/merge/deploy; chưa đổi cấu hình Cloudflare. Commit tài liệu chuẩn bị PR trên `codex/br-t042-release-candidate`.
+- **Rà soát trước push (repo công khai):** diff +9.1k dòng, 104 tệp, 10 commit tuyến tính. Không có thẻ/đáp án (chỉ tiêu đề mẫu "Ma Trận Rửa Bát" đã có trong tài liệu G0.5), PDF, ZIP, `internal-data/`, `dist-full/`, email, bí mật, SĐT, link form. Đã xóa một đường dẫn máy cục bộ khỏi báo cáo BR-T032 (lịch sử commit cũ vẫn chứa dòng đó, không viết lại lịch sử).
+- **Còn mở:** nguồn gốc/giấy phép nền vườn, bàn tay, 19 SVG ArtPack V3 chưa được ghi trong gói (OQ-20); khai báo AI nếu BTC yêu cầu; `.claude/launch.json` (cấu hình dev tool) đang nằm trong diff, tùy chọn gỡ.
+- **Cloudflare (chỉ đọc):** project `brainroot`, Git-integrated, preview theo nhánh; có thêm Workers Builds `brainroot-2-0`. Chưa xác minh được production branch/biến môi trường (cần dashboard).
+
 ## 2026-11-24 — BR-T042 nghiệm thu cuối · Release Candidate 1 · Claude Code → Product Owner
 
 - **Trạng thái:** `ACCEPTED_LOCAL`, commit cục bộ trên `codex/br-t042-release-candidate` (xếp trên T041 `d074776`). Không push/PR/merge/deploy.

@@ -63,7 +63,7 @@ Khớp Matrix: 100 thẻ, thời gian 15/20/30 giây, 4 thẻ 45 giây. Nhãn c�
 
 ### C. Repository
 
-- Repo local: `C:\Users\Windows\OneDrive\Documents\brainroot-2.0`, remote `origin` = `github.com/quanggaming418-debug/brainroot-2.0` ✔.
+- Repo local: `<thư mục repo trên máy Product Owner>`, remote `origin` = `github.com/quanggaming418-debug/brainroot-2.0` ✔.
 - **Trạng thái GitHub (cập nhật 1.1, sau `git fetch origin` ngày 23/11/2026):**
   - `origin/main` = **`759c65e`** ("Merge pull request #14 … br-t030-quest-about-news"). Lịch sử: `c29ae77` (BR-T029) → `773fed7` (BR-T030) → `ca4d0d5` (BR-T031) → `2d8522e` (merge **PR #15** BR-T031 vào nhánh BR-T030, kiểu stacked PR) → `759c65e` (merge **PR #14** BR-T030 vào `main`). Product Owner đã xác nhận PR #14 và #15 merge trên GitHub.
   - Nhánh local `codex/br-t030-quest-about-news` (`773fed7`) thiếu 3 commit so với `origin/main`: 1 commit nội dung (`ca4d0d5`) + 2 commit merge. Nhánh local `main` (`c29ae77`) chậm 4 commit và **chưa được cập nhật** (không dùng làm gốc).
