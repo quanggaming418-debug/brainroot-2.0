@@ -1,6 +1,12 @@
 # HANDOFF — Current baton pass
 
-> Trạng thái hiện hành ở mục RC1 FULL và `planning/PROJECT_STATE.md`. Các mục cũ hơn ghi lại lịch sử bàn giao.
+> Trạng thái hiện hành ở mục BR-T043 và `planning/PROJECT_STATE.md`. Các mục cũ ghi lại lịch sử bàn giao.
+
+## 2026-11-24 — BR-T043 Desktop-only · Codex → Product Owner
+
+- **Production:** Cloudflare production FULL `10feaa4b-e3a9-46e6-bf9c-452958c9430e`, build từ `main` `78d96b727b16869f0bcd44c61915a15b75c1ff5e` (PR #18). Rollback về FULL `73b053ec-6147-45e0-97f0-f1ae25a85a3b`. [Brainroot](https://brainroot-55i.pages.dev/).
+- **Quy tắc hiện hành:** [AGENTS.md](../AGENTS.md) và [QUALITY_AND_TESTING.md](../docs/QUALITY_AND_TESTING.md). Viewport desktop tối thiểu 1280 CSS px, màn hình nhỏ chỉ smoke truy cập, bật lại responsive theo quyết định Product Owner.
+- **PASS:** typecheck, lint, unit 96/96, build OFF/FULL, 100/100 thẻ đối chiếu, desktop 4 kích thước, ván FULL, deep-link, smoke production. Màn hình nhỏ dùng Chromium mô phỏng.
 
 ## 2026-11-24 — BR-T042 RC1 FULL production · Codex → Product Owner
 
