@@ -3,7 +3,9 @@ import {
   PLAYTEST_V1, applyAction, computeScores, createGame, getLegalPits, isQuanPit, other, pitLabel, previewSow,
   type Direction, type EngineEvent, type GameState, type PendingCapture, type PlayerId, type RingIndex, type StepResult,
 } from '../engine';
-import { DemoDeck, type DemoCard } from '../content/demoCards';
+import type { DemoCard } from '../content/demoCards';
+import { CardDeck } from '../content/internalDeck';
+import { loadActiveDeck } from '../content/activeDeck';
 import { themeOfRing } from '../content/themes';
 import { Board, NO_MARKS, type BoardLayout, type BoardMarks } from './Board';
 import { ChallengeCard, type Verdict } from './Challenge';
@@ -373,7 +375,7 @@ export function GameScreen({ setup, onEnd, onQuit }: {
   const [logOpen, setLogOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [, forceRender] = useState(0);
-  const deck = useMemo(() => new DemoDeck(Math.random), []);
+  const deck = useMemo(() => new CardDeck(Math.random, loadActiveDeck().cards), []);
   const boardWrapRef = useRef<HTMLDivElement>(null);
   const resolvedUidRef = useRef(0);
   const uidRef = useRef(0);
@@ -466,7 +468,7 @@ export function GameScreen({ setup, onEnd, onQuit }: {
     const before = game;
     const result = applyAction(game, { type: 'commitRefereeResult', verdict: v });
     setGame(result.state);
-    setLessons((l) => (l.includes(stage.card.remember) ? l : [...l, stage.card.remember]));
+    setLessons((l) => (!stage.card.remember || l.includes(stage.card.remember) ? l : [...l, stage.card.remember]));
     play(result, before, 'afterVerdict');
   };
 

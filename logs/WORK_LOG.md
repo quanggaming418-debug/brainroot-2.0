@@ -24,5 +24,6 @@
 | 2026-11-23 | Claude Code | BR-T035 (Ô ăn quan V2: PLAYTEST V1 + phát lại hoạt ảnh) | IN_REVIEW | typecheck PASS; unit 81/81 PASS; build PASS (dist sạch V2); Playwright 5 ván PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
 | 2026-11-23 | Claude Code | BR-T036 (thẻ một bước + bàn tay SVG) | IN_REVIEW | typecheck PASS; unit 82/82 PASS; build PASS (dist sạch V2); Playwright 5 ván PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
 | 2026-11-24 | Claude Code | BR-T037 (ArtPack V3 vào dev preview) | IN_REVIEW | typecheck PASS; unit 82/82 PASS; build PASS (dist sạch V3); Playwright 3 ván PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-24 | Claude Code | BR-T038 (100 thẻ gốc, dev-only nội bộ) | IN_REVIEW | typecheck PASS; unit 88/88 PASS; build PASS (dist sạch nội dung thẻ, hash JS không đổi); Playwright 3 ván PASS; lint NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
 
 **Append format:** `YYYY-MM-DD HH:MM | AI Studio/Codex | BR-Txxx | DONE/BLOCKED/IN_REVIEW | command: result | logs/<AGENT>_LOG.md`.

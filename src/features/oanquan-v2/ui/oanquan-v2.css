@@ -718,3 +718,15 @@ body:has(.oqv2) { margin: 0; background: #f8f3e9; }
 
 .oq2-card--q[data-level='2'] { border-color: var(--oq-level-2); }
 .oq2-card--q[data-level='3'] { border-color: var(--oq-level-3); }
+
+/* BR-T038 — thẻ nội bộ có văn bản dài: rộng hơn, cuộn an toàn, không che chữ */
+.oq2-sheet > .oq2-card { margin-block: auto; }
+.oq2-card--q[data-internal='true'] { width: min(680px, 100%); gap: 12px; }
+.oq2-card--q[data-internal='true'] .oq2-card__title { font-size: 22px; line-height: 28px; padding-right: 0; }
+.oq2-card--q[data-internal='true'] .oq2-card__text { font-size: 16px; line-height: 1.55; overflow-wrap: anywhere; }
+.oq2-card--q[data-internal='true'] .oq2-guide__body { font-size: 15px; line-height: 1.55; }
+.oq2-card--q[data-internal='true'] .oq2-feedback { font-size: 15px; line-height: 1.55; }
+@media (max-width: 760px) {
+  .oq2-card--q[data-internal='true'] { padding: 26px 20px 22px; }
+  .oq2-card--q[data-internal='true'] .oq2-card__text { font-size: 15px; }
+}

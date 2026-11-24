@@ -1,3 +1,4 @@
+import { loadActiveDeck } from '../content/activeDeck';
 import { useEffect, useRef, useState } from 'react';
 import { computeScores, winner, type GameState, type PlayerId } from '../engine';
 import { THEMES } from '../content/themes';
@@ -9,6 +10,8 @@ import { FX } from './assets';
 import { RulesDialog, StatusChips, type Setup } from './shared';
 
 // ------------------------------------------------------------------ S1, S2
+
+const DECK_LABEL = loadActiveDeck().source === 'internal' ? 'thẻ nội bộ' : 'thẻ DEMO';
 
 function StartScreen({ onPlay, onRules }: { onPlay: () => void; onRules: () => void }) {
   const h = useRef<HTMLHeadingElement>(null);
@@ -89,7 +92,7 @@ function SetupScreen({ initial, onStart, onBack }: { initial: Setup; onStart: (s
               {option('timer', 'untimed', timer, setTimer, 'Không bấm giờ', 'Trả lời xong thì bấm Xong')}
             </div>
           </fieldset>
-          <p className="oq2-note">Hai người chơi chung một máy. Trắc nghiệm tự chấm, câu hỏi mở thì đối thủ chấm nhanh ngay trên thẻ. Thẻ trong bản này là thẻ DEMO tự viết, không phải bộ thẻ chính thức.</p>
+          <p className="oq2-note">Hai người chơi chung một máy. Trắc nghiệm tự chấm, câu hỏi mở thì đối thủ chấm nhanh ngay trên thẻ. {loadActiveDeck().source === 'internal' ? 'Thẻ trong bản này là bộ thẻ nội bộ chỉ để phát triển và kiểm thử, chưa được công bố.' : 'Thẻ trong bản này là thẻ DEMO tự viết, không phải bộ thẻ chính thức.'}</p>
         </div>
         <div className="oq2-setup__bar">
           <button type="button" className="oq2-btn oq2-btn--ghost" onClick={onBack}>Quay lại</button>
@@ -141,7 +144,7 @@ function EndScreen({ game, names, lessons, log, onReplay, onNew }: {
         </table>
         {lessons.length ? (
           <section aria-labelledby="oq2-lessons">
-            <h2 id="oq2-lessons">Bài học đáng nhớ <span className="oq2-tag">thẻ DEMO</span></h2>
+            <h2 id="oq2-lessons">Bài học đáng nhớ <span className="oq2-tag">{DECK_LABEL}</span></h2>
             <ul>{lessons.slice(-3).map((l) => <li key={l}>{l}</li>)}</ul>
           </section>
         ) : null}
@@ -178,8 +181,8 @@ export function OAnQuanV2App() {
     <div className="oqv2">
       <a className="oq2-skip" href="#main-content">Bỏ qua tới nội dung chính</a>
       <div className="oq2-devbar" role="note">
-        <span className="oq2-devbar__long">BẢN XEM TRƯỚC CHỈ CHẠY Ở MÔI TRƯỜNG DEV · luật bản thử PLAYTEST V1 · thẻ DEMO · không phải bản phát hành</span>
-        <span className="oq2-devbar__short">DEV · PLAYTEST V1 · thẻ DEMO · chưa phát hành</span>
+        <span className="oq2-devbar__long">BẢN XEM TRƯỚC CHỈ CHẠY Ở MÔI TRƯỜNG DEV · luật bản thử PLAYTEST V1 · {DECK_LABEL} · không phải bản phát hành</span>
+        <span className="oq2-devbar__short">DEV · PLAYTEST V1 · {DECK_LABEL} · chưa phát hành</span>
       </div>
       {screen.kind === 'start' ? <StartScreen onPlay={() => setScreen({ kind: 'setup' })} onRules={() => setRulesOpen(true)} /> : null}
       {screen.kind === 'setup' ? (

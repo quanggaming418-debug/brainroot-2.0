@@ -1,5 +1,15 @@
 # HANDOFF — Current baton pass
 
+## 2026-11-24 — BR-T038 100 thẻ gốc vào bản chơi thử (nội bộ) · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t038-oanquan-content` trên BR-T037 `0d5db05`; không push/PR/merge/deploy.
+- **Mở chơi thử:** `npm run dev` → http://localhost:5173/brainroot-2.0/dev/oanquan-v2.html (thanh dev hiện "thẻ nội bộ" khi nạp được bộ thật; "thẻ DEMO" khi thiếu).
+- **Dữ liệu thật:** chỉ ở `internal-data/cards.internal.json` (gitignore, KHÔNG commit, không vào `dist/`). Máy khác muốn chơi bằng bộ thật phải tự có tệp này; không có thì tự dùng thẻ DEMO.
+- **Quy tắc tự chấm:** chỉ thẻ có phương án trong phần Thử thách + đáp án "Chọn X" + không yêu cầu giải thích (6 thẻ). Còn lại đối phương bấm Đạt/Chưa đạt, đáp án mẫu nội tuyến.
+- **Quyết định cần có:** `OQ-17` (bộ thẻ riêng cho 2 Ô Quan; hiện ánh xạ TẠM sang thẻ Cấp 3), `OQ-18` (quyền công bố + chốt 6 thẻ trắc nghiệm).
+- **Kiểm thử:** typecheck PASS · unit 88/88 PASS · build PASS, quét `dist/` 0 nội dung thẻ · Playwright 3 ván PASS. Lint, thiết bị thật: NOT RUN.
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`.
+
 ## 2026-11-24 — BR-T037 ArtPack V3 vào bản chơi thử · Claude Code → Product Owner
 
 - **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t037-oanquan-v3-assets` trên BR-T036 `4c6a4eb` (BR-T035 `ba91740`, BR-T036 `4c6a4eb` đã commit cục bộ để bảo toàn; chưa push).

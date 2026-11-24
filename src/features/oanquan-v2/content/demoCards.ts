@@ -28,6 +28,12 @@ export interface DemoCard {
   readonly keyPoints: readonly string[];
   /** "Điều nên nhớ" (bản tóm tắt). */
   readonly remember: string;
+  /** BR-T038: thẻ từ bộ nội bộ (dev-only). */
+  readonly internal?: boolean;
+  /** Nội dung mặt đáp án gốc "Trọng tài duyệt khi" (thẻ nội bộ). */
+  readonly sampleAnswer?: string;
+  /** Tham chiếu nguồn (tệp · trang). */
+  readonly sourceRef?: string;
 }
 
 const T1 = 20;

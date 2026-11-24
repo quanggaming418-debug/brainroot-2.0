@@ -8,3 +8,6 @@ dist/
 coverage/
 test-results/
 playwright-report/
+
+# BR-T038: internal educational deck (never commit; dev-only)
+/internal-data/

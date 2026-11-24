@@ -94,11 +94,12 @@ export function ChallengeCard(props: {
         className={`oq2-card oq2-card--q${done ? (graded === 'pass' ? ' is-pass' : ' is-fail') : ''}`}
         data-level={card.level}
         data-kind={card.kind}
+        data-internal={card.internal ? 'true' : undefined}
         style={{ '--oq2-cardframe': `url(${CARD_FRAME[card.level]})` } as React.CSSProperties}
       >
         <div className="oq2-card__head">
           <LevelPill level={card.level} />
-          <span className="oq2-demo-tag">THẺ DEMO</span>
+          <span className="oq2-demo-tag">{card.internal ? 'THẺ NỘI BỘ · DEV' : 'THẺ DEMO'}</span>
           {props.chainIndex ? <span className="oq2-tag oq2-tag--chain">Ăn liên hoàn · thẻ thứ {props.chainIndex + 1}</span> : null}
           <span className={`oq2-timer${left !== null && left <= 5 && !done ? ' is-urgent' : ''}`} role="timer" aria-live="off">
             {left === null ? 'Không bấm giờ' : timeUp ? 'Hết giờ' : `${left} giây`}
@@ -141,8 +142,8 @@ export function ChallengeCard(props: {
               </button>
               {showGuide ? (
                 <div className="oq2-guide__body">
-                  <p><b>Đáp án mẫu:</b> {card.refereeGuide}</p>
-                  <ul>{card.keyPoints.map((k) => <li key={k}>{k}</li>)}</ul>
+                  <p><b>{card.internal ? 'Tiêu chí đánh giá:' : 'Đáp án mẫu:'}</b> {card.refereeGuide}</p>
+                  {card.keyPoints.length ? <ul>{card.keyPoints.map((k) => <li key={k}>{k}</li>)}</ul> : null}
                   <p className="oq2-note">Tiêu chí tham khảo, {props.opponent} tự quyết.</p>
                 </div>
               ) : null}
@@ -166,7 +167,7 @@ export function ChallengeCard(props: {
                 ? graded === 'pass' ? 'Chính xác!' : timeUp ? 'Hết giờ.' : 'Chưa đúng.'
                 : graded === 'pass' ? 'Đạt!' : 'Chưa đạt.'}
             </strong>{' '}
-            {isChoice ? card.explain : card.remember}
+            {isChoice ? card.explain : card.internal ? null : card.remember}
           </p>
         ) : null}
       </div>

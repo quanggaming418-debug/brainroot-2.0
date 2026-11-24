@@ -263,3 +263,12 @@
 - **Chưa dùng:** `board_base_no_pits.svg` và `pit_*.svg` (tỉ lệ khác bàn hiện tại, kéo giãn sẽ méo bo góc), `hand_sprite_strip_5x.png` (đã dùng 5 PNG rời).
 - **Tests:** typecheck PASS · unit 82/82 PASS · build PASS; `dist/` không chứa tên file V3 nào và không có chuỗi `oq2-`/`oanquan-v2`; Playwright tự chơi 1440×900, 390×844, 360×740 (reduced motion) PASS. NOT RUN: lint, thiết bị thật.
 - **Git commit SHA:** `NOT COMMITTED`.
+
+## Session: 2026-11-24 — Claude Code — BR-T038 (nội dung giáo dục gốc, chỉ nội bộ)
+
+- **Nguồn:** ZIP "Ô ăn quan xanh" (1 Word + 5 PDF, mỗi PDF 41 trang: 20 mặt thẻ + 20 mặt đáp án + 1 trang bìa). Trích bằng PyMuPDF (giữ đủ dấu tiếng Việt), ghép mặt thẻ ↔ mặt đáp án theo số thẻ + tiêu đề + cấp; 0 lỗi ghép.
+- **Dữ liệu:** `internal-data/cards.internal.json` (gitignore). 100 thẻ, 5 chủ đề × (7 Cấp 1 + 7 Cấp 2 + 6 Cấp 3); thời gian: 35×15s, 35×20s, 26×30s, 4×45s (green-19, green-20, water-20, waste-19). Mỗi thẻ có id, chủ đề, cấp, tiêu đề, bối cảnh, thử thách, thời gian, đáp án "Trọng tài duyệt khi", tham chiếu tệp + trang thẻ/đáp án.
+- **Kiểm tra bằng mắt:** dựng ảnh trang PDF cho các thẻ 45s (green-19, water-20), thẻ trắc nghiệm có phương án trong ngoặc/chấm phẩy (waste-12), thẻ mở có A/B (consume-09), thẻ có phương án nằm ở Bối cảnh (energy-08): chữ trong JSON khớp mặt thẻ/đáp án.
+- **Mã:** `content/internalDeck.ts` (schema, validate, parseChoice, toGameCard, CardDeck), `content/activeDeck.ts` (nạp dev-only + fallback DEMO), sửa `GameScreen.tsx`, `Challenge.tsx`, `shared.tsx`, `OAnQuanV2App.tsx`, `oanquan-v2.css`, `content/demoCards.ts` (thêm 3 trường tùy chọn). Engine không đổi. Test mới `tests/oanquan-v2-internal-deck.test.ts`.
+- **Tests:** typecheck PASS (0 lỗi); unit 88/88 PASS (82 cũ + 6 mới, gồm kiểm tra bộ nội bộ: 100 thẻ, id duy nhất, 7/7/6 mỗi chủ đề, thời gian 15/20/30/45s, ghép đáp án, 6 thẻ trắc nghiệm); build PASS, hash JS production `index-PSpSIzUV.js` KHÔNG đổi, quét `dist/` (33 tệp) 0 chuỗi nội dung thẻ/đáp án, không có `internal-data`/`cards.internal`; Playwright tự chơi 1280×800 (4×), 390×844, 360×740 reduced motion với bộ thật: 0 lỗi console, 1 lần bấm mỗi thẻ, timer = thời gian riêng của thẻ, không lặp thẻ, không mascot che chữ; fallback DEMO khi thiếu tệp nội bộ PASS. lint NOT RUN; thiết bị thật NOT RUN.
+- **Git commit SHA:** `NOT COMMITTED`.

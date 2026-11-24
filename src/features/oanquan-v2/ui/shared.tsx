@@ -1,3 +1,4 @@
+import { loadActiveDeck } from '../content/activeDeck';
 import { useEffect, useRef, useState } from 'react';
 import { isQuanPit, pitLabel, type PlayerId, type RingIndex } from '../engine';
 import { THEMES, themeOfRing } from '../content/themes';
@@ -45,7 +46,7 @@ export function StatusChips() {
   return (
     <span className="oq2-chips">
       <span className="oq2-status oq2-status--rules">Luật bản thử · PLAYTEST V1</span>
-      <span className="oq2-status">Thẻ DEMO</span>
+      <span className="oq2-status">{loadActiveDeck().source === 'internal' ? 'Thẻ nội bộ · DEV' : 'Thẻ DEMO'}</span>
     </span>
   );
 }
