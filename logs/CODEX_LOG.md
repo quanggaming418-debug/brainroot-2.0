@@ -339,3 +339,27 @@
 - **Acceptance:** Playwright Chromium FULL: 1280×720, 1366×768, 1440×900, 1920×1080 đều PASS 11 tuyến, deep-link và sách luật hai trang. Ván hoàn chỉnh ở 1280×720: 22 nước, 11 lượt chấm thẻ, đổi VI/EN và quay về trang chủ. Smoke màn hình nhỏ mở bàn ngang trong bố cục 1280 px. Build responsive riêng khôi phục menu mobile, bàn dọc và sách một trang.
 - **Release:** Cloudflare production FULL `10feaa4b-e3a9-46e6-bf9c-452958c9430e`, build từ `main` `78d96b727b16869f0bcd44c61915a15b75c1ff5e` (PR #18). Rollback về FULL `73b053ec-6147-45e0-97f0-f1ae25a85a3b`. `npm ci`, `npm run build:full`, Wrangler deploy `--branch main`, đối chiếu SHA-256 chunk V2 production và smoke 1366×768 + màn hình nhỏ đều PASS. Bundle production khớp artifact đã đối chiếu 100/100 thẻ. Cấu hình automatic production và preview giữ nguyên. Desktop-only mặc định; `VITE_LAYOUT_MODE=responsive` để khôi phục khi Product Owner yêu cầu.
 - **Limitations:** kiểm tra màn hình nhỏ chỉ là smoke mô phỏng Chromium. Không đánh giá lại thiết kế responsive.
+
+## Session — 2026-11-24 19:11+07:00 — Codex — BR-T044
+
+- **Agent và model** — Codex, GPT-6.
+- **Task, mục tiêu và trạng thái** — BR-T044, chuẩn hóa tiếp nhận nhiều agent, TODO → IN_REVIEW.
+- **Git baseline** — `codex/br-t044-agent-continuity`, HEAD và remote main `b8a142166a114b8141ea76e12ad2eba32061c511`. Ba thư mục untracked có sẵn nằm ngoài phạm vi.
+- **Context đã đọc** — Giao thức Product Owner, AGENTS, state, tasks, roadmap, OQ, handoff, log BR-T043, release playbook, rule và prompt cũ, tài liệu chính thức Claude Code và Antigravity.
+- **Phạm vi và dependency** — Chỉ Markdown quản trị repo. BR-T043 đã RELEASED.
+- **Thay đổi và lý do** — Tạo `CLAUDE.md`, `.agents/rules/brainroot-workspace.md`, `logs/CLAUDE_CODE_LOG.md`, `logs/ANTIGRAVITY_LOG.md` để dẫn về root và ghi đúng agent. Sửa `AGENTS.md`, `templates/WORK_LOG_TEMPLATE.md`, `planning/TASKS.md`, `planning/PROJECT_STATE.md`, `planning/ROADMAP.md`, `logs/CODEX_LOG.md`, `logs/WORK_LOG.md`, `logs/HANDOFF.md`, `docs/RELEASE_PLAYBOOK.md`, `docs/AI_STUDIO_CODEX_WORKFLOW.md`, `prompts/CODEX_START.md`, `prompts/AI_STUDIO_START.md` để đồng bộ quy tắc, template và hồ sơ hiện hành. Tệp xóa: không.
+- **Quyết định kỹ thuật và trade-off** — Adapter dẫn về một nguồn. Start/end protocol áp dụng bằng quy tắc workspace và hồ sơ Git hiện có.
+- **Lỗi, nguyên nhân và bản sửa** — SOP, prompt cũ và release checklist còn yêu cầu QA mobile; chuyển về ma trận Desktop-only.
+- **Hành vi người dùng hoặc giao diện** — Chỉ tài liệu repo.
+- **Kiểm thử thực tế** — `npm run typecheck` PASS; `npm run lint` PASS; `npm test` PASS 96/96; `git diff --check` và đối chiếu Markdown/lịch sử PASS. Cloudflare Pages API xác nhận production `10feaa4b-e3a9-46e6-bf9c-452958c9430e`, production auto tắt, preview all. Chromium GET tuyến V2 HTTP 200, viewport 1280 và nhãn bộ 100 thẻ PASS.
+- **Acceptance criteria** — Ba điểm vào, ghi log và bàn giao bắt buộc, baseline Desktop-only/FULL, bộ nhớ dùng chung, phạm vi Markdown và lịch sử PASS.
+- **Rủi ro và giới hạn** — Tải rule trong phiên Claude Code/Antigravity thật NOT RUN; schema/import đối chiếu tài liệu chính thức và tệp local.
+- **Trạng thái Git** — NOT COMMITTED. Không có push, PR hoặc merge cho BR-T044.
+- **Triển khai** — NOT RUN cho task tài liệu. Production kiểm tra read-only. ID và rollback hiện hành nằm trong release playbook.
+- **Còn lại và bàn giao** — Rà diff local khi mở workspace; đồng bộ hồ sơ khi Product Owner cấp quyền.
+
+## Session — 2026-11-24 — Codex — BR-T044 nghiệm thu
+
+- Product Owner nghiệm thu và duyệt commit, push, PR và merge. Baseline main `b8a1421`.
+- Rà toàn bộ staged diff Markdown, adapter, log và handoff. Giữ phiên trước làm lịch sử. Không build FULL hoặc deploy cho BR-T044.
+- SHA và PR tra lịch sử Git theo BR-T044. Agent tiếp nhận đọc `AGENTS.md` và hồ sơ bàn giao trên main.

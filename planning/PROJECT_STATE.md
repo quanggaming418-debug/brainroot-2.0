@@ -1,8 +1,10 @@
 # PROJECT_STATE — Read before every agent run
 
-- **Updated:** 2026-11-24 · BR-T043 · Desktop-only phát hành Cloudflare production.
+- **Updated:** 2026-11-24 · BR-T044 · Chuẩn hóa bàn giao nhiều agent.
 
 ## Trạng thái hiện hành (24/11/2026)
+
+- **Bàn giao agent (BR-T044):** `AGENTS.md` là nguồn quy tắc chung. Claude Code import qua `CLAUDE.md`, Antigravity dùng rule Always On, Codex đọc root trực tiếp. Mỗi phiên cập nhật task, snapshot, log riêng, index và handoff theo template. Product Owner đã nghiệm thu giao thức. Xem lịch sử Git của BR-T044 để đối chiếu lần đưa hồ sơ vào main.
 
 - **Desktop-only (BR-T043):** bố cục desktop tối thiểu 1280 CSS px trên toàn site, bao gồm hai trò chơi. Tạm dừng phát triển và tối ưu Mobile/Tablet đến khi Product Owner yêu cầu. Giữ responsive trong source; bật lại bằng `VITE_LAYOUT_MODE=responsive`. Theo [AGENTS.md](../AGENTS.md) và [ma trận desktop](../docs/QUALITY_AND_TESTING.md#current-viewport-coverage) cho các lượt sau.
 - **Cloudflare Pages:** Cloudflare production FULL `10feaa4b-e3a9-46e6-bf9c-452958c9430e`, build từ `main` `78d96b727b16869f0bcd44c61915a15b75c1ff5e` (PR #18). Rollback về FULL `73b053ec-6147-45e0-97f0-f1ae25a85a3b`. [Website production](https://brainroot-55i.pages.dev/)

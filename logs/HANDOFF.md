@@ -1,6 +1,13 @@
 # HANDOFF — Current baton pass
 
-> Trạng thái hiện hành ở mục BR-T043 và `planning/PROJECT_STATE.md`. Các mục cũ ghi lại lịch sử bàn giao.
+> Trạng thái bàn giao mới nhất ở mục BR-T044. Snapshot sản phẩm ở [PROJECT_STATE.md](../planning/PROJECT_STATE.md).
+
+## 2026-11-24 — BR-T044 · Codex → agent tiếp nhận
+
+- **Git:** `codex/br-t044-agent-continuity`, baseline `b8a142166a114b8141ea76e12ad2eba32061c511` trùng remote `main` khi bắt đầu. Product Owner đã nghiệm thu BR-T044 và duyệt commit, push, PR và merge vào main. Tra lịch sử Git theo BR-T044 để xác minh SHA và PR.
+- **Tiếp nhận:** Mở đúng workspace, đọc `AGENTS.md`, state, task, quyết định và log theo start protocol. Dùng bản hồ sơ BR-T044 trên main khi đã xác minh merge.
+- **Kiểm thử:** typecheck, lint, unit 96/96, xác minh adapter và bảo toàn lịch sử PASS. Smoke production Desktop-only/FULL và Cloudflare branch control PASS. Kiểm tra tải rule trong phiên Claude Code/Antigravity thật: NOT RUN.
+- **Production:** BR-T044 là thay đổi tài liệu. Phát hành production tham chiếu [release playbook](../docs/RELEASE_PLAYBOOK.md).
 
 ## 2026-11-24 — BR-T043 Desktop-only · Codex → Product Owner
 
