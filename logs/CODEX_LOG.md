@@ -316,3 +316,17 @@
 ## Session: 2026-11-24 — Claude Code — PR #16: xóa bun.lock
 
 - Cloudflare Pages đỏ do `bun install --frozen-lockfile` (bun.lock lệch package.json). Kiểm tra Bun: 0 tham chiếu trong script/workflow/tài liệu; GitHub Actions dùng `npm ci`. Xóa `bun.lock`, ignore bun.lock/bun.lockb. Chuẩn lockfile: `package-lock.json`. Đính chính: giả thuyết `404.html` ở mục trước không phải nguyên nhân.
+
+## Session: 2026-11-24 18:50+07:00 — Codex — BR-T042 RC1 FULL production
+
+- **Task & goal:** Phát hành RC1 FULL cho Hackathon theo OQ-19, ưu tiên CTA V2 và ghi lại đường rollback.
+- **Status before → after:** PR #16 / production OFF → RC1 FULL / RELEASED. PR #17 ghi mã phát hành và hồ sơ kiểm thử.
+- **Read context:** AGENTS, PROJECT_STATE, TASKS, HANDOFF, RELEASE_PLAYBOOK, ADR-0006, OQ-19/OQ-20, User Flows và Accessibility.
+- **Files changed:** copy VI/EN và CTA cho home, thư viện và trang chi tiết; mục OQ-19, trạng thái BR-T042, playbook và log bàn giao.
+- **User-visible behavior changed:** CTA vào V2. FULL dùng 100 thẻ gốc. Prototype 3D giữ ở đường dẫn rollback.
+- **Tests actually executed:** `npm ci`, `npm run typecheck`, `npm run lint`, `npm test` (96/96), `npm run build` + `node scripts/check-oqv2-isolation.mjs dist`, `npm run build:full` + `node scripts/check-oqv2-isolation.mjs dist-full --full` đều PASS. So sánh AST của bundle với bộ nguồn: 100/100 thẻ nguyên văn, đủ câu hỏi, đáp án và tiêu chí, không PDF, ZIP, source map hoặc metadata nguồn. Đối chiếu SHA-256 của bundle phục vụ từ Cloudflare PASS.
+- **Acceptance criteria:** Playwright Chromium production 1440×900 và mobile Pixel 7 mô phỏng 412×839 PASS. CTA trang chủ/thư viện/chi tiết, deep-link tải lại giữ query/hash, VI/EN, sáu tuyến cũ và prototype rollback đã chạy. Ván mobile 22 nước, 10 lượt chấm thẻ, mở đáp án, đổi VI/EN giữa ván và khi mở thẻ, tới bảng điểm và quay về trang chủ PASS. Axe trang chi tiết desktop 0 vi phạm.
+- **Cloudflare:** production deployment `73b053ec-6147-45e0-97f0-f1ae25a85a3b` từ commit `5d8e24c853a1fd324858fbb4b7172b757869ff5b`, rollback OFF `2c9ff6e9-911c-4df0-a933-3d99cc7a44e5`. Giữ project, hostname và preview Git; production auto tắt trước upload. Git Worker phụ đã ngắt; Worker giữ nguyên và URL riêng trả HTTP 200.
+- **Git:** PR #17. SHA build production `5d8e24c853a1fd324858fbb4b7172b757869ff5b`. Dữ liệu gốc và `dist-full/` nằm ngoài Git.
+- **What remains:** Thiết bị thật iOS/Android và nghe kiểm thử âm thanh: NOT RUN. Luật Hackathon và phạm vi công bố đã duyệt.
+- **Owner approval:** `BR-RC1-PUBLICATION-20261124`, 24/11/2026.

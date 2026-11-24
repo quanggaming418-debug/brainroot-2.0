@@ -1,6 +1,6 @@
-# BR-T038 — Bộ thẻ giáo dục gốc (chỉ nội bộ)
+# BR-T038 — Nguồn bộ thẻ giáo dục gốc
 
-> Tài liệu này **không chứa nội dung thẻ hay đáp án**. Bộ 100 thẻ chỉ được dùng để phát triển/kiểm thử nội bộ, **chưa được công bố công khai** (Product Owner, 24/11).
+> BR-T038 ghi lại lần tích hợp bộ thẻ nội bộ. Ngày 24/11/2026, Product Owner phê duyệt xuất bản 100 thẻ, đáp án và tiêu chí đánh giá trong website Brainroot phục vụ Hackathon (OQ-19). Xem quy trình FULL tại [Release Playbook](../RELEASE_PLAYBOOK.md#6-build-full-và-triển-khai-cloudflare-pages-rc1). Phần bên dưới mô tả trạng thái kỹ thuật tại BR-T038. Tệp JSON và PDF nguồn được giữ ngoài Git.
 
 ## Lưu trữ và nạp dữ liệu
 - Dữ liệu thật: `internal-data/cards.internal.json` — thư mục đã `gitignore`, không nằm trong `public/`, không commit PDF/nội dung/đáp án.

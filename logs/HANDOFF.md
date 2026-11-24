@@ -1,6 +1,14 @@
 # HANDOFF — Current baton pass
 
-> **Trạng thái hiện hành nằm ở mục BR-T042 (nghiệm thu cuối) ngay dưới đây và `planning/PROJECT_STATE.md`.** Các mục cũ hơn là lịch sử bàn giao (append-only), không phải chỉ dẫn hiện hành.
+> Trạng thái hiện hành ở mục RC1 FULL và `planning/PROJECT_STATE.md`. Các mục cũ hơn ghi lại lịch sử bàn giao.
+
+## 2026-11-24 — BR-T042 RC1 FULL production · Codex → Product Owner
+
+- **Production:** [Brainroot](https://brainroot-55i.pages.dev/), deploy `73b053ec-6147-45e0-97f0-f1ae25a85a3b` từ `5d8e24c853a1fd324858fbb4b7172b757869ff5b` (PR #17), project `brainroot`, branch `main`. OQ-19 duyệt theo `BR-RC1-PUBLICATION-20261124`.
+- **Rollback:** deployment OFF `2c9ff6e9-911c-4df0-a933-3d99cc7a44e5` từ `d65b0f9`. Snapshot cấu hình và deployment lưu tại thư mục cục bộ `%LOCALAPPDATA%/Brainroot/release/BR-RC1-PUBLICATION-20261124/`. Automatic production deployments tắt, preview Git giữ mọi nhánh ngoài production.
+- **Kiểm thử:** Playwright Chromium production 1440×900 và mobile Pixel 7 mô phỏng 412×839 PASS. CTA trang chủ/thư viện/chi tiết, deep-link tải lại giữ query/hash, VI/EN, sáu tuyến cũ và prototype rollback đã chạy. Ván mobile 22 nước, 10 lượt chấm thẻ, mở đáp án, đổi VI/EN giữa ván và khi mở thẻ, tới bảng điểm và quay về trang chủ PASS. Axe trang chi tiết desktop 0 vi phạm.
+- **Worker riêng:** ngắt Git của `brainroot-2-0` sau khi xác minh Pages không tham chiếu Worker và Worker không có custom domain/binding. Worker vẫn tồn tại, hostname riêng trả HTTP 200.
+- **Còn lại:** QA trên thiết bị iOS/Android thật, nghe âm thanh bởi người. Không đưa deck, tài liệu nguồn hoặc artifact FULL vào Git. Chi tiết vận hành ở `docs/RELEASE_PLAYBOOK.md`.
 
 ## 2026-11-24 — PR #16: nguyên nhân Cloudflare Pages đỏ = `bun.lock` cũ · Claude Code → Product Owner
 
