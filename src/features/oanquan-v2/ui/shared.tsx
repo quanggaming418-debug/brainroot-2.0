@@ -2,7 +2,8 @@ import { loadActiveDeck } from '../content/activeDeck';
 import { useSound } from './audio';
 import { useEffect, useRef, useState } from 'react';
 import { isQuanPit, pitLabel, type PlayerId, type RingIndex } from '../engine';
-import { THEMES, themeOfRing } from '../content/themes';
+import { themeOfRing } from '../content/themes';
+import { useTr, type Key, type Tr } from './i18n';
 import type { TimerMode } from './Challenge';
 import type { BoardLayout } from './Board';
 
@@ -38,21 +39,41 @@ export function useReducedMotion(): boolean {
   return reduced;
 }
 
-export function pitName(ring: RingIndex): string {
-  if (isQuanPit(ring)) return `Ô Quan ${THEMES[themeOfRing(ring)].name}`;
-  return `Ô ${THEMES[themeOfRing(ring)].name} (${pitLabel(ring)})`;
+/** Tên ô theo ngôn ngữ hiện tại. */
+export function pitName(t: Tr, ring: RingIndex): string {
+  if (isQuanPit(ring)) return t('pit.quan', { theme: t.theme(themeOfRing(ring)) });
+  return t('pit.dan', { theme: t.theme(themeOfRing(ring)), label: pitLabel(ring) });
+}
+
+/** Nhãn bộ thẻ theo chế độ (DEMO / nội bộ dev / 100 thẻ). */
+export function deckText(t: Tr) {
+  const src = loadActiveDeck().source;
+  const k = src === 'full' ? 'Full' : src === 'internal' ? 'Internal' : 'Demo';
+  return {
+    chip: t(`deck.${k.toLowerCase()}` as Key),
+    lower: t(`deck.${k.toLowerCase()}Lower` as Key),
+    tag: t(`deck.tag${k}` as Key),
+    note: t(`deck.note${k}` as Key),
+  };
 }
 
 export function StatusChips() {
+  const t = useTr();
   return (
     <span className="oq2-chips">
-      <span className="oq2-status oq2-status--rules">Luật bản thử · PLAYTEST V1</span>
-      <span className="oq2-status">{loadActiveDeck().source === 'internal' ? 'Thẻ nội bộ · DEV' : 'Thẻ DEMO'}</span>
+      <span className="oq2-status oq2-status--rules">{t('chip.rules')}</span>
+      <span className="oq2-status">{deckText(t).chip}</span>
     </span>
   );
 }
 
+/** Hiển thị <b>…</b> trong chuỗi i18n tĩnh (không dùng innerHTML). */
+export function Rich({ text }: { text: string }) {
+  return <>{text.split(/(<b>.*?<\/b>)/g).map((part, i) => (part.startsWith('<b>') ? <strong key={i}>{part.slice(3, -4)}</strong> : part))}</>;
+}
+
 export function RulesDialog({ onClose }: { onClose: () => void }) {
+  const t = useTr();
   const ref = useRef<HTMLHeadingElement>(null);
   const closeRef = useRef(onClose);
   closeRef.current = onClose;
@@ -69,22 +90,14 @@ export function RulesDialog({ onClose }: { onClose: () => void }) {
   return (
     <div className="oq2-modal" role="dialog" aria-modal="true" aria-labelledby="oq2-rules-title">
       <div className="oq2-modal__box">
-        <h2 id="oq2-rules-title" tabIndex={-1} ref={ref}>Luật bản thử (PLAYTEST V1)</h2>
-        <p className="oq2-note">Cấu hình thử nghiệm do Product Owner duyệt để chơi thử: rải và ăn theo luật Cơ bản truyền thống, kèm thẻ thử thách của Brainroot. Chưa phải luật chính thức của dự án.</p>
+        <h2 id="oq2-rules-title" tabIndex={-1} ref={ref}>{t('rules.title')}</h2>
+        <p className="oq2-note">{t('rules.intro')}</p>
         <ul className="oq2-rules">
-          <li>Mỗi Ô Dân có 5 hạt; hai Ô Quan mỗi ô có 1 quân Quan (10 điểm).</li>
-          <li>Đến lượt: chọn một Ô Dân có hạt ở hàng của mình, chọn chiều rải.</li>
-          <li>Bốc hết hạt, rải mỗi ô một hạt, <strong>kể cả Ô Quan</strong> (quân Quan nằm yên).</li>
-          <li><strong>Rải tiếp:</strong> ô ngay sau hạt cuối là Ô Dân có hạt thì bốc hết ô đó, rải tiếp cùng chiều.</li>
-          <li><strong>Dừng:</strong> ô ngay sau hạt cuối là Ô Quan còn quân hoặc còn hạt, hoặc gặp hai ô trống liên tiếp.</li>
-          <li><strong>Cơ hội ăn:</strong> ô ngay sau hạt cuối trống và ô kế tiếp có quân (kể cả Ô Quan). Sau mỗi lần ăn, nếu lại gặp ô trống rồi ô có quân thì được ăn tiếp (ăn liên hoàn).</li>
-          <li>Mỗi lần ăn mở một thẻ: Ô Dân 1–3 hạt Cấp 1; từ 4 hạt Cấp 2; Ô Quan Cấp 3. Người đang đi trả lời. Trắc nghiệm được tự chấm; câu hỏi mở thì đối thủ bấm Đạt hoặc Chưa đạt ngay trên thẻ.</li>
-          <li><strong>Đạt</strong>: thu hoạch ô đó và xét tiếp chuỗi (có thể mở thẻ tiếp theo). <strong>Chưa đạt</strong>: ô giữ nguyên, hết lượt. Kết quả ghi một lần, không hoàn tác.</li>
-          <li>Hàng mình trống: lấy 5 hạt từ kho mình (thiếu thì mượn đối thủ, ghi nợ). Cả hai kho không đủ 5 hạt: ván kết thúc.</li>
-          <li>Ván kết thúc khi hai quân Quan đã được thu hoạch. Hạt còn trên hàng ai thì về người đó; hạt còn trong Ô Quan và Quan chưa ăn không tính cho ai.</li>
-          <li>Điểm = số hạt + 10 điểm mỗi quân Quan, trừ hạt đã mượn. Bằng điểm là hòa.</li>
+          {(['rules.r1', 'rules.r2', 'rules.r3', 'rules.r4', 'rules.r5', 'rules.r6', 'rules.r7', 'rules.r8', 'rules.r9', 'rules.r10', 'rules.r11'] as Key[]).map((k) => (
+            <li key={k}><Rich text={t(k)} /></li>
+          ))}
         </ul>
-        <button type="button" className="oq2-btn oq2-btn--primary" onClick={onClose}>Đóng</button>
+        <button type="button" className="oq2-btn oq2-btn--primary" onClick={onClose}>{t('common.close')}</button>
       </div>
     </div>
   );
@@ -92,20 +105,21 @@ export function RulesDialog({ onClose }: { onClose: () => void }) {
 
 /** Nút bật/tắt âm thanh (lưu trên máy này). */
 export function SoundToggle({ className = '' }: { className?: string }) {
+  const t = useTr();
   const [on, setOn] = useSound();
   return (
     <button
       type="button"
       className={`oq2-btn oq2-btn--small oq2-snd${on ? ' is-on' : ''} ${className}`.trim()}
       aria-pressed={on}
-      aria-label={on ? 'Âm thanh: bật. Bấm để tắt' : 'Âm thanh: tắt. Bấm để bật'}
+      aria-label={on ? t('sound.onLabel') : t('sound.offLabel')}
       onClick={() => setOn(!on)}
     >
       <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none" />
         {on ? <><path d="M16.5 8.5a5 5 0 0 1 0 7" /><path d="M19 6a8.5 8.5 0 0 1 0 12" /></> : <path d="M17 9l5 6M22 9l-5 6" />}
       </svg>
-      <span className="oq2-snd__txt">{on ? 'Âm thanh' : 'Tắt tiếng'}</span>
+      <span className="oq2-snd__txt">{on ? t('sound.on') : t('sound.off')}</span>
     </button>
   );
 }

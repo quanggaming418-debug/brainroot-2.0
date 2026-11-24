@@ -15,55 +15,56 @@ import { Mascot, SeedToken } from './Icons';
 import { BASKET, FX, GARDEN_DESKTOP, GARDEN_MOBILE, QUAN_MASCOT, type HandPose, type MascotId, type MascotPose } from './assets';
 import { applyFrame, buildFrames, frameDuration, snapshotOf, type Frame, type Snapshot } from './playback';
 import { RulesDialog, SoundToggle, StatusChips, pitName, useLayout, useReducedMotion, type Setup } from './shared';
+import { useTr, type Key, type Lazy, type Tr } from './i18n';
 
 // ------------------------------------------------------------------ văn bản
 
-const SOW_END_TEXT: Record<string, string> = {
-  occupiedQuan: 'Ô sau hạt cuối là Ô Quan còn quân hoặc còn hạt: dừng, hết lượt.',
-  twoEmpty: 'Gặp hai ô trống liên tiếp: hết lượt, không ăn.',
-  capture: 'Ô sau hạt cuối trống, ô kế tiếp có quân: có cơ hội ăn!',
-  dropLimit: 'Rải quá nhiều vòng: dừng lượt theo chốt an toàn.',
-};
-const CHAIN_END_TEXT: Record<string, string> = {
-  gapNotEmpty: 'Sau ô vừa ăn không phải ô trống: hết chuỗi ăn.',
-  twoEmpty: 'Sau ô vừa ăn là hai ô trống: hết chuỗi ăn.',
-};
+function chipOf(c: PendingCapture): Lazy {
+  return (t) => t(c.chainIndex ? (c.hasQuan ? 'chip.eatNextQuan' : 'chip.eatNext') : (c.hasQuan ? 'chip.eatQuan' : 'chip.eat'), { n: c.danSeeds, level: c.level });
+}
 
-function describeEvents(events: readonly EngineEvent[], names: Record<PlayerId, string>): string[] {
-  const out: string[] = [];
+function describeEvents(events: readonly EngineEvent[], names: Record<PlayerId, string>): Lazy[] {
+  const out: Lazy[] = [];
   let drops = 0;
   for (const e of events) {
     switch (e.type) {
       case 'pickup':
         out.push(e.relay
-          ? `↪ Rải tiếp: bốc ${e.count} hạt ở ${pitLabel(e.ring)}.`
-          : `${names[e.player]} bốc ${e.count} hạt ở ${pitLabel(e.ring)}, rải ${e.direction === 'cw' ? '↻ theo chiều kim đồng hồ' : '↺ ngược chiều kim đồng hồ'}.`);
+          ? (t) => t('log.relay', { n: e.count, pit: pitLabel(e.ring) })
+          : (t) => t(e.direction === 'cw' ? 'log.pickCw' : 'log.pickCcw', { name: names[e.player], n: e.count, pit: pitLabel(e.ring) }));
         break;
       case 'drop':
         if (e.intoQuanPit) drops++;
         break;
-      case 'sowEnded':
-        out.push(`Hạt cuối ở ${pitLabel(e.last)}${e.relays ? ` (${e.relays} lần rải tiếp)` : ''}${drops ? `, ${drops} hạt rơi vào Ô Quan` : ''}. ${SOW_END_TEXT[e.reason]}`);
+      case 'sowEnded': {
+        const d = drops;
+        out.push((t) => t('log.sowEnd', {
+          pit: pitLabel(e.last),
+          relays: e.relays ? t('log.relays', { n: e.relays }) : '',
+          drops: d ? t('log.drops', { n: d }) : '',
+          why: t(`sowEnd.${e.reason}` as Key),
+        }));
         break;
+      }
       case 'captureOpportunity':
-        out.push(`${e.capture.chainIndex ? 'Ăn liên hoàn' : 'Cơ hội ăn'} ${pitName(e.capture.target)} · thẻ Cấp ${e.capture.level}.`);
+        out.push((t) => t('log.capture', { lead: t(e.capture.chainIndex ? 'msg.leadChain' : 'msg.leadChance'), pit: pitName(t, e.capture.target), level: e.capture.level }));
         break;
       case 'refereeCommitted':
         out.push(e.verdict === 'pass'
-          ? `Đạt: ${names[e.mover]} thu hoạch ${e.harvestedDan} hạt${e.harvestedQuan ? ' và 1 quân Quan' : ''} ở ${pitLabel(e.target)}.`
-          : `Chưa đạt: hạt giữ nguyên ở ${pitLabel(e.target)}.`);
+          ? (t) => t(e.harvestedQuan ? 'log.passQuan' : 'log.pass', { name: names[e.mover], n: e.harvestedDan, pit: pitLabel(e.target) })
+          : (t) => t('log.fail', { pit: pitLabel(e.target) }));
         break;
       case 'chainEnded':
-        if (e.reason !== 'refereeFail') out.push(CHAIN_END_TEXT[e.reason]);
+        if (e.reason !== 'refereeFail') out.push((t) => t(`chainEnd.${e.reason}` as Key));
         break;
       case 'restocked':
-        out.push(`Hàng của ${names[e.player]} trống: đặt lại 5 hạt (${e.fromOwnStore} từ kho mình${e.borrowed ? `, mượn ${e.borrowed} của đối thủ` : ''}).`);
+        out.push((t) => t(e.borrowed ? 'log.restockBorrow' : 'log.restock', { name: names[e.player], own: e.fromOwnStore, b: e.borrowed }));
         break;
       case 'turnChanged':
-        out.push(`— Lượt ${e.turn}: ${names[e.to]} —`);
+        out.push((t) => t('log.turn', { n: e.turn, name: names[e.to] }));
         break;
       case 'gameOver':
-        out.push(e.reason === 'allQuanHarvested' ? 'Cả hai quân Quan đã được thu hoạch: ván kết thúc.' : 'Không đủ 5 hạt để đặt lại hàng trống: ván kết thúc sớm.');
+        out.push((t) => t(e.reason === 'allQuanHarvested' ? 'log.overQuan' : 'log.overSeeds'));
         break;
     }
   }
@@ -85,7 +86,6 @@ function screenDir(ring: number, dir: Direction, layout: 'landscape' | 'portrait
   return rightCol === cw ? 'down' : 'up';
 }
 const DIR_ARROW: Record<ScreenDir, string> = { left: '←', right: '→', up: '↑', down: '↓' };
-const DIR_WORD: Record<ScreenDir, string> = { left: 'Sang trái', right: 'Sang phải', up: 'Lên trên', down: 'Xuống dưới' };
 
 // ------------------------------------------------------------------ tốc độ
 
@@ -108,16 +108,16 @@ function writeSpeed(v: Speed) {
 interface Visual {
   readonly marks: BoardMarks;
   readonly hand: { readonly ring: RingIndex; readonly count: number; readonly pose: HandPose } | null;
-  readonly message: string;
+  readonly message: Lazy;
   readonly dropKey: number;
   readonly dropRing: RingIndex | null;
   readonly flyKey: number;
   readonly fly: { readonly from: RingIndex; readonly to: PlayerId; readonly dan: number; readonly quan: number } | null;
-  readonly toast: string | null;
+  readonly toast: Lazy | null;
 }
 
 const EMPTY_VISUAL: Visual = {
-  marks: NO_MARKS, hand: null, message: '', dropKey: 0, dropRing: null, flyKey: 0, fly: null, toast: null,
+  marks: NO_MARKS, hand: null, message: () => '', dropKey: 0, dropRing: null, flyKey: 0, fly: null, toast: null,
 };
 
 type After = 'afterSow' | 'afterVerdict';
@@ -147,7 +147,7 @@ function visualize(f: Frame, prev: Visual, names: Record<PlayerId, string>): Vis
         ...base,
         hand: { ring: f.ring, count: f.count, pose: 'pick' },
         marks: { ...NO_MARKS, origin: f.relay ? prev.marks.origin : f.ring, active: f.ring },
-        message: f.relay ? `Rải tiếp! Bốc ${f.count} hạt ở ${pitLabel(f.ring)}.` : `${names[f.player]} bốc ${f.count} hạt ở ${pitLabel(f.ring)}.`,
+        message: f.relay ? (t) => t('msg.pickRelay', { n: f.count, pit: pitLabel(f.ring) }) : (t) => t('msg.pick', { name: names[f.player], n: f.count, pit: pitLabel(f.ring) }),
       };
     case 'move':
       return { ...base, hand: { ring: f.ring, count: f.hand, pose: 'carry' }, marks: { ...prev.marks, active: f.ring, quanPulse: null } };
@@ -159,17 +159,17 @@ function visualize(f: Frame, prev: Visual, names: Record<PlayerId, string>): Vis
         dropKey: prev.dropKey + 1,
         dropRing: f.ring,
         message: f.intoQuanPit
-          ? `Thả 1 hạt vào ${pitName(f.ring)} · còn ${f.handLeft} hạt trong tay.`
-          : `Thả 1 hạt vào ${pitLabel(f.ring)} · còn ${f.handLeft} hạt trong tay.`,
+          ? (t) => t('msg.dropQuan', { pit: pitName(t, f.ring), n: f.handLeft })
+          : (t) => t('msg.drop', { pit: pitLabel(f.ring), n: f.handLeft }),
       };
     case 'sowEnd':
-      return { ...base, hand: { ring: f.last, count: 0, pose: 'retract' }, marks: { ...NO_MARKS, origin: prev.marks.origin, active: f.last, stopAt: f.next }, message: SOW_END_TEXT[f.reason] };
+      return { ...base, hand: { ring: f.last, count: 0, pose: 'retract' }, marks: { ...NO_MARKS, origin: prev.marks.origin, active: f.last, stopAt: f.next }, message: (t) => t(`sowEnd.${f.reason}` as Key) };
     case 'capture':
       return {
         ...base,
         hand: null,
-        marks: { ...NO_MARKS, stopAt: null, target: f.capture.target, targetChip: `${f.capture.chainIndex ? 'Ăn tiếp' : 'Ăn'} ${f.capture.danSeeds}${f.capture.hasQuan ? ' + Quan' : ' hạt'} · Cấp ${f.capture.level}` },
-        message: `${f.capture.chainIndex ? 'Ăn liên hoàn!' : 'Cơ hội ăn!'} ${pitName(f.capture.target)} · thẻ Cấp ${f.capture.level}. ${names[f.capture.mover]} trả lời.`,
+        marks: { ...NO_MARKS, stopAt: null, target: f.capture.target, targetChip: chipOf(f.capture) },
+        message: (t) => t('msg.capture', { lead: t(f.capture.chainIndex ? 'msg.leadChainBang' : 'msg.leadChanceBang'), pit: pitName(t, f.capture.target), level: f.capture.level, name: names[f.capture.mover] }),
       };
     case 'harvest':
       return {
@@ -177,18 +177,18 @@ function visualize(f: Frame, prev: Visual, names: Record<PlayerId, string>): Vis
         marks: { ...NO_MARKS, harvested: f.target },
         flyKey: prev.flyKey + 1,
         fly: { from: f.target, to: f.mover, dan: f.dan, quan: f.quan },
-        message: `${names[f.mover]} thu hoạch ${f.dan} hạt${f.quan ? ' và quân Quan' : ''}!`,
+        message: (t) => t(f.quan ? 'msg.harvestQuan' : 'msg.harvest', { name: names[f.mover], n: f.dan }),
       };
     case 'keep':
-      return { ...base, marks: { ...NO_MARKS, shake: f.target }, message: 'Chưa đạt: hạt vẫn ở ô này.' };
+      return { ...base, marks: { ...NO_MARKS, shake: f.target }, message: (t) => t('msg.keep') };
     case 'chainEnd':
-      return { ...base, marks: { ...NO_MARKS, stopAt: f.at }, message: CHAIN_END_TEXT[f.reason] };
+      return { ...base, marks: { ...NO_MARKS, stopAt: f.at }, message: (t) => t(`chainEnd.${f.reason}` as Key) };
     case 'restock':
-      return { ...base, marks: NO_MARKS, message: `Hàng của ${names[f.player]} trống: đặt lại mỗi ô 1 hạt (${f.fromOwnStore} từ kho mình${f.borrowed ? `, mượn ${f.borrowed} hạt của đối thủ` : ''}).` };
+      return { ...base, marks: NO_MARKS, message: (t) => t(f.borrowed ? 'msg.restockBorrow' : 'msg.restock', { name: names[f.player], own: f.fromOwnStore, b: f.borrowed }) };
     case 'turn':
-      return { ...base, hand: null, marks: NO_MARKS, toast: `Đến lượt ${names[f.to]}`, message: `Đến lượt ${names[f.to]}.` };
+      return { ...base, hand: null, marks: NO_MARKS, toast: (t) => t('toast.turn', { name: names[f.to] }), message: (t) => t('msg.turn', { name: names[f.to] }) };
     case 'gameOver':
-      return { ...base, hand: null, marks: NO_MARKS, toast: 'Ván kết thúc!', message: f.reason === 'allQuanHarvested' ? 'Cả hai quân Quan đã được thu hoạch: ván kết thúc.' : 'Không đủ hạt để đặt lại hàng: ván kết thúc sớm.' };
+      return { ...base, hand: null, marks: NO_MARKS, toast: (t) => t('toast.over'), message: (t) => t(f.reason === 'allQuanHarvested' ? 'msg.overQuan' : 'msg.overSeeds') };
     default:
       return base;
   }
@@ -329,19 +329,20 @@ function PlayerPlate({ id, view, rules, names, active }: {
 }) {
   const fake = { rules, stores: view.stores, debt: view.debt } as GameState;
   const s = computeScores(fake)[id];
+  const t = useTr();
   return (
-    <div className={`oq2-plate${active ? ' is-active' : ''}`} data-plate={id} aria-label={`${names[id]}: ${s.total} điểm${active ? ', đang đi' : ''}`}>
+    <div className={`oq2-plate${active ? ' is-active' : ''}`} data-plate={id} aria-label={t(active ? 'plate.ariaTurn' : 'plate.aria', { name: names[id], points: s.total })}>
       <span className={`oq2-avatar oq2-avatar--${id}`} aria-hidden="true">{names[id].trim().charAt(0).toUpperCase()}</span>
       <span className="oq2-plate__who">
         <strong>{names[id]}</strong>
-        <small>{id === 'P1' ? 'Hàng dưới' : 'Hàng trên'}{active ? <em className="oq2-plate__turn"> · ĐANG ĐI</em> : null}</small>
+        <small>{id === 'P1' ? t('plate.bottom') : t('plate.top')}{active ? <em className="oq2-plate__turn">{t('plate.turn')}</em> : null}</small>
       </span>
       <span className="oq2-plate__store" aria-hidden="true">
-        <span className="oq2-plate__basket"><img src={BASKET} alt="" /><b key={s.danInStore} className="oq2-plate__jar-n">{s.danInStore}</b> hạt</span>
-        {s.quanCount ? <span>+ {s.quanCount} Quan</span> : null}
-        {s.debtOwed ? <span className="oq2-debt">nợ {s.debtOwed}</span> : null}
+        <span className="oq2-plate__basket"><img src={BASKET} alt="" /><b key={s.danInStore} className="oq2-plate__jar-n">{s.danInStore}</b> {t('common.seeds')}</span>
+        {s.quanCount ? <span>{t('plate.quan', { n: s.quanCount })}</span> : null}
+        {s.debtOwed ? <span className="oq2-debt">{t('plate.debt', { n: s.debtOwed })}</span> : null}
       </span>
-      <span className="oq2-plate__score" aria-hidden="true"><b key={s.total}>{s.total}</b><small>điểm</small></span>
+      <span className="oq2-plate__score" aria-hidden="true"><b key={s.total}>{s.total}</b><small>{t('common.points')}</small></span>
     </div>
   );
 }
@@ -356,7 +357,7 @@ type Stage =
 
 export function GameScreen({ setup, onEnd, onQuit }: {
   setup: Setup;
-  onEnd: (g: GameState, lessons: string[], log: string[]) => void;
+  onEnd: (g: GameState, lessons: string[], log: Lazy[]) => void;
   onQuit: () => void;
 }) {
   const layout = useLayout();
@@ -369,12 +370,13 @@ export function GameScreen({ setup, onEnd, onQuit }: {
   const [stage, setStage] = useState<Stage>({ kind: 'select' });
   const [anim, setAnim] = useState<Anim | null>(null);
   const [speed, setSpeedState] = useState<Speed>(readSpeed);
-  const [notice, setNotice] = useState('');
-  const [log, setLog] = useState<string[]>([]);
+  const t = useTr();
+  const [notice, setNotice] = useState<Lazy | null>(null);
+  const [log, setLog] = useState<Lazy[]>([]);
   const [lessons, setLessons] = useState<string[]>([]);
   const [rulesOpen, setRulesOpen] = useState(false);
   const [logOpen, setLogOpen] = useState(false);
-  const [toast, setToast] = useState<string | null>(null);
+  const [toast, setToast] = useState<Lazy | null>(null);
   const [, forceRender] = useState(0);
   const deck = useMemo(() => new CardDeck(Math.random, loadActiveDeck().cards), []);
   const boardWrapRef = useRef<HTMLDivElement>(null);
@@ -418,8 +420,8 @@ export function GameScreen({ setup, onEnd, onQuit }: {
       return;
     }
     const last = a.frames[a.frames.length - 1];
-    if (last?.kind === 'turn') setToast(`Đến lượt ${names[last.to]}`);
-    setNotice(`Lượt của ${names[s.current]}: chọn một Ô Dân có hạt ở hàng của mình.`);
+    if (last?.kind === 'turn') setToast(() => (tt: Tr) => tt('toast.turn', { name: names[last.to] }));
+    setNotice(() => (tt: Tr) => tt('msg.yourTurn', { name: names[s.current] }));
     setStage({ kind: 'select' });
   }, [deck, lessons, log, names, onEnd]);
 
@@ -473,7 +475,7 @@ export function GameScreen({ setup, onEnd, onQuit }: {
     sfx('ui');
     const result = applyAction(game, { type: 'sow', pit, direction: dir });
     setGame(result.state);
-    setNotice('');
+    setNotice(null);
     play(result, before, 'afterSow');
   };
 
@@ -501,16 +503,16 @@ export function GameScreen({ setup, onEnd, onQuit }: {
     marks = { ...NO_MARKS, selected: stage.pit, path: stage.hover ? previewSow(game, stage.pit, stage.hover) : [] };
   } else if (!anim && stage.kind === 'card') {
     const c = stage.capture;
-    marks = { ...NO_MARKS, target: c.target, targetChip: `Ăn ${c.danSeeds}${c.hasQuan ? ' + Quan' : ' hạt'} · Cấp ${c.level}` };
+    marks = { ...NO_MARKS, target: c.target, targetChip: chipOf({ ...c, chainIndex: 0 }) };
   }
   const interactive = !anim && (stage.kind === 'select' || stage.kind === 'direction');
   const overlay = stage.kind === 'card' || rulesOpen;
   const mover = view.current;
-  const message = anim ? vis.message
-    : stage.kind === 'direction' ? `Đã chọn ${pitLabel(stage.pit)} (${game.pits[stage.pit]} hạt). Chọn hướng rải: ${layout === 'landscape' ? '← hoặc →' : '↑ hoặc ↓'}.`
+  const message = anim ? vis.message(t)
+    : stage.kind === 'direction' ? t('msg.chosen', { pit: pitLabel(stage.pit), n: game.pits[stage.pit], dirs: t(layout === 'landscape' ? 'msg.dirsH' : 'msg.dirsV') })
       : stage.kind === 'card'
-        ? `${stage.capture.chainIndex ? 'Ăn liên hoàn' : 'Cơ hội ăn'} ${pitName(stage.capture.target)}: ${names[stage.capture.mover]} trả lời thẻ.`
-        : notice || `Lượt của ${names[game.current]}: chọn một Ô Dân có hạt ở hàng của mình.`;
+        ? t('msg.answer', { lead: t(stage.capture.chainIndex ? 'msg.leadChain' : 'msg.leadChance'), pit: pitName(t, stage.capture.target), name: names[stage.capture.mover] })
+        : notice ? notice(t) : t('msg.yourTurn', { name: names[game.current] });
   const turnFrame = anim && !anim.done && (anim.frames[anim.i].kind === 'turn' || anim.frames[anim.i].kind === 'restock');
   const stepIdx = stage.kind === 'select' || turnFrame ? 0 : stage.kind === 'direction' ? 1
     : anim && anim.after === 'afterSow' && anim.frames[anim.i]?.kind !== 'capture' ? 2 : 3;
@@ -521,9 +523,9 @@ export function GameScreen({ setup, onEnd, onQuit }: {
 
   const onSelectPit = (ring: RingIndex) => { sfx('select'); setStage({ kind: 'direction', pit: ring, hover: null }); };
   const onRejected = (ring: RingIndex) => {
-    if (isQuanPit(ring)) setNotice('Không được bốc Ô Quan để rải.');
-    else if (game.pits[ring] === 0) setNotice(`Ô ${pitLabel(ring)} không có hạt.`);
-    else setNotice(`Ô ${pitLabel(ring)} là ô của đối thủ.`);
+    if (isQuanPit(ring)) setNotice(() => (tt: Tr) => tt('msg.noQuanPick'));
+    else if (game.pits[ring] === 0) setNotice(() => (tt: Tr) => tt('msg.emptyPit', { pit: pitLabel(ring) }));
+    else setNotice(() => (tt: Tr) => tt('msg.enemyPit', { pit: pitLabel(ring) }));
   };
 
   // Nút chiều rải gắn ngay trên ô đã chọn
@@ -535,14 +537,14 @@ export function GameScreen({ setup, onEnd, onQuit }: {
       <button
         type="button"
         className={`oq2-btn oq2-dir oq2-dir--${sd}${extra}`}
-        aria-label={`Rải ${DIR_WORD[sd].toLowerCase()}`}
+        aria-label={t('dir.label', { dir: t(`dir.${sd}` as Key).toLowerCase() })}
         onMouseEnter={() => stage.kind === 'direction' && setStage({ ...stage, hover: dir })}
         onFocus={() => stage.kind === 'direction' && setStage({ ...stage, hover: dir })}
         onMouseLeave={() => stage.kind === 'direction' && setStage({ ...stage, hover: null })}
         onClick={() => stage.kind === 'direction' && sow(stage.pit, dir)}
       >
         <span aria-hidden="true">{DIR_ARROW[sd]}</span>
-        <em>{DIR_WORD[sd]}</em>
+        <em>{t(`dir.${sd}` as Key)}</em>
       </button>
     );
   };
@@ -557,13 +559,13 @@ export function GameScreen({ setup, onEnd, onQuit }: {
   return (
     <div className={`oq2-game oq2-game--${layout}`} data-stage={anim ? 'playing' : stage.kind} data-frame={curFrame?.kind ?? ''} style={{ '--oq2-dockh': `${dockH}px`, '--oq2-garden': `url(${layout === 'portrait' ? GARDEN_MOBILE : GARDEN_DESKTOP})` } as CSSProperties}>
       <header className="oq2-header" inert={overlay}>
-        <span className="oq2-header__brand">Brainroot<span aria-hidden="true">.</span> <em>Ô ăn quan xanh</em></span>
+        <span className="oq2-header__brand">Brainroot<span aria-hidden="true">.</span> <em>{t('game.brand')}</em></span>
         <StatusChips />
         <span className="oq2-header__actions">
           <SoundToggle />
-          <button type="button" className="oq2-btn oq2-btn--small" onClick={() => setRulesOpen(true)}>Luật</button>
-          <button type="button" className="oq2-btn oq2-btn--small" aria-expanded={logOpen} onClick={() => setLogOpen((v) => !v)}>Nhật ký</button>
-          <button type="button" className="oq2-btn oq2-btn--small" onClick={() => { if (window.confirm('Rời ván? Ván hiện tại sẽ không được lưu.')) onQuit(); }}>Rời ván</button>
+          <button type="button" className="oq2-btn oq2-btn--small" onClick={() => setRulesOpen(true)}>{t('game.rules')}</button>
+          <button type="button" className="oq2-btn oq2-btn--small" aria-expanded={logOpen} onClick={() => setLogOpen((v) => !v)}>{t('game.log')}</button>
+          <button type="button" className="oq2-btn oq2-btn--small" onClick={() => { if (window.confirm(t('game.quitConfirm'))) onQuit(); }}>{t('game.quit')}</button>
         </span>
       </header>
 
@@ -585,7 +587,7 @@ export function GameScreen({ setup, onEnd, onQuit }: {
           onSelect={onSelectPit}
           onRejected={onRejected}
         />
-        {vis.toast || toast ? <div className="oq2-toast" role="status">{vis.toast ?? toast}</div> : null}
+        {vis.toast || toast ? <div className="oq2-toast" role="status">{(vis.toast ?? toast)?.(t)}</div> : null}
         {selectedCenter && stage.kind === 'direction' ? (
           <div className="oq2-pitdirs" style={{ left: selectedCenter.x, top: selectedCenter.y } as CSSProperties}>
             {orderedDirs.map((d) => <span key={d} style={{ display: 'contents' }}>{dirButton(d, ' oq2-dir--mini')}</span>)}
@@ -596,8 +598,8 @@ export function GameScreen({ setup, onEnd, onQuit }: {
       <footer className="oq2-dock" inert={overlay} ref={dockRef}>
         {(
           <>
-            <ol className="oq2-stepper" aria-label="Các bước của lượt">
-              {['Chọn ô', 'Chọn chiều', 'Rải', 'Thẻ'].map((s, i) => (
+            <ol className="oq2-stepper" aria-label={t('game.steps')}>
+              {(['game.step.pick', 'game.step.dir', 'game.step.sow', 'game.step.card'] as Key[]).map((k) => t(k)).map((s, i) => (
                 <li key={s} className={i === stepIdx ? 'is-current' : i < stepIdx ? 'is-done' : ''} aria-current={i === stepIdx ? 'step' : undefined}>
                   <span>{i + 1}</span><em>{s}</em>
                 </li>
@@ -607,16 +609,16 @@ export function GameScreen({ setup, onEnd, onQuit }: {
             <div className="oq2-dock__actions">
               {stage.kind === 'direction' && !anim ? (
                 <>
-                  <div className="oq2-dirs" role="group" aria-label="Hướng rải">
+                  <div className="oq2-dirs" role="group" aria-label={t('game.dirGroup')}>
                     {orderedDirs.map((d) => <span key={d} style={{ display: 'contents' }}>{dirButton(d)}</span>)}
                   </div>
-                  <button type="button" className="oq2-btn oq2-btn--ghost" onClick={() => setStage({ kind: 'select' })}>Đổi ô</button>
+                  <button type="button" className="oq2-btn oq2-btn--ghost" onClick={() => setStage({ kind: 'select' })}>{t('game.changePit')}</button>
                 </>
               ) : null}
               {anim && !anim.done ? (
-                <button type="button" className="oq2-btn oq2-btn--ghost" onClick={skip}>Bỏ qua ›</button>
+                <button type="button" className="oq2-btn oq2-btn--ghost" onClick={skip}>{t('game.skip')}</button>
               ) : null}
-              <div className="oq2-speed" role="group" aria-label="Tốc độ hoạt ảnh">
+              <div className="oq2-speed" role="group" aria-label={t('game.speed')}>
                 {([1, 2, 4] as Speed[]).map((v) => (
                   <button key={v} type="button" className={`oq2-btn oq2-btn--small oq2-speed__btn${speed === v ? ' is-on' : ''}`} aria-pressed={speed === v} onClick={() => setSpeed(v)}>{v}×</button>
                 ))}
@@ -629,10 +631,10 @@ export function GameScreen({ setup, onEnd, onQuit }: {
       <FxLayer vis={vis} boardEl={boardWrapRef.current} reduced={reduced} moveMs={moveMs} dropMs={dropMs} flyMs={flyMs} />
 
       {logOpen ? (
-        <aside className="oq2-log" aria-label="Nhật ký ván">
-          <h2>Nhật ký ván</h2>
-          {log.length ? <ol>{log.map((l, i) => <li key={i}>{l}</li>)}</ol> : <p>Chưa có nước đi.</p>}
-          <button type="button" className="oq2-btn oq2-btn--small" onClick={() => setLogOpen(false)}>Đóng</button>
+        <aside className="oq2-log" aria-label={t('game.logTitle')}>
+          <h2>{t('game.logTitle')}</h2>
+          {log.length ? <ol tabIndex={0} aria-label={t('game.logTitle')}>{log.map((l, i) => <li key={i}>{l(t)}</li>)}</ol> : <p>{t('game.logEmpty')}</p>}
+          <button type="button" className="oq2-btn oq2-btn--small" onClick={() => setLogOpen(false)}>{t('common.close')}</button>
         </aside>
       ) : null}
 
@@ -664,26 +666,27 @@ function MascotCoach({ layout, frame, stage, names, mover }: {
   names: Record<PlayerId, string>;
   mover: PlayerId;
 }) {
+  const t = useTr();
   let pose: MascotPose = 'idle';
   let who: MascotId = mover === 'P1' ? 'brainie' : 'rootie';
   let line = '';
   const k = frame?.kind;
   if (k === 'capture') {
     pose = 'guide';
-    line = 'Cơ hội ăn!';
+    line = t('coach.chance');
   } else if (k === 'harvest') {
     pose = 'cheer';
     who = (frame as Extract<Frame, { kind: 'harvest' }>).mover === 'P1' ? 'brainie' : 'rootie';
-    line = 'Thu hoạch!';
+    line = t('coach.harvest');
   } else if (k === 'keep') {
     pose = 'thinking';
-    line = 'Lần sau nhé!';
+    line = t('coach.keep');
   } else if (k === 'gameOver') {
     pose = 'win';
-    line = 'Hết ván!';
+    line = t('coach.over');
   } else if (k === 'restock') {
     pose = 'thinking';
-    line = 'Đặt lại hàng';
+    line = t('coach.restock');
   } else if (stage === 'card') {
     pose = 'thinking';
   } else if (k === 'pickup' || k === 'reach') {

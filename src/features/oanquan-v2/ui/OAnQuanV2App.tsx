@@ -1,13 +1,12 @@
-import { loadActiveDeck } from '../content/activeDeck';
 import { createContext, useContext, useEffect, useRef, useState, type ComponentProps } from 'react';
 import { computeScores, winner, type GameState, type PlayerId } from '../engine';
-import { THEMES } from '../content/themes';
+import { useTr, type Lazy } from './i18n';
 import { publicUrl } from '../../../utils/publicUrl';
 import type { TimerMode } from './Challenge';
 import { GameScreen } from './GameScreen';
 import { Mascot, ThemeIcon } from './Icons';
 import { BASKET, FX } from './assets';
-import { RulesDialog, SoundToggle, StatusChips, type Setup } from './shared';
+import { RulesDialog, SoundToggle, StatusChips, deckText, type Setup } from './shared';
 import { GARDEN_DESKTOP, GARDEN_MOBILE } from './assets';
 
 // ------------------------------------------------------------------ S1, S2
@@ -21,37 +20,38 @@ function Main(props: ComponentProps<'main'>) {
   return <main {...props} />;
 }
 function HomeLink({ className = '' }: { className?: string }) {
+  const t = useTr();
   const embed = useContext(EmbedCtx);
   if (!embed) return null;
-  return <button type="button" className={`oq2-btn oq2-btn--ghost ${className}`.trim()} onClick={embed.onHome}>← Về trang chủ</button>;
+  return <button type="button" className={`oq2-btn oq2-btn--ghost ${className}`.trim()} onClick={embed.onHome}>{t('common.homeLink')}</button>;
 }
 
-const DECK_LABEL = loadActiveDeck().source === 'internal' ? 'thẻ nội bộ' : 'thẻ DEMO';
 
 function StartScreen({ onPlay, onRules }: { onPlay: () => void; onRules: () => void }) {
+  const t = useTr();
   const h = useRef<HTMLHeadingElement>(null);
   useEffect(() => { h.current?.focus(); }, []);
   return (
     <Main className="oq2-start" id="main-content" style={{ '--oq2-garden': `url(${GARDEN_DESKTOP})`, '--oq2-garden-m': `url(${GARDEN_MOBILE})` } as React.CSSProperties}>
       <SoundToggle className="oq2-start__snd" />
       <div className="oq2-start__copy">
-        <p className="oq2-eyebrow">BRAINROOT · GREEN PLAY · BẢN CHƠI THỬ NỘI BỘ</p>
-        <h1 tabIndex={-1} ref={h}>Ô ăn quan <span>xanh</span></h1>
-        <p className="oq2-lead">Rải quân, ăn quân, và chứng minh bạn biết cách giữ gìn tài nguyên.</p>
+        <p className="oq2-eyebrow">{t('start.eyebrow')}</p>
+        <h1 tabIndex={-1} ref={h}>{t('start.titleA')} <span>{t('start.titleB')}</span></h1>
+        <p className="oq2-lead">{t('start.lead')}</p>
         <StatusChips />
         <div className="oq2-start__actions">
-          <button type="button" className="oq2-btn oq2-btn--primary oq2-btn--lg" onClick={onPlay}>Chơi 2 người</button>
-          <button type="button" className="oq2-btn oq2-btn--ghost" onClick={onRules}>Xem luật tóm tắt</button>
+          <button type="button" className="oq2-btn oq2-btn--primary oq2-btn--lg" onClick={onPlay}>{t('start.play')}</button>
+          <button type="button" className="oq2-btn oq2-btn--ghost" onClick={onRules}>{t('start.rules')}</button>
           <HomeLink />
         </div>
-        <ol className="oq2-start__steps" aria-label="Cách chơi trong 3 bước">
-          <li><b>1</b><span>Chọn ô và hướng rải hạt</span></li>
-          <li><b>2</b><span>Ăn quân, trả lời thẻ thử thách xanh</span></li>
-          <li><b>3</b><span>Thu hoạch hạt vào kho bảo tồn</span></li>
+        <ol className="oq2-start__steps" aria-label={t('start.steps')}>
+          <li><b>1</b><span>{t('start.step1')}</span></li>
+          <li><b>2</b><span>{t('start.step2')}</span></li>
+          <li><b>3</b><span>{t('start.step3')}</span></li>
         </ol>
-        <ul className="oq2-start__themes" aria-label="5 chủ đề">
-          {(['green', 'energy', 'waste', 'water', 'consume'] as const).map((t) => (
-            <li key={t} className={`oq2-theme--${t}`}><ThemeIcon theme={t} size={16} /> {THEMES[t].name}</li>
+        <ul className="oq2-start__themes" aria-label={t('start.themes')}>
+          {(['green', 'energy', 'waste', 'water', 'consume'] as const).map((th) => (
+            <li key={th} className={`oq2-theme--${th}`}><ThemeIcon theme={th} size={16} /> {t.theme(th)}</li>
           ))}
         </ul>
       </div>
@@ -64,6 +64,7 @@ function StartScreen({ onPlay, onRules }: { onPlay: () => void; onRules: () => v
 }
 
 function SetupScreen({ initial, onStart, onBack }: { initial: Setup; onStart: (s: Setup) => void; onBack: () => void }) {
+  const t = useTr();
   const [p1, setP1] = useState(initial.names.P1);
   const [p2, setP2] = useState(initial.names.P2);
   const [first, setFirst] = useState<Setup['first']>(initial.first);
@@ -82,43 +83,43 @@ function SetupScreen({ initial, onStart, onBack }: { initial: Setup; onStart: (s
         className="oq2-setup__form"
         onSubmit={(e) => {
           e.preventDefault();
-          onStart({ names: { P1: p1.trim() || 'Người chơi 1', P2: p2.trim() || 'Người chơi 2' }, first, timer });
+          onStart({ names: { P1: p1.trim() || t('common.player1'), P2: p2.trim() || t('common.player2') }, first, timer });
         }}
       >
         <div className="oq2-setup__scroll">
-          <h1 tabIndex={-1} ref={h}>Thiết lập ván</h1>
+          <h1 tabIndex={-1} ref={h}>{t('setup.title')}</h1>
           <StatusChips />
           <fieldset>
-            <legend>Người chơi</legend>
-            <label className="oq2-field">Người chơi 1 · hàng dưới (D1–D5)
-              <input value={p1} maxLength={20} onChange={(e) => setP1(e.target.value)} placeholder="Người chơi 1" />
+            <legend>{t('setup.players')}</legend>
+            <label className="oq2-field">{t('setup.p1')}
+              <input value={p1} maxLength={20} onChange={(e) => setP1(e.target.value)} placeholder={t('common.player1')} />
             </label>
-            <label className="oq2-field">Người chơi 2 · hàng trên (T1–T5)
-              <input value={p2} maxLength={20} onChange={(e) => setP2(e.target.value)} placeholder="Người chơi 2" />
+            <label className="oq2-field">{t('setup.p2')}
+              <input value={p2} maxLength={20} onChange={(e) => setP2(e.target.value)} placeholder={t('common.player2')} />
             </label>
-            <p className="oq2-note">Tên chỉ dùng trên máy này, không lưu lên máy chủ.</p>
+            <p className="oq2-note">{t('setup.nameNote')}</p>
           </fieldset>
           <fieldset>
-            <legend>Ai đi trước</legend>
+            <legend>{t('setup.first')}</legend>
             <div className="oq2-options">
-              {option('first', 'P1', first, setFirst, 'Người chơi 1')}
-              {option('first', 'P2', first, setFirst, 'Người chơi 2')}
-              {option('first', 'random', first, setFirst, 'Ngẫu nhiên')}
+              {option('first', 'P1', first, setFirst, t('common.player1'))}
+              {option('first', 'P2', first, setFirst, t('common.player2'))}
+              {option('first', 'random', first, setFirst, t('setup.random'))}
             </div>
           </fieldset>
           <fieldset>
-            <legend>Thời gian trả lời</legend>
+            <legend>{t('setup.timer')}</legend>
             <div className="oq2-options">
-              {option('timer', 'standard', timer, setTimer, 'Chuẩn', 'Theo thời gian ghi trên thẻ')}
-              {option('timer', 'extended', timer, setTimer, '+50%', 'Thêm một nửa thời gian')}
-              {option('timer', 'untimed', timer, setTimer, 'Không bấm giờ', 'Trả lời xong thì bấm Xong')}
+              {option('timer', 'standard', timer, setTimer, t('setup.timerStd'), t('setup.timerStdHint'))}
+              {option('timer', 'extended', timer, setTimer, t('setup.timerExt'), t('setup.timerExtHint'))}
+              {option('timer', 'untimed', timer, setTimer, t('setup.timerOff'), t('setup.timerOffHint'))}
             </div>
           </fieldset>
-          <p className="oq2-note">Hai người chơi chung một máy. Trắc nghiệm tự chấm, câu hỏi mở thì đối thủ chấm nhanh ngay trên thẻ. {loadActiveDeck().source === 'internal' ? 'Thẻ trong bản này là bộ thẻ nội bộ chỉ để phát triển và kiểm thử, chưa được công bố.' : 'Thẻ trong bản này là thẻ DEMO tự viết, không phải bộ thẻ chính thức.'}</p>
+          <p className="oq2-note">{t('setup.note')} {deckText(t).note}{t.locale === 'en' ? ` ${t('deck.cardsViNote')}` : ''}</p>
         </div>
         <div className="oq2-setup__bar">
-          <button type="button" className="oq2-btn oq2-btn--ghost" onClick={onBack}>Quay lại</button>
-          <button type="submit" className="oq2-btn oq2-btn--primary">Bắt đầu ván</button>
+          <button type="button" className="oq2-btn oq2-btn--ghost" onClick={onBack}>{t('common.back')}</button>
+          <button type="submit" className="oq2-btn oq2-btn--primary">{t('setup.start')}</button>
         </div>
       </form>
     </Main>
@@ -128,17 +129,18 @@ function SetupScreen({ initial, onStart, onBack }: { initial: Setup; onStart: (s
 // ------------------------------------------------------------------ S9
 
 function EndScreen({ game, names, lessons, log, onReplay, onNew }: {
-  game: GameState; names: Record<PlayerId, string>; lessons: string[]; log: string[]; onReplay: () => void; onNew: () => void;
+  game: GameState; names: Record<PlayerId, string>; lessons: string[]; log: Lazy[]; onReplay: () => void; onNew: () => void;
 }) {
+  const t = useTr();
   const h = useRef<HTMLHeadingElement>(null);
   useEffect(() => { h.current?.focus(); }, []);
   const scores = computeScores(game);
   const w = winner(game);
   const rows: [string, (p: PlayerId) => string][] = [
-    ['Hạt trong kho (gồm hạt còn trên hàng)', (p) => String(scores[p].danInStore)],
-    ['Quân Quan thu hoạch', (p) => `${scores[p].quanCount} × ${game.rules.scoring.quanPieceValue}`],
-    ['Hạt đã mượn (trừ)', (p) => (scores[p].debtOwed ? `−${scores[p].debtOwed}` : '0')],
-    ['Hạt cho mượn (cộng)', (p) => (scores[p].debtLent ? `+${scores[p].debtLent}` : '0')],
+    [t('end.rowStore'), (p) => String(scores[p].danInStore)],
+    [t('end.rowQuan'), (p) => `${scores[p].quanCount} × ${game.rules.scoring.quanPieceValue}`],
+    [t('end.rowDebt'), (p) => (scores[p].debtOwed ? `−${scores[p].debtOwed}` : '0')],
+    [t('end.rowLent'), (p) => (scores[p].debtLent ? `+${scores[p].debtLent}` : '0')],
   ];
   return (
     <Main className="oq2-end" id="main-content" style={{ '--oq2-garden-end': `url(${GARDEN_DESKTOP})` } as React.CSSProperties}>
@@ -151,49 +153,49 @@ function EndScreen({ game, names, lessons, log, onReplay, onNew }: {
             <Mascot who="rootie" pose={w === 'P2' || w === 'draw' ? 'win' : 'happy'} size={86} />
           </span>
         </div>
-        <h1 tabIndex={-1} ref={h}>{w === 'draw' ? 'Hòa — cả hai là Đại sứ Môi trường' : `Đại sứ Môi trường: ${names[w as PlayerId]}`}</h1>
+        <h1 tabIndex={-1} ref={h}>{w === 'draw' ? t('end.titleDraw') : t('end.titleWin', { name: names[w as PlayerId] })}</h1>
         <p className="oq2-lead">
-          {game.endReason === 'allQuanHarvested' ? 'Cả hai quân Quan đã được thu hoạch.' : 'Không còn đủ hạt để đặt lại hàng trống, ván kết thúc sớm.'}{game.pits[0] + game.pits[6] ? ` ${game.pits[0] + game.pits[6]} hạt còn trong Ô Quan không tính cho ai.` : ''}
-          {' '}Cảm ơn hai bạn đã cùng thu hoạch.
+          {game.endReason === 'allQuanHarvested' ? t('end.overQuan') : t('end.overSeeds')}{game.pits[0] + game.pits[6] ? t('end.leftover', { n: game.pits[0] + game.pits[6] }) : ''}
+          {' '}{t('end.thanks')}
         </p>
         <div className="oq2-endcards">
           {(['P1', 'P2'] as PlayerId[]).map((p) => (
             <div key={p} className={`oq2-endcard${w === p ? ' is-winner' : ''}`}>
-              {w === p ? <span className="oq2-endcard__crown">Đại sứ Môi trường</span> : null}
+              {w === p ? <span className="oq2-endcard__crown">{t('end.ambassador')}</span> : null}
               <span className={`oq2-avatar oq2-avatar--${p}`} aria-hidden="true">{names[p].trim().charAt(0).toUpperCase()}</span>
               <strong>{names[p]}</strong>
               <b className="oq2-endcard__score">{scores[p].total}</b>
-              <small>điểm</small>
-              <span className="oq2-endcard__jar"><img src={BASKET} alt="" />{scores[p].danInStore} hạt trong kho{scores[p].quanCount ? ` · ${scores[p].quanCount} quân Quan` : ''}</span>
+              <small>{t('common.points')}</small>
+              <span className="oq2-endcard__jar"><img src={BASKET} alt="" />{t('end.jar', { n: scores[p].danInStore })}{scores[p].quanCount ? t('end.jarQuan', { n: scores[p].quanCount }) : ''}</span>
             </div>
           ))}
         </div>
         <details className="oq2-end__detail">
-          <summary>Bảng điểm chi tiết</summary>
+          <summary>{t('end.detail')}</summary>
         <table className="oq2-score">
-          <caption className="oq2-sr">Bảng điểm cuối ván</caption>
-          <thead><tr><th scope="col">Mục</th><th scope="col">{names.P1}</th><th scope="col">{names.P2}</th></tr></thead>
+          <caption className="oq2-sr">{t('end.caption')}</caption>
+          <thead><tr><th scope="col">{t('end.item')}</th><th scope="col">{names.P1}</th><th scope="col">{names.P2}</th></tr></thead>
           <tbody>
             {rows.map(([label, f]) => <tr key={label}><th scope="row">{label}</th><td>{f('P1')}</td><td>{f('P2')}</td></tr>)}
-            <tr className="oq2-score__total"><th scope="row">Tổng điểm</th><td>{scores.P1.total}</td><td>{scores.P2.total}</td></tr>
+            <tr className="oq2-score__total"><th scope="row">{t('end.total')}</th><td>{scores.P1.total}</td><td>{scores.P2.total}</td></tr>
           </tbody>
         </table>
         </details>
         {lessons.length ? (
           <section aria-labelledby="oq2-lessons">
-            <h2 id="oq2-lessons">Bài học đáng nhớ <span className="oq2-tag">{DECK_LABEL}</span></h2>
+            <h2 id="oq2-lessons">{t('end.lessons')} <span className="oq2-tag">{deckText(t).lower}</span></h2>
             <ul>{lessons.slice(-3).map((l) => <li key={l}>{l}</li>)}</ul>
           </section>
         ) : null}
         {log.length ? (
           <details className="oq2-end__log">
-            <summary>Xem nhật ký ván ({log.length} dòng)</summary>
-            <ol>{log.map((l, i) => <li key={i}>{l}</li>)}</ol>
+            <summary>{t('end.logSummary', { n: log.length })}</summary>
+            <ol tabIndex={0} aria-label={t('game.logTitle')}>{log.map((l, i) => <li key={i}>{l(t)}</li>)}</ol>
           </details>
         ) : null}
         <div className="oq2-end__actions">
-          <button type="button" className="oq2-btn oq2-btn--primary" onClick={onReplay}>Chơi lại</button>
-          <button type="button" className="oq2-btn oq2-btn--ghost" onClick={onNew}>Thiết lập ván mới</button>
+          <button type="button" className="oq2-btn oq2-btn--primary" onClick={onReplay}>{t('end.replay')}</button>
+          <button type="button" className="oq2-btn oq2-btn--ghost" onClick={onNew}>{t('end.newGame')}</button>
           <HomeLink />
         </div>
       </div>
@@ -207,11 +209,12 @@ type Screen =
   | { kind: 'start' }
   | { kind: 'setup' }
   | { kind: 'game'; id: number }
-  | { kind: 'end'; game: GameState; lessons: string[]; log: string[] };
+  | { kind: 'end'; game: GameState; lessons: string[]; log: Lazy[] };
 
 export function OAnQuanV2App({ embed = null }: { embed?: EmbedOptions | null } = {}) {
+  const t = useTr();
   const [screen, setScreen] = useState<Screen>({ kind: 'start' });
-  const [setup, setSetup] = useState<Setup>({ names: { P1: 'Người chơi 1', P2: 'Người chơi 2' }, first: 'P1', timer: 'standard' });
+  const [setup, setSetup] = useState<Setup>({ names: { P1: '', P2: '' }, first: 'P1', timer: 'standard' });
   const [rulesOpen, setRulesOpen] = useState(false);
   const [gameId, setGameId] = useState(1);
 
@@ -220,10 +223,10 @@ export function OAnQuanV2App({ embed = null }: { embed?: EmbedOptions | null } =
     <div className={`oqv2${embed ? ' oqv2--embedded' : ''}`}>
       {embed ? null : (
         <>
-          <a className="oq2-skip" href="#main-content">Bỏ qua tới nội dung chính</a>
+          <a className="oq2-skip" href="#main-content">{t('skip')}</a>
           <div className="oq2-devbar" role="note">
-            <span className="oq2-devbar__long">BẢN XEM TRƯỚC CHỈ CHẠY Ở MÔI TRƯỜNG DEV · luật bản thử PLAYTEST V1 · {DECK_LABEL} · không phải bản phát hành</span>
-            <span className="oq2-devbar__short">DEV · PLAYTEST V1 · {DECK_LABEL} · chưa phát hành</span>
+            <span className="oq2-devbar__long">{t('devbar.long', { deck: deckText(t).lower })}</span>
+            <span className="oq2-devbar__short">{t('devbar.short', { deck: deckText(t).lower })}</span>
           </div>
         </>
       )}

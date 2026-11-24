@@ -1,6 +1,22 @@
 # HANDOFF — Current baton pass
 
-> **Trạng thái hiện hành nằm ở mục BR-T041 ngay dưới đây và `planning/PROJECT_STATE.md`.** Các mục cũ hơn là lịch sử bàn giao (append-only), không phải chỉ dẫn hiện hành.
+> **Trạng thái hiện hành nằm ở mục BR-T042 (nghiệm thu cuối) ngay dưới đây và `planning/PROJECT_STATE.md`.** Các mục cũ hơn là lịch sử bàn giao (append-only), không phải chỉ dẫn hiện hành.
+
+## 2026-11-24 — BR-T042 nghiệm thu cuối · Release Candidate 1 · Claude Code → Product Owner
+
+- **Trạng thái:** `ACCEPTED_LOCAL`, commit cục bộ trên `codex/br-t042-release-candidate` (xếp trên T041 `d074776`). Không push/PR/merge/deploy.
+- **Hết giờ:** trắc nghiệm → tự chấm Chưa đúng, hiện đáp án, đóng thẻ, ván tiếp tục; câu mở → thẻ giữ nguyên, đối thủ vẫn chấm. Không có bug.
+- **FULL:** `$env:OQV2_PUBLICATION_APPROVAL="<mã văn bản>"; npm run build:full` → `dist-full/` (Cloudflare, base `/`); `-- --host=github` cho GitHub Pages. Triển khai FULL cần Direct Upload (Cloudflare cloud build không có `internal-data/`). Xem `docs/RELEASE_PLAYBOOK.md` §6.
+- **Backlog sau Hackathon:** `OQ-21` dịch 100 thẻ sang tiếng Anh.
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`, `dist-full/`.
+
+## 2026-11-24 — BR-T042 Release Candidate · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t042-release-candidate` trên BR-T041 `d074776`. Không push/PR/merge/deploy.
+- **Chế độ:** `VITE_OQV2_MODE=off|demo|full`; mặc định OFF. FULL chỉ khi có văn bản cho phép: đặt `OQV2_PUBLICATION_APPROVAL` + `OQV2_DECK_FILE`; thiếu → build lỗi. Kiểm tra: `check-oqv2-isolation.mjs` (OFF) / `--leak-only` (DEMO) / `--full`. Xem `docs/RELEASE_PLAYBOOK.md`.
+- **i18n:** V2 có VI/EN theo ngôn ngữ chung của website; thẻ giữ tiếng Việt (OQ-21).
+- **Kiểm thử:** xem `logs/CODEX_LOG.md` (BR-T042). Chưa: nghe âm thanh, thiết bị thật, deploy.
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`.
 
 ## 2026-11-24 — BR-T041 chuẩn bị phát hành · Claude Code → Product Owner
 

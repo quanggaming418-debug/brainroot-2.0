@@ -3,12 +3,13 @@
 - **Updated:** 2026-11-24 (BR-T041, đồng bộ hồ sơ trước phát hành). Các bản ghi trạng thái cũ chuyển xuống mục "Snapshot đã thay thế" ở cuối tệp, không còn là chỉ dẫn hiện hành.
 
 ## Trạng thái hiện hành (24/11/2026)
-- **Git:** `origin/main` = `759c65e` (PR #14, #15 đã merge). Nhánh `codex/br-t041-release-readiness` xếp trên chuỗi commit cục bộ **chưa push, chưa merge**: `40dddfa` BR-T033 → `7494d29` T034 → `ba91740` T035 → `4c6a4eb` T036 → `0d5db05` T037 → `687ca55` T038 → `d1e3483` T039 → `0d66393` T040 (8 commit, 0 commit sau `origin/main`, lịch sử tuyến tính). BR-T041 chưa commit. Thư mục untracked ngoài phạm vi: `brainroot-assets/`, `brainroot-assets-v1/`, `tools/`; `internal-data/` được gitignore.
-- **Phân loại task:** `MERGED` (trong `origin/main`, chưa deploy): BR-T028…T031. `ACCEPTED_LOCAL` (Product Owner nghiệm thu, commit cục bộ, chưa merge): BR-T032…T040. `IN_REVIEW`: BR-T041. Chưa có task nào `RELEASED`. Chưa deploy; GitHub Pages trả 404 và Cloudflare Pages chưa nhận bản có V2.
+- **Git:** `origin/main` = `759c65e` (PR #14, #15 đã merge). Chuỗi commit cục bộ **chưa push, chưa merge**: `40dddfa` BR-T033 → `7494d29` T034 → `ba91740` T035 → `4c6a4eb` T036 → `0d5db05` T037 → `687ca55` T038 → `d1e3483` T039 → `0d66393` T040 → `d074776` T041 (9 commit, 0 commit sau `origin/main`, lịch sử tuyến tính). Nhánh `codex/br-t042-release-candidate` trên T041; BR-T042 đã nghiệm thu và commit cục bộ (SHA ở `git log`, mục bàn giao RC). Thư mục untracked ngoài phạm vi: `brainroot-assets/`, `brainroot-assets-v1/`, `tools/`; `internal-data/` được gitignore.
+- **Phân loại task:** `MERGED` (trong `origin/main`, chưa deploy): BR-T028…T031. `ACCEPTED_LOCAL` (Product Owner nghiệm thu, commit cục bộ, chưa merge): BR-T032…T042. Không còn task `IN_REVIEW`. Chưa có task nào `RELEASED`. Chưa deploy; GitHub Pages trả 404 và Cloudflare Pages chưa nhận bản có V2.
 - **Sản phẩm (đã chốt, không mở lại):** Ô ăn quan xanh V2 là phiên bản chơi chính; luật `PLAYTEST_V1` cho Hackathon; hai Ô Quan dùng thẻ Cấp 3 (ánh xạ cố định); 6 thẻ tự chấm + 94 thẻ đối phương đánh giá; hai Ô Quan = bệ gỗ + Brainie/Rootie nguyên mẫu; không Trọng tài nhiều bước. Prototype 3D cũ (`src/features/oanquan/`, `/?preview=oanquan3d`) giữ để rollback, không phát triển tiếp.
 - **Quyền công bố (tách khỏi gameplay, vẫn mở):** 100 thẻ gốc + đáp án chỉ nội bộ (`OQ-19`); quyền công bố ArtPack V3/Brainie/Rootie/âm thanh (`OQ-20`, `BR-T002`); `BR-T005` (Fact–Act public cards) `BLOCKED`.
-- **Cờ và build:** `VITE_ENABLE_OQV2` (mặc định tắt ở production; bật ở `npm run dev`). Thẻ 100 nội bộ chỉ nạp khi `import.meta.env.DEV`; production không bao giờ chứa chúng. Ba bản phát hành: A = V2 tắt (mặc định), B = V2 + thẻ DEMO, C = V2 + 100 thẻ thật (**chưa được phép tạo**). Cloudflare Pages là host chính (`CF_PAGES=1` → base `/`, bỏ `404.html`), GitHub Pages dự phòng (base `/brainroot-2.0/`, giữ `404.html`). Chi tiết: `docs/RELEASE_PLAYBOOK.md`.
-- **Kiểm tra gần nhất (BR-T041):** typecheck PASS; unit 88/88 PASS; lint PASS (0 lỗi, 0 cảnh báo); build 4 biến thể (gh/cf × tắt/bật) PASS; axe 0 vi phạm; script cô lập OK cả hai chế độ. Chưa chạy: thiết bị thật, kiểm tra deploy thật.
+- **Release Candidate (24/11): RC1 cục bộ — chưa push, chưa deploy.** Nghiệm thu BR-T042 gồm kiểm tra hết giờ (trắc nghiệm tự chấm Chưa đúng + đóng thẻ; câu mở giữ thẻ và để đối thủ chấm). `OQ-21` (dịch thẻ) chuyển backlog sau Hackathon. Bản FULL: `npm run build:full` từ bộ dữ liệu cục bộ, chỉ khi có quyền công bố; xem `docs/RELEASE_PLAYBOOK.md` §6.
+- **Chế độ V2 (BR-T042):** `VITE_OQV2_MODE` = `off` (MẶC ĐỊNH, không có V2 trong `dist/`) | `demo` (V2 + thẻ DEMO) | `full` (V2 + 100 thẻ; cần `OQV2_PUBLICATION_APPROVAL` + bộ thẻ hợp lệ, thiếu thì build thất bại, không fallback; **chưa được phép dùng**, `OQ-19`). `npm run dev` = `dev` (thẻ nội bộ nếu có). Dữ liệu FULL nằm trong mã gửi tới trình duyệt: người dùng truy xuất được; cờ/minify không phải bảo mật. Giao diện V2 có VI/EN (thẻ giữ tiếng Việt gốc, `OQ-21`). Cloudflare Pages chính (`CF_PAGES=1` → base `/`, bỏ `404.html`), GitHub Pages dự phòng. Chi tiết: `docs/RELEASE_PLAYBOOK.md`.
+- **Kiểm tra gần nhất (BR-T042):** typecheck, unit 96/96, lint, axe (44 trang + màn kết thúc V2 + Quiz) 0 vi phạm; 6 biến thể build (off/demo/full × gh/cf) + cô lập 3 chế độ + deep-link mô phỏng host PASS. Chưa: nghe âm thanh, thiết bị thật, deploy thật.
 - **Hero reference / assets:** `reference/hero-v4/`; `public/assets/hero-v4/`, `public/assets/green-play/`, `public/assets/home/garden/`, `public/assets/truth-or-dare/v1/experience/`; art V2 ở `src/features/oanquan-v2/assets/` (chỉ vào bundle khi bật cờ).
 - **Lưu ý bảo mật repo:** cờ tắt chỉ loại V2 khỏi `dist/`; mã nguồn, art V3 và tài liệu trong `docs/oanquan-v2/` vẫn nằm trong repository và sẽ hiển thị nếu repo công khai.
 
@@ -30,10 +31,10 @@
 - Không gọi `PLAYTEST_V1` là luật chính thức của Brainroot; không nói 100 thẻ gốc được phép công bố (`OQ-19`) hay art/linh vật đã có quyền thương mại (`OQ-20`, `BR-T002`).
 - No team-approved public Fact–Act sample cards (`BR-T005` vẫn `BLOCKED`), no public pilot, no production deploy.
 - Chưa kiểm thử trên thiết bị thật; chưa có chứng nhận WCAG 2.2 AA đầy đủ (axe tự động chỉ phủ một phần); chưa có paid auth, realtime rooms, AQI feed, chatbot, e-commerce.
-- Giao diện V2 chưa có bản tiếng Anh (chỉ nút VI/EN của website chung).
+- Nội dung 100 thẻ chưa có bản tiếng Anh (chỉ giao diện V2 có VI/EN); chưa nghe thử âm thanh bởi người; chưa thử thiết bị thật.
 
 ## Immediate next action
-1. Product Owner nghiệm thu BR-T041 và ra lệnh trực tiếp cho push / PR / merge (chuỗi 8 commit + BR-T041). Quy trình dự kiến: `docs/RELEASE_PLAYBOOK.md` §5.
+1. Product Owner ra lệnh trực tiếp cho push / PR / merge (chuỗi 10 commit T033…T042). Quy trình dự kiến: `docs/RELEASE_PLAYBOOK.md` §5.
 2. Cấu hình Cloudflare Pages (build `npm run build`, thư mục `dist`, biến môi trường theo bản A hoặc B) và kiểm tra URL thật + refresh deep-link.
 3. Đóng các điều kiện mở trước khi công bố V2 công khai: `OQ-19`, `OQ-20`/`BR-T002`, `BR-T005`, kiểm tra thiết bị thật.
 

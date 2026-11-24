@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "lint": "eslint . --max-warnings=9999",
     "check:oqv2-isolation": "node scripts/check-oqv2-isolation.mjs",
-    "test": "npx --yes tsx --test tests/*.test.ts"
+    "test": "npx --yes tsx --test tests/*.test.ts",
+    "build:full": "node scripts/build-full.mjs"
   },
   "dependencies": {
     "@types/three": "^0.187.0",

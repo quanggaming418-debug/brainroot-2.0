@@ -7,6 +7,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../../../styles/tokens.css';
 import './oanquan-v2.css';
+import { I18nProvider } from '../../../i18n/I18nContext';
 import { OAnQuanV2App } from './OAnQuanV2App';
 
 const root = document.getElementById('oqv2-root');
@@ -15,7 +16,9 @@ if (!import.meta.env.DEV) {
 } else if (root) {
   createRoot(root).render(
     <StrictMode>
-      <OAnQuanV2App />
+      <I18nProvider>
+        <OAnQuanV2App />
+      </I18nProvider>
     </StrictMode>,
   );
 }

@@ -1,6 +1,7 @@
 import { useRef, type CSSProperties, type KeyboardEvent } from 'react';
 import { isQuanPit, ownerOf, pitLabel, type PlayerId, type RingIndex } from '../engine';
-import { THEMES, themeOfRing } from '../content/themes';
+import { themeOfRing } from '../content/themes';
+import { useTr, type Lazy } from './i18n';
 import { QuanToken, SeedToken, ThemeIcon } from './Icons';
 import { FX } from './assets';
 
@@ -18,7 +19,7 @@ export interface BoardMarks {
   /** Ô quyết định dừng lượt (sau hạt cuối). */
   readonly stopAt: number | null;
   readonly target: number | null;
-  readonly targetChip: string | null;
+  readonly targetChip: Lazy | null;
   readonly harvested: number | null;
   readonly shake: number | null;
   /** Ô Quan vừa nhận hạt (hiệu ứng riêng). */
@@ -107,6 +108,7 @@ function T({ className, t }: { className: string; t: string }) {
 }
 
 export function Board(props: BoardProps) {
+  const tr = useTr();
   const { layout, pits, quanOnBoard, playerNames, interactive, legal, marks } = props;
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
   const lastInPath = marks.path.length ? marks.path[marks.path.length - 1] : null;
@@ -152,11 +154,10 @@ export function Board(props: BoardProps) {
 
         let label: string;
         if (quan) {
-          const t = THEMES[theme];
-          label = `Ô Quan ${t.fullName}: ${quanHere ? 'còn quân Quan' : 'quân Quan đã được thu hoạch'}, ${count} hạt Dân`;
+          label = tr(quanHere ? 'pit.aria.quanHere' : 'pit.aria.quanGone', { theme: tr.theme(theme, 'full'), n: count });
         } else {
-          label = `Ô ${pitLabel(r)} · ${THEMES[theme].name} · hàng của ${playerNames[owner as PlayerId]} · ${count} hạt`;
-          if (interactive) label += isLegal ? ' · chọn được' : ' · không chọn được';
+          label = tr('pit.aria.dan', { label: pitLabel(r), theme: tr.theme(theme), owner: playerNames[owner as PlayerId], n: count });
+          if (interactive) label += tr(isLegal ? 'pit.aria.legal' : 'pit.aria.illegal');
         }
 
         return (
@@ -182,19 +183,19 @@ export function Board(props: BoardProps) {
               <>
                 <span className="oq2-quan-label">
                   <ThemeIcon theme={theme} size={18} />
-                  <T className="oq2-quan-name oq2-quan-name--full" t={THEMES[theme].name} />
-                  <T className="oq2-quan-name oq2-quan-name--short" t={THEMES[theme].short} />
+                  <T className="oq2-quan-name oq2-quan-name--full" t={tr.theme(theme)} />
+                  <T className="oq2-quan-name oq2-quan-name--short" t={tr.theme(theme, 'short')} />
                 </span>
                 {quanHere ? (
                   <QuanToken theme={theme as 'climate' | 'biodiversity'} />
                 ) : (
-                  <T className="oq2-quan-gone" t="Quan đã thu hoạch" />
+                  <T className="oq2-quan-gone" t={tr('pit.gone')} />
                 )}
                 <span className="oq2-quan-seedbox" aria-hidden="true">
                   <Seeds count={count} table={POS_ROW} className="oq2-seeds oq2-seeds--row" />
                   {count > 5 ? <T className="oq2-more" t={`+${count - 5}`} /> : null}
                 </span>
-                <T className="oq2-quan-count" t={quanHere ? `Quan + ${count} hạt` : `${count} hạt`} />
+                <T className="oq2-quan-count" t={quanHere ? tr('pit.quanCount', { n: count }) : tr('pit.count', { n: count })} />
               </>
             ) : (
               <>
@@ -203,16 +204,16 @@ export function Board(props: BoardProps) {
                 </span>
                 <T className={`oq2-badge${count === 0 ? ' is-zero' : ''}`} t={String(count)} />
                 <T className="oq2-pit-name" t={pitLabel(r)} />
-                {count === 0 && marks.harvested !== r ? <T className="oq2-empty" t="Trống" /> : null}
+                {count === 0 && marks.harvested !== r ? <T className="oq2-empty" t={tr('pit.empty')} /> : null}
                 <Seeds count={count} table={layout === 'portrait' ? POS_WIDE : POS_SQUARE} />
                 {count > 5 ? <T className="oq2-more" t={`+${count - 5}`} /> : null}
               </>
             )}
             {pathSet.has(r) ? <span className="oq2-ghost" aria-hidden="true" /> : null}
-            {lastInPath === r ? <T className="oq2-chip oq2-chip--last" t="Hạt cuối" /> : null}
+            {lastInPath === r ? <T className="oq2-chip oq2-chip--last" t={tr('pit.last')} /> : null}
             {marks.target === r ? <img className="oq2-fx-capture" src={FX.captureRing} alt="" aria-hidden="true" /> : null}
-            {marks.target === r && marks.targetChip ? <T className="oq2-chip oq2-chip--target" t={marks.targetChip} /> : null}
-            {marks.harvested === r ? <T className="oq2-chip oq2-chip--harvested" t="Đã thu hoạch" /> : null}
+            {marks.target === r && marks.targetChip ? <T className="oq2-chip oq2-chip--target" t={marks.targetChip(tr)} /> : null}
+            {marks.harvested === r ? <T className="oq2-chip oq2-chip--harvested" t={tr('pit.harvested')} /> : null}
           </button>
         );
       })}

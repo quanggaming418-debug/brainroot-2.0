@@ -8,9 +8,11 @@ import { useNavigate } from 'react-router-dom';
 import '../../../styles/tokens.css';
 import './oanquan-v2.css';
 import { OAnQuanV2App } from './OAnQuanV2App';
+import { useTr } from './i18n';
 
 export default function OAnQuanV2Page() {
   const navigate = useNavigate();
+  const t = useTr();
   const wrap = useRef<HTMLDivElement>(null);
 
   // Chiều cao header của website → game chiếm phần màn hình còn lại
@@ -26,11 +28,12 @@ export default function OAnQuanV2Page() {
     return () => { window.removeEventListener('resize', set); ro?.disconnect(); };
   }, []);
 
+  const title = t('page.title');
   useEffect(() => {
     const prev = document.title;
-    document.title = 'Ô ăn quan xanh · bản chơi thử | Brainroot';
+    document.title = title;
     return () => { document.title = prev; };
-  }, []);
+  }, [title]);
 
   return (
     <div ref={wrap} className="oqv2-host" style={{ '--oqv2-host-h': '72px' } as CSSProperties}>

@@ -25,7 +25,8 @@ export interface InternalCardRecord {
   readonly timeSec: number;
   /** Nội dung mặt đáp án "Trọng tài duyệt khi" (đáp án mẫu / tiêu chí), giữ nguyên bản gốc. */
   readonly sampleAnswer: string;
-  readonly source: { readonly file: string; readonly cardPage: number; readonly answerPage: number };
+  /** Chỉ có ở bản nội bộ/dev; bị loại khỏi bundle FULL (không lộ tên tệp nguồn). */
+  readonly source?: { readonly file: string; readonly cardPage: number; readonly answerPage: number };
 }
 
 export interface InternalDeckFile {
@@ -126,7 +127,7 @@ export function toGameCard(c: InternalCardRecord): DemoCard {
     remember: '',
     internal: true,
     sampleAnswer: c.sampleAnswer,
-    sourceRef: `${c.source.file} · tr.${c.source.cardPage}/${c.source.answerPage}`,
+    sourceRef: c.source ? `${c.source.file} · tr.${c.source.cardPage}/${c.source.answerPage}` : undefined,
   };
 }
 

@@ -1,27 +1,30 @@
+import deckModule from 'virtual:oqv2-deck';
 import { DEMO_CARDS, type DemoCard } from './demoCards';
-import { toGameCard, validateDeckFile, type InternalDeckFile } from './internalDeck';
+import { toGameCard, validateDeckFile } from './internalDeck';
 
 /**
- * Cơ chế nạp DEV-ONLY (BR-T038). Bộ thẻ nội bộ ở `internal-data/cards.internal.json` (gitignore).
- * Ngoài chế độ dev, `import.meta.env.DEV` là false → nhánh glob bị loại khỏi bundle và không có
- * nội dung thật nào đi vào `dist/`. Thiếu tệp hoặc tệp lỗi → dùng thẻ DEMO dự phòng.
+ * Chọn bộ thẻ theo chế độ phát hành (BR-T042; module ảo do scripts/oqv2-release.ts cấp lúc build):
+ * - `dev`  : `npm run dev` — bộ nội bộ `internal-data/cards.internal.json` nếu có, không thì DEMO.
+ * - `demo` : production, thẻ DEMO tự viết. KHÔNG có dữ liệu thẻ thật trong bundle.
+ * - `full` : production, 100 thẻ gốc. Chỉ build được khi có OQV2_PUBLICATION_APPROVAL; thiếu dữ liệu → lỗi build, không fallback.
+ * Dữ liệu ở `full` nằm trong mã gửi tới trình duyệt: người dùng truy xuất được.
  */
-const files: Record<string, InternalDeckFile> = import.meta.env.DEV
-  ? import.meta.glob<InternalDeckFile>('../../../../internal-data/cards.internal.json', { eager: true, import: 'default' })
-  : {};
+export type DeckSource = 'demo' | 'internal' | 'full';
 
 export interface ActiveDeck {
   readonly cards: readonly DemoCard[];
-  readonly source: 'internal' | 'demo';
+  readonly source: DeckSource;
   readonly problems: readonly string[];
 }
 
 export function loadActiveDeck(): ActiveDeck {
-  const raw = Object.values(files)[0];
-  if (raw) {
-    const problems = validateDeckFile(raw);
-    if (problems.length === 0) return { cards: raw.cards.map(toGameCard), source: 'internal', problems };
+  const { mode, deck } = deckModule;
+  if (deck && (mode === 'dev' || mode === 'full')) {
+    const problems = validateDeckFile(deck);
+    if (problems.length === 0) return { cards: deck.cards.map(toGameCard), source: mode === 'full' ? 'full' : 'internal', problems };
+    if (mode === 'full') throw new Error('Bộ thẻ FULL không hợp lệ: ' + problems.join('; '));
     return { cards: DEMO_CARDS, source: 'demo', problems };
   }
+  if (mode === 'full') throw new Error('Chế độ FULL nhưng không có bộ thẻ (không fallback sang DEMO).');
   return { cards: DEMO_CARDS, source: 'demo', problems: [] };
 }

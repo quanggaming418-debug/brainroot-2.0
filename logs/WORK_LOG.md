@@ -28,5 +28,7 @@
 | 2026-11-24 | Claude Code | BR-T039 (polish + âm thanh) | IN_REVIEW | typecheck PASS; unit 88/88 PASS; build PASS (dist sạch); Playwright desktop+mobile PASS; lint/axe NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
 | 2026-11-24 | Claude Code | BR-T040 (tích hợp website chính) | IN_REVIEW | typecheck PASS; unit 88/88 PASS; build cờ tắt + isolation OK; build cờ bật PASS; luồng home→game→home PASS; lint/axe NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
 | 2026-11-24 | Claude Code | BR-T041 (release readiness) | IN_REVIEW | typecheck/unit 88/lint/axe PASS; build 4 biến thể + cô lập PASS; thiết bị thật NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-24 | Claude Code | BR-T042 (release candidate: OFF/DEMO/FULL + i18n VI/EN) | IN_REVIEW | typecheck/unit 96/lint/axe PASS; 6 biến thể build + cô lập 3 chế độ PASS; âm thanh/thiết bị thật/deploy NOT RUN; NOT COMMITTED | logs/CODEX_LOG.md |
+| 2026-11-24 | Claude Code | BR-T042 final acceptance (RC1) | ACCEPTED_LOCAL | hết giờ trắc nghiệm/câu mở PASS (không bug); build:full thử PASS; COMMITTED local, chưa push/deploy | logs/CODEX_LOG.md |
 
 **Append format:** `YYYY-MM-DD HH:MM | AI Studio/Codex | BR-Txxx | DONE/BLOCKED/IN_REVIEW | command: result | logs/<AGENT>_LOG.md`.

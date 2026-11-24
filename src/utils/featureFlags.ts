@@ -1,9 +1,7 @@
 /**
- * Cờ Ô ăn quan xanh V2 (ADR-0006). Bật ở `npm run dev`, hoặc khi build với VITE_ENABLE_OQV2=true.
- * Khi tắt, Vite thay hằng số lúc build và Rollup loại bỏ cả chunk V2 (mã, asset, thẻ) khỏi dist/.
- * `VITE_ENABLE_OQV2=false` tắt cả ở dev để kiểm tra cấu hình tắt.
- * Thẻ nội bộ chỉ nạp khi `import.meta.env.DEV` (xem features/oanquan-v2/content/activeDeck.ts), không phụ thuộc cờ này.
+ * Chế độ Ô ăn quan xanh V2 (ADR-0006): off | demo | full | dev. Vite thay bằng hằng số lúc build
+ * (scripts/oqv2-release.ts). `off` = V2 không có trong dist/. Xem docs/RELEASE_PLAYBOOK.md.
  */
-export const OQV2_ENABLED: boolean =
-  import.meta.env.VITE_ENABLE_OQV2 === 'true' ||
-  (import.meta.env.DEV && import.meta.env.VITE_ENABLE_OQV2 !== 'false');
+declare const __OQV2_MODE__: 'off' | 'demo' | 'full' | 'dev' | undefined;
+export const OQV2_MODE: 'off' | 'demo' | 'full' | 'dev' = typeof __OQV2_MODE__ === 'undefined' ? 'off' : __OQV2_MODE__;
+export const OQV2_ENABLED: boolean = OQV2_MODE !== 'off';
