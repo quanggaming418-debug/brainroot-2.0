@@ -824,3 +824,13 @@ body:has(.oqv2) { margin: 0; background: #f8f3e9; }
 .oqv2--embedded { min-height: calc(100dvh - var(--oq-devbar-h)); }
 .oqv2--embedded .oq2-start__snd { top: 12px; }
 .oqv2--embedded { --oq-devbar-h: var(--oqv2-host-h, 72px); }
+
+/* BR-T041: chữ trong ô vẽ bằng CSS */
+.oq2-t::before { content: attr(data-t); }
+
+/* BR-T041: tương phản chữ chủ đề ở màn bắt đầu */
+.oqv2 .oq2-start__themes .oq2-theme--green { color: #3f6b30; }
+.oqv2 .oq2-start__themes .oq2-theme--energy { color: #8a5c00; }
+.oqv2 .oq2-start__themes .oq2-theme--waste { color: #22685f; }
+.oqv2 .oq2-start__themes .oq2-theme--water { color: #2b6f99; }
+.oqv2 .oq2-start__themes .oq2-theme--consume { color: #a3482c; }

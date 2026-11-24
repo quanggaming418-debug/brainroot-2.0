@@ -101,6 +101,11 @@ function Seeds({ count, table, className = 'oq2-seeds' }: { count: number; table
   );
 }
 
+/** Chữ hiển thị trong ô vẽ bằng CSS (::before) để tên truy cập của nút ô là nhãn đầy đủ (WCAG 2.5.3), không lệch với chữ nhìn thấy. */
+function T({ className, t }: { className: string; t: string }) {
+  return <span className={`${className} oq2-t`} aria-hidden="true" data-t={t} />;
+}
+
 export function Board(props: BoardProps) {
   const { layout, pits, quanOnBoard, playerNames, interactive, legal, marks } = props;
   const refs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -177,37 +182,37 @@ export function Board(props: BoardProps) {
               <>
                 <span className="oq2-quan-label">
                   <ThemeIcon theme={theme} size={18} />
-                  <span className="oq2-quan-name oq2-quan-name--full">{THEMES[theme].name}</span>
-                  <span className="oq2-quan-name oq2-quan-name--short">{THEMES[theme].short}</span>
+                  <T className="oq2-quan-name oq2-quan-name--full" t={THEMES[theme].name} />
+                  <T className="oq2-quan-name oq2-quan-name--short" t={THEMES[theme].short} />
                 </span>
                 {quanHere ? (
                   <QuanToken theme={theme as 'climate' | 'biodiversity'} />
                 ) : (
-                  <span className="oq2-quan-gone">Quan đã thu hoạch</span>
+                  <T className="oq2-quan-gone" t="Quan đã thu hoạch" />
                 )}
                 <span className="oq2-quan-seedbox" aria-hidden="true">
                   <Seeds count={count} table={POS_ROW} className="oq2-seeds oq2-seeds--row" />
-                  {count > 5 ? <span className="oq2-more">+{count - 5}</span> : null}
+                  {count > 5 ? <T className="oq2-more" t={`+${count - 5}`} /> : null}
                 </span>
-                <span className="oq2-quan-count">{quanHere ? `Quan + ${count} hạt` : `${count} hạt`}</span>
+                <T className="oq2-quan-count" t={quanHere ? `Quan + ${count} hạt` : `${count} hạt`} />
               </>
             ) : (
               <>
                 <span className={`oq2-theme-chip oq2-theme--${theme}`} aria-hidden="true">
                   <ThemeIcon theme={theme} size={28} />
                 </span>
-                <span className={`oq2-badge${count === 0 ? ' is-zero' : ''}`} aria-hidden="true">{count}</span>
-                <span className="oq2-pit-name" aria-hidden="true">{pitLabel(r)}</span>
-                {count === 0 && marks.harvested !== r ? <span className="oq2-empty" aria-hidden="true">Trống</span> : null}
+                <T className={`oq2-badge${count === 0 ? ' is-zero' : ''}`} t={String(count)} />
+                <T className="oq2-pit-name" t={pitLabel(r)} />
+                {count === 0 && marks.harvested !== r ? <T className="oq2-empty" t="Trống" /> : null}
                 <Seeds count={count} table={layout === 'portrait' ? POS_WIDE : POS_SQUARE} />
-                {count > 5 ? <span className="oq2-more" aria-hidden="true">+{count - 5}</span> : null}
+                {count > 5 ? <T className="oq2-more" t={`+${count - 5}`} /> : null}
               </>
             )}
             {pathSet.has(r) ? <span className="oq2-ghost" aria-hidden="true" /> : null}
-            {lastInPath === r ? <span className="oq2-chip oq2-chip--last" aria-hidden="true">Hạt cuối</span> : null}
+            {lastInPath === r ? <T className="oq2-chip oq2-chip--last" t="Hạt cuối" /> : null}
             {marks.target === r ? <img className="oq2-fx-capture" src={FX.captureRing} alt="" aria-hidden="true" /> : null}
-            {marks.target === r && marks.targetChip ? <span className="oq2-chip oq2-chip--target" aria-hidden="true">{marks.targetChip}</span> : null}
-            {marks.harvested === r ? <span className="oq2-chip oq2-chip--harvested" aria-hidden="true">Đã thu hoạch</span> : null}
+            {marks.target === r && marks.targetChip ? <T className="oq2-chip oq2-chip--target" t={marks.targetChip} /> : null}
+            {marks.harvested === r ? <T className="oq2-chip oq2-chip--harvested" t="Đã thu hoạch" /> : null}
           </button>
         );
       })}

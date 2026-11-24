@@ -1,5 +1,16 @@
 # HANDOFF — Current baton pass
 
+> **Trạng thái hiện hành nằm ở mục BR-T041 ngay dưới đây và `planning/PROJECT_STATE.md`.** Các mục cũ hơn là lịch sử bàn giao (append-only), không phải chỉ dẫn hiện hành.
+
+## 2026-11-24 — BR-T041 chuẩn bị phát hành · Claude Code → Product Owner
+
+- **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t041-release-readiness` trên BR-T040 `0d66393`. Không push/PR/merge/deploy.
+- **Chuỗi commit vs `origin/main` (`759c65e`):** +8, −0, tuyến tính (T033…T040).
+- **Việc tiếp:** Product Owner ra lệnh push/PR/merge; xem `docs/RELEASE_PLAYBOOK.md`.
+- **Cấu hình:** Cloudflare Pages `CF_PAGES=1` tự đặt base `/` và bỏ `404.html`; GitHub Pages base `/brainroot-2.0/`; V2 bật bằng `VITE_ENABLE_OQV2=true` (chỉ thẻ DEMO).
+- **Kiểm thử:** typecheck, unit 88/88, lint, axe 0 vi phạm, build 4 biến thể, deep-link 2 host mô phỏng, cô lập 2 chế độ. NOT RUN: thiết bị thật, deploy thật.
+- **Không stage:** `brainroot-assets*/`, `tools/`, `internal-data/`.
+
 ## 2026-11-24 — BR-T040 tích hợp website chính · Claude Code → Product Owner
 
 - **Trạng thái:** `IN_REVIEW`, **NOT COMMITTED**, nhánh `codex/br-t040-main-site-integration` trên BR-T039 `d1e3483`; không push/PR/merge/deploy.

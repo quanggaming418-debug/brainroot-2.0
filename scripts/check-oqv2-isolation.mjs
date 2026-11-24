@@ -1,16 +1,21 @@
 // BR-T040 — kiểm tra cô lập Ô ăn quan xanh V2 trong bản build production (ADR-0006, điều kiện 3).
-// Dùng: `npm run build` (cờ tắt) rồi `node scripts/check-oqv2-isolation.mjs [dist]`. Thoát mã 1 nếu còn dấu vết V2.
+// Hai chế độ tách biệt:
+//   cờ TẮT : `node scripts/check-oqv2-isolation.mjs [dist]`            → không được có bất kỳ dấu vết V2 nào (mã, CSS, asset, chunk) và không có thẻ nội bộ.
+//   cờ BẬT : `node scripts/check-oqv2-isolation.mjs [dist] --leak-only` → V2 được phép có mặt, nhưng không được rò rỉ dữ liệu nội bộ/thẻ thật/đáp án.
+// Thoát mã 1 nếu vi phạm.
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
-const dist = process.argv[2] ?? 'dist';
+const leakOnly = process.argv.includes('--leak-only');
+const dist = process.argv.slice(2).find((a) => !a.startsWith('--')) ?? 'dist';
 const walk = (d) => readdirSync(d).flatMap((n) => { const p = join(d, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
 const files = walk(dist);
 const text = files.filter((f) => /\.(js|css|html|json|svg)$/.test(f)).map((f) => readFileSync(f, 'utf8')).join('\n');
 const bad = [];
-if (/oq2-|oqv2|oanquan-v2|OAnQuanV2Page/.test(text)) bad.push('chuỗi V2 trong mã/CSS');
+if (!leakOnly && /oq2-|oqv2|oanquan-v2|OAnQuanV2Page/.test(text)) bad.push('chuỗi V2 trong mã/CSS');
 if (/internal-data|cards\.internal/.test(text)) bad.push('tham chiếu dữ liệu nội bộ');
-for (const f of files) if (/(brainie|rootie)_0\d_|garden_(desktop|mobile)_\d|OAnQuanV2/.test(f)) bad.push('asset/chunk V2: ' + f);
+if (!leakOnly) for (const f of files) if (/(brainie|rootie)_0\d_|garden_(desktop|mobile)_\d|OAnQuanV2/.test(f)) bad.push('asset/chunk V2: ' + f);
+if (leakOnly && !/Góc cây trong lớp/.test(text)) bad.push('bản bật cờ không chứa thẻ DEMO (kỳ vọng thẻ DEMO)');
 const cards = 'internal-data/cards.internal.json';
 if (existsSync(cards)) {
   const deck = JSON.parse(readFileSync(cards, 'utf8')).cards;
@@ -18,4 +23,4 @@ if (existsSync(cards)) {
   if (hits) bad.push(`${hits} thẻ nội bộ xuất hiện trong dist`);
 }
 if (bad.length) { console.error('FAIL isolation:\n- ' + bad.join('\n- ')); process.exit(1); }
-console.log(`OK: ${files.length} tệp trong ${dist}, không có dấu vết V2 hay thẻ nội bộ.`);
+console.log(`OK: ${files.length} tệp trong ${dist}, ${leakOnly ? 'không rò rỉ dữ liệu nội bộ (V2 được phép).' : 'không có dấu vết V2 hay thẻ nội bộ.'}`);

@@ -82,7 +82,6 @@ export function ChallengeCard(props: {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isChoice, card]);
 
   const done = graded !== null;

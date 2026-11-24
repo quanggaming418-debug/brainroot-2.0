@@ -1,3 +1,5 @@
+import { rmSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -21,9 +23,27 @@ function oqv2Gate(enabled: boolean): Plugin {
   };
 }
 
+/**
+ * Cloudflare Pages (host chính) phục vụ ở gốc `/` và tự dùng fallback SPA khi KHÔNG có 404.html.
+ * GitHub Pages (dự phòng) phục vụ dưới `/brainroot-2.0/` và cần public/404.html để khôi phục deep-link.
+ * Cloudflare tự đặt CF_PAGES=1 khi build; có thể ép bằng VITE_BASE_PATH.
+ */
+function rootBaseCleanup(base: string): Plugin {
+  let outDir = '';
+  return {
+    name: 'brainroot-root-base-cleanup',
+    apply: 'build',
+    configResolved(c) { outDir = resolve(c.root, c.build.outDir); },
+    closeBundle() {
+      if (base === '/') rmSync(join(outDir, '404.html'), { force: true });
+    },
+  };
+}
+
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_');
   const flag = env.VITE_ENABLE_OQV2;
   const enabled = flag === 'true' || (command === 'serve' && flag !== 'false');
-  return { base: '/brainroot-2.0/', plugins: [oqv2Gate(enabled), react()] };
+  const base = process.env.VITE_BASE_PATH ?? env.VITE_BASE_PATH ?? (process.env.CF_PAGES === '1' ? '/' : '/brainroot-2.0/');
+  return { base, plugins: [oqv2Gate(enabled), rootBaseCleanup(base), react()] };
 });

@@ -1,3 +1,4 @@
+/* eslint-disable no-control-regex -- regex kiểm tra ký tự điều khiển là chủ ý */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { QUEST_BADGES, QUEST_CHALLENGES, QUEST_HASHTAG } from '../src/data/quests';
