@@ -1,6 +1,13 @@
 # HANDOFF — Current baton pass
 
-> Trạng thái bàn giao mới nhất ở mục BR-T045. Snapshot sản phẩm ở [PROJECT_STATE.md](../planning/PROJECT_STATE.md).
+> Trạng thái bàn giao mới nhất ở mục BR-T046. Snapshot sản phẩm ở [PROJECT_STATE.md](../planning/PROJECT_STATE.md).
+
+## 2026-11-28 — BR-T046 · Antigravity → Product Owner / phiên kế tiếp
+
+- **Trạng thái:** `BR-T046` → `RELEASED`. GitHub Pages ([quanggaming418-debug.github.io/brainroot-2.0](https://quanggaming418-debug.github.io/brainroot-2.0/)) đã chuyển sang **Redirect Gateway** (`github-pages-redirect/{index.html,404.html,.nojekyll}`) tự động `location.replace()` sang canonical production Cloudflare Pages ([brainroot-55i.pages.dev](https://brainroot-55i.pages.dev/)).
+- **Git & Deploy:** Triển khai merged vào `main` tại `48f9cfa` (commit `ac3702e`), GitHub Actions Run #43 (`46116715835`) `completed` / `success`; hồ sơ closeout merged trên `main` và nhánh tạm đã dọn sạch theo **Repository Hygiene** (`main` đồng bộ `origin/main`).
+- **Kiểm thử:** `npm run typecheck`, `npm run lint`, `npm test` (99/99), `npm run build`, `check-oqv2-isolation` đều PASS. Live Playwright Chromium trên GitHub Pages **16/16 PASS** (root, 9 route chính, trailing slash, query+hash, unknown deep-link, encoded chars, chống open redirect `//example.com/phish`, không redirect loop). Cloudflare production FULL (`10feaa4b-e3a9-46e6-bf9c-452958c9430e`, Desktop-only `width=1280`, `OAnQuanV2Page-DfQCYFAF.js` SHA-256 `E07229803B9925EE`) và tài nguyên local không thay đổi.
+- **Lưu ý:** Chuyển hướng deep-link trên GitHub Pages là client-side qua `404.html` (không phải HTTP 301/308). Workspace sạch trên `main`, sẵn sàng cho nhiệm vụ tiếp theo từ Product Owner.
 
 ## 2026-11-28 — BR-T045 · Antigravity → Product Owner / phiên kế tiếp
 
