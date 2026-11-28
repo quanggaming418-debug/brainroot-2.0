@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <title>Brainroot</title>
+    <script>
+      (function () {
+        var TARGET_ORIGIN = 'https://brainroot-55i.pages.dev';
+        var SOURCE_PREFIX = '/brainroot-2.0';
+        var loc = window.location;
+
+        if (loc.origin === TARGET_ORIGIN) {
+          return;
+        }
+
+        var pathname = loc.pathname || '/';
+        var nextPath = pathname;
+
+        if (pathname === SOURCE_PREFIX) {
+          nextPath = '/';
+        } else if (pathname.indexOf(SOURCE_PREFIX + '/') === 0) {
+          nextPath = pathname.slice(SOURCE_PREFIX.length);
+        }
+
+        nextPath = nextPath.replace(/^[\\/]+/, '/');
+        if (nextPath.charAt(0) !== '/') {
+          nextPath = '/' + nextPath;
+        }
+
+        var target = new URL(TARGET_ORIGIN);
+        target.pathname = nextPath;
+        target.search = loc.search || '';
+        target.hash = loc.hash || '';
+
+        if (target.origin !== TARGET_ORIGIN) {
+          loc.replace(TARGET_ORIGIN + '/');
+          return;
+        }
+
+        loc.replace(target.href);
+      })();
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=https://brainroot-55i.pages.dev/" />
+    </noscript>
+  </head>
+  <body>
+    <noscript>
+      <p><a href="https://brainroot-55i.pages.dev/">https://brainroot-55i.pages.dev/</a></p>
+    </noscript>
+  </body>
+</html>

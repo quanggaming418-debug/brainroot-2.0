@@ -18,13 +18,11 @@ Kiểm tra bằng `npm run typecheck`, `npm run build` và `npx --yes tsx --test
 
 Mở `http://localhost:5173/brainroot-2.0/` khi chạy Vite với cổng mặc định.
 
-## GitHub Pages
+## Production & GitHub Pages Redirect Gateway
 
-Workflow `.github/workflows/deploy.yml` kiểm tra build trên PR và triển khai `dist/` sau khi có push vào `main`. Có thể chạy thủ công từ **Actions** với ref `main`. **Settings → Pages → Source** cần chọn **GitHub Actions**. URL đích là [Brainroot 2.0](https://quanggaming418-debug.github.io/brainroot-2.0/).
-
-Vite và BrowserRouter dùng cùng base path. Khi tải trực tiếp một route con, GitHub Pages trả `404.html`, trang này đưa trình duyệt về entry HTML và ứng dụng khôi phục route, query và hash trước khi mount. Không dùng dữ liệu thẻ hạn chế, bí mật hoặc dữ liệu thực tư trong `public/` hay mã frontend. Duyệt quyền phát hành artwork (`BR-T002`) và phạm vi nội dung R0 trước khi merge PR deploy.
-
-Sau khi merge, xác nhận job deploy trong môi trường `github-pages` thành công và kiểm tra URL thực, bao gồm refresh route `/brainroot-2.0/games/fact-act`. Kết quả build cục bộ chỉ xác nhận cấu hình build.
+- **Canonical production:** [Cloudflare Pages — Brainroot](https://brainroot-55i.pages.dev/) là website production chính thức duy nhất (Desktop-only, chế độ FULL, triển khai thủ công theo `docs/RELEASE_PLAYBOOK.md`).
+- **GitHub Pages (Redirect Gateway, BR-T046):** [https://quanggaming418-debug.github.io/brainroot-2.0/](https://quanggaming418-debug.github.io/brainroot-2.0/) không phục vụ bản React OFF độc lập mà tự động chuyển hướng (client-side `location.replace`) sang cùng đường dẫn, query và hash trên `https://brainroot-55i.pages.dev/`.
+- Workflow `.github/workflows/deploy.yml` chạy kiểm tra CI (`typecheck`, `lint`, `test`, `build`) trên PR và `main`, nhưng **chỉ triển khai thư mục `github-pages-redirect/`** khi có push vào `main` hoặc `workflow_dispatch` từ `main` (PR không deploy). Không đưa `internal-data/`, `dist-full/`, PDF, ZIP hay secrets vào artifact. Khả năng build ứng dụng với base `/brainroot-2.0/` và `public/404.html` vẫn được giữ trong mã nguồn.
 
 ---
 
