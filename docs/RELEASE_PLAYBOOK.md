@@ -1,14 +1,14 @@
-# Release Playbook — Brainroot website (BR-T041)
+# Release Playbook — Brainroot website (BR-T041 / BR-T046)
 
-Cloudflare Pages là host chính; GitHub Pages là host dự phòng. **Không push/PR/merge/deploy cho tới khi Product Owner ra lệnh trực tiếp.**
+Cloudflare Pages là website production chính thức duy nhất (canonical production); GitHub Pages hoạt động như **Redirect Gateway** tự động chuyển hướng sang Cloudflare Pages (`BR-T046`). **Không push/PR/merge/deploy cho tới khi Product Owner ra lệnh trực tiếp.**
 
 ## 1. Cấu hình theo host
-| | Cloudflare Pages (chính) | GitHub Pages (dự phòng) |
+| | Cloudflare Pages (canonical production) | GitHub Pages (Redirect Gateway) |
 |---|---|---|
-| Build | Production FULL: `npm run build:full`, upload `dist-full/` qua Wrangler. Preview Git: `npm ci && npm run build`, output `dist` | workflow `.github/workflows/deploy.yml` (typecheck + build) |
-| Base URL | `/` — tự đặt khi `CF_PAGES=1` (Cloudflare đặt sẵn), hoặc `VITE_BASE_PATH=/` | `/brainroot-2.0/` (mặc định) |
-| SPA / deep-link | Cloudflare tự fallback về `index.html` **khi không có `404.html`**; lệnh build của dashboard Cloudflare xóa `dist/404.html` (`rm -f dist/404.html` trong build command; repo không tự xóa); `npm run build:full` (host cloudflare) tự xóa | `public/404.html` đưa trình duyệt về entry rồi `main.tsx` khôi phục route/query/hash |
-| Chế độ V2 | biến môi trường Pages: `VITE_OQV2_MODE` | đặt trong workflow (`env:`) nếu muốn bật; mặc định OFF |
+| Build / Deploy | Production FULL: `npm run build:full`, upload `dist-full/` qua Wrangler. Preview Git: `npm ci && npm run build`, output `dist` | workflow `.github/workflows/deploy.yml` chạy CI (`typecheck`, `lint`, `test`, `build`) và chỉ upload/deploy `github-pages-redirect/` từ `main` |
+| Base URL | `/` — tự đặt khi `CF_PAGES=1` (Cloudflare đặt sẵn), hoặc `VITE_BASE_PATH=/` | `/brainroot-2.0/` (chỉ bỏ prefix này ở đầu pathname và chuyển hướng về `https://brainroot-55i.pages.dev`) |
+| SPA / deep-link | Cloudflare tự fallback về `index.html` **khi không có `404.html`**; lệnh build của dashboard Cloudflare xóa `dist/404.html` (`rm -f dist/404.html` trong build command; repo không tự xóa); `npm run build:full` (host cloudflare) tự xóa | `github-pages-redirect/index.html` và `404.html` tự động `location.replace()` sang `https://brainroot-55i.pages.dev`, giữ nguyên đường dẫn, query và hash; vẫn giữ `public/404.html` và base `/brainroot-2.0/` trong source nếu cần build lại |
+| Chế độ V2 | biến môi trường Pages: `VITE_OQV2_MODE` | Không phục vụ bản React OFF trên GitHub Pages nữa (chuyển hướng toàn bộ sang Cloudflare production FULL) |
 
 Đã kiểm thử bằng máy chủ mô phỏng hai host trên 4 bản build (gh/cf × cờ tắt/bật): deep-link `/games/fact-act`, `/learn`, `/about`, `/games/o-an-quan-xanh`, `/games/o-an-quan-xanh/play?x=1#h` và 404 đều đúng. Xem trạng thái production và bằng chứng release mới nhất trong `planning/PROJECT_STATE.md`.
 
@@ -45,7 +45,7 @@ Repository vẫn chứa: mã V2, art ArtPack V3 (`src/features/oanquan-v2/assets
 
 ## 5. Preview Git và GitHub Pages
 
-Cloudflare Preview vẫn build từ các nhánh ngoài `main`, mặc định OFF. GitHub Pages là host dự phòng, mặc định OFF. Deploy FULL từ artifact cục bộ để Git không cần chứa bộ dữ liệu nguồn.
+Cloudflare Preview vẫn build từ các nhánh ngoài `main`, mặc định OFF. GitHub Pages (`https://quanggaming418-debug.github.io/brainroot-2.0/`) là **Redirect Gateway** chuyển hướng toàn bộ truy cập sang `https://brainroot-55i.pages.dev/` (không deploy bản React OFF lên GitHub Pages). Deploy FULL lên Cloudflare production tiếp tục thực hiện từ artifact cục bộ để Git không cần chứa bộ dữ liệu nguồn.
 
 ## 6. Build FULL và triển khai Cloudflare Pages (RC1)
 
