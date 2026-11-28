@@ -39,11 +39,32 @@ Trước khi sửa bất kỳ tệp nào:
 3. Append một phiên đầy đủ vào log riêng theo `templates/WORK_LOG_TEMPLATE.md`: Claude Code → `logs/CLAUDE_CODE_LOG.md`, Codex → `logs/CODEX_LOG.md`, Antigravity → `logs/ANTIGRAVITY_LOG.md`, AI Studio → `logs/AI_STUDIO_LOG.md`. Append một dòng vào `logs/WORK_LOG.md`.
 4. Cập nhật phần bàn giao hiện hành trong `logs/HANDOFF.md` với task, branch, thay đổi local, trạng thái kiểm thử, blockers và bước tiếp theo. Giữ nguyên các mục lịch sử.
 5. Rà Git diff và ghi rõ trạng thái commit, push, PR, merge và deploy. Chỉ đánh dấu hoàn thành sau khi đã ghi đủ hồ sơ bắt buộc.
+6. Thực hiện dọn dẹp an toàn theo mục **Repository Hygiene** bên dưới ngay sau khi task đã hoàn tất và được merge vào `main`. Nếu task chưa được cấp quyền merge, giữ branch và worktree cần thiết và ghi rõ trạng thái trong `logs/HANDOFF.md`.
+
+## Repository Hygiene — áp dụng chung cho Claude Code, Codex và Antigravity
+Quy tắc vệ sinh repository bắt buộc như một phần của **End-of-task protocol**. Product Owner cấp quyền thường trực cho việc dọn dẹp các branch và worktree đã xác minh an toàn sau khi merge; quyền này **không** bao gồm xóa công việc chưa merge, dữ liệu local có giá trị hoặc tài nguyên production.
+
+Sau mỗi task đã hoàn tất và được merge:
+
+1. Xác minh commit của task đã tích hợp đầy đủ vào `main` (`git merge-base --is-ancestor`).
+2. Cập nhật đầy đủ hồ sơ bàn giao (`planning/TASKS.md`, `planning/PROJECT_STATE.md`, log riêng của agent, `logs/WORK_LOG.md`, `logs/HANDOFF.md`).
+3. Kiểm tra worktree (tracked, untracked và ignored; lưu ý liên kết/junction như `node_modules`) và gỡ worktree dành riêng cho task bằng `git worktree remove` nếu không còn cần thiết và không chứa dữ liệu cần giữ. Không xóa thủ công thư mục worktree trước khi xử lý liên kết Git đúng cách.
+4. Xóa local branch đã merge bằng `git branch -d`.
+5. Xóa remote branch đã merge (`git push origin --delete <branch>`) khi không còn PR mở, dependency hoặc công việc chưa hoàn tất.
+6. Prune các remote-tracking refs và worktree metadata đã lỗi thời (`git fetch origin --prune`, `git worktree prune`).
+7. Trở về workspace chính và đồng bộ `main` với `origin/main` (`git merge --ff-only origin/main`).
+8. Kiểm tra `git status` để xác nhận working tree sạch thay đổi ngoài phạm vi và các tài nguyên local còn nguyên vẹn.
+
+Ràng buộc an toàn bắt buộc:
+- Không dọn branch hoặc worktree của task đang `IN_PROGRESS`, `BLOCKED` hoặc chưa được merge vào `main`.
+- Không sử dụng `git branch -D`, `git worktree remove --force`, `git clean -fdx`, `git reset --hard` hoặc force push để dọn dẹp.
+- Không coi dữ liệu gitignore hoặc dữ liệu local hợp lệ là rác; tuyệt đối bảo toàn `internal-data/cards.internal.json`, `dist-full/`, `brainroot-assets/`, `brainroot-assets-v1/`, `tools/` và các tài liệu/asset nguồn cục bộ.
+- Nếu task chưa được cấp quyền merge, giữ branch và worktree cần thiết và ghi rõ trạng thái trong `logs/HANDOFF.md`.
 
 ## Git collaboration
 - Mỗi Task ID có một agent sửa tại một thời điểm. Khi làm song song, dùng branch hoặc worktree riêng với phạm vi tệp tách biệt. Không sửa đồng thời trên cùng working tree.
 - Không dùng force push, `git reset --hard` hoặc `git clean` tùy tiện. Phân biệt thay đổi chỉ ở local, commit trên nhánh remote và nội dung đã vào `main`.
-- Chỉ commit, push, mở PR, merge, deploy, tạo tài nguyên cloud, migrate dữ liệu production, mua dịch vụ, đổi cấu hình cloud hoặc secret khi có quyền rõ ràng trong phạm vi task. Khi được commit, đưa hồ sơ cùng thay đổi tương ứng vào commit hoặc PR. Khi chưa được commit, giữ hồ sơ trong workspace và ghi `NOT COMMITTED`. Không tạo commit chỉ để ghi SHA của chính commit chứa log.
+- Chỉ commit, push, mở PR, merge, deploy, tạo tài nguyên cloud, migrate dữ liệu production, mua dịch vụ, đổi cấu hình cloud hoặc secret khi có quyền rõ ràng trong phạm vi task (ngoại trừ quyền thường trực dọn dẹp an toàn sau merge tại mục **Repository Hygiene**). Khi được commit, đưa hồ sơ cùng thay đổi tương ứng vào commit hoặc PR. Khi chưa được commit, giữ hồ sơ trong workspace và ghi `NOT COMMITTED`. Không tạo commit chỉ để ghi SHA của chính commit chứa log.
 - Nếu AI Studio thiếu terminal hoặc quyền ghi repository, cung cấp handoff theo template và đánh dấu các kiểm tra chưa chạy. Agent tiếp nhận xác minh diff rồi bổ sung hồ sơ còn thiếu, giữ tên agent thực hiện trong log.
 - Mỗi tệp quản lý có một vai trò: `PROJECT_STATE` cho snapshot hiện hành, `TASKS` cho trạng thái nhiệm vụ, `ROADMAP` cho lộ trình, `OPEN_QUESTIONS` cho quyết định và câu hỏi, `HANDOFF` cho ca tiếp theo, `WORK_LOG` cho index, `docs/RELEASE_PLAYBOOK.md` cho phát hành. Các session lịch sử là append-only, kể cả mục Claude Code đã ghi trong `CODEX_LOG.md`.
 - Log chỉ chứa bằng chứng kỹ thuật cần thiết như đường dẫn repo tương đối, số lượng, checksum và tham chiếu kiểm thử. Giữ API key, token, PII, bộ thẻ và đáp án ngoài log. Giữ dữ liệu nội bộ, PDF, ZIP, `dist-full/` và secrets ngoài Git.
