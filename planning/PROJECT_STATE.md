@@ -1,10 +1,11 @@
 # PROJECT_STATE — Read before every agent run
 
-- **Updated:** 2026-11-24 · BR-T044 · Chuẩn hóa bàn giao nhiều agent.
+- **Updated:** 2026-11-28 · BR-T045 · Antigravity tiếp nhận dự án, dọn dẹp repository an toàn và bổ sung quy tắc Repository Hygiene thường trực.
 
-## Trạng thái hiện hành (24/11/2026)
+## Trạng thái hiện hành (28/11/2026)
 
-- **Bàn giao agent (BR-T044):** `AGENTS.md` là nguồn quy tắc chung. Claude Code import qua `CLAUDE.md`, Antigravity dùng rule Always On, Codex đọc root trực tiếp. Mỗi phiên cập nhật task, snapshot, log riêng, index và handoff theo template. Product Owner đã nghiệm thu giao thức. Xem lịch sử Git của BR-T044 để đối chiếu lần đưa hồ sơ vào main.
+- **Tiếp nhận Antigravity & Repository Hygiene (BR-T045):** Google Antigravity đã tiếp nhận dự án theo `AGENTS.md` và `.agents/rules/brainroot-workspace.md`. Đã kiểm toán toàn bộ Git/PR/worktree, đồng bộ `main` với `origin/main`, gỡ worktree đã merge `br-t031-about-v43`, xóa an toàn 26 nhánh local (`git branch -d`) và 12 nhánh remote đã merge đầy đủ vào `main`; giữ nguyên 4 nhánh local (`codex/r0-stabilization` [PR #7 mở], `codex/br-t023-slice-b-qa` [PR #5 đóng chưa merge], `codex/br-t027-rules-content-gate` [patch tương đương PR #12, không phải ancestor], `codex/hero-ambient-motion` [patch tương đương PR #2, không phải ancestor]) và 2 nhánh remote tương ứng. Quy tắc **Repository Hygiene** đã được tích hợp vào `AGENTS.md` như phần bắt buộc của End-of-task protocol cho cả Claude Code, Codex và Antigravity. Không sửa source code/asset/Cloudflare; production FULL (100 thẻ, Desktop-only, `OAnQuanV2Page-DfQCYFAF.js` SHA-256 `E07229803B9925EE`) và các tài nguyên local (`internal-data/cards.internal.json`, `dist-full/`, `brainroot-assets/`, `brainroot-assets-v1/`, `tools/`) còn nguyên vẹn.
+- **Bàn giao agent (BR-T044):** `AGENTS.md` là nguồn quy tắc chung. Claude Code import qua `CLAUDE.md`, Antigravity dùng rule Always On, Codex đọc root trực tiếp. Mỗi phiên cập nhật task, snapshot, log riêng, index và handoff theo template, đồng thời thực hiện **Repository Hygiene** sau khi merge. Product Owner đã nghiệm thu giao thức. Xem lịch sử Git của BR-T044 và BR-T045 để đối chiếu trên `main`.
 
 - **Desktop-only (BR-T043):** bố cục desktop tối thiểu 1280 CSS px trên toàn site, bao gồm hai trò chơi. Tạm dừng phát triển và tối ưu Mobile/Tablet đến khi Product Owner yêu cầu. Giữ responsive trong source; bật lại bằng `VITE_LAYOUT_MODE=responsive`. Theo [AGENTS.md](../AGENTS.md) và [ma trận desktop](../docs/QUALITY_AND_TESTING.md#current-viewport-coverage) cho các lượt sau.
 - **Cloudflare Pages:** Cloudflare production FULL `10feaa4b-e3a9-46e6-bf9c-452958c9430e`, build từ `main` `78d96b727b16869f0bcd44c61915a15b75c1ff5e` (PR #18). Rollback về FULL `73b053ec-6147-45e0-97f0-f1ae25a85a3b`. [Website production](https://brainroot-55i.pages.dev/)

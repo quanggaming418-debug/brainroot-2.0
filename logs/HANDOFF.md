@@ -1,6 +1,14 @@
 # HANDOFF — Current baton pass
 
-> Trạng thái bàn giao mới nhất ở mục BR-T044. Snapshot sản phẩm ở [PROJECT_STATE.md](../planning/PROJECT_STATE.md).
+> Trạng thái bàn giao mới nhất ở mục BR-T045. Snapshot sản phẩm ở [PROJECT_STATE.md](../planning/PROJECT_STATE.md).
+
+## 2026-11-28 — BR-T045 · Antigravity → Product Owner / phiên kế tiếp
+
+- **Git & Cleanup:** Antigravity đã tiếp nhận dự án, đồng bộ `main` theo `origin/main`, gỡ worktree đã merge `br-t031-about-v43`, xóa an toàn 26 nhánh local (`git branch -d`) và 12 nhánh remote đã merge; bổ sung quy tắc **Repository Hygiene** thường trực vào `AGENTS.md`. Nhánh tài liệu `antigravity/br-t045-onboarding-repo-cleanup` (tách từ `51e355f`) được commit, push, merge `--no-ff` vào `main`, push `origin/main` và tự dọn nhánh theo đúng quy tắc mới. Tra lịch sử Git theo `BR-T045` để đối chiếu SHA trên `main`.
+- **Nhánh giữ lại có lý do (4 local / 2 remote ngoài `main`):** `codex/r0-stabilization` (local+remote, PR #7 đang mở, commit chưa merge `f019881`), `codex/br-t023-slice-b-qa` (local, PR #5 đóng chưa merge, `BR-T023` còn `IN_PROGRESS`), `codex/br-t027-rules-content-gate` (local+remote, patch trùng PR #12 `395f2e6` nhưng SHA không phải ancestor của `main`), `codex/hero-ambient-motion` (local, patch trùng PR #2 `43b5f2b` nhưng SHA không phải ancestor của `main`). Không sử dụng `git branch -D` hay `--force`.
+- **Tài nguyên local bảo toàn:** `internal-data/cards.internal.json` (94.835 byte, SHA-256 `76733A21E80C2F1C`), `brainroot-assets/` (53 tệp), `brainroot-assets-v1/` (51 tệp), `tools/` (2 tệp), `dist-full/` (95 tệp) còn nguyên vẹn ngoài Git.
+- **Kiểm thử:** `npm run typecheck` PASS, `npm run lint` PASS, `npm test` PASS 96/96 (gồm kiểm tra bộ 100 thẻ nội bộ), kiểm tra production read-only `https://brainroot-55i.pages.dev/` (HTTP 200, viewport `width=1280`, SHA-256 `OAnQuanV2Page-DfQCYFAF.js` = `E07229803B9925EE` khớp `dist-full`) PASS. `gh` CLI chưa đăng nhập (dùng public API đọc PR và `git merge --no-ff` + `git push` theo quyền PO).
+- **Production & tiếp theo:** Không thay đổi source code/asset/Cloudflare, không build FULL, không deploy lại. Workspace ở trạng thái sạch trên `main`, sẵn sàng nhận nhiệm vụ mới từ Product Owner. Nếu phiên sau cần tạo GitHub PR qua `gh`, cần đăng nhập `gh auth login`.
 
 ## 2026-11-24 — BR-T044 · Codex → agent tiếp nhận
 
